@@ -93,7 +93,7 @@ public class HookControl : MonoBehaviour
     // Pull towards the anchor point when reeling in
     public void Reel(float force)
     {
-        rb.AddForce(Vector3.Normalize(hookAnchorPoint.position - transform.position) * force);
+        rb.AddForce(Vector3.Normalize(hookAnchorPoint.position - transform.position) * force * Time.deltaTime);
     }
 
     public Transform GetHookAnchorPoint()

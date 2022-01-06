@@ -133,7 +133,7 @@ MonoBehaviour:
   castStrength: 0
   castAngle: 0
   lineLength: 50
-  reelSpeed: 15
+  reelSpeed: 1500
   minCastStrength: 150
   maxCastStrength: 1000
   maxCastAngle: 70
