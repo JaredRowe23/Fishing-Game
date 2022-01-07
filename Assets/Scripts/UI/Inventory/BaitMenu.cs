@@ -17,14 +17,9 @@ public class BaitMenu : MonoBehaviour
 
     [SerializeField] private List<Sprite> itemSprites;
 
-    private void Start()
+    public void ShowBaitMenu(bool active)
     {
-        GenerateSlots();
-    }
-
-    public void ShowRodMenu()
-    {
-        this.gameObject.SetActive(!this.gameObject.activeSelf);
+        this.gameObject.SetActive(active);
         GameController.instance.inventoryMenu.UpdateActiveMenu(1);
         GenerateSlots();
     }
@@ -36,16 +31,16 @@ public class BaitMenu : MonoBehaviour
             Destroy(child.gameObject);
         }
 
+        Debug.Log(GameController.instance.GetComponent<PlayerData>().bait[0].ToString());
         int i = 0;
         foreach (string bait in GameController.instance.GetComponent<PlayerData>().bait)
         {
-            Debug.Log("test");
             GameObject newSlot = Instantiate(slotPrefab, slotParent.transform);
             newSlot.GetComponent<RectTransform>().anchoredPosition = new Vector2((i % slotXMax) * slotXPadding + slotXStart, Mathf.Floor(i / slotXMax) * slotYPadding + slotYStart);
             BaitInventorySlot invSlot = newSlot.GetComponent<BaitInventorySlot>();
 
             invSlot.title.text = bait;
-            invSlot.countText.text = "x " + GameController.instance.GetComponent<PlayerData>().baitCounts[i].ToString();
+            invSlot.countText.text = "x" + GameController.instance.GetComponent<PlayerData>().baitCounts[i].ToString();
             
             i++;
         }
