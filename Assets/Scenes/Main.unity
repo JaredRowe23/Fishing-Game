@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4660,9 +4660,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1862590969}
     m_Modifications:
+    - target: {fileID: 3655031640596708774, guid: 75e608d58a1fb304194b7d46928852ca, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 854d90ae5773cc8458ad554b54881637, type: 3}
     - target: {fileID: 4463609780230381631, guid: 75e608d58a1fb304194b7d46928852ca, type: 3}
       propertyPath: m_Name
       value: Inventory Slot
+      objectReference: {fileID: 0}
+    - target: {fileID: 6151195081960992601, guid: 75e608d58a1fb304194b7d46928852ca, type: 3}
+      propertyPath: m_Text
+      value: Worm
       objectReference: {fileID: 0}
     - target: {fileID: 6419540592972693087, guid: 75e608d58a1fb304194b7d46928852ca, type: 3}
       propertyPath: m_Pivot.x
