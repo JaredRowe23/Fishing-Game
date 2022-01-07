@@ -41,7 +41,7 @@ public class RodsMenu : MonoBehaviour
         {
             GameObject newSlot = Instantiate(slotPrefab, slotParent.transform);
             newSlot.GetComponent<RectTransform>().anchoredPosition = new Vector2((i % slotXMax) * slotXPadding + slotXStart, Mathf.Floor(i / slotXMax) * slotYPadding + slotYStart);
-            InventorySlot invSlot = newSlot.GetComponent<InventorySlot>();
+            RodInventorySlot invSlot = newSlot.GetComponent<RodInventorySlot>();
 
             invSlot.title.text = rod;
 
@@ -67,7 +67,7 @@ public class RodsMenu : MonoBehaviour
     {
         foreach(Transform slot in slotParent.transform)
         {
-            InventorySlot invSlot = slot.GetComponent<InventorySlot>();
+            RodInventorySlot invSlot = slot.GetComponent<RodInventorySlot>();
             if (invSlot.itemReference.name == GameController.instance.GetComponent<PlayerData>().equippedRod)
             {
                 invSlot.equippedCheck.SetActive(true);

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventorySlot : MonoBehaviour
+public class RodInventorySlot : MonoBehaviour
 {
     public Text title;
     public Image sprite;

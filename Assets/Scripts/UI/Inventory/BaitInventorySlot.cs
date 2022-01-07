@@ -1,0 +1,11 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class BaitInventorySlot : MonoBehaviour
+{
+    public Text title;
+    public Image sprite;
+    public Text countText;
+}
