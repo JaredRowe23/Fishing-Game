@@ -30,19 +30,21 @@ public class BaitMenu : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-
-        Debug.Log(GameController.instance.GetComponent<PlayerData>().bait[0].ToString());
+        
         int i = 0;
-        foreach (string bait in GameController.instance.GetComponent<PlayerData>().bait)
+        if (GameController.instance.GetComponent<PlayerData>().bait.Count > 0)
         {
-            GameObject newSlot = Instantiate(slotPrefab, slotParent.transform);
-            newSlot.GetComponent<RectTransform>().anchoredPosition = new Vector2((i % slotXMax) * slotXPadding + slotXStart, Mathf.Floor(i / slotXMax) * slotYPadding + slotYStart);
-            BaitInventorySlot invSlot = newSlot.GetComponent<BaitInventorySlot>();
+            foreach (string bait in GameController.instance.GetComponent<PlayerData>().bait)
+            {
+                GameObject newSlot = Instantiate(slotPrefab, slotParent.transform);
+                newSlot.GetComponent<RectTransform>().anchoredPosition = new Vector2((i % slotXMax) * slotXPadding + slotXStart, Mathf.Floor(i / slotXMax) * slotYPadding + slotYStart);
+                BaitInventorySlot invSlot = newSlot.GetComponent<BaitInventorySlot>();
 
-            invSlot.title.text = bait;
-            invSlot.countText.text = "x" + GameController.instance.GetComponent<PlayerData>().baitCounts[i].ToString();
-            
-            i++;
+                invSlot.title.text = bait;
+                invSlot.countText.text = "x" + GameController.instance.GetComponent<PlayerData>().baitCounts[i].ToString();
+
+                i++;
+            }
         }
     }
 }

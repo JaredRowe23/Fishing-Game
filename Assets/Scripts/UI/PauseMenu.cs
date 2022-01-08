@@ -6,12 +6,6 @@ public class PauseMenu : MonoBehaviour
 {
     public GameObject pauseMenu;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -39,6 +33,11 @@ public class PauseMenu : MonoBehaviour
 
         GameController.instance.bucketMenuButton.gameObject.SetActive(!pauseMenu.gameObject.activeSelf);
         GameController.instance.inventoryMenuButton.gameObject.SetActive(!pauseMenu.gameObject.activeSelf);
+    }
+
+    public void NewGame()
+    {
+        GameController.instance.GetComponent<PlayerData>().NewGame();
     }
 
     public void SaveGame()

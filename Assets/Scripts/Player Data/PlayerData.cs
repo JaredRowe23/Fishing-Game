@@ -16,12 +16,12 @@ public class PlayerData : MonoBehaviour
     public List<string> bait;
     public List<int> baitCounts;
 
-    public void Start()
+    private void Start()
     {
-        LoadPlayer();
+        GenerateRod();
     }
 
-    public void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(KeyCode.F9))
         {
@@ -56,10 +56,35 @@ public class PlayerData : MonoBehaviour
         bait = saveData.bait;
         baitCounts = saveData.baitCounts;
 
+        GenerateRod();
+    }
+
+    public void NewGame()
+    {
+        playerName = "";
+        money = 0;
+        fishingRods = new List<string>();
+        fishingRods.Add("Basic Rod");
+        equippedRod = fishingRods[0];
+        gear = new List<string>();
+        equippedGear = new List<string>();
+        bait = new List<string>();
+        baitCounts = new List<int>();
+
+        GenerateRod();
+    }
+
+    private void GenerateRod()
+    {
         if (this.GetComponent<GameController>().equippedRod != null)
         {
             Destroy(this.GetComponent<GameController>().equippedRod);
         }
+        else
+        {
+            equippedRod = "Basic Rod";
+        }
+
         foreach (GameObject prefab in this.GetComponent<GameController>().rodsMenu.rodPrefabs)
         {
             if (prefab.name == equippedRod)
