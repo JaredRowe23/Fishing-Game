@@ -8,9 +8,10 @@ using UnityEngine;
 public class RodBehaviour : MonoBehaviour
 {
     [SerializeField] private GameObject rodObject;
-    [SerializeField] private Sprite inventorySprite;
+    public Sprite inventorySprite;
 
     [Header("Attributes")]
+    public string description;
     public float castStrength;
     public float castAngle;
     public float lineLength;

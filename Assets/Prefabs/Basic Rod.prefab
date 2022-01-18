@@ -130,6 +130,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rodObject: {fileID: 1958218463267145868}
   inventorySprite: {fileID: 21300000, guid: b808e883e291c6e4a96d2675ec234a0b, type: 3}
+  description: Just a stick and some string
   castStrength: 0
   castAngle: 0
   lineLength: 50
