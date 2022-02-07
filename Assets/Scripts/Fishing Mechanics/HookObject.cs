@@ -41,8 +41,10 @@ public class HookObject : MonoBehaviour
 
     public void AddToBucket()
     {
+        AudioManager.instance.StopPlaying("Reel");
         if (hookedObject != null)
         {
+            AudioManager.instance.PlaySound("Catch Fish");
             if (GameController.instance.bucket.bucketList.Count >= GameController.instance.bucket.maxItems)
             {
                 GameController.instance.bucketMenu.ShowBucketMenu();
@@ -65,6 +67,7 @@ public class HookObject : MonoBehaviour
             }
             else
             {
+                AudioManager.instance.PlaySound("Add To Bucket");
                 GameController.instance.bucket.AddToBucket(hookedObject.GetComponent<FishableItem>());
                 Destroy(hookedObject);
                 hookedObject = null;

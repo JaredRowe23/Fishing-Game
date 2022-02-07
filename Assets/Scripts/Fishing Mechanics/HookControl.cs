@@ -21,6 +21,8 @@ public class HookControl : MonoBehaviour
     private RodBehaviour rod;
     private Rigidbody rb;
 
+    public bool playedSplash;
+
     private void Start()
     {
         rod = transform.parent.GetComponent<RodBehaviour>();
@@ -74,11 +76,17 @@ public class HookControl : MonoBehaviour
         // Once the hook is in the water, change it's drag to simulate it being in water
         if (transform.position.y <= 0f)
         {
+            if (!playedSplash)
+            {
+                AudioManager.instance.PlaySound("Hook Splash");
+                playedSplash = true;
+            }
             rb.drag = waterDrag;
         }
         else
         {
             rb.drag = drag;
+            playedSplash = false;
         }
     }
 

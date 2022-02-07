@@ -24,10 +24,12 @@ public class PauseMenu : MonoBehaviour
 
         if (pauseMenu.activeSelf)
         {
+            AudioManager.instance.PlaySound("Pause");
             Time.timeScale = 0f;
         }
         else
         {
+            AudioManager.instance.PlaySound("Unpause");
             Time.timeScale = 1f;
         }
 

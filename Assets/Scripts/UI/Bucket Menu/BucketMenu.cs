@@ -31,10 +31,12 @@ public class BucketMenu : MonoBehaviour
 
         if (this.gameObject.activeSelf)
         {
+            AudioManager.instance.PlaySound("Open Bucket");
             InitializeMenu();
         }
         else
         {
+            AudioManager.instance.PlaySound("Close Bucket");
             DestroyMenu();
             GameController.instance.itemInfoMenu.SetActive(false);
         }
@@ -119,5 +121,6 @@ public class BucketMenu : MonoBehaviour
             Destroy(menuItem);
             RefreshMenu();
         }
+        AudioManager.instance.PlaySound("Throwaway Fish");
     }
 }

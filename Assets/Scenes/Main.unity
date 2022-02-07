@@ -328,7 +328,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &58787920
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13864,6 +13864,7 @@ GameObject:
   - component: {fileID: 1615404180}
   - component: {fileID: 1615404181}
   - component: {fileID: 1615404182}
+  - component: {fileID: 1615404183}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: GameController
@@ -13946,6 +13947,89 @@ MonoBehaviour:
   bait:
   - Basic Bait
   baitCounts: 45000000
+--- !u!114 &1615404183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615404179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 402cb54d3d13d46448944cedc42eeb9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Catch Fish
+    clip: {fileID: 8300000, guid: f11ec4c929f36e440aae094d88a40b49, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1.5
+    randomVolume: 0
+    randomPitch: 0
+  - name: Hook Splash
+    clip: {fileID: 8300000, guid: e4286638587203c44a0624bb4cd53d0f, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1.5
+    randomVolume: 0.2
+    randomPitch: 0.2
+  - name: Reel
+    clip: {fileID: 8300000, guid: 6410672d8d799454c9b02c5b18541a65, type: 3}
+    loop: 1
+    volume: 1
+    pitch: 1.5
+    randomVolume: 0
+    randomPitch: 0
+  - name: Pause
+    clip: {fileID: 8300000, guid: 2aa1f3195bd543340a6b533913752108, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1.5
+    randomVolume: 0
+    randomPitch: 0
+  - name: Unpause
+    clip: {fileID: 8300000, guid: 2aa1f3195bd543340a6b533913752108, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 0.5
+    randomVolume: 0
+    randomPitch: 0
+  - name: Open Bucket
+    clip: {fileID: 8300000, guid: ec49ef7da7a08534a95b7cef6995043a, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1.5
+    randomVolume: 0
+    randomPitch: 0
+  - name: Close Bucket
+    clip: {fileID: 8300000, guid: ec49ef7da7a08534a95b7cef6995043a, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 0.5
+    randomVolume: 0
+    randomPitch: 0
+  - name: Fish Eat
+    clip: {fileID: 8300000, guid: 0320d034ed1f2414e99bea3775765083, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1.5
+    randomVolume: 0
+    randomPitch: 0
+  - name: Add To Bucket
+    clip: {fileID: 8300000, guid: 28af537a1ac82e84d852e4015f77e1a6, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: Throwaway Fish
+    clip: {fileID: 8300000, guid: ec3bc3d048f60b948a7cbe8babbd831c, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
 --- !u!1 &1632562128
 GameObject:
   m_ObjectHideFlags: 0

@@ -87,6 +87,7 @@ public class RodBehaviour : MonoBehaviour
         {
             if (state == RodState.Reeling)
             {
+                AudioManager.instance.StopPlaying("Reel");
                 state = RodState.Resting;
                 targetRot = restingRot;
             }
@@ -97,6 +98,7 @@ public class RodBehaviour : MonoBehaviour
         // we may have hooked and reset our state to resting
         if (state == RodState.Reeling)
         {
+            AudioManager.instance.PlaySound("Reel", true);
             hook.Reel(reelSpeed);
             if (Vector3.Distance(hook.transform.position, hook.GetHookAnchorPoint().position) <= reeledInDistance)
             {
