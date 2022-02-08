@@ -42,6 +42,8 @@ public class PowerSlider : MonoBehaviour
             }
 
             slider.value = charge;
+            AudioManager.instance.GetSource("Power Audio").pitch = charge + AudioManager.instance.GetSound("Power Audio").pitch;
+            print("Power: " + charge.ToString());
 
             if (Input.GetMouseButtonUp(0))
             {
@@ -55,6 +57,7 @@ public class PowerSlider : MonoBehaviour
 
     public void StartCharging(float frequency, RodBehaviour rod)
     {
+        AudioManager.instance.PlaySound("Power Audio");
         charge = 0f;
         slider.value = 0f;
         castingRod = rod;

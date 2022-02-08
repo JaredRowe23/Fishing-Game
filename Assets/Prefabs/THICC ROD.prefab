@@ -117,6 +117,7 @@ GameObject:
   - component: {fileID: 1977302171767389747}
   - component: {fileID: 1977302171767389753}
   - component: {fileID: 5708205968197901782}
+  - component: {fileID: 2830625537748628257}
   m_Layer: 0
   m_Name: Hook
   m_TagString: Untagged
@@ -186,6 +187,7 @@ MonoBehaviour:
   drag: 0
   waterDrag: 5
   lineRotationAngle: -5
+  playedSplash: 0
 --- !u!114 &1977302171767389753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,6 +253,14 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!81 &2830625537748628257
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1977302171767389744}
+  m_Enabled: 1
 --- !u!1 &1977302172051475243
 GameObject:
   m_ObjectHideFlags: 0

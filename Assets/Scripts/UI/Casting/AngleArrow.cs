@@ -42,9 +42,13 @@ public class AngleArrow : MonoBehaviour
             }
 
             rect.rotation = Quaternion.Euler(0f, 0f, currentAngle);
+            AudioManager.instance.GetSource("Power Audio").pitch = Mathf.InverseLerp(0f, maxAngle, currentAngle) + AudioManager.instance.GetSound("Power Audio").pitch;
+            print("Angle: " + currentAngle.ToString());
+            print("Lerped Angle: " + Mathf.InverseLerp(0f, maxAngle, currentAngle).ToString());
 
             if (Input.GetMouseButtonDown(0))
             {
+                AudioManager.instance.StopPlaying("Power Audio");
                 castingRod.castAngle = currentAngle;
                 isAngling = false;
                 GameController.instance.powerSlider.transform.SetParent(GameController.instance.transform);

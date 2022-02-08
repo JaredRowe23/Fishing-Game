@@ -99,6 +99,7 @@ public class RodsMenu : MonoBehaviour
         }
         GameController.instance.GetComponent<PlayerData>().equippedRod = rodName;
         UpdateEquippedRod();
+        AudioManager.instance.PlaySound("Equip Rod");
     }
 
 }

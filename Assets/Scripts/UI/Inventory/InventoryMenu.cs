@@ -59,6 +59,7 @@ public class InventoryMenu : MonoBehaviour
     {
         if (menu != activeMenu)
         {
+            AudioManager.instance.PlaySound("Inventory Tab");
             foreach(Image tab in tabButtons)
             {
                 tab.transform.SetAsFirstSibling();

@@ -6852,7 +6852,6 @@ GameObject:
   m_Component:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
-  - component: {fileID: 963194226}
   - component: {fileID: 963194229}
   - component: {fileID: 963194230}
   m_Layer: 0
@@ -6862,14 +6861,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &963194226
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
 --- !u!20 &963194227
 Camera:
   m_ObjectHideFlags: 0
@@ -14009,13 +14000,6 @@ MonoBehaviour:
     pitch: 0.5
     randomVolume: 0
     randomPitch: 0
-  - name: Fish Eat
-    clip: {fileID: 8300000, guid: 0320d034ed1f2414e99bea3775765083, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 1.5
-    randomVolume: 0
-    randomPitch: 0
   - name: Add To Bucket
     clip: {fileID: 8300000, guid: 28af537a1ac82e84d852e4015f77e1a6, type: 3}
     loop: 0
@@ -14027,6 +14011,34 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: ec3bc3d048f60b948a7cbe8babbd831c, type: 3}
     loop: 0
     volume: 1
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: Inventory Tab
+    clip: {fileID: 8300000, guid: ec49ef7da7a08534a95b7cef6995043a, type: 3}
+    loop: 0
+    volume: 0.25
+    pitch: 1.5
+    randomVolume: 0
+    randomPitch: 0
+  - name: Equip Rod
+    clip: {fileID: 8300000, guid: ec49ef7da7a08534a95b7cef6995043a, type: 3}
+    loop: 0
+    volume: 0.25
+    pitch: 0.5
+    randomVolume: 0
+    randomPitch: 0
+  - name: Power Audio
+    clip: {fileID: 8300000, guid: ac97c886a5d889c41a495a8b74814b2f, type: 3}
+    loop: 1
+    volume: 0.25
+    pitch: 0.5
+    randomVolume: 0
+    randomPitch: 0
+  - name: Background Music
+    clip: {fileID: 8300000, guid: e068c959a86e15f4eb726171b165fc92, type: 3}
+    loop: 1
+    volume: 0.2
     pitch: 1
     randomVolume: 0
     randomPitch: 0

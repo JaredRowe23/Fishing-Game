@@ -63,6 +63,7 @@ public class AudioManager : MonoBehaviour
             _go.transform.SetParent(transform);
             sounds[i].SetSource(_go.AddComponent<AudioSource>());
         }
+        PlaySound("Background Music");
     }
 
     private void Update()
@@ -125,6 +126,17 @@ public class AudioManager : MonoBehaviour
             return source;
         }
         Debug.Log("Could not find source with the given name: " + _name);
+        return null;
+    }
+
+    public Sound GetSound(string _name)
+    {
+        foreach(Sound sound in sounds)
+        {
+            if (sound.name != _name) continue;
+            return sound;
+        }
+        Debug.Log("Could not find sound with the given name: " + _name);
         return null;
     }
 

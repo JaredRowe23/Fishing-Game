@@ -93,7 +93,7 @@ public class Fish1Behaviour : MonoBehaviour
                                 GetComponent<FoodSearch>().desiredFood.transform.parent.GetComponent<SpawnZone>().spawnList.Remove(GetComponent<FoodSearch>().desiredFood);
                             }
                         }
-                        AudioManager.instance.PlaySound("Fish Eat");
+                        GetComponent<AudioSource>().Play();
                         Destroy(GetComponent<FoodSearch>().desiredFood);
                         GetComponent<FoodSearch>().desiredFood = null;
                     }
