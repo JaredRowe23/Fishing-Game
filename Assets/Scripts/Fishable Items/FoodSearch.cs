@@ -11,145 +11,133 @@ public class FoodSearch : MonoBehaviour
     [SerializeField] private float chaseDistance;
     [SerializeField] private List<string> foodTypes;
     public GameObject desiredFood;
+    private FishableItem desiredFishableItem;
+    private HookObject desiredHookObject;
 
-    // Update is called once per frame
     void Update()
     {
-        // If we have food to chase, check if we should still chase it
+        if (GetComponent<FishableItem>().isHooked) return;
+
+        Look();
+        Smell();
+
+        if (desiredFood != null) ReassessFood();
+    }
+
+    private void Look()
+    {
+        // Raycast multiple angles in front
+        for (int i = 0; i < sightDensity; i++)
+        {
+            Vector3 dir = -transform.right;
+            dir = Quaternion.Euler(0f, 0f, -sightAngle + (i * sightAngle * 2 / sightDensity)) * dir;
+            RaycastHit hit;
+
+            // Rule out raycast not hitting anything
+            if (!Physics.Raycast(transform.position, dir, out hit, sightDistance)) continue;
+
+            GameObject newFood = IsFood(hit.collider.gameObject);
+            if (newFood == null) continue;
+            else
+            {
+                AssignFood(newFood);
+            }
+        }
+    }
+
+    private void Smell()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position, smellRadius);
+        foreach (Collider col in hitColliders)
+        {
+            GameObject newFood = IsFood(col.gameObject);
+            if (newFood == null) continue;
+            else
+            {
+                AssignFood(newFood);
+            }
+        }
+    }
+
+    public void ReassessFood()
+    {
+        if (Vector3.Distance(transform.position, desiredFood.transform.position) > chaseDistance)
+        {
+            UnsassignFood();
+            return;
+        }
+
+        // Below water check
+        if (desiredFood.transform.position.y > 0f)
+        {
+            UnsassignFood();
+            return;
+        }
+
+        // If we're chasing the hook, check if we've already hooked something
+        if (desiredHookObject)
+        {
+            if (desiredHookObject.hookedObject != null)
+            {
+                UnsassignFood();
+                return;
+            }
+        }
+
+        if (desiredFishableItem)
+        {
+            if (desiredFishableItem.isHooked)
+            {
+                UnsassignFood();
+                return;
+            }
+        }
+    }
+
+    private GameObject IsFood(GameObject food)
+    {
+        // Rule out this fish eating itself
+        if (food.gameObject == gameObject) return null;
+
+        // Rule out overwater food
+        if (food.transform.position.y > 0f) return null;
+
+        // Rule out hook object if it's already hooked something
+        if (food.GetComponent<HookObject>())
+        {
+            if (food.GetComponent<HookObject>().hookedObject != null) return null;
+        }
+
+        // Rule out food further than we're chasing already
         if (desiredFood != null)
         {
-            // Distance check
-            if (Vector3.Distance(transform.position, desiredFood.transform.position) > chaseDistance || desiredFood.transform.position.y >= 0f)
-            {
-                desiredFood = null;
-            }
-            
-            // If we're chasing the hook, check if we've already hooked something
-            else if (desiredFood.GetComponent<HookObject>() != null)
-            {
-                if (desiredFood.GetComponent<HookObject>().hookedObject != null || desiredFood.GetComponent<HookObject>().hookedObject != gameObject)
-                {
-                    desiredFood = null;
-                }
-            }
+            if (Vector3.Distance(desiredFood.transform.position, transform.position) <= Vector3.Distance(food.transform.position, transform.position)) return null;
         }
-        
-        if (!GetComponent<FishableItem>().isHooked)
+
+        // Check if food matches our food types
+        foreach (string type in foodTypes)
         {
-            // Raycast multiple angles in front
-            for (int i = 0; i < sightDensity; i++)
-            {
-                Vector3 dir = -transform.right;
-                dir = Quaternion.Euler(0f, 0f, -sightAngle + (i * sightAngle * 2 / sightDensity)) * dir;
-                RaycastHit hit;
-                if (Physics.Raycast(transform.position, dir, out hit, sightDistance))
-                {
-                    if (hit.collider.gameObject != gameObject)
-                    {
-                        // Check to see if raycast hit matches one of our food types we want
-                        foreach (string type in foodTypes)
-                        {
-                            System.Type typeFromString = System.Type.GetType(type);
-                            if (hit.collider.GetComponent(typeFromString))
-                            {
-                                // Check if food is in the water
-                                if (hit.collider.transform.position.y <= 0f)
-                                {
-                                    // If we already are chasing food, check if this food is closer
-                                    if (desiredFood != null)
-                                    {
-                                        if (Vector3.Distance(desiredFood.transform.position, transform.position) > Vector3.Distance(hit.collider.transform.position, transform.position))
-                                        {
-                                            // If food is the hook, check if we already have hooked something else
-                                            if (hit.collider.GetComponent<HookObject>())
-                                            {
-                                                if (hit.collider.GetComponent<HookObject>().hookedObject == null)
-                                                {
-                                                    desiredFood = hit.collider.gameObject;
-                                                }
-                                            }
-                                            else
-                                            {
-                                                desiredFood = hit.collider.gameObject;
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (hit.collider.GetComponent<HookObject>())
-                                        {
-                                            if (hit.collider.GetComponent<HookObject>().hookedObject == null)
-                                            {
-                                                desiredFood = hit.collider.gameObject;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            desiredFood = hit.collider.gameObject;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-
-            // Check within a sphere to see if we smell any food
-            Collider[] hitColliders = Physics.OverlapSphere(transform.position, smellRadius);
-            foreach (Collider col in hitColliders)
-            {
-                if (col.gameObject != gameObject)
-                {
-                    // Check if food matches our food types
-                    foreach (string type in foodTypes)
-                    {
-                        System.Type typeFromString = System.Type.GetType(type);
-                        if (col.GetComponent(typeFromString))
-                        {
-                            // Check if food is under the water
-                            if (col.transform.position.y <= 0f)
-                            {
-                                // If we have food to chase, check if this food is closer
-                                if (desiredFood != null)
-                                {
-                                    if (Vector3.Distance(desiredFood.transform.position, transform.position) > Vector3.Distance(col.transform.position, transform.position))
-                                    {
-                                        // If food it the fishing hook, check if it already has hooked something
-                                        if (col.GetComponent<HookObject>())
-                                        {
-                                            if (col.GetComponent<HookObject>().hookedObject == null)
-                                            {
-                                                desiredFood = col.gameObject;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            desiredFood = col.gameObject;
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    if (col.GetComponent<HookObject>())
-                                    {
-                                        if (col.GetComponent<HookObject>().hookedObject == null)
-                                        {
-                                            desiredFood = col.gameObject;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        desiredFood = col.gameObject;
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            //Check for a type the fish wants to eat
+            System.Type typeFromString = System.Type.GetType(type);
+            if (!food.GetComponent(typeFromString)) continue;
+            else return food;
         }
+
+        return null;
+    }
+
+    private void AssignFood(GameObject food)
+    {
+        desiredFood = food;
+        if (desiredFood.GetComponent<HookObject>()) desiredHookObject = desiredFood.GetComponent<HookObject>();
+        else if (desiredFood.GetComponent<FishableItem>()) desiredFishableItem = desiredFood.GetComponent<FishableItem>();
+    }
+
+    private void UnsassignFood()
+    {
+        desiredFood = null;
+        desiredFishableItem = null;
+        desiredHookObject = null;
     }
 
     private void OnDrawGizmosSelected()

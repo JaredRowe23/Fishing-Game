@@ -10,6 +10,6 @@ public class GearMenu : MonoBehaviour
     public void ShowRodMenu()
     {
         this.gameObject.SetActive(!this.gameObject.activeSelf);
-        GameController.instance.inventoryMenu.UpdateActiveMenu(2);
+        InventoryMenu.instance.UpdateActiveMenu(2);
     }
 }

@@ -6937,6 +6937,7 @@ MonoBehaviour:
   zoomMagnitude: 1
   maxZoom: 20
   minZoom: 5
+  cam: {fileID: 0}
 --- !u!114 &963194230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7904,9 +7905,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 25
   prefab: {fileID: 8313649653780738666, guid: f29394d0aad20604a93052bf91102f0c, type: 3}
-  spawnMax: 10
+  spawnMax: 100
   spawnList: []
-  spawnTimeSpacing: 3
+  spawnTimeSpacing: 0.1
 --- !u!4 &1085002196
 Transform:
   m_ObjectHideFlags: 0
@@ -11243,7 +11244,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1404601215
 Transform:
   m_ObjectHideFlags: 0
@@ -11252,7 +11253,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1404601214}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -20.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2084702444}
@@ -11272,7 +11273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 25
   prefab: {fileID: 211761124399546875, guid: 3734a2df5dcb86d4c97a764a01df9c3e, type: 3}
-  spawnMax: 10
+  spawnMax: 25
   spawnList: []
   spawnTimeSpacing: 5
 --- !u!1 &1408264130
@@ -13890,23 +13891,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bucketMenuButton: {fileID: 1392575644}
-  bucketMenu: {fileID: 593709722}
   mouseOverUI: {fileID: 0}
   itemInfoMenu: {fileID: 322881850}
   overflowItem: {fileID: 525958420}
   itemViewer: {fileID: 1975610145}
-  bucket: {fileID: 935549800}
-  powerSlider: {fileID: 1493490447}
-  angleArrow: {fileID: 270775540}
   rodCanvas: {fileID: 1683829982}
-  inventoryMenu: {fileID: 58787921}
   inventoryMenuButton: {fileID: 2064017309}
   rodMenuButton: {fileID: 1179696491}
   baitMenuButton: {fileID: 2091532947}
   gearMenuButton: {fileID: 531925082}
   equippedRod: {fileID: 0}
-  rodsMenu: {fileID: 817339337}
-  pauseMenu: {fileID: 1556563468}
 --- !u!114 &1615404182
 MonoBehaviour:
   m_ObjectHideFlags: 0

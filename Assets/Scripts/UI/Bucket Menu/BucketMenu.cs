@@ -14,14 +14,17 @@ public class BucketMenu : MonoBehaviour
     [SerializeField] private Text capacityText;
     [SerializeField] private GameObject bucketItemPrefab;
 
+    public static BucketMenu instance;
+
+    private BucketMenu() => instance = this;
+
     void Update()
     {
+        if (!gameObject.activeSelf) return;
+
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (gameObject.activeSelf)
-            {
-                ShowBucketMenu();
-            }
+            ShowBucketMenu();
         }
     }
 

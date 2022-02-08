@@ -85,18 +85,18 @@ public class PlayerData : MonoBehaviour
             equippedRod = "Basic Rod";
         }
 
-        foreach (GameObject prefab in this.GetComponent<GameController>().rodsMenu.rodPrefabs)
+        foreach (GameObject prefab in RodsMenu.instance.rodPrefabs)
         {
-            if (prefab.name == equippedRod)
+            if (prefab.name != equippedRod) continue;
+
+            GameObject newRod = Instantiate(prefab);
+            this.GetComponent<GameController>().equippedRod = newRod;
+            foreach (Transform child in newRod.transform)
             {
-                GameObject newRod = Instantiate(prefab);
-                this.GetComponent<GameController>().equippedRod = newRod;
-                foreach (Transform child in newRod.transform)
+                if (child.GetComponent<HookControl>())
                 {
-                    if (child.GetComponent<HookControl>())
-                    {
-                        Camera.main.GetComponent<CameraBehaviour>().hook = child.GetComponent<HookControl>();
-                    }
+                    Camera.main.GetComponent<CameraBehaviour>().hook = child.GetComponent<HookControl>();
+                    Camera.main.transform.parent = child.transform;
                 }
             }
         }

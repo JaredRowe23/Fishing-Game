@@ -1,8 +1,4 @@
-﻿// Here we control the physics of the hook,
-// from how it's cast, how it moves in the water
-// and how it's reeled in
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -73,7 +69,6 @@ public class HookControl : MonoBehaviour
             }
         }
 
-        // Once the hook is in the water, change it's drag to simulate it being in water
         if (transform.position.y <= 0f)
         {
             if (!playedSplash)
@@ -90,7 +85,6 @@ public class HookControl : MonoBehaviour
         }
     }
 
-    // When we cast, enable physics and add the proper amount of force at the correct angle
     public void Cast(float angle, float force)
     {
         rb.isKinematic = false;
@@ -98,11 +92,7 @@ public class HookControl : MonoBehaviour
         rb.AddForce(rot * Vector3.right * force);
     }
 
-    // Pull towards the anchor point when reeling in
-    public void Reel(float force)
-    {
-        rb.AddForce(Vector3.Normalize(hookAnchorPoint.position - transform.position) * force * Time.deltaTime);
-    }
+    public void Reel(float force) => rb.AddForce(Vector3.Normalize(hookAnchorPoint.position - transform.position) * force* Time.deltaTime);
 
     public Transform GetHookAnchorPoint()
     {

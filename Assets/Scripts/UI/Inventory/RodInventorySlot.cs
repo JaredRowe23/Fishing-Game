@@ -17,7 +17,7 @@ public class RodInventorySlot : MonoBehaviour
         {
             if (child.GetComponent<Text>())
             {
-                GameController.instance.rodsMenu.EquipRod(child.GetComponent<Text>().text);
+                RodsMenu.instance.EquipRod(child.GetComponent<Text>().text);
             }
         }
     }

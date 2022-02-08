@@ -1,7 +1,4 @@
-﻿// This will hold and generate the data necessary
-// for any objects we fish
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -41,18 +38,6 @@ public class FishableItem : MonoBehaviour
         }
     }
 
-    private void Update()
-    {
-        if (isHooked || transform.parent == GameController.instance.bucket.transform)
-        {
-            minimapIndicator.SetActive(false);
-        }
-        else
-        {
-            minimapIndicator.SetActive(true);
-        }
-    }
-
     public string GetName()
     {
         return itemName;
@@ -71,5 +56,10 @@ public class FishableItem : MonoBehaviour
     public float GetLength()
     {
         return length;
+    }
+
+    public void DisableMinimapIndicator()
+    {
+        minimapIndicator.SetActive(false);
     }
 }

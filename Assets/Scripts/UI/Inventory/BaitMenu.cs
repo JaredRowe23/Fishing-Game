@@ -20,7 +20,7 @@ public class BaitMenu : MonoBehaviour
     public void ShowBaitMenu(bool active)
     {
         this.gameObject.SetActive(active);
-        GameController.instance.inventoryMenu.UpdateActiveMenu(1);
+        InventoryMenu.instance.UpdateActiveMenu(1);
         GenerateSlots();
     }
 

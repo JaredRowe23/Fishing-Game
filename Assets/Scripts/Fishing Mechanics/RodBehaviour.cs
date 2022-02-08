@@ -1,7 +1,4 @@
-﻿// Handles script-ran animation, attributes,
-// and general behaviour of our fishing rod
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -68,7 +65,7 @@ public class RodBehaviour : MonoBehaviour
                         targetRot = reelingRot;
                     }
                 }
-                else if (!GameController.instance.mouseOverUI && !GameController.instance.bucketMenu.gameObject.activeSelf && !GameController.instance.inventoryMenu.gameObject.activeSelf && !GameController.instance.pauseMenu.pauseMenu.gameObject.activeSelf)
+                else if (!GameController.instance.mouseOverUI && !BucketMenu.instance.gameObject.activeSelf && !InventoryMenu.instance.gameObject.activeSelf && !PauseMenu.instance.pauseMenu.gameObject.activeSelf)
                 {
                     state = RodState.CastPull;
                     targetRot = castPullRot;
@@ -76,8 +73,8 @@ public class RodBehaviour : MonoBehaviour
                     GameController.instance.inventoryMenuButton.gameObject.SetActive(false);
 
                     // Show the power slider and begin the process for charging/angling our cast
-                    GameController.instance.powerSlider.transform.SetParent(GameController.instance.rodCanvas.transform);
-                    GameController.instance.powerSlider.StartCharging(chargeFrequency, this);
+                    PowerSlider.instance.transform.SetParent(GameController.instance.rodCanvas.transform);
+                    PowerSlider.instance.StartCharging(chargeFrequency, this);
                 }
             }
         }
@@ -121,21 +118,21 @@ public class RodBehaviour : MonoBehaviour
         if (Mathf.Abs(targetRot - ((rodObject.transform.rotation.eulerAngles.z + 180) % 360 - 180)) >= rotateThreshold)
         {
             Vector3 targetRotation = new Vector3(rodObject.transform.rotation.x, rodObject.transform.rotation.y, targetRot);
-            if (state == RodState.Resting)
+            
+            switch (state)
             {
-                rodObject.transform.rotation = Quaternion.RotateTowards(rodObject.transform.rotation, Quaternion.Euler(targetRotation), restStrength * Time.deltaTime);
-            }
-            else if (state == RodState.Reeling)
-            {
-                rodObject.transform.rotation = Quaternion.RotateTowards(rodObject.transform.rotation, Quaternion.Euler(targetRotation), reelStrength * Time.deltaTime);
-            }
-            else if (state == RodState.CastPull)
-            {
-                rodObject.transform.rotation = Quaternion.RotateTowards(rodObject.transform.rotation, Quaternion.Euler(targetRotation), castPullStrength * Time.deltaTime);
-            }
-            else if (state == RodState.CastForward)
-            {
-                rodObject.transform.rotation = Quaternion.RotateTowards(rodObject.transform.rotation, Quaternion.Euler(targetRotation), castForwardStrength * Time.deltaTime);
+                case RodState.Resting:
+                    rodObject.transform.rotation = Quaternion.RotateTowards(rodObject.transform.rotation, Quaternion.Euler(targetRotation), restStrength * Time.deltaTime);
+                    break;
+                case RodState.Reeling:
+                    rodObject.transform.rotation = Quaternion.RotateTowards(rodObject.transform.rotation, Quaternion.Euler(targetRotation), reelStrength * Time.deltaTime);
+                    break;
+                case RodState.CastPull:
+                    rodObject.transform.rotation = Quaternion.RotateTowards(rodObject.transform.rotation, Quaternion.Euler(targetRotation), castPullStrength * Time.deltaTime);
+                    break;
+                case RodState.CastForward:
+                    rodObject.transform.rotation = Quaternion.RotateTowards(rodObject.transform.rotation, Quaternion.Euler(targetRotation), castForwardStrength * Time.deltaTime);
+                    break;
             }
         }
         else

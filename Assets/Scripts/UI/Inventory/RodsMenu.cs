@@ -18,6 +18,13 @@ public class RodsMenu : MonoBehaviour
     [SerializeField] public List<GameObject> rodPrefabs;
     [SerializeField] public List<Sprite> rodSprites;
 
+    public static RodsMenu instance;
+
+    private RodsMenu()
+    {
+        instance = this;
+    }
+
     private void Start()
     {
         GenerateSlots();
@@ -26,7 +33,7 @@ public class RodsMenu : MonoBehaviour
     public void ShowRodMenu(bool active)
     {
         gameObject.SetActive(active);
-        GameController.instance.inventoryMenu.UpdateActiveMenu(0);
+        InventoryMenu.instance.UpdateActiveMenu(0);
         GenerateSlots();
     }
 
@@ -93,6 +100,7 @@ public class RodsMenu : MonoBehaviour
                     if (child.GetComponent<HookControl>())
                     {
                         Camera.main.GetComponent<CameraBehaviour>().hook = child.GetComponent<HookControl>();
+                        Camera.main.transform.parent = child.transform;
                     }
                 }
             }

@@ -1,7 +1,4 @@
-﻿// This controls the actual camera the item viewer uses
-// and updates the item it's viewing
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,13 +13,9 @@ public class ItemViewerCamera : MonoBehaviour
 
     public static ItemViewerCamera instance;
 
-    private void Start()
-    {
-        instance = this;
-    }
+    private void Start() => instance = this;
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         // enable mouse rotation when clicking and holding
         if (GameController.instance.mouseOverUI == GameController.instance.itemViewer)

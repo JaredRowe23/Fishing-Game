@@ -12,6 +12,13 @@ public class InventoryMenu : MonoBehaviour
     public Sprite activeTabBackground;
     public Sprite inactiveTabBackground;
 
+    public static InventoryMenu instance;
+
+    private InventoryMenu()
+    {
+        instance = this;
+    }
+
     private void Start()
     {
         activeMenu = 0;

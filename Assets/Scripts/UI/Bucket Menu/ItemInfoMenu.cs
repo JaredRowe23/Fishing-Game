@@ -1,7 +1,4 @@
-﻿// This menu will show the stats of whatever object we have selected in our bucket,
-// and provides references to the object and the menu listing of it
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -36,7 +33,7 @@ public class ItemInfoMenu : MonoBehaviour
 
     public void ThrowAway()
     {
-        GameController.instance.bucketMenu.ThrowAway(itemReference, currentModel, menuListingReference);
+        BucketMenu.instance.ThrowAway(itemReference, currentModel, menuListingReference);
         gameObject.SetActive(false);
     }
 
@@ -60,8 +57,8 @@ public class ItemInfoMenu : MonoBehaviour
             }
         }
 
-        currentModel.transform.parent = GameController.instance.bucket.transform;
-        currentModel.transform.position = GameController.instance.bucket.transform.position;
+        currentModel.transform.parent = BucketBehaviour.instance.transform;
+        currentModel.transform.position = BucketBehaviour.instance.transform.position;
         currentModel.transform.rotation = Quaternion.identity;
 
         return currentModel;
