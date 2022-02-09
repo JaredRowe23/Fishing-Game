@@ -6,12 +6,6 @@ using UnityEngine.EventSystems;
 
 public class InventoryMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    public void OnPointerEnter(PointerEventData eventData)
-    {
-        GameController.instance.mouseOverUI = this.gameObject;
-    }
-    public void OnPointerExit(PointerEventData eventData)
-    {
-        GameController.instance.mouseOverUI = null;
-    }
+    public void OnPointerEnter(PointerEventData eventData) => GameController.instance.mouseOverUI = this.gameObject;
+    public void OnPointerExit(PointerEventData eventData) => GameController.instance.mouseOverUI = null;
 }

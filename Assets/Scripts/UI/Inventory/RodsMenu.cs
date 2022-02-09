@@ -20,15 +20,9 @@ public class RodsMenu : MonoBehaviour
 
     public static RodsMenu instance;
 
-    private RodsMenu()
-    {
-        instance = this;
-    }
+    private RodsMenu() => instance = this;
 
-    private void Start()
-    {
-        GenerateSlots();
-    }
+    private void Start() => GenerateSlots();
 
     public void ShowRodMenu(bool active)
     {
@@ -91,17 +85,19 @@ public class RodsMenu : MonoBehaviour
         Destroy(GameController.instance.equippedRod);
         foreach(GameObject prefab in rodPrefabs)
         {
-            if (prefab.name == rodName)
+            if (prefab.name != rodName)
             {
-                GameObject newRod = Instantiate(prefab);
-                GameController.instance.equippedRod = newRod;
-                foreach(Transform child in newRod.transform)
+                continue;
+            }
+
+            GameObject newRod = Instantiate(prefab);
+            GameController.instance.equippedRod = newRod;
+            foreach (Transform child in newRod.transform)
+            {
+                if (child.GetComponent<HookControl>())
                 {
-                    if (child.GetComponent<HookControl>())
-                    {
-                        Camera.main.GetComponent<CameraBehaviour>().hook = child.GetComponent<HookControl>();
-                        Camera.main.transform.parent = child.transform;
-                    }
+                    Camera.main.GetComponent<CameraBehaviour>().hook = child.GetComponent<HookControl>();
+                    Camera.main.transform.parent = child.transform;
                 }
             }
         }

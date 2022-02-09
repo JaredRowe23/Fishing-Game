@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public struct Food
+{
+    public Vector3 position;
+    public int inRange;
+}
+
 public class FoodSearch : MonoBehaviour
 {
     [SerializeField] private float sightAngle;
@@ -14,12 +20,15 @@ public class FoodSearch : MonoBehaviour
     private FishableItem desiredFishableItem;
     private HookObject desiredHookObject;
 
+    [SerializeField] private ComputeShader foodComputeShader;
+    private Food[] data;
+
     void Update()
     {
         if (GetComponent<FishableItem>().isHooked) return;
 
         Look();
-        Smell();
+        SmellGPU();
 
         if (desiredFood != null) ReassessFood();
     }
@@ -38,10 +47,7 @@ public class FoodSearch : MonoBehaviour
 
             GameObject newFood = IsFood(hit.collider.gameObject);
             if (newFood == null) continue;
-            else
-            {
-                AssignFood(newFood);
-            }
+            AssignFood(newFood);
         }
     }
 
@@ -52,11 +58,64 @@ public class FoodSearch : MonoBehaviour
         {
             GameObject newFood = IsFood(col.gameObject);
             if (newFood == null) continue;
-            else
-            {
-                AssignFood(newFood);
-            }
+
+            AssignFood(newFood);
         }
+    }
+
+    private void SlowSmell()
+    {
+        List<Transform> foodTransforms = GameController.instance.foodTransforms;
+        List<Vector3> foodPositions = new List<Vector3>();
+        foreach(Transform foodTransform in foodTransforms)
+        {
+            foodPositions.Add(foodTransform.position);
+        }
+        for(int i = 0; i < foodPositions.Count; i++)
+        {
+            if (Vector3.Distance(transform.position, foodPositions[i]) > smellRadius) continue;
+
+            GameObject newFood = IsFood(foodTransforms[i].gameObject);
+            if (newFood == null) continue;
+
+            AssignFood(newFood);
+        }
+    }
+
+    private void SmellGPU()
+    {
+        List<Transform> foodTransforms = GameController.instance.foodTransforms;
+        data = new Food[foodTransforms.Count];
+
+        for(int i = 0; i < data.Length; i++)
+        {
+            data[i].position = foodTransforms[i].position;
+            data[i].inRange = 0;
+        }
+        int vector3Size = sizeof(float) * 3;
+        int intSize = sizeof(int);
+        int totalSize = vector3Size + intSize;
+        ComputeBuffer foodBuffer = new ComputeBuffer(data.Length, totalSize);
+        foodBuffer.SetData(data);
+
+        foodComputeShader.SetBuffer(0, "foods", foodBuffer);
+        foodComputeShader.SetVector("fishPosition", transform.position);
+        foodComputeShader.SetFloat("range", smellRadius);
+        foodComputeShader.Dispatch(0, 100, 1, 1);
+
+        foodBuffer.GetData(data);
+
+        for(int i = 0; i < foodTransforms.Count; i++)
+        {
+            if (data[i].inRange != 1) continue;
+
+            GameObject newFood = IsFood(foodTransforms[i].gameObject);
+            if (newFood == null) continue;
+
+            AssignFood(newFood);
+        }
+
+        foodBuffer.Dispose();
     }
 
     public void ReassessFood()

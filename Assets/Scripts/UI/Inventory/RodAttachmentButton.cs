@@ -7,8 +7,5 @@ public class RodAttachmentButton : MonoBehaviour
 {
     [SerializeField] private ScrollRect scrollView;
 
-    public void ToggleScrollView()
-    {
-        scrollView.gameObject.SetActive(!scrollView.gameObject.activeSelf);
-    }
+    public void ToggleScrollView() => scrollView.gameObject.SetActive(!scrollView.gameObject.activeSelf);
 }

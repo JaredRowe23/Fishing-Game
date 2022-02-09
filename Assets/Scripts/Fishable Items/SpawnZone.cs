@@ -43,7 +43,9 @@ public class SpawnZone : MonoBehaviour
             rand = Random.insideUnitCircle * radius;
         }
         Vector3 spawnPos = new Vector3(rand.x + transform.position.x, rand.y + transform.position.y, transform.position.z);
-        spawnList.Add(Instantiate(prefab, spawnPos, Quaternion.identity, this.transform));
+        GameObject newFish = Instantiate(prefab, spawnPos, Quaternion.identity, this.transform);
+        spawnList.Add(newFish);
+        GameController.instance.foodTransforms.Add(newFish.transform);
     }
     
     private void OnDrawGizmosSelected()

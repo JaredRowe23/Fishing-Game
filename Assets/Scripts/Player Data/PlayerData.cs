@@ -97,6 +97,7 @@ public class PlayerData : MonoBehaviour
                 {
                     Camera.main.GetComponent<CameraBehaviour>().hook = child.GetComponent<HookControl>();
                     Camera.main.transform.parent = child.transform;
+                    GameController.instance.foodTransforms.Add(child.transform);
                 }
             }
         }

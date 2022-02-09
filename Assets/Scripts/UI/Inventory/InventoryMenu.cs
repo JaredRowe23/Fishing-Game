@@ -14,10 +14,7 @@ public class InventoryMenu : MonoBehaviour
 
     public static InventoryMenu instance;
 
-    private InventoryMenu()
-    {
-        instance = this;
-    }
+    private InventoryMenu() => instance = this;
 
     private void Start()
     {

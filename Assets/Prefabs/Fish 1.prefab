@@ -269,13 +269,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sightAngle: 30
   sightDistance: 10
-  sightDensity: 15
+  sightDensity: 1
   smellRadius: 5
   chaseDistance: 10
   foodTypes:
   - HookControl
   - SinkingTrash
   desiredFood: {fileID: 0}
+  foodComputeShader: {fileID: 7200000, guid: f8ef6cab8d6648c49a72cb62dd976837, type: 3}
 --- !u!82 &-6890081191903633112
 AudioSource:
   m_ObjectHideFlags: 0

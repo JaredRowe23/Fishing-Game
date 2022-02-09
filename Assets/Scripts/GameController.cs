@@ -17,10 +17,10 @@ public class GameController : MonoBehaviour
     public GameObject gearMenuButton;
     public GameObject equippedRod;
 
+    [SerializeField]
+    public List<Transform> foodTransforms;
+
     public static GameController instance;
     
-    void Awake()
-    {
-        instance = this;
-    }
+    void Awake() => instance = this;
 }

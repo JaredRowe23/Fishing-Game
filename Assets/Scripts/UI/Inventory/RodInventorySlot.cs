@@ -10,7 +10,6 @@ public class RodInventorySlot : MonoBehaviour
     public GameObject equippedCheck;
     public GameObject itemReference;
 
-    // Start is called before the first frame update
     public void EquipRod()
     {
         foreach(Transform child in transform)

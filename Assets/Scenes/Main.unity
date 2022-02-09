@@ -7905,7 +7905,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 25
   prefab: {fileID: 8313649653780738666, guid: f29394d0aad20604a93052bf91102f0c, type: 3}
-  spawnMax: 100
+  spawnMax: 200
   spawnList: []
   spawnTimeSpacing: 0.1
 --- !u!4 &1085002196
@@ -13901,6 +13901,7 @@ MonoBehaviour:
   baitMenuButton: {fileID: 2091532947}
   gearMenuButton: {fileID: 531925082}
   equippedRod: {fileID: 0}
+  foodTransforms: []
 --- !u!114 &1615404182
 MonoBehaviour:
   m_ObjectHideFlags: 0
