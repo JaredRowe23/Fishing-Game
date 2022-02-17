@@ -1,19 +1,76 @@
 // Each #kernel tells which function to compile; you can have many kernels
 #pragma kernel CSMain
 
-struct Food
+struct Fish
 {
     float3 position;
-    int inRange;
+    float3 forward;
+
+    float sightRange;
+    float sightAngle;
+
+    float smellRange;
+
+    int closestIndex;
+    int target;
 };
 
-RWStructuredBuffer<Food> foods;
-float3 fishPosition;
-float range;
+RWStructuredBuffer<Fish> fishes;
 
-[numthreads(100,1,1)]
+[numthreads(32,1,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
-    Food food = foods[id.x];
-    food.inRange = 1;
+    for(uint x = 0; x < fishes.Length; x++)
+    {
+        for(uint y = 0; y < fishes.Length; y++)
+        {
+            if (x == y)
+            {
+                fishes[x].target = -5;
+                continue;
+            }
+
+            if (fishes[y].position.y > 0)
+            {
+                fishes[x].target = -4;
+                continue;
+            }
+
+            float dist = distance(fishes[x].position, fishes[y].position);
+
+            if (dist <= fishes[x].smellRange)
+            {
+                fishes[x].target = y;
+                continue;
+            }
+            else
+            {
+                fishes[x].target = -3;
+            }
+
+            if (dist > fishes[x].sightRange)
+            {
+                fishes[x].target = -2;
+                continue;
+            }
+            if (dot(fishes[x].forward, fishes[y].position - fishes[x].position) > fishes[x].sightAngle)
+            {
+                fishes[x].target = y;
+            }
+        }
+
+        //for(uint i = 0; i < fishes[x].targets.Length; i++)
+        //{
+        //    if (fishes[x].targets[i] != 1)
+        //    {
+        //        continue;
+        //    }
+
+        //    fishes[x].closestIndex = -1;
+        //    if (distance(fishes[i].position, fishes[x].position) <= distance(fishes[fishes[x].closestIndex].position, fishes[x].position))
+        //    {
+        //        fishes[x].closestIndex = i;
+        //    }
+        //}
+    }
 }

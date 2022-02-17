@@ -10,8 +10,13 @@ public class SpawnZone : MonoBehaviour
     public List<GameObject> spawnList;
     [SerializeField] private float spawnTimeSpacing;
     private WaitForSeconds spawnTimer;
+    private GPUFoodSearch foodSearch;
 
-    private void Awake() => spawnTimer = new WaitForSeconds(spawnTimeSpacing);
+    private void Awake()
+    {
+        spawnTimer = new WaitForSeconds(spawnTimeSpacing);
+        foodSearch = GameController.instance.GetComponent<GPUFoodSearch>();
+    }
 
     private void Start()
     {
@@ -46,6 +51,7 @@ public class SpawnZone : MonoBehaviour
         GameObject newFish = Instantiate(prefab, spawnPos, Quaternion.identity, this.transform);
         spawnList.Add(newFish);
         GameController.instance.foodTransforms.Add(newFish.transform);
+        if (newFish.GetComponent<FoodSearch>()) foodSearch.fishes.Add(newFish.GetComponent<FoodSearch>());
     }
     
     private void OnDrawGizmosSelected()

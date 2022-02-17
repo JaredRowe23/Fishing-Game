@@ -22,5 +22,5 @@ public class GameController : MonoBehaviour
 
     public static GameController instance;
     
-    void Awake() => instance = this;
+    private GameController() => instance = this;
 }

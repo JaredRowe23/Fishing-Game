@@ -21,7 +21,7 @@ public class SinkingTrash : MonoBehaviour
 
         transform.Translate(sinkDirection * sinkSpeed * Time.deltaTime, Space.World);
 
-        if (transform.parent.position.y - transform.position.y < maximumDepth) return;
+        if (transform.localPosition.y > -maximumDepth) return;
 
         if (Camera.main.GetComponent<CameraBehaviour>().IsInFrame(transform.position)) return;
 

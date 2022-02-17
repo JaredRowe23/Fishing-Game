@@ -1,6 +1,27 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Jobs;
+
+public struct FoodSearchUpdateJob : IJobParallelFor
+{
+    public void Execute(int index)
+    {
+
+    }
+}
+
+public class FoodSearchManager : MonoBehaviour
+{
+    [SerializeField] private List<FoodSearch> fish;
+
+    private void Update()
+    {
+        FoodSearchUpdateJob job = new FoodSearchUpdateJob();
+        JobHandle jobHandle = job.Schedule(fish.Count, 1);
+        jobHandle.Complete();
+    }
+}
 
 public struct Food
 {
@@ -23,15 +44,15 @@ public class FoodSearch : MonoBehaviour
     [SerializeField] private ComputeShader foodComputeShader;
     private Food[] data;
 
-    void Update()
-    {
-        if (GetComponent<FishableItem>().isHooked) return;
+    //void Update()
+    //{
+    //    if (GetComponent<FishableItem>().isHooked) return;
 
-        Look();
-        SmellGPU();
+    //    Look();
+    //    SmellGPU();
 
-        if (desiredFood != null) ReassessFood();
-    }
+    //    if (desiredFood != null) ReassessFood();
+    //}
 
     private void Look()
     {
@@ -101,7 +122,7 @@ public class FoodSearch : MonoBehaviour
         foodComputeShader.SetBuffer(0, "foods", foodBuffer);
         foodComputeShader.SetVector("fishPosition", transform.position);
         foodComputeShader.SetFloat("range", smellRadius);
-        foodComputeShader.Dispatch(0, 100, 1, 1);
+        foodComputeShader.Dispatch(0, 8, 8, 1);
 
         foodBuffer.GetData(data);
 
@@ -153,13 +174,13 @@ public class FoodSearch : MonoBehaviour
         }
     }
 
-    private GameObject IsFood(GameObject food)
+    public GameObject IsFood(GameObject food)
     {
         // Rule out this fish eating itself
-        if (food.gameObject == gameObject) return null;
+        //if (food.gameObject == gameObject) return null;
 
         // Rule out overwater food
-        if (food.transform.position.y > 0f) return null;
+        //if (food.transform.position.y > 0f) return null;
 
         // Rule out hook object if it's already hooked something
         if (food.GetComponent<HookObject>())
@@ -168,10 +189,10 @@ public class FoodSearch : MonoBehaviour
         }
 
         // Rule out food further than we're chasing already
-        if (desiredFood != null)
-        {
-            if (Vector3.Distance(desiredFood.transform.position, transform.position) <= Vector3.Distance(food.transform.position, transform.position)) return null;
-        }
+        //if (desiredFood != null)
+        //{
+        //    if (Vector3.Distance(desiredFood.transform.position, transform.position) <= Vector3.Distance(food.transform.position, transform.position)) return null;
+        //}
 
         // Check if food matches our food types
         foreach (string type in foodTypes)
@@ -218,4 +239,8 @@ public class FoodSearch : MonoBehaviour
             Debug.DrawRay(transform.position, (desiredFood.transform.position - transform.position), Color.red);
         }
     }
+
+    public float GetSightRange() => sightDistance;
+    public float GetSightAngle() => sightAngle;
+    public float GetSmellRange() => smellRadius;
 }

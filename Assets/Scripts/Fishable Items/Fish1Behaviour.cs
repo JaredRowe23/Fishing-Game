@@ -101,6 +101,7 @@ public class Fish1Behaviour : MonoBehaviour
     private void Eat()
     {
         GetComponent<AudioSource>().Play();
+        GameController.instance.GetComponent<GPUFoodSearch>().fishes.Remove(foodSearch.desiredFood.GetComponent<FoodSearch>());
         Destroy(foodSearch.desiredFood);
         foodSearch.desiredFood = null;
     }

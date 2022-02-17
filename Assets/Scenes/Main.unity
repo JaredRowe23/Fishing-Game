@@ -7905,7 +7905,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 25
   prefab: {fileID: 8313649653780738666, guid: f29394d0aad20604a93052bf91102f0c, type: 3}
-  spawnMax: 200
+  spawnMax: 100
   spawnList: []
   spawnTimeSpacing: 0.1
 --- !u!4 &1085002196
@@ -11244,7 +11244,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1404601215
 Transform:
   m_ObjectHideFlags: 0
@@ -11273,7 +11273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 25
   prefab: {fileID: 211761124399546875, guid: 3734a2df5dcb86d4c97a764a01df9c3e, type: 3}
-  spawnMax: 25
+  spawnMax: 100
   spawnList: []
   spawnTimeSpacing: 5
 --- !u!1 &1408264130
@@ -13857,6 +13857,7 @@ GameObject:
   - component: {fileID: 1615404181}
   - component: {fileID: 1615404182}
   - component: {fileID: 1615404183}
+  - component: {fileID: 1615404184}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: GameController
@@ -14037,6 +14038,20 @@ MonoBehaviour:
     pitch: 1
     randomVolume: 0
     randomPitch: 0
+--- !u!114 &1615404184
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615404179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 997714df545b7c14fac4b8db93007a6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodComputeShader: {fileID: 7200000, guid: f8ef6cab8d6648c49a72cb62dd976837, type: 3}
+  fishes: []
 --- !u!1 &1632562128
 GameObject:
   m_ObjectHideFlags: 0
