@@ -2,35 +2,81 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Jobs;
-
-public struct FoodSearchUpdateJob : IJobParallelFor
-{
-    public void Execute(int index)
-    {
-
-    }
-}
-
-public class FoodSearchManager : MonoBehaviour
-{
-    [SerializeField] private List<FoodSearch> fish;
-
-    private void Update()
-    {
-        FoodSearchUpdateJob job = new FoodSearchUpdateJob();
-        JobHandle jobHandle = job.Schedule(fish.Count, 1);
-        jobHandle.Complete();
-    }
-}
-
-public struct Food
-{
-    public Vector3 position;
-    public int inRange;
-}
+using Unity.Collections;
 
 public class FoodSearch : MonoBehaviour
 {
+    public struct Data
+    {
+        Vector3 position;
+        Vector3 forward;
+
+        float sightRange;
+        float sightAngle;
+
+        float smellRange;
+
+        public Vector3 toCheckPos;
+        public int nearestFoodIndex;
+        public float nearestFoodDistance;
+
+
+        public Data(Vector3 _pos, Vector3 _forward, float _sightRange, float _sightAngle, float _smellRange)
+        {
+            position = _pos;
+            forward = _forward;
+            sightRange = _sightRange;
+            sightAngle = _sightAngle;
+            smellRange = _smellRange;
+            toCheckPos = Vector3.zero;
+            nearestFoodIndex = -1;
+            nearestFoodDistance = -1f;
+        }
+
+        public void Update()
+        {
+            //Debug.Log("position: " + position.ToString() + ", toCheckPos: " + toCheckPos.ToString());
+            nearestFoodIndex = Smell(toCheckPos);
+            nearestFoodIndex = Look(toCheckPos);
+        }
+
+        private int Look(Vector3 _foodPos)
+        {
+            float _distance = Vector3.Distance(_foodPos, position);
+            if (_distance > sightRange)
+            {
+                //Debug.Log("out of sight range");
+                return 0;
+            }
+            //Debug.Log("inside of sight range");
+            if (_distance > nearestFoodDistance)
+            {
+                //Debug.Log("further than current food");
+                return 0;
+            }
+            //Debug.Log("inside of sight AND closer than current food");
+            return 1;
+        }
+
+        private int Smell(Vector3 _foodPos)
+        {
+            float _distance = Vector3.Distance(_foodPos, position);
+            if (_distance > smellRange)
+            {
+                //Debug.Log("out of smell range");
+                return 0;
+            }
+            //Debug.Log("inside of smell range");
+            if (_distance > nearestFoodDistance)
+            {
+                //Debug.Log("further than current food");
+                return 0;
+            }
+            //Debug.Log("inside of sight AND closer than current food");
+            return 1;
+        }
+    }
+
     [SerializeField] private float sightAngle;
     [SerializeField] private float sightDistance;
     [SerializeField] private float sightDensity;
@@ -40,9 +86,6 @@ public class FoodSearch : MonoBehaviour
     public GameObject desiredFood;
     private FishableItem desiredFishableItem;
     private HookObject desiredHookObject;
-
-    [SerializeField] private ComputeShader foodComputeShader;
-    private Food[] data;
 
     //void Update()
     //{
@@ -101,42 +144,6 @@ public class FoodSearch : MonoBehaviour
 
             AssignFood(newFood);
         }
-    }
-
-    private void SmellGPU()
-    {
-        List<Transform> foodTransforms = GameController.instance.foodTransforms;
-        data = new Food[foodTransforms.Count];
-
-        for(int i = 0; i < data.Length; i++)
-        {
-            data[i].position = foodTransforms[i].position;
-            data[i].inRange = 0;
-        }
-        int vector3Size = sizeof(float) * 3;
-        int intSize = sizeof(int);
-        int totalSize = vector3Size + intSize;
-        ComputeBuffer foodBuffer = new ComputeBuffer(data.Length, totalSize);
-        foodBuffer.SetData(data);
-
-        foodComputeShader.SetBuffer(0, "foods", foodBuffer);
-        foodComputeShader.SetVector("fishPosition", transform.position);
-        foodComputeShader.SetFloat("range", smellRadius);
-        foodComputeShader.Dispatch(0, 8, 8, 1);
-
-        foodBuffer.GetData(data);
-
-        for(int i = 0; i < foodTransforms.Count; i++)
-        {
-            if (data[i].inRange != 1) continue;
-
-            GameObject newFood = IsFood(foodTransforms[i].gameObject);
-            if (newFood == null) continue;
-
-            AssignFood(newFood);
-        }
-
-        foodBuffer.Dispose();
     }
 
     public void ReassessFood()

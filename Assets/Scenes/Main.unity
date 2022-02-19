@@ -7905,7 +7905,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 25
   prefab: {fileID: 8313649653780738666, guid: f29394d0aad20604a93052bf91102f0c, type: 3}
-  spawnMax: 100
+  spawnMax: 1000
   spawnList: []
   spawnTimeSpacing: 0.1
 --- !u!4 &1085002196
@@ -11273,9 +11273,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   radius: 25
   prefab: {fileID: 211761124399546875, guid: 3734a2df5dcb86d4c97a764a01df9c3e, type: 3}
-  spawnMax: 100
+  spawnMax: 0
   spawnList: []
-  spawnTimeSpacing: 5
+  spawnTimeSpacing: 0.1
 --- !u!1 &1408264130
 GameObject:
   m_ObjectHideFlags: 0
@@ -13858,6 +13858,7 @@ GameObject:
   - component: {fileID: 1615404182}
   - component: {fileID: 1615404183}
   - component: {fileID: 1615404184}
+  - component: {fileID: 1615404185}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: GameController
@@ -14045,13 +14046,27 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1615404179}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 997714df545b7c14fac4b8db93007a6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   foodComputeShader: {fileID: 7200000, guid: f8ef6cab8d6648c49a72cb62dd976837, type: 3}
   fishes: []
+--- !u!114 &1615404185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615404179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0688df1d382800d4db1ba01f18e0812e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fish: []
+  fishableItems: []
 --- !u!1 &1632562128
 GameObject:
   m_ObjectHideFlags: 0
