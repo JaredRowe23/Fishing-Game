@@ -229,6 +229,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Fish 1
   itemDescription: Just your normal basic fish guy here
+  foodType: 0
   weightMax: 25
   weightMin: 20
   lengthMax: 25
@@ -272,11 +273,8 @@ MonoBehaviour:
   sightDensity: 1
   smellRadius: 5
   chaseDistance: 10
-  foodTypes:
-  - HookControl
-  - SinkingTrash
+  desiredFoodTypes: 01000000
   desiredFood: {fileID: 0}
-  foodComputeShader: {fileID: 7200000, guid: f8ef6cab8d6648c49a72cb62dd976837, type: 3}
 --- !u!82 &-6890081191903633112
 AudioSource:
   m_ObjectHideFlags: 0

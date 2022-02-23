@@ -7,6 +7,8 @@ public class FishableItem : MonoBehaviour
     [Header("Stats")]
     [SerializeField] private string itemName;
     [SerializeField] private string itemDescription;
+    public enum FoodTypes { Fish1, SinkingTrash, Fish3, Fish4, Fish5, Fish6, Fish7, Fish8, Fish9, Fish10, Fish11, Fish12 };
+    [SerializeField] private FoodTypes foodType;
     private float weight;
     private float length;
 
@@ -38,25 +40,15 @@ public class FishableItem : MonoBehaviour
         }
     }
 
-    public string GetName()
-    {
-        return itemName;
-    }
+    public string GetName() => itemName;
 
-    public string GetDescription()
-    {
-        return itemDescription;
-    }
+    public string GetDescription() => itemDescription;
 
-    public float GetWeight()
-    {
-        return weight;
-    }
+    public float GetWeight() => weight;
 
-    public float GetLength()
-    {
-        return length;
-    }
+    public float GetLength() => length;
+
+    public int GetFoodType() => (int)foodType;
 
     public void DisableMinimapIndicator()
     {

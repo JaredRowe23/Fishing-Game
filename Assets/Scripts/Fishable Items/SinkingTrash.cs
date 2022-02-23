@@ -12,20 +12,27 @@ public class SinkingTrash : MonoBehaviour
     [SerializeField] private float maximumDepth;
 
     private FishableItem fishableItem;
+    private CameraBehaviour cam;
+    private SpawnZone spawn;
 
-    private void Awake() => fishableItem = GetComponent<FishableItem>();
+    private void Awake()
+    {
+        fishableItem = GetComponent<FishableItem>();
+        cam = Camera.main.GetComponent<CameraBehaviour>();
+        spawn = transform.parent.GetComponent<SpawnZone>();
+    }
 
     private void Update()
     {
         if (fishableItem.isHooked) return;
 
-        transform.Translate(sinkDirection * sinkSpeed * Time.deltaTime, Space.World);
+        transform.Translate(sinkSpeed * Time.deltaTime * sinkDirection, Space.World);
 
         if (transform.localPosition.y > -maximumDepth) return;
 
-        if (Camera.main.GetComponent<CameraBehaviour>().IsInFrame(transform.position)) return;
+        if (cam.IsInFrame(transform.position)) return;
 
-        transform.parent.GetComponent<SpawnZone>().spawnList.Remove(gameObject);
+        spawn.spawnList.Remove(gameObject);
         Destroy(this.gameObject);
     }
 }

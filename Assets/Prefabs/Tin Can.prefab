@@ -62,6 +62,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Tin Can
   itemDescription: Just a rust tube with nothing in it
+  foodType: 1
   weightMax: 1
   weightMin: 1
   lengthMax: 30

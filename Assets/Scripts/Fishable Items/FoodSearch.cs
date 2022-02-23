@@ -3,25 +3,32 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Jobs;
 using Unity.Collections;
+using System.Linq;
 
 public class FoodSearch : MonoBehaviour
 {
     public struct Data
     {
-        Vector3 position;
-        Vector3 forward;
+        readonly Vector3 position;
+        readonly Vector3 forward;
 
-        float sightRange;
-        float sightAngle;
+        readonly float sightRange;
+        readonly float sightAngle;
 
-        float smellRange;
+        readonly float smellRange;
+
+        public int foodSearchIndex;
+        public int thisIndex;
 
         public Vector3 toCheckPos;
+        public int toCheckType;
+        public long types;
+
         public int nearestFoodIndex;
         public float nearestFoodDistance;
 
 
-        public Data(Vector3 _pos, Vector3 _forward, float _sightRange, float _sightAngle, float _smellRange)
+        public Data(Vector3 _pos, Vector3 _forward, float _sightRange, float _sightAngle, float _smellRange, int _index, long _types)
         {
             position = _pos;
             forward = _forward;
@@ -29,52 +36,104 @@ public class FoodSearch : MonoBehaviour
             sightAngle = _sightAngle;
             smellRange = _smellRange;
             toCheckPos = Vector3.zero;
+            toCheckType = 0;
             nearestFoodIndex = -1;
             nearestFoodDistance = -1f;
+            foodSearchIndex = 0;
+            thisIndex = _index;
+            types = _types;
         }
 
         public void Update()
         {
-            //Debug.Log("position: " + position.ToString() + ", toCheckPos: " + toCheckPos.ToString());
-            nearestFoodIndex = Smell(toCheckPos);
-            nearestFoodIndex = Look(toCheckPos);
+            nearestFoodIndex = Search();
         }
 
-        private int Look(Vector3 _foodPos)
+        private int Search()
         {
-            float _distance = Vector3.Distance(_foodPos, position);
+            if (toCheckPos.y >= 0)
+            {
+                //Debug.Log("food is above water");
+                return 0;
+            }
+
+            float _distance = Vector3.Distance(toCheckPos, position);
+            if (_distance == 0)
+            {
+                //Debug.Log("iterating over self");
+                return 0;
+            }
+
             if (_distance > sightRange)
             {
-                //Debug.Log("out of sight range");
+                //Debug.Log("out of sight range: range = " + sightRange.ToString() + ", distance = " + _distance.ToString());
                 return 0;
             }
-            //Debug.Log("inside of sight range");
-            if (_distance > nearestFoodDistance)
+
+            int[] typeArray = GetTypesArray(types);
+
+            bool desiredType = false;
+            for (int i = 0; i < typeArray.Length; i++)
             {
-                //Debug.Log("further than current food");
+                if (typeArray[i] != toCheckType) continue;
+                desiredType = true;
+            }
+            if (desiredType == false)
+            {
+                //Debug.Log("not desired fish type");
                 return 0;
             }
-            //Debug.Log("inside of sight AND closer than current food");
-            return 1;
+
+
+
+
+            if (_distance <= smellRange)
+            {
+                //Debug.Log("in smell range: range = " + smellRange.ToString() + ", distance = " + _distance.ToString());
+                return 1;
+            }
+
+            float dot = Vector2.Dot(forward, Vector3.Normalize(GlobalToLocal()));
+            float angle = Mathf.Acos(dot) * 180 * 0.3183098861928886f;
+            if (angle < sightAngle)
+            {
+                //Debug.Log("within sight angle: sightAngle = " + sightAngle + ", angle = " + angle);
+                return 1;
+            }
+
+            //if (_distance > nearestFoodDistance && nearestFoodDistance != -1)
+            //{
+            //    Debug.Log("further than current food: currentFood = " + nearestFoodDistance + ", distance = " + _distance);
+            //    return 0;
+            //}
+
+            return 0;
         }
 
-        private int Smell(Vector3 _foodPos)
+        private int[] GetTypesArray(long _types)
         {
-            float _distance = Vector3.Distance(_foodPos, position);
-            if (_distance > smellRange)
+            int[] digitArray = new int[(int)(Mathf.Floor(Mathf.Log10((long)_types) + 1) - 1)];
+            int[] typeArray = new int[(int)(digitArray.Length * 0.5f)];
+
+            long num = _types;
+            for (int i = 0; i < digitArray.Length; i++)
             {
-                //Debug.Log("out of smell range");
-                return 0;
+                if (num == 1)
+                {
+                    break;
+                }
+                digitArray[digitArray.Length - 1 - i] = (int)(num % 10);
+                num = (long)(num / 10);
             }
-            //Debug.Log("inside of smell range");
-            if (_distance > nearestFoodDistance)
+
+            for (int i = 0; i < typeArray.Length; i++)
             {
-                //Debug.Log("further than current food");
-                return 0;
+                typeArray[i] = digitArray[i * 2] * 10 + digitArray[(i * 2) + 1];
             }
-            //Debug.Log("inside of sight AND closer than current food");
-            return 1;
+            return typeArray;
         }
+
+        private Vector3 GlobalToLocal() => (toCheckPos - position);
     }
 
     [SerializeField] private float sightAngle;
@@ -82,150 +141,54 @@ public class FoodSearch : MonoBehaviour
     [SerializeField] private float sightDensity;
     [SerializeField] private float smellRadius;
     [SerializeField] private float chaseDistance;
-    [SerializeField] private List<string> foodTypes;
+    [SerializeField] private FishableItem.FoodTypes[] desiredFoodTypes;
     public GameObject desiredFood;
     private FishableItem desiredFishableItem;
     private HookObject desiredHookObject;
 
-    //void Update()
-    //{
-    //    if (GetComponent<FishableItem>().isHooked) return;
+    //    // If we're chasing the hook, check if we've already hooked something
+    //    if (desiredHookObject)
+    //    {
+    //        if (desiredHookObject.hookedObject != null)
+    //        {
+    //            UnsassignFood();
+    //            return;
+    //        }
+    //    }
 
-    //    Look();
-    //    SmellGPU();
-
-    //    if (desiredFood != null) ReassessFood();
+    //    if (desiredFishableItem)
+    //    {
+    //        if (desiredFishableItem.isHooked)
+    //        {
+    //            UnsassignFood();
+    //            return;
+    //        }
+    //    }
     //}
 
-    private void Look()
-    {
-        // Raycast multiple angles in front
-        for (int i = 0; i < sightDensity; i++)
-        {
-            Vector3 dir = -transform.right;
-            dir = Quaternion.Euler(0f, 0f, -sightAngle + (i * sightAngle * 2 / sightDensity)) * dir;
-            RaycastHit hit;
+    //public GameObject IsFood(GameObject food)
+    //{
+    //    // Rule out hook object if it's already hooked something
+    //    if (food.GetComponent<HookObject>())
+    //    {
+    //        if (food.GetComponent<HookObject>().hookedObject != null) return null;
+    //    }
+    //    return null;
+    //}
 
-            // Rule out raycast not hitting anything
-            if (!Physics.Raycast(transform.position, dir, out hit, sightDistance)) continue;
+    //private void AssignFood(GameObject food)
+    //{
+    //    desiredFood = food;
+    //    if (desiredFood.GetComponent<HookObject>()) desiredHookObject = desiredFood.GetComponent<HookObject>();
+    //    else if (desiredFood.GetComponent<FishableItem>()) desiredFishableItem = desiredFood.GetComponent<FishableItem>();
+    //}
 
-            GameObject newFood = IsFood(hit.collider.gameObject);
-            if (newFood == null) continue;
-            AssignFood(newFood);
-        }
-    }
-
-    private void Smell()
-    {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position, smellRadius);
-        foreach (Collider col in hitColliders)
-        {
-            GameObject newFood = IsFood(col.gameObject);
-            if (newFood == null) continue;
-
-            AssignFood(newFood);
-        }
-    }
-
-    private void SlowSmell()
-    {
-        List<Transform> foodTransforms = GameController.instance.foodTransforms;
-        List<Vector3> foodPositions = new List<Vector3>();
-        foreach(Transform foodTransform in foodTransforms)
-        {
-            foodPositions.Add(foodTransform.position);
-        }
-        for(int i = 0; i < foodPositions.Count; i++)
-        {
-            if (Vector3.Distance(transform.position, foodPositions[i]) > smellRadius) continue;
-
-            GameObject newFood = IsFood(foodTransforms[i].gameObject);
-            if (newFood == null) continue;
-
-            AssignFood(newFood);
-        }
-    }
-
-    public void ReassessFood()
-    {
-        if (Vector3.Distance(transform.position, desiredFood.transform.position) > chaseDistance)
-        {
-            UnsassignFood();
-            return;
-        }
-
-        // Below water check
-        if (desiredFood.transform.position.y > 0f)
-        {
-            UnsassignFood();
-            return;
-        }
-
-        // If we're chasing the hook, check if we've already hooked something
-        if (desiredHookObject)
-        {
-            if (desiredHookObject.hookedObject != null)
-            {
-                UnsassignFood();
-                return;
-            }
-        }
-
-        if (desiredFishableItem)
-        {
-            if (desiredFishableItem.isHooked)
-            {
-                UnsassignFood();
-                return;
-            }
-        }
-    }
-
-    public GameObject IsFood(GameObject food)
-    {
-        // Rule out this fish eating itself
-        //if (food.gameObject == gameObject) return null;
-
-        // Rule out overwater food
-        //if (food.transform.position.y > 0f) return null;
-
-        // Rule out hook object if it's already hooked something
-        if (food.GetComponent<HookObject>())
-        {
-            if (food.GetComponent<HookObject>().hookedObject != null) return null;
-        }
-
-        // Rule out food further than we're chasing already
-        //if (desiredFood != null)
-        //{
-        //    if (Vector3.Distance(desiredFood.transform.position, transform.position) <= Vector3.Distance(food.transform.position, transform.position)) return null;
-        //}
-
-        // Check if food matches our food types
-        foreach (string type in foodTypes)
-        {
-            //Check for a type the fish wants to eat
-            System.Type typeFromString = System.Type.GetType(type);
-            if (!food.GetComponent(typeFromString)) continue;
-            else return food;
-        }
-
-        return null;
-    }
-
-    private void AssignFood(GameObject food)
-    {
-        desiredFood = food;
-        if (desiredFood.GetComponent<HookObject>()) desiredHookObject = desiredFood.GetComponent<HookObject>();
-        else if (desiredFood.GetComponent<FishableItem>()) desiredFishableItem = desiredFood.GetComponent<FishableItem>();
-    }
-
-    private void UnsassignFood()
-    {
-        desiredFood = null;
-        desiredFishableItem = null;
-        desiredHookObject = null;
-    }
+    //private void UnsassignFood()
+    //{
+    //    desiredFood = null;
+    //    desiredFishableItem = null;
+    //    desiredHookObject = null;
+    //}
 
     private void OnDrawGizmosSelected()
     {
@@ -250,4 +213,25 @@ public class FoodSearch : MonoBehaviour
     public float GetSightRange() => sightDistance;
     public float GetSightAngle() => sightAngle;
     public float GetSmellRange() => smellRadius;
+
+    public long GetFoodTypes()
+    {
+        if (desiredFoodTypes.Length > 9)
+        {
+            Debug.LogError("Too many food types assigned to object for c# long to handle!", this);
+            return 0;
+        }
+        string typesString = "1";
+        for (int i = 0; i < desiredFoodTypes.Length; i++)
+        {
+            int typeInt = (int)desiredFoodTypes[i];
+            if (typeInt < 10)
+            {
+                typesString += "0";
+            }
+            typesString += typeInt.ToString();
+        }
+        long types = long.Parse(typesString);
+        return types;
+    }
 }

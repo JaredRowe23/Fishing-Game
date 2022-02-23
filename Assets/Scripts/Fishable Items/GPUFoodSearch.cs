@@ -62,7 +62,7 @@ public class GPUFoodSearch : MonoBehaviour
             if (data[i].target > -1)
             {
                 Debug.Log(data[i].target.ToString());
-                fishes[i].IsFood(fishes[data[i].target].gameObject);
+                //fishes[i].IsFood(fishes[data[i].target].gameObject);
             }
         }
         foodBuffer.Dispose();
