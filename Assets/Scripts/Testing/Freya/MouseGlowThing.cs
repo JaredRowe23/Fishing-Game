@@ -2,18 +2,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MouseGlowThing : MonoBehaviour
+namespace Fishing.Testing
 {
-    private void Update()
+    public class MouseGlowThing : MonoBehaviour
     {
-        Plane p = new Plane(Vector3.up, Vector3.zero);
-        Vector2 mousePos = Input.mousePosition;
-        Ray ray = GetComponent<Camera>().ScreenPointToRay(mousePos);
-        if (p.Raycast(ray, out float enterDist))
+        private void Update()
         {
-            Vector3 worldMousePos = ray.GetPoint(enterDist);
+            Plane p = new Plane(Vector3.up, Vector3.zero);
+            Vector2 mousePos = Input.mousePosition;
+            Ray ray = GetComponent<Camera>().ScreenPointToRay(mousePos);
+            if (p.Raycast(ray, out float enterDist))
+            {
+                Vector3 worldMousePos = ray.GetPoint(enterDist);
 
-            Shader.SetGlobalVector("_MousePos", worldMousePos);
+                Shader.SetGlobalVector("_MousePos", worldMousePos);
+            }
         }
     }
+
 }

@@ -4,25 +4,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BucketBehaviour : MonoBehaviour
+namespace Fishing
 {
-    public List<FishData> bucketList = new List<FishData>();
-    public int maxItems;
-
-    public static BucketBehaviour instance;
-
-    private void Awake() => instance = this;
-
-    private void Start() => bucketList = new List<FishData>();
-
-    public void AddToBucket(FishableItem item)
+    public class BucketBehaviour : MonoBehaviour
     {
-        FishData newItem = new FishData();
-        newItem.itemName = item.GetName();
-        newItem.itemDescription = item.GetDescription();
-        newItem.itemWeight = item.GetWeight();
-        newItem.itemLength = item.GetLength();
-        item.DisableMinimapIndicator();
-        bucketList.Add(newItem);
+        public List<FishData> bucketList = new List<FishData>();
+        public int maxItems;
+
+        public static BucketBehaviour instance;
+
+        private void Awake() => instance = this;
+
+        private void Start() => bucketList = new List<FishData>();
+
+        public void AddToBucket(FishableItem item)
+        {
+            FishData newItem = new FishData();
+            newItem.itemName = item.GetName();
+            newItem.itemDescription = item.GetDescription();
+            newItem.itemWeight = item.GetWeight();
+            newItem.itemLength = item.GetLength();
+            item.DisableMinimapIndicator();
+            bucketList.Add(newItem);
+        }
     }
+
 }

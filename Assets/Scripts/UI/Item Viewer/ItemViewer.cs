@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ItemViewer : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+namespace Fishing
 {
-    public void OnPointerEnter(PointerEventData eventData) => GameController.instance.mouseOverUI = this.gameObject;
-    public void OnPointerExit(PointerEventData eventData) => GameController.instance.mouseOverUI = null;
+    public class ItemViewer : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+    {
+        public void OnPointerEnter(PointerEventData eventData) => GameController.instance.mouseOverUI = this.gameObject;
+        public void OnPointerExit(PointerEventData eventData) => GameController.instance.mouseOverUI = null;
+    }
+
 }

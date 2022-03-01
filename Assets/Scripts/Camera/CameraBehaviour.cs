@@ -2,49 +2,52 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraBehaviour : MonoBehaviour
+namespace Fishing
 {
-    public HookControl hook;
-
-    [SerializeField] private float followSpeed;
-    [SerializeField] private float followThreshold;
-
-    [SerializeField] private float zoomMagnitude;
-    [SerializeField] private float maxZoom;
-    [SerializeField] private float minZoom;
-
-    public static CameraBehaviour instance;
-    public Camera cam;
-
-    private void Awake()
+    public class CameraBehaviour : MonoBehaviour
     {
-        instance = this;
-        cam = GetComponent<Camera>();
-    }
+        public HookControl hook;
 
-    void Update()
-    {
-        //float dist = Vector3.Distance(transform.position, hook.transform.position);
-        //if (dist > followThreshold)
-        //{
-        //    Vector3 targetPos = new Vector3(hook.transform.position.x, hook.transform.position.y, transform.position.z);
-        //    transform.position = Vector3.MoveTowards(transform.position, targetPos, Mathf.Pow(followSpeed * Time.deltaTime * dist, 2));
-        //}
+        [SerializeField] private float followSpeed;
+        [SerializeField] private float followThreshold;
 
-        transform.Translate(0f, 0f, Input.GetAxis("Mouse ScrollWheel") * zoomMagnitude);
+        [SerializeField] private float zoomMagnitude;
+        [SerializeField] private float maxZoom;
+        [SerializeField] private float minZoom;
 
-        if (Mathf.Abs(transform.position.z) > maxZoom) transform.position = new Vector3(transform.position.x, transform.position.y, -maxZoom);
+        public static CameraBehaviour instance;
+        public Camera cam;
 
-        else if (Mathf.Abs(transform.position.z) < minZoom) transform.position = new Vector3(transform.position.x, transform.position.y, -minZoom);
+        private void Awake()
+        {
+            instance = this;
+            cam = GetComponent<Camera>();
+        }
 
-    }
+        void Update()
+        {
+            //float dist = Vector3.Distance(transform.position, hook.transform.position);
+            //if (dist > followThreshold)
+            //{
+            //    Vector3 targetPos = new Vector3(hook.transform.position.x, hook.transform.position.y, transform.position.z);
+            //    transform.position = Vector3.MoveTowards(transform.position, targetPos, Mathf.Pow(followSpeed * Time.deltaTime * dist, 2));
+            //}
 
-    public bool IsInFrame(Vector3 pos)
-    {
-        Vector3 viewportPos = cam.WorldToViewportPoint(pos);
+            transform.Translate(0f, 0f, Input.GetAxis("Mouse ScrollWheel") * zoomMagnitude);
 
-        if (viewportPos.x < 0f || viewportPos.x > 1f || viewportPos.y < 0f || viewportPos.y > 1f) return false;
+            if (Mathf.Abs(transform.position.z) > maxZoom) transform.position = new Vector3(transform.position.x, transform.position.y, -maxZoom);
 
-        else return true;
+            else if (Mathf.Abs(transform.position.z) < minZoom) transform.position = new Vector3(transform.position.x, transform.position.y, -minZoom);
+
+        }
+
+        public bool IsInFrame(Vector3 pos)
+        {
+            Vector3 viewportPos = cam.WorldToViewportPoint(pos);
+
+            if (viewportPos.x < 0f || viewportPos.x > 1f || viewportPos.y < 0f || viewportPos.y > 1f) return false;
+
+            else return true;
+        }
     }
 }

@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RodAttachmentButton : MonoBehaviour
+namespace Fishing
 {
-    [SerializeField] private ScrollRect scrollView;
+    public class RodAttachmentButton : MonoBehaviour
+    {
+        [SerializeField] private ScrollRect scrollView;
 
-    public void ToggleScrollView() => scrollView.gameObject.SetActive(!scrollView.gameObject.activeSelf);
+        public void ToggleScrollView() => scrollView.gameObject.SetActive(!scrollView.gameObject.activeSelf);
+    }
+
 }

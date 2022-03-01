@@ -143,7 +143,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1f94470df2e7f324fa7bf37bf4de2871, type: 2}
+  - {fileID: 2100000, guid: a899d5dc4dd31244f88a018e81a022a4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -248,9 +248,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wanderSpeed: 1
-  wanderDistance: 10
+  wanderDistance: 20
   wanderDistanceVariation: 2
-  maxHomeDistance: 20
+  maxHomeDistance: 100
   maxHomeDistanceVariation: 5
   distanceThreshold: 0.1
   chaseSpeed: 2

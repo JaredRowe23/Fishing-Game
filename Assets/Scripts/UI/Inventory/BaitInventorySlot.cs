@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BaitInventorySlot : MonoBehaviour
+namespace Fishing
 {
-    public Text title;
-    public Image sprite;
-    public Text countText;
+    public class BaitInventorySlot : MonoBehaviour
+    {
+        public Text title;
+        public Image sprite;
+        public Text countText;
+    }
+
 }

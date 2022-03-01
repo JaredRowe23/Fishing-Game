@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FishData
+namespace Fishing
 {
-    public string itemName;
-    public string itemDescription;
-    public float itemWeight;
-    public float itemLength;
+    public class FishData
+    {
+        public string itemName;
+        public string itemDescription;
+        public float itemWeight;
+        public float itemLength;
+    }
 }

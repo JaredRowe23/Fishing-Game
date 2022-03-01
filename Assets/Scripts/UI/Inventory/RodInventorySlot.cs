@@ -3,21 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RodInventorySlot : MonoBehaviour
+namespace Fishing
 {
-    public Text title;
-    public Image sprite;
-    public GameObject equippedCheck;
-    public GameObject itemReference;
-
-    public void EquipRod()
+    public class RodInventorySlot : MonoBehaviour
     {
-        foreach(Transform child in transform)
+        public Text title;
+        public Image sprite;
+        public GameObject equippedCheck;
+        public GameObject itemReference;
+
+        public void EquipRod()
         {
-            if (child.GetComponent<Text>())
+            foreach (Transform child in transform)
             {
-                RodsMenu.instance.EquipRod(child.GetComponent<Text>().text);
+                if (child.GetComponent<Text>())
+                {
+                    RodsMenu.instance.EquipRod(child.GetComponent<Text>().text);
+                }
             }
         }
     }
+
 }

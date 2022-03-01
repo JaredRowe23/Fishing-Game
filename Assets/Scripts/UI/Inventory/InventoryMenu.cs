@@ -3,79 +3,83 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class InventoryMenu : MonoBehaviour
+namespace Fishing
 {
-    private int activeMenu = 0;
-    [SerializeField] private List<GameObject> menuPages;
-    [SerializeField] private List<Image> tabButtons;
-
-    public Sprite activeTabBackground;
-    public Sprite inactiveTabBackground;
-
-    public static InventoryMenu instance;
-
-    private InventoryMenu() => instance = this;
-
-    private void Start()
+    public class InventoryMenu : MonoBehaviour
     {
-        activeMenu = 0;
-        GameController.instance.rodMenuButton.GetComponent<Image>().sprite = activeTabBackground;
-        GameController.instance.baitMenuButton.GetComponent<Image>().sprite = inactiveTabBackground;
-        GameController.instance.gearMenuButton.GetComponent<Image>().sprite = inactiveTabBackground;
-    }
+        private int activeMenu = 0;
+        [SerializeField] private List<GameObject> menuPages;
+        [SerializeField] private List<Image> tabButtons;
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        public Sprite activeTabBackground;
+        public Sprite inactiveTabBackground;
+
+        public static InventoryMenu instance;
+
+        private InventoryMenu() => instance = this;
+
+        private void Start()
         {
-            if (gameObject.activeSelf)
+            activeMenu = 0;
+            GameController.instance.rodMenuButton.GetComponent<Image>().sprite = activeTabBackground;
+            GameController.instance.baitMenuButton.GetComponent<Image>().sprite = inactiveTabBackground;
+            GameController.instance.gearMenuButton.GetComponent<Image>().sprite = inactiveTabBackground;
+        }
+
+        void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Escape))
             {
-                ShowInventoryMenu();
+                if (gameObject.activeSelf)
+                {
+                    ShowInventoryMenu();
+                }
+            }
+        }
+
+        public void ShowInventoryMenu()
+        {
+            if (GameController.instance.mouseOverUI == this.gameObject)
+            {
+                GameController.instance.mouseOverUI = null;
+            }
+
+            this.gameObject.SetActive(!this.gameObject.activeSelf);
+
+            if (!this.gameObject.activeSelf)
+            {
+                foreach (GameObject page in menuPages)
+                {
+                    page.SetActive(false);
+                }
+            }
+            else
+            {
+                menuPages[activeMenu].SetActive(true);
+            }
+            GameController.instance.bucketMenuButton.gameObject.SetActive(!this.gameObject.activeSelf);
+            GameController.instance.inventoryMenuButton.gameObject.SetActive(!this.gameObject.activeSelf);
+        }
+
+        public void UpdateActiveMenu(int menu)
+        {
+            if (menu != activeMenu)
+            {
+                AudioManager.instance.PlaySound("Inventory Tab");
+                foreach (Image tab in tabButtons)
+                {
+                    tab.transform.SetAsFirstSibling();
+                }
+
+                menuPages[activeMenu].SetActive(false);
+                tabButtons[activeMenu].sprite = inactiveTabBackground;
+
+                activeMenu = menu;
+                menuPages[activeMenu].SetActive(true);
+                tabButtons[activeMenu].sprite = activeTabBackground;
+                tabButtons[activeMenu].transform.SetAsLastSibling();
             }
         }
     }
 
-    public void ShowInventoryMenu()
-    {
-        if (GameController.instance.mouseOverUI == this.gameObject)
-        {
-            GameController.instance.mouseOverUI = null;
-        }
-
-        this.gameObject.SetActive(!this.gameObject.activeSelf);
-
-        if (!this.gameObject.activeSelf)
-        {
-            foreach(GameObject page in menuPages)
-            {
-                page.SetActive(false);
-            }
-        }
-        else
-        {
-            menuPages[activeMenu].SetActive(true);
-        }
-        GameController.instance.bucketMenuButton.gameObject.SetActive(!this.gameObject.activeSelf);
-        GameController.instance.inventoryMenuButton.gameObject.SetActive(!this.gameObject.activeSelf);
-    }
-
-    public void UpdateActiveMenu(int menu)
-    {
-        if (menu != activeMenu)
-        {
-            AudioManager.instance.PlaySound("Inventory Tab");
-            foreach(Image tab in tabButtons)
-            {
-                tab.transform.SetAsFirstSibling();
-            }
-
-            menuPages[activeMenu].SetActive(false);
-            tabButtons[activeMenu].sprite = inactiveTabBackground;
-
-            activeMenu = menu;
-            menuPages[activeMenu].SetActive(true);
-            tabButtons[activeMenu].sprite = activeTabBackground;
-            tabButtons[activeMenu].transform.SetAsLastSibling();
-        }
-    }
 }

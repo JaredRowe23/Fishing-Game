@@ -3,30 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RodInfoMenu : MonoBehaviour
+namespace Fishing
 {
-    [SerializeField] private Image rodSprite;
-    [SerializeField] private Text rodName;
-    [SerializeField] private Text rodDescription;
-
-    public void UpdateRodInfo(RodBehaviour rod)
+    public class RodInfoMenu : MonoBehaviour
     {
-        rodSprite.sprite = rod.inventorySprite;
-        rodName.text = rod.gameObject.name;
-        rodDescription.text = rod.description;
+        [SerializeField] private Image rodSprite;
+        [SerializeField] private Text rodName;
+        [SerializeField] private Text rodDescription;
+
+        public void UpdateRodInfo(RodBehaviour rod)
+        {
+            rodSprite.sprite = rod.inventorySprite;
+            rodName.text = rod.gameObject.name;
+            rodDescription.text = rod.description;
+        }
+
+        public void UpdateBaitOptions()
+        {
+
+        }
+
+        public void UpdateHookOptions()
+        {
+
+        }
+        public void UpdateLineOptions()
+        {
+
+        }
     }
 
-    public void UpdateBaitOptions()
-    {
-
-    }
-
-    public void UpdateHookOptions()
-    {
-
-    }
-    public void UpdateLineOptions()
-    {
-
-    }
 }

@@ -3,65 +3,69 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ItemInfoMenu : MonoBehaviour
+namespace Fishing
 {
-    [Header("Object Stats")]
-    [SerializeField] private Image itemImage;
-    [SerializeField] private Text itemName;
-    [SerializeField] private Text itemWeight;
-    [SerializeField] private Text itemLength;
-    [SerializeField] private Text itemDescription;
-    [SerializeField] private List<GameObject> models;
-    [SerializeField] private List<string> modelNames;
-    private GameObject currentModel;
-
-    //private GameObject itemReference;
-    private FishData itemReference;
-    private GameObject menuListingReference;
-
-    public void UpdateMenu(string name, string weight, string length, string description, FishData reference, GameObject menuListing)
+    public class ItemInfoMenu : MonoBehaviour
     {
-        itemName.text = name;
-        itemWeight.text = weight;
-        itemLength.text = length;
-        itemDescription.text = description;
-        menuListingReference = menuListing;
-        itemReference = reference;
-        GenerateModel(name);
-        ItemViewerCamera.instance.UpdateCurrentItem(currentModel);
-    }
+        [Header("Object Stats")]
+        [SerializeField] private Image itemImage;
+        [SerializeField] private Text itemName;
+        [SerializeField] private Text itemWeight;
+        [SerializeField] private Text itemLength;
+        [SerializeField] private Text itemDescription;
+        [SerializeField] private List<GameObject> models;
+        [SerializeField] private List<string> modelNames;
+        private GameObject currentModel;
 
-    public void ThrowAway()
-    {
-        BucketMenu.instance.ThrowAway(itemReference, currentModel, menuListingReference);
-        gameObject.SetActive(false);
-    }
+        //private GameObject itemReference;
+        private FishData itemReference;
+        private GameObject menuListingReference;
 
-    public string GetItemName()
-    {
-        return itemName.text;
-    }
-
-    public GameObject GenerateModel(string itemName)
-    {
-        if (currentModel != null)
+        public void UpdateMenu(string name, string weight, string length, string description, FishData reference, GameObject menuListing)
         {
-            Destroy(currentModel);
+            itemName.text = name;
+            itemWeight.text = weight;
+            itemLength.text = length;
+            itemDescription.text = description;
+            menuListingReference = menuListing;
+            itemReference = reference;
+            GenerateModel(name);
+            ItemViewerCamera.instance.UpdateCurrentItem(currentModel);
         }
 
-        for(int i = 0; i < models.Count; i++)
+        public void ThrowAway()
         {
-            if (modelNames[i] == itemName)
+            BucketMenu.instance.ThrowAway(itemReference, currentModel, menuListingReference);
+            gameObject.SetActive(false);
+        }
+
+        public string GetItemName()
+        {
+            return itemName.text;
+        }
+
+        public GameObject GenerateModel(string itemName)
+        {
+            if (currentModel != null)
             {
-                currentModel = Instantiate(models[i]);
+                Destroy(currentModel);
             }
+
+            for (int i = 0; i < models.Count; i++)
+            {
+                if (modelNames[i] == itemName)
+                {
+                    currentModel = Instantiate(models[i]);
+                }
+            }
+
+            currentModel.transform.parent = BucketBehaviour.instance.transform;
+            currentModel.transform.position = BucketBehaviour.instance.transform.position;
+            currentModel.transform.rotation = Quaternion.identity;
+
+            return currentModel;
+
         }
-
-        currentModel.transform.parent = BucketBehaviour.instance.transform;
-        currentModel.transform.position = BucketBehaviour.instance.transform.position;
-        currentModel.transform.rotation = Quaternion.identity;
-
-        return currentModel;
-
     }
+
 }

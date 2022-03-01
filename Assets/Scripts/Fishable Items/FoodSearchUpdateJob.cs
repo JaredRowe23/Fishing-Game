@@ -4,22 +4,26 @@ using UnityEngine;
 using Unity.Collections;
 using Unity.Jobs;
 
-public struct FoodSearchUpdateJob : IJobParallelFor
+namespace Fishing
 {
-    [NativeDisableParallelForRestriction] public NativeArray<FoodSearch.Data> FoodSearchDataArray;
-    [NativeDisableParallelForRestriction] public NativeArray<Vector3> PotentialFoodPositionArray;
-    [NativeDisableParallelForRestriction] public NativeArray<int> PotentialFoodTypeArray;
-
-    public void Execute(int index)
+    public struct FoodSearchUpdateJob : IJobParallelFor
     {
-        FoodSearch.Data data = FoodSearchDataArray[index];
-        for (int i = 0; i < PotentialFoodPositionArray.Length; i++)
+        [NativeDisableParallelForRestriction] public NativeArray<FoodSearch.Data> FoodSearchDataArray;
+        [NativeDisableParallelForRestriction] public NativeArray<Vector3> PotentialFoodPositionArray;
+        [NativeDisableParallelForRestriction] public NativeArray<int> PotentialFoodTypeArray;
+
+        public void Execute(int index)
         {
-            data.toCheckPos = PotentialFoodPositionArray[i];
-            data.toCheckType = PotentialFoodTypeArray[i];
-            data.foodSearchIndex = index;
-            data.Update();
+            FoodSearch.Data data = FoodSearchDataArray[index];
+            for (int i = 0; i < PotentialFoodPositionArray.Length; i++)
+            {
+                data.toCheckPos = PotentialFoodPositionArray[i];
+                data.toCheckType = PotentialFoodTypeArray[i];
+                data.foodSearchIndex = i;
+                data.Update();
+            }
             FoodSearchDataArray[index] = data;
         }
     }
+
 }

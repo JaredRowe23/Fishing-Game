@@ -3,67 +3,71 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AngleArrow : MonoBehaviour
+namespace Fishing
 {
-    private bool isAngling;
-    private float targetAngle;
-    private float maxAngle;
-    private float angleFrequency;
-    [SerializeField] private float threshold;
-    private RectTransform rect;
-    private RodBehaviour castingRod;
-
-    private float currentAngle;
-
-    public static AngleArrow instance;
-
-    private void Awake() => instance = this;
-
-    private void Start()
+    public class AngleArrow : MonoBehaviour
     {
-        rect = this.GetComponent<RectTransform>();
-        transform.SetParent(GameController.instance.transform);
-    }
-    
-    void Update()
-    {
-        if (!isAngling) return;
+        private bool isAngling;
+        private float targetAngle;
+        private float maxAngle;
+        private float angleFrequency;
+        [SerializeField] private float threshold;
+        private RectTransform rect;
+        private RodBehaviour castingRod;
 
-        currentAngle += (((targetAngle * 2 / maxAngle) - 1) * Time.deltaTime / angleFrequency) * maxAngle;
+        private float currentAngle;
 
-        if (currentAngle >= maxAngle - threshold && (targetAngle * 2 / maxAngle) - 1 > 0f)
+        public static AngleArrow instance;
+
+        private void Awake() => instance = this;
+
+        private void Start()
         {
-            currentAngle = maxAngle;
-            targetAngle = 0f;
+            rect = this.GetComponent<RectTransform>();
+            transform.SetParent(GameController.instance.transform);
         }
-        else if (currentAngle <= 0f + threshold && (targetAngle * 2 / maxAngle) - 1 < 0f)
+
+        void Update()
+        {
+            if (!isAngling) return;
+
+            currentAngle += (((targetAngle * 2 / maxAngle) - 1) * Time.deltaTime / angleFrequency) * maxAngle;
+
+            if (currentAngle >= maxAngle - threshold && (targetAngle * 2 / maxAngle) - 1 > 0f)
+            {
+                currentAngle = maxAngle;
+                targetAngle = 0f;
+            }
+            else if (currentAngle <= 0f + threshold && (targetAngle * 2 / maxAngle) - 1 < 0f)
+            {
+                currentAngle = 0f;
+                targetAngle = maxAngle;
+            }
+
+            rect.rotation = Quaternion.Euler(0f, 0f, currentAngle);
+            AudioManager.instance.GetSource("Power Audio").pitch = Mathf.InverseLerp(0f, maxAngle, currentAngle) + AudioManager.instance.GetSound("Power Audio").pitch;
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                AudioManager.instance.StopPlaying("Power Audio");
+                castingRod.castAngle = currentAngle;
+                isAngling = false;
+                PowerSlider.instance.transform.SetParent(GameController.instance.transform);
+                transform.SetParent(GameController.instance.transform);
+                castingRod.BeginCast();
+            }
+        }
+
+        public void StartAngling(float angle, float frequency, RodBehaviour rod)
         {
             currentAngle = 0f;
+            castingRod = rod;
+            maxAngle = angle;
             targetAngle = maxAngle;
-        }
-
-        rect.rotation = Quaternion.Euler(0f, 0f, currentAngle);
-        AudioManager.instance.GetSource("Power Audio").pitch = Mathf.InverseLerp(0f, maxAngle, currentAngle) + AudioManager.instance.GetSound("Power Audio").pitch;
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            AudioManager.instance.StopPlaying("Power Audio");
-            castingRod.castAngle = currentAngle;
-            isAngling = false;
-            PowerSlider.instance.transform.SetParent(GameController.instance.transform);
-            transform.SetParent(GameController.instance.transform);
-            castingRod.BeginCast();
+            angleFrequency = frequency;
+            rect.rotation = Quaternion.identity;
+            isAngling = true;
         }
     }
 
-    public void StartAngling(float angle, float frequency, RodBehaviour rod)
-    {
-        currentAngle = 0f;
-        castingRod = rod;
-        maxAngle = angle;
-        targetAngle = maxAngle;
-        angleFrequency = frequency;
-        rect.rotation = Quaternion.identity;
-        isAngling = true;
-    }
 }

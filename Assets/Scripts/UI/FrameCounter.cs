@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class FrameCounter : MonoBehaviour
+namespace Fishing
 {
-    private Text text;
-
-    private void Awake() => text = GetComponent<Text>();
-
-    private void Update()
+    public class FrameCounter : MonoBehaviour
     {
-        text.text = "FPS: " + (Mathf.Round(1 / Time.deltaTime * 100) / 100).ToString();
+        private Text text;
+
+        private void Awake() => text = GetComponent<Text>();
+
+        private void Update()
+        {
+            text.text = "FPS: " + (Mathf.Round(1 / Time.deltaTime * 100) / 100).ToString();
+        }
     }
+
 }

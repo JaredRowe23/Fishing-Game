@@ -2,54 +2,58 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PauseMenu : MonoBehaviour
+namespace Fishing
 {
-    public GameObject pauseMenu;
-
-    public static PauseMenu instance;
-
-    private PauseMenu() => instance = this;
-
-    void Update()
+    public class PauseMenu : MonoBehaviour
     {
-        if (BucketMenu.instance.gameObject.activeSelf) return;
-        if (InventoryMenu.instance.gameObject.activeSelf) return;
+        public GameObject pauseMenu;
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            ToggleMenu();
-        }
-    }
+        public static PauseMenu instance;
 
-    public void ToggleMenu()
-    {
-        pauseMenu.SetActive(!pauseMenu.activeSelf);
+        private PauseMenu() => instance = this;
 
-        if (pauseMenu.activeSelf)
+        void Update()
         {
-            AudioManager.instance.PlaySound("Pause");
-            Time.timeScale = 0f;
-        }
-        else
-        {
-            AudioManager.instance.PlaySound("Unpause");
-            Time.timeScale = 1f;
+            if (BucketMenu.instance.gameObject.activeSelf) return;
+            if (InventoryMenu.instance.gameObject.activeSelf) return;
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                ToggleMenu();
+            }
         }
 
-        GameController.instance.bucketMenuButton.gameObject.SetActive(!pauseMenu.gameObject.activeSelf);
-        GameController.instance.inventoryMenuButton.gameObject.SetActive(!pauseMenu.gameObject.activeSelf);
+        public void ToggleMenu()
+        {
+            pauseMenu.SetActive(!pauseMenu.activeSelf);
+
+            if (pauseMenu.activeSelf)
+            {
+                AudioManager.instance.PlaySound("Pause");
+                Time.timeScale = 0f;
+            }
+            else
+            {
+                AudioManager.instance.PlaySound("Unpause");
+                Time.timeScale = 1f;
+            }
+
+            GameController.instance.bucketMenuButton.gameObject.SetActive(!pauseMenu.gameObject.activeSelf);
+            GameController.instance.inventoryMenuButton.gameObject.SetActive(!pauseMenu.gameObject.activeSelf);
+        }
+
+        public void NewGame() => GameController.instance.GetComponent<PlayerData>().NewGame();
+
+        public void SaveGame() => GameController.instance.GetComponent<PlayerData>().SavePlayer();
+
+        public void LoadGame() => GameController.instance.GetComponent<PlayerData>().LoadPlayer();
+
+        public void LoadStore()
+        {
+            //Application.LoadLevel(1);
+        }
+
+        public void QuitGame() => Application.Quit();
     }
 
-    public void NewGame() => GameController.instance.GetComponent<PlayerData>().NewGame();
-
-    public void SaveGame() => GameController.instance.GetComponent<PlayerData>().SavePlayer();
-
-    public void LoadGame() => GameController.instance.GetComponent<PlayerData>().LoadPlayer();
-
-    public void LoadStore()
-    {
-        //Application.LoadLevel(1);
-    }
-
-    public void QuitGame() => Application.Quit();
 }

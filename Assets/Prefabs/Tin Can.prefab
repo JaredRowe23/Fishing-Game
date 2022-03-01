@@ -82,7 +82,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sinkSpeed: 1
   sinkDirection: {x: -1, y: -0.25, z: 0}
-  maximumDepth: 30
+  maximumDepth: 100
 --- !u!1 &593934348185926818
 GameObject:
   m_ObjectHideFlags: 0
