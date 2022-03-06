@@ -9,7 +9,7 @@ namespace Fishing
     public class FoodSearchManager : MonoBehaviour
     {
         public List<FoodSearch> fish;
-        public List<FishableItem> fishableItems;
+        public List<Edible> edibleItems;
         [SerializeField] private int innerloopBatchCount;
 
         private void Update()
@@ -19,25 +19,39 @@ namespace Fishing
             {
                 FoodSearch search = fish[i].GetComponent<FoodSearch>();
                 foodSearchDataArray[i] = new FoodSearch.Data(fish[i].transform.position, -fish[i].transform.right, search.GetSightRange(), search.GetSightAngle(), search.GetSmellRange(), i, search.GetFoodTypes());
+                
             }
 
-            NativeArray<Vector3> potentialFoodPositionArray = new NativeArray<Vector3>(fishableItems.Count, Allocator.TempJob);
-            NativeArray<int> potentialFoodTypeArray = new NativeArray<int>(fishableItems.Count, Allocator.TempJob);
+            NativeArray<Vector3> potentialFoodPositionArray = new NativeArray<Vector3>(edibleItems.Count, Allocator.TempJob);
+            NativeArray<int> potentialFoodTypeArray = new NativeArray<int>(edibleItems.Count, Allocator.TempJob);
+            NativeArray<bool> isOccupiedHookArray = new NativeArray<bool>(edibleItems.Count, Allocator.TempJob);
 
-            for (int i = 0; i < fishableItems.Count; i++)
+            for (int i = 0; i < edibleItems.Count; i++)
             {
-                Vector3 pos = fishableItems[i].transform.position;
+                Vector3 pos = edibleItems[i].transform.position;
                 potentialFoodPositionArray[i] = pos;
 
-                int type = fishableItems[i].GetFoodType();
+                int type = edibleItems[i].GetFoodType();
                 potentialFoodTypeArray[i] = type;
+
+                isOccupiedHookArray[i] = false;
+                if (!edibleItems[i].GetComponent<HookBehaviour>())
+                {
+                    continue;
+                }
+
+                if (edibleItems[i].GetComponent<HookBehaviour>().hookedObject != null)
+                {
+                    isOccupiedHookArray[i] = true;
+                }
             }
 
             FoodSearchUpdateJob job = new FoodSearchUpdateJob
             {
                 FoodSearchDataArray = foodSearchDataArray,
                 PotentialFoodPositionArray = potentialFoodPositionArray,
-                PotentialFoodTypeArray = potentialFoodTypeArray
+                PotentialFoodTypeArray = potentialFoodTypeArray,
+                IsOccupiedHookArray = isOccupiedHookArray
             };
 
             JobHandle jobHandle = job.Schedule(foodSearchDataArray.Length, innerloopBatchCount);
@@ -50,12 +64,13 @@ namespace Fishing
                     fish[i].desiredFood = null;
                     continue;
                 }
-                fish[i].desiredFood = fishableItems[foodSearchDataArray[i].nearestFoodIndex].gameObject;
+                fish[i].desiredFood = edibleItems[foodSearchDataArray[i].nearestFoodIndex].gameObject;
             }
 
             foodSearchDataArray.Dispose();
             potentialFoodPositionArray.Dispose();
             potentialFoodTypeArray.Dispose();
+            isOccupiedHookArray.Dispose();
         }
     }
 

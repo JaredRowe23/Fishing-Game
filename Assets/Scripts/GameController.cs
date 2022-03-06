@@ -17,7 +17,9 @@ namespace Fishing
         public GameObject rodMenuButton;
         public GameObject baitMenuButton;
         public GameObject gearMenuButton;
-        public GameObject equippedRod;
+        public RodBehaviour equippedRod;
+
+        [SerializeField] private List<GameObject> interuptableUI;
 
         [SerializeField]
         public List<Transform> foodTransforms;
@@ -25,6 +27,18 @@ namespace Fishing
         public static GameController instance;
 
         private GameController() => instance = this;
+
+        public bool IsActiveUI()
+        {
+            foreach(GameObject ui in interuptableUI)
+            {
+                if (ui.activeSelf)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
 }

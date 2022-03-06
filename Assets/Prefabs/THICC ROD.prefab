@@ -27,7 +27,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1977302172051475242}
   - {fileID: 1977302172273965738}
   - {fileID: 1525638318809977837}
   m_Father: {fileID: 1977302170616725966}
@@ -43,6 +42,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1977302170616725966}
   - component: {fileID: 436811995704230176}
+  - component: {fileID: 6802576751918692659}
+  - component: {fileID: 2378873992110446189}
+  - component: {fileID: 7419925118740208867}
   m_Layer: 0
   m_Name: THICC ROD
   m_TagString: Untagged
@@ -80,19 +82,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rodObject: {fileID: 1977302170560066420}
   inventorySprite: {fileID: 21300000, guid: b808e883e291c6e4a96d2675ec234a0b, type: 3}
-  description: DAMN BOI, HE THICC
-  castStrength: 0
-  castAngle: 0
-  lineLength: 100
-  reelSpeed: 1000
-  minCastStrength: 500
-  maxCastStrength: 2000
-  maxCastAngle: 70
-  chargeFrequency: 2
-  angleFrequency: 2
-  isCast: 0
+  casted: 0
   reeledInDistance: 7
   hook: {fileID: 1977302171767389747}
+--- !u!114 &6802576751918692659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1977302170616725967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50b803515aaa191469d942d7e2b865f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetAnimationObject: {fileID: 1977302170560066420}
   rotateThreshold: 0.1
   castPullRot: 50
   castForwardRot: -70
@@ -103,6 +108,39 @@ MonoBehaviour:
   restStrength: 100
   reelStrength: 150
   state: 3
+--- !u!114 &2378873992110446189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1977302170616725967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd1fc50294811bc4c8d7687916d936ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  description: BIGG STICC
+  lineLength: 100
+  reelSpeed: 1000
+  minCastStrength: 100
+  maxCastStrength: 750
+  maxCastAngle: 60
+  chargeFrequency: 2
+  angleFrequency: 2
+--- !u!114 &7419925118740208867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1977302170616725967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84ed023c87f291a42a62ede1f6a833e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodType: 0
 --- !u!1 &1977302171767389744
 GameObject:
   m_ObjectHideFlags: 0
@@ -115,7 +153,6 @@ GameObject:
   - component: {fileID: 1977302171767389757}
   - component: {fileID: 1977302171767389746}
   - component: {fileID: 1977302171767389747}
-  - component: {fileID: 1977302171767389753}
   - component: {fileID: 5708205968197901782}
   - component: {fileID: 2830625537748628257}
   m_Layer: 0
@@ -181,26 +218,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ae879175a096f6499bb898094bd65e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hookAnchorPoint: {fileID: 1977302172273965738}
-  followSpeed: 10
+  hookedObject: {fileID: 0}
+  linePivotPoint: {fileID: 1977302172273965738}
+  resetSpeed: 10
   hookHangHeight: 2.5
   drag: 0
   waterDrag: 5
   lineRotationAngle: -5
   playedSplash: 0
---- !u!114 &1977302171767389753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1977302171767389744}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24fdc7fe70048a14a893a39df377d9e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hookedObject: {fileID: 0}
 --- !u!212 &5708205968197901782
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -261,88 +286,6 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1977302171767389744}
   m_Enabled: 1
---- !u!1 &1977302172051475243
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1977302172051475242}
-  - component: {fileID: 1977302172051475255}
-  - component: {fileID: 1977302172051475252}
-  m_Layer: 0
-  m_Name: Cylinder
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1977302172051475242
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1977302172051475243}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 2, z: 0}
-  m_LocalScale: {x: 0.1, y: 2, z: 0.1}
-  m_Children: []
-  m_Father: {fileID: 1977302170560066422}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1977302172051475255
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1977302172051475243}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &1977302172051475252
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1977302172051475243}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1977302172147861006
 GameObject:
   m_ObjectHideFlags: 0
@@ -427,7 +370,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1977302172273965738}
   m_Layer: 0
-  m_Name: Hook Anchor Point
+  m_Name: Line Pivot Point
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -445,7 +388,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1977302170560066422}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &9034727236134487298
 GameObject:
@@ -476,7 +419,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1977302170560066422}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!212 &3680050886906975869
 SpriteRenderer:

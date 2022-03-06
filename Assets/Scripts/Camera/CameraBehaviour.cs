@@ -6,7 +6,7 @@ namespace Fishing
 {
     public class CameraBehaviour : MonoBehaviour
     {
-        public HookControl hook;
+        public HookBehaviour hook;
 
         [SerializeField] private float followSpeed;
         [SerializeField] private float followThreshold;

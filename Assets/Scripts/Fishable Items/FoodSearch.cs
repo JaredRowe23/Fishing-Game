@@ -24,6 +24,7 @@ namespace Fishing
 
             public Vector3 toCheckPos;
             public int toCheckType;
+            public bool isOccupiedHook;
             public long types;
 
             public int nearestFoodIndex;
@@ -44,6 +45,7 @@ namespace Fishing
                 foodSearchIndex = 0;
                 thisIndex = _index;
                 types = _types;
+                isOccupiedHook = false;
             }
 
             public void Update()
@@ -53,6 +55,15 @@ namespace Fishing
 
             private int Search()
             {
+                if (isOccupiedHook)
+                {
+                    if (nearestFoodIndex == foodSearchIndex)
+                    {
+                        return -1;
+                    } 
+                    else return nearestFoodIndex;
+                }
+
                 if (toCheckPos.y >= 0)
                 {
                     return nearestFoodIndex;
@@ -139,10 +150,10 @@ namespace Fishing
         [SerializeField] private float sightDensity;
         [SerializeField] private float smellRadius;
         [SerializeField] private float chaseDistance;
-        [SerializeField] private FishableItem.FoodTypes[] desiredFoodTypes;
+        [SerializeField] private Edible.FoodTypes[] desiredFoodTypes;
         public GameObject desiredFood;
         private FishableItem desiredFishableItem;
-        private HookObject desiredHookObject;
+        private HookBehaviour desiredHookObject;
 
         private void OnDrawGizmosSelected()
         {

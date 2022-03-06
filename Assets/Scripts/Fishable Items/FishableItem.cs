@@ -9,8 +9,6 @@ namespace Fishing
         [Header("Stats")]
         [SerializeField] private string itemName;
         [SerializeField] private string itemDescription;
-        public enum FoodTypes { Fish1, SinkingTrash, Fish3, Fish4, Fish5, Fish6, Fish7, Fish8, Fish9, Fish10, Fish11, Fish12 };
-        [SerializeField] private FoodTypes foodType;
         private float weight;
         private float length;
 
@@ -50,11 +48,13 @@ namespace Fishing
 
         public float GetLength() => length;
 
-        public int GetFoodType() => (int)foodType;
+        public void DisableMinimapIndicator() => minimapIndicator.SetActive(false);
 
-        public void DisableMinimapIndicator()
+        public void OnHooked(Transform _hook)
         {
-            minimapIndicator.SetActive(false);
+            isHooked = true;
+            transform.parent.GetComponent<SpawnZone>().spawnList.Remove(gameObject);
+            transform.parent = _hook;
         }
     }
 

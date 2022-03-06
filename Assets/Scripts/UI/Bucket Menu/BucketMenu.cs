@@ -109,7 +109,7 @@ namespace Fishing
                     Destroy(menuItem);
                     RefreshMenu();
 
-                    HookObject.instance.AddToBucket();
+                    GameController.instance.equippedRod.GetHook().AddToBucket();
                     GameController.instance.itemInfoMenu.SetActive(false);
                     menuItem.gameObject.SetActive(false);
                     GameController.instance.overflowItem.SetActive(false);

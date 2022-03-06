@@ -11,6 +11,7 @@ namespace Fishing
         [NativeDisableParallelForRestriction] public NativeArray<FoodSearch.Data> FoodSearchDataArray;
         [NativeDisableParallelForRestriction] public NativeArray<Vector3> PotentialFoodPositionArray;
         [NativeDisableParallelForRestriction] public NativeArray<int> PotentialFoodTypeArray;
+        [NativeDisableParallelForRestriction] public NativeArray<bool> IsOccupiedHookArray;
 
         public void Execute(int index)
         {
@@ -19,6 +20,7 @@ namespace Fishing
             {
                 data.toCheckPos = PotentialFoodPositionArray[i];
                 data.toCheckType = PotentialFoodTypeArray[i];
+                data.isOccupiedHook = IsOccupiedHookArray[i];
                 data.foodSearchIndex = i;
                 data.Update();
             }

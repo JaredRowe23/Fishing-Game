@@ -15,7 +15,7 @@ namespace Fishing
         {
             rodSprite.sprite = rod.inventorySprite;
             rodName.text = rod.gameObject.name;
-            rodDescription.text = rod.description;
+            rodDescription.text = rod.GetDescription();
         }
 
         public void UpdateBaitOptions()

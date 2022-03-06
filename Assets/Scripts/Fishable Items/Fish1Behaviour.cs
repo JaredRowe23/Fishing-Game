@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Fishing
 {
-    public class Fish1Behaviour : MonoBehaviour, IFishable
+    public class Fish1Behaviour : MonoBehaviour, IEdible
     {
         [Header("Movement")]
         [SerializeField] private float wanderSpeed;
@@ -28,7 +28,7 @@ namespace Fishing
         private void Awake()
         {
             foodSearch = GetComponent<FoodSearch>();
-            spawn = GetComponent<SpawnZone>();
+            spawn = transform.parent.GetComponent<SpawnZone>();
         }
 
         private void Start()
@@ -75,10 +75,7 @@ namespace Fishing
                             foodSearch.desiredFood.transform.parent.GetComponent<SpawnZone>().spawnList.Remove(foodSearch.desiredFood);
                         }
                     }
-                    if (!foodSearch.desiredFood.GetComponent<HookObject>())
-                    {
-                        Eat();
-                    }
+                    Eat();
                 }
             }
             FlipTowardsTarget();
@@ -107,8 +104,23 @@ namespace Fishing
 
         private void Eat()
         {
-            foodSearch.desiredFood.GetComponent<IFishable>().Despawn();
+            if (foodSearch.desiredFood.GetComponent<HookBehaviour>())
+            {
+                foodSearch.desiredFood.GetComponent<HookBehaviour>().SetHook(GetComponent<FishableItem>());
+                return;
+            }
+
+            if (foodSearch.desiredFood.GetComponent<FishableItem>().isHooked)
+            {
+                GetComponent<AudioSource>().Play();
+                foodSearch.desiredFood.GetComponent<IEdible>().Despawn();
+                GameController.instance.equippedRod.GetHook().hookedObject = null;
+                GameController.instance.equippedRod.GetHook().SetHook(GetComponent<FishableItem>());
+                return;
+            }
+
             GetComponent<AudioSource>().Play();
+            foodSearch.desiredFood.GetComponent<IEdible>().Despawn();
             foodSearch.desiredFood = null;
         }
 
@@ -143,8 +155,8 @@ namespace Fishing
         {
             spawn.spawnList.Remove(gameObject);
             GameController.instance.GetComponent<FoodSearchManager>().fish.Remove(GetComponent<FoodSearch>());
-            GameController.instance.GetComponent<FoodSearchManager>().fishableItems.Remove(GetComponent<FishableItem>());
-            Destroy(foodSearch.desiredFood);
+            GameController.instance.GetComponent<FoodSearchManager>().edibleItems.Remove(GetComponent<Edible>());
+            DestroyImmediate(gameObject);
         }
     }
 }

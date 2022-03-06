@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Fishing
 {
-    public interface IFishable
+    public interface IEdible
     {
         void Despawn();
     }

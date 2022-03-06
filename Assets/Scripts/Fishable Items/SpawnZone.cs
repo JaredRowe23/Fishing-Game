@@ -14,6 +14,7 @@ namespace Fishing
         [SerializeField] private float spawnTimeSpacing;
         private WaitForSeconds spawnTimer;
         private FoodSearchManager foodSearchManager;
+        [SerializeField] private int spawnAttempts;
 
         private void Awake()
         {
@@ -45,17 +46,37 @@ namespace Fishing
 
         private void Spawn()
         {
-            Vector2 rand = Random.insideUnitCircle * radius;
-            while (rand.y + transform.position.y >= 0f || Camera.main.GetComponent<CameraBehaviour>().IsInFrame(new Vector3(rand.x + transform.position.x, rand.y + transform.position.y, transform.position.z)))
+            int i = 0;
+            Vector2 rand = new Vector2();
+            while (true)
             {
+                if (i > spawnAttempts)
+                {
+                    return;
+                }
+
                 rand = Random.insideUnitCircle * radius;
+                i++;
+
+                if (rand.y + transform.position.y >= 0f)
+                {
+                    continue;
+                }
+
+                if (Camera.main.GetComponent<CameraBehaviour>().IsInFrame(new Vector3(rand.x + transform.position.x, rand.y + transform.position.y, transform.position.z)))
+                {
+                    continue;
+                }
+
+                break;
             }
+
             Vector3 spawnPos = new Vector3(rand.x + transform.position.x, rand.y + transform.position.y, transform.position.z);
             GameObject newFish = Instantiate(prefab, spawnPos, Quaternion.identity, this.transform);
             spawnList.Add(newFish);
             GameController.instance.foodTransforms.Add(newFish.transform);
             if (newFish.GetComponent<FoodSearch>()) foodSearchManager.fish.Add(newFish.GetComponent<FoodSearch>());
-            if (newFish.GetComponent<FishableItem>()) foodSearchManager.fishableItems.Add(newFish.GetComponent<FishableItem>());
+            if (newFish.GetComponent<FishableItem>()) foodSearchManager.edibleItems.Add(newFish.GetComponent<Edible>());
         }
 
         private void OnDrawGizmosSelected()

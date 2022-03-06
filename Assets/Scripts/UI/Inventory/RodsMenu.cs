@@ -84,6 +84,7 @@ namespace Fishing
 
         public void EquipRod(string rodName)
         {
+            GameController.instance.GetComponent<FoodSearchManager>().edibleItems.Remove(GameController.instance.equippedRod.GetHook().GetComponent<Edible>());
             Destroy(GameController.instance.equippedRod);
             foreach (GameObject prefab in rodPrefabs)
             {
@@ -93,12 +94,13 @@ namespace Fishing
                 }
 
                 GameObject newRod = Instantiate(prefab);
-                GameController.instance.equippedRod = newRod;
+                GameController.instance.equippedRod = newRod.GetComponent<RodBehaviour>();
+                GameController.instance.GetComponent<FoodSearchManager>().edibleItems.Add(GameController.instance.equippedRod.GetHook().GetComponent<Edible>());
                 foreach (Transform child in newRod.transform)
                 {
-                    if (child.GetComponent<HookControl>())
+                    if (child.GetComponent<HookBehaviour>())
                     {
-                        Camera.main.GetComponent<CameraBehaviour>().hook = child.GetComponent<HookControl>();
+                        Camera.main.GetComponent<CameraBehaviour>().hook = child.GetComponent<HookBehaviour>();
                         Camera.main.transform.parent = child.transform;
                     }
                 }

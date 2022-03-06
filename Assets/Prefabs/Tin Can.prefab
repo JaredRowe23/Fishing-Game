@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 211761124399546872}
   - component: {fileID: 211761124399546873}
   - component: {fileID: 211761124399546874}
+  - component: {fileID: 9090202394078601320}
   m_Layer: 0
   m_Name: Tin Can
   m_TagString: Hookable Object
@@ -62,7 +63,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Tin Can
   itemDescription: Just a rust tube with nothing in it
-  foodType: 1
   weightMax: 1
   weightMin: 1
   lengthMax: 30
@@ -83,6 +83,19 @@ MonoBehaviour:
   sinkSpeed: 1
   sinkDirection: {x: -1, y: -0.25, z: 0}
   maximumDepth: 100
+--- !u!114 &9090202394078601320
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 211761124399546875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84ed023c87f291a42a62ede1f6a833e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodType: 2
 --- !u!1 &593934348185926818
 GameObject:
   m_ObjectHideFlags: 0

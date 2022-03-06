@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 6838956506335450506}
   - component: {fileID: 7006070457836360306}
   - component: {fileID: -6890081191903633112}
+  - component: {fileID: -5582888590848471281}
   m_Layer: 0
   m_Name: Fish 1
   m_TagString: Hookable Object
@@ -229,7 +230,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Fish 1
   itemDescription: Just your normal basic fish guy here
-  foodType: 0
   weightMax: 25
   weightMin: 20
   lengthMax: 25
@@ -253,7 +253,7 @@ MonoBehaviour:
   maxHomeDistance: 100
   maxHomeDistanceVariation: 5
   distanceThreshold: 0.1
-  chaseSpeed: 2
+  chaseSpeed: 1.5
   eatDistance: 0.1
   holdTime: 5
 --- !u!114 &7006070457836360306
@@ -273,7 +273,7 @@ MonoBehaviour:
   sightDensity: 1
   smellRadius: 5
   chaseDistance: 10
-  desiredFoodTypes: 01000000
+  desiredFoodTypes: 02000000
   desiredFood: {fileID: 0}
 --- !u!82 &-6890081191903633112
 AudioSource:
@@ -371,3 +371,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-5582888590848471281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8313649653780738666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84ed023c87f291a42a62ede1f6a833e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodType: 1
