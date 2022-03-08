@@ -50,7 +50,7 @@ namespace Fishing
             return false;
         }
 
-        public void SpawnRod(string _rodName) => rodsMenu.GetComponent<RodsMenu>().EquipRod(_rodName);
+        public void SpawnRod(string _rodName) => rodsMenu.GetComponent<RodsMenu>().EquipRod(_rodName, false);
 
         public void AddFood(Edible _food) => foodManager.edibleItems.Add(_food);
 

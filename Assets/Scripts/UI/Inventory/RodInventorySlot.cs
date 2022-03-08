@@ -18,7 +18,7 @@ namespace Fishing.UI
             {
                 if (child.GetComponent<Text>())
                 {
-                    RodsMenu.instance.EquipRod(child.GetComponent<Text>().text);
+                    RodsMenu.instance.EquipRod(child.GetComponent<Text>().text, true);
                 }
             }
         }

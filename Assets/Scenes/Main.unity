@@ -7009,7 +7009,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb56096386d8af64d8d3c04b4ef63968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hook: {fileID: 0}
   followSpeed: 3
   followThreshold: 0.1
   zoomMagnitude: 1
@@ -8038,7 +8037,7 @@ MonoBehaviour:
   continueSpawning: 1
   radius: 15
   prefab: {fileID: 8313649653780738666, guid: f29394d0aad20604a93052bf91102f0c, type: 3}
-  spawnMax: 15
+  spawnMax: 500
   spawnList: []
   spawnTimeSpacing: 0.1
   spawnAttempts: 10
@@ -8050,7 +8049,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1085002194}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12.3, y: -10.53, z: 0}
+  m_LocalPosition: {x: 7.800002, y: -22.329998, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2084702444}
@@ -11388,7 +11387,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1404601214}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 13.3, y: -5.6, z: 0}
+  m_LocalPosition: {x: 53.7, y: -14.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2084702444}
@@ -11409,7 +11408,7 @@ MonoBehaviour:
   continueSpawning: 1
   radius: 25
   prefab: {fileID: 211761124399546875, guid: 3734a2df5dcb86d4c97a764a01df9c3e, type: 3}
-  spawnMax: 50
+  spawnMax: 1000
   spawnList: []
   spawnTimeSpacing: 0.1
   spawnAttempts: 10
@@ -14024,6 +14023,7 @@ MonoBehaviour:
   baitMenuButton: {fileID: 2091532947}
   gearMenuButton: {fileID: 531925082}
   equippedRod: {fileID: 0}
+  rodsMenu: {fileID: 817339335}
   interuptableUI: []
 --- !u!114 &1615404182
 MonoBehaviour:

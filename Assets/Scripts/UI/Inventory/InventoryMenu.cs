@@ -39,10 +39,7 @@ namespace Fishing.UI
 
         public void ShowInventoryMenu()
         {
-            if (GameController.instance.mouseOverUI == this.gameObject)
-            {
-                GameController.instance.mouseOverUI = null;
-            }
+            GameController.instance.mouseOverUI = null;
 
             this.gameObject.SetActive(!this.gameObject.activeSelf);
 

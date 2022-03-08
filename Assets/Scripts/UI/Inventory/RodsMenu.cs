@@ -82,12 +82,11 @@ namespace Fishing.UI
         }
 
         //may want to move this to another script to handle inventory item instancing and such
-        public void EquipRod(string _rodName)
+        public void EquipRod(string _rodName, bool _playSound)
         {
             if (_rodName != "")
             {
-                GameController.instance.equippedRod.GetHook().DespawnHookedObject();
-                Destroy(GetComponent<GameController>().equippedRod);
+                DestroyImmediate(GameController.instance.equippedRod.gameObject);
             }
             else
             {
@@ -102,7 +101,7 @@ namespace Fishing.UI
             }
             GameController.instance.GetComponent<PlayerData>().equippedRod = _rodName;
             UpdateEquippedRod();
-            AudioManager.instance.PlaySound("Equip Rod");
+            if (_playSound) AudioManager.instance.PlaySound("Equip Rod");
         }
     }
 }

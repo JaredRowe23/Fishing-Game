@@ -20,19 +20,25 @@ namespace Fishing.FishingMechanics
         [SerializeField] private float waterDrag;
         [SerializeField] private float lineRotationAngle = -5f;
 
+        public bool playedSplash;
+
         private Vector3 _targetPos;
         private RodBehaviour _rod;
         private Rigidbody _rb;
 
-        public bool playedSplash;
+        private Camera playerCam;
+
+        private void Awake()
+        {
+            playerCam = Camera.main;
+        }
 
         private void Start()
         {
             _rod = transform.parent.GetComponent<RodBehaviour>();
             _rb = this.GetComponent<Rigidbody>();
 
-            Camera.main.transform.parent = transform;
-            GameController.instance.AddFood(GetComponent<Edible>());
+            playerCam.transform.parent = transform;
         }
 
         void Update()
@@ -91,7 +97,9 @@ namespace Fishing.FishingMechanics
 
         public void Despawn()
         {
-            return;
+            DespawnHookedObject();
+            playerCam.transform.parent = null;
+            GameController.instance.RemoveFood(GetComponent<Edible>());
         }
 
         private void OnSubmerged()

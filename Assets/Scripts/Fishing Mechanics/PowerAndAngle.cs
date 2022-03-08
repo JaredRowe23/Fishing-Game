@@ -29,8 +29,6 @@ namespace Fishing.FishingMechanics
         private float _angleFrequency;
         private float currentAngle;
 
-        private RodBehaviour _rod;
-
         public static PowerAndAngle instance;
 
         private void Awake() => instance = this;
@@ -38,7 +36,6 @@ namespace Fishing.FishingMechanics
         private void Start()
         {
             transform.SetParent(GameController.instance.transform);
-            _rod = GameController.instance.equippedRod;
         }
 
         void Update()
@@ -136,7 +133,7 @@ namespace Fishing.FishingMechanics
             AudioManager.instance.StopPlaying("Power Audio");
             _angling = false;
             transform.SetParent(GameController.instance.transform);
-            _rod.Cast(currentAngle, _charge);
+            GameController.instance.equippedRod.Cast(currentAngle, _charge);
         }
     }
 

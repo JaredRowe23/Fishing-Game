@@ -21,13 +21,12 @@ namespace Fishing.FishingMechanics
         {
             _anim = GetComponent<FishingRodAnimation>();
             _stats = GetComponent<FishingRodStats>();
-
-            GameController.instance.equippedRod = this;
         }
 
         void Start()
         {
             casted = false;
+            GameController.instance.equippedRod = this;
         }
 
         void Update()
@@ -91,6 +90,8 @@ namespace Fishing.FishingMechanics
         public HookBehaviour GetHook() => hook;
         public float GetLineLength() => _stats.GetLineLength();
         public string GetDescription() => _stats.GetDescription();
+
+        private void OnDestroy() => hook.Despawn();
     }
 
 }

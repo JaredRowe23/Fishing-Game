@@ -44,7 +44,6 @@ GameObject:
   - component: {fileID: 436811995704230176}
   - component: {fileID: 6802576751918692659}
   - component: {fileID: 2378873992110446189}
-  - component: {fileID: 7419925118740208867}
   m_Layer: 0
   m_Name: THICC ROD
   m_TagString: Untagged
@@ -128,19 +127,6 @@ MonoBehaviour:
   maxCastAngle: 60
   chargeFrequency: 2
   angleFrequency: 2
---- !u!114 &7419925118740208867
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1977302170616725967}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84ed023c87f291a42a62ede1f6a833e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  foodType: 0
 --- !u!1 &1977302171767389744
 GameObject:
   m_ObjectHideFlags: 0
@@ -155,6 +141,7 @@ GameObject:
   - component: {fileID: 1977302171767389747}
   - component: {fileID: 5708205968197901782}
   - component: {fileID: 2830625537748628257}
+  - component: {fileID: 5073140970493823650}
   m_Layer: 0
   m_Name: Hook
   m_TagString: Untagged
@@ -286,6 +273,19 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1977302171767389744}
   m_Enabled: 1
+--- !u!114 &5073140970493823650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1977302171767389744}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84ed023c87f291a42a62ede1f6a833e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foodType: 0
 --- !u!1 &1977302172147861006
 GameObject:
   m_ObjectHideFlags: 0
