@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Fishing
+namespace Fishing.FishingMechanics
 {
     public class PowerAndAngle : MonoBehaviour
     {
@@ -19,7 +19,6 @@ namespace Fishing
         private bool _charging;
         private float _targetCharge;
         private float _chargeFrequency;
-        private RodBehaviour _castingRod;
         private float _charge;
         private float _minStrength;
         private float _maxStrength;

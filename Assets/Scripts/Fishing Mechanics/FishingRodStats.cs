@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Fishing
+namespace Fishing.FishingMechanics
 {
     public class FishingRodStats : MonoBehaviour
     {

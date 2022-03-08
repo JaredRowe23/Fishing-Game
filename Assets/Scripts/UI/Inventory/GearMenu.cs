@@ -1,17 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Fishing
+namespace Fishing.UI
 {
     public class GearMenu : MonoBehaviour
     {
-        private bool initialized;
-
         public void ShowRodMenu()
         {
-            this.gameObject.SetActive(!this.gameObject.activeSelf);
+            gameObject.SetActive(!gameObject.activeSelf);
             InventoryMenu.instance.UpdateActiveMenu(2);
         }
     }

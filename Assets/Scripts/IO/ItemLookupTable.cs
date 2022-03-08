@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fishing.Fishables;
 
-namespace Fishing
+namespace Fishing.IO
 {
     public class ItemLookupTable : MonoBehaviour
     {
@@ -24,23 +25,23 @@ namespace Fishing
         public List<string> baitNames;
         public List<GameObject> baitPrefabs;
 
-        FishableData FishableToData(FishableItem fish)
-        {
-            return new FishableData(fish.GetName(), fish.GetWeight(), fish.GetLength());
-        }
+        //FishableData FishableToData(FishableItem fish)
+        //{
+        //    return new FishableData(fish.GetName(), fish.GetWeight(), fish.GetLength());
+        //}
     }
 
-    public class FishableData
-    {
-        string name;
-        float weight;
-        float length;
+    //public class FishableData
+    //{
+    //    string name;
+    //    float weight;
+    //    float length;
 
-        public FishableData(string _name, float _weight, float _length)
-        {
-            name = _name;
-            weight = _weight;
-            length = _length;
-        }
-    }
+    //    public FishableData(string _name, float _weight, float _length)
+    //    {
+    //        name = _name;
+    //        weight = _weight;
+    //        length = _length;
+    //    }
+    //}
 }

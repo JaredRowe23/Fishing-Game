@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Fishing
+namespace Fishing.UI
 {
     public class FrameCounter : MonoBehaviour
     {

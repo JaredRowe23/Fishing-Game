@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Jobs;
 using Unity.Collections;
+using Fishing.FishingMechanics;
 
-namespace Fishing
+namespace Fishing.Fishables.Fish
 {
     public class FoodSearchManager : MonoBehaviour
     {

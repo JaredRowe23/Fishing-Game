@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using Fishing.IO;
 
-namespace Fishing
+namespace Fishing.UI
 {
     public class BaitMenu : MonoBehaviour
     {
@@ -14,8 +14,6 @@ namespace Fishing
         [SerializeField] private float slotXPadding;
         [SerializeField] private float slotYPadding;
         [SerializeField] private int slotXMax;
-
-        private bool initialized;
 
         [SerializeField] private List<Sprite> itemSprites;
 

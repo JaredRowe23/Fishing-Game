@@ -244,18 +244,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 8313649653780738666}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5684020565ab10419a7246f9dad791c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5708863d083a7844eb0d0789190bfbbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   wanderSpeed: 1
-  wanderDistance: 20
-  wanderDistanceVariation: 2
-  maxHomeDistance: 100
+  wanderDistance: 5
+  wanderDistanceVariation: 1
+  maxHomeDistance: 20
   maxHomeDistanceVariation: 5
   distanceThreshold: 0.1
-  chaseSpeed: 1.5
-  eatDistance: 0.1
-  holdTime: 5
+  chaseSpeed: 2
+  eatDistance: 0.05
+  holdTime: 2.5
 --- !u!114 &7006070457836360306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,13 +265,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 8313649653780738666}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4c1835a31d75954abe65fc187188c87, type: 3}
+  m_Script: {fileID: 11500000, guid: b1d187c2bd7d8fc4f9e701b32517bcd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sightAngle: 30
-  sightDistance: 10
-  sightDensity: 1
-  smellRadius: 5
+  sightAngle: 45
+  sightDistance: 5
+  sightDensity: 10
+  smellRadius: 1
   chaseDistance: 10
   desiredFoodTypes: 02000000
   desiredFood: {fileID: 0}

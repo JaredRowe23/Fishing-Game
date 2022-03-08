@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Fishing
+namespace Fishing.UI
 {
     public class ItemViewerCamera : MonoBehaviour
     {
@@ -34,7 +34,7 @@ namespace Fishing
                 Transform parent = currentItem.transform.parent;
                 currentItem.transform.parent = null;
 
-                transform.Translate(0f, 0f, Input.GetAxis("Mouse ScrollWheel") * scrollMultiplier * Mathf.Abs(transform.localPosition.z));
+                transform.Translate(0f, 0f, scroll * scrollMultiplier * Mathf.Abs(transform.localPosition.z));
 
                 if (transform.localPosition.z > -currentItem.transform.localScale.z)
                 {

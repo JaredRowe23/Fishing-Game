@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Fishing
+namespace Fishing.UI
 {
     public class InventoryMenu : MonoBehaviour
     {
@@ -58,7 +58,7 @@ namespace Fishing
                 menuPages[activeMenu].SetActive(true);
             }
             GameController.instance.bucketMenuButton.gameObject.SetActive(!this.gameObject.activeSelf);
-            GameController.instance.inventoryMenuButton.gameObject.SetActive(!this.gameObject.activeSelf);
+            GameController.instance.inventoryMenuButton.SetActive(!this.gameObject.activeSelf);
         }
 
         public void UpdateActiveMenu(int menu)

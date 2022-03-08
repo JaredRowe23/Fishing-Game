@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Fishing.Inventory;
 
-namespace Fishing
+namespace Fishing.UI
 {
     public class BucketMenuItem : MonoBehaviour
     {

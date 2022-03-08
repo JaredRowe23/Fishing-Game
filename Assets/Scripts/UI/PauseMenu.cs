@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fishing.IO;
 
-namespace Fishing
+namespace Fishing.UI
 {
     public class PauseMenu : MonoBehaviour
     {
@@ -38,8 +39,8 @@ namespace Fishing
                 Time.timeScale = 1f;
             }
 
-            GameController.instance.bucketMenuButton.gameObject.SetActive(!pauseMenu.gameObject.activeSelf);
-            GameController.instance.inventoryMenuButton.gameObject.SetActive(!pauseMenu.gameObject.activeSelf);
+            GameController.instance.bucketMenuButton.gameObject.SetActive(!pauseMenu.activeSelf);
+            GameController.instance.inventoryMenuButton.SetActive(!pauseMenu.activeSelf);
         }
 
         public void NewGame() => GameController.instance.GetComponent<PlayerData>().NewGame();

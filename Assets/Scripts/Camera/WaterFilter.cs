@@ -2,24 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Fishing
+namespace Fishing.PlayerCamera
 {
     public class WaterFilter : MonoBehaviour
     {
         [SerializeField] private MeshRenderer mesh;
-        private bool toggleFilter;
 
         void Update()
         {
-
-            if (transform.position.y >= 0f && mesh.enabled == true) toggleFilter = true;
-            else if (transform.position.y < 0f && mesh.enabled == false) toggleFilter = true;
-
-            if (toggleFilter)
-            {
-                mesh.enabled = !mesh.enabled;
-                toggleFilter = false;
-            }
+            if (transform.position.y >= 0f && mesh.enabled == true) mesh.enabled = false;
+            else if (transform.position.y < 0f && mesh.enabled == false) mesh.enabled = true;
         }
     }
 }

@@ -5,7 +5,7 @@ using Unity.Jobs;
 using Unity.Collections;
 using System.Linq;
 
-namespace Fishing
+namespace Fishing.Fishables.Fish
 {
     public class FoodSearch : MonoBehaviour
     {
@@ -152,8 +152,8 @@ namespace Fishing
         [SerializeField] private float chaseDistance;
         [SerializeField] private Edible.FoodTypes[] desiredFoodTypes;
         public GameObject desiredFood;
-        private FishableItem desiredFishableItem;
-        private HookBehaviour desiredHookObject;
+
+        private void Start() => GameController.instance.AddFish(this);
 
         private void OnDrawGizmosSelected()
         {

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace Fishing
+namespace Fishing.IO
 {
     public static class SaveSystem
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Fishing
+namespace Fishing.FishingMechanics
 {
     public class FishingRodAnimation : MonoBehaviour
     {
@@ -19,13 +19,6 @@ namespace Fishing
         public enum RodState { CastPull, CastForward, Reeling, Resting };
         public RodState state = RodState.Resting;
         private float targetRot;
-
-        private RodBehaviour rod;
-
-        private void Awake()
-        {
-            rod = GetComponent<RodBehaviour>();
-        }
 
         private void Start()
         {

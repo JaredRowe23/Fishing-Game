@@ -1,10 +1,9 @@
-﻿// This holds and adds objects we fish to our bucket
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fishing.Fishables;
 
-namespace Fishing
+namespace Fishing.Inventory
 {
     public class BucketBehaviour : MonoBehaviour
     {
@@ -20,10 +19,12 @@ namespace Fishing
         public void AddToBucket(FishableItem item)
         {
             FishData newItem = new FishData();
-            newItem.itemName = item.GetName();
-            newItem.itemDescription = item.GetDescription();
-            newItem.itemWeight = item.GetWeight();
-            newItem.itemLength = item.GetLength();
+            {
+                newItem.itemName = item.GetName();
+                newItem.itemDescription = item.GetDescription();
+                newItem.itemWeight = item.GetWeight();
+                newItem.itemLength = item.GetLength();
+            }
             item.DisableMinimapIndicator();
             bucketList.Add(newItem);
         }

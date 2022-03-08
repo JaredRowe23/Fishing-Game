@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Fishing
+namespace Fishing.UI
 {
     public class ItemViewer : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {

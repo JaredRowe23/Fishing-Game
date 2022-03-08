@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fishing.FishingMechanics;
 
-namespace Fishing
+namespace Fishing.Fishables.Fish
 {
+    [RequireComponent(typeof(Edible))]
+    [RequireComponent(typeof(FoodSearch))]
+    [RequireComponent(typeof(FishableItem))]
     public class Fish1Behaviour : MonoBehaviour, IEdible
     {
         [Header("Movement")]
@@ -68,13 +72,6 @@ namespace Fishing
                 }
                 else
                 {
-                    if (foodSearch.desiredFood.transform.parent)
-                    {
-                        if (foodSearch.desiredFood.transform.parent.GetComponent<SpawnZone>())
-                        {
-                            foodSearch.desiredFood.transform.parent.GetComponent<SpawnZone>().spawnList.Remove(foodSearch.desiredFood);
-                        }
-                    }
                     Eat();
                 }
             }
@@ -154,8 +151,8 @@ namespace Fishing
         public void Despawn()
         {
             spawn.spawnList.Remove(gameObject);
-            GameController.instance.GetComponent<FoodSearchManager>().fish.Remove(GetComponent<FoodSearch>());
-            GameController.instance.GetComponent<FoodSearchManager>().edibleItems.Remove(GetComponent<Edible>());
+            GameController.instance.RemoveFish(GetComponent<FoodSearch>());
+            GameController.instance.RemoveFood(GetComponent<Edible>());
             DestroyImmediate(gameObject);
         }
     }

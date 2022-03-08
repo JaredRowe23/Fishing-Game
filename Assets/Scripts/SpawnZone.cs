@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fishing.PlayerCamera;
 
 namespace Fishing
 {
@@ -13,13 +14,11 @@ namespace Fishing
         public List<GameObject> spawnList;
         [SerializeField] private float spawnTimeSpacing;
         private WaitForSeconds spawnTimer;
-        private FoodSearchManager foodSearchManager;
         [SerializeField] private int spawnAttempts;
 
         private void Awake()
         {
             spawnTimer = new WaitForSeconds(spawnTimeSpacing);
-            foodSearchManager = GameController.instance.GetComponent<FoodSearchManager>();
         }
 
         private void Start()
@@ -47,7 +46,7 @@ namespace Fishing
         private void Spawn()
         {
             int i = 0;
-            Vector2 rand = new Vector2();
+            Vector2 rand;
             while (true)
             {
                 if (i > spawnAttempts)
@@ -74,9 +73,6 @@ namespace Fishing
             Vector3 spawnPos = new Vector3(rand.x + transform.position.x, rand.y + transform.position.y, transform.position.z);
             GameObject newFish = Instantiate(prefab, spawnPos, Quaternion.identity, this.transform);
             spawnList.Add(newFish);
-            GameController.instance.foodTransforms.Add(newFish.transform);
-            if (newFish.GetComponent<FoodSearch>()) foodSearchManager.fish.Add(newFish.GetComponent<FoodSearch>());
-            if (newFish.GetComponent<FishableItem>()) foodSearchManager.edibleItems.Add(newFish.GetComponent<Edible>());
         }
 
         private void OnDrawGizmosSelected()

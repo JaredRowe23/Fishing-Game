@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Fishing
+namespace Fishing.FishingMechanics
 {
     [RequireComponent(typeof(FishingRodAnimation))]
     [RequireComponent(typeof(FishingRodStats))]
@@ -21,6 +21,8 @@ namespace Fishing
         {
             _anim = GetComponent<FishingRodAnimation>();
             _stats = GetComponent<FishingRodStats>();
+
+            GameController.instance.equippedRod = this;
         }
 
         void Start()
@@ -45,7 +47,7 @@ namespace Fishing
                     {
                         _anim.SetState(FishingRodAnimation.RodState.CastPull);
                         GameController.instance.bucketMenuButton.gameObject.SetActive(false);
-                        GameController.instance.inventoryMenuButton.gameObject.SetActive(false);
+                        GameController.instance.inventoryMenuButton.SetActive(false);
 
                         // Show the power slider and begin the process for charging/angling our cast
                         PowerAndAngle.instance.StartCharging(_stats.GetChargeFrequency(),_stats.GetMinCastStrength(), _stats.GetMaxCastStrength(),
@@ -74,7 +76,7 @@ namespace Fishing
                     _anim.SetState(FishingRodAnimation.RodState.Resting);
                     casted = false;
                     GameController.instance.bucketMenuButton.gameObject.SetActive(true);
-                    GameController.instance.inventoryMenuButton.gameObject.SetActive(true);
+                    GameController.instance.inventoryMenuButton.SetActive(true);
                 }
             }
         }

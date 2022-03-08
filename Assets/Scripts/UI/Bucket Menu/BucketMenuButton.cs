@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-namespace Fishing
+namespace Fishing.UI
 {
     public class BucketMenuButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {

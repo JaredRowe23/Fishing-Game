@@ -1,12 +1,10 @@
-﻿// This controls the menu used to see what's held in the bucket
-// and also handles removing items from the bucket
-
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Fishing.Inventory;
 
-namespace Fishing
+namespace Fishing.UI
 {
     public class BucketMenu : MonoBehaviour
     {
@@ -48,8 +46,6 @@ namespace Fishing
 
         }
 
-        // Generate UI elements from data within each item
-        // in the bucket and update our capacity slider/text
         void InitializeMenu()
         {
             foreach (FishData item in bucket.bucketList)
@@ -65,7 +61,6 @@ namespace Fishing
             capacityText.text = bucket.bucketList.Count.ToString() + "/" + bucket.maxItems.ToString();
         }
 
-        // Destroy all the UI elements in our menu
         void DestroyMenu()
         {
             foreach (Transform child in content.transform)
@@ -96,7 +91,7 @@ namespace Fishing
                     }
                     bucket.bucketList.Remove(itemReference);
                     GameController.instance.itemInfoMenu.SetActive(false);
-                    menuItem.gameObject.SetActive(false);
+                    menuItem.SetActive(false);
                     ShowBucketMenu();
                 }
                 else
@@ -111,7 +106,7 @@ namespace Fishing
 
                     GameController.instance.equippedRod.GetHook().AddToBucket();
                     GameController.instance.itemInfoMenu.SetActive(false);
-                    menuItem.gameObject.SetActive(false);
+                    menuItem.SetActive(false);
                     GameController.instance.overflowItem.SetActive(false);
                     ShowBucketMenu();
                 }

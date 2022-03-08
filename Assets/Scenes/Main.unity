@@ -14025,7 +14025,6 @@ MonoBehaviour:
   gearMenuButton: {fileID: 531925082}
   equippedRod: {fileID: 0}
   interuptableUI: []
-  foodTransforms: []
 --- !u!114 &1615404182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14170,7 +14169,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1615404179}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0688df1d382800d4db1ba01f18e0812e, type: 3}
+  m_Script: {fileID: 11500000, guid: b6e3f0577e0c4df44a972369fd9c0155, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fish: []

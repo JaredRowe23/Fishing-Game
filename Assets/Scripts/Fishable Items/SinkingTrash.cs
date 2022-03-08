@@ -1,12 +1,11 @@
-﻿// This will be the general script for any trash items
-// that just need to fall in a set direction/speed
-
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fishing.PlayerCamera;
 
-namespace Fishing
+namespace Fishing.Fishables
 {
+    [RequireComponent(typeof(Edible))]
     public class SinkingTrash : MonoBehaviour, IEdible
     {
         [SerializeField] private float sinkSpeed;
@@ -22,7 +21,7 @@ namespace Fishing
         {
             edible = GetComponent<Edible>();
             fishableItem = GetComponent<FishableItem>();
-            cam = Camera.main.GetComponent<CameraBehaviour>();
+            cam = CameraBehaviour.instance;
             spawn = transform.parent.GetComponent<SpawnZone>();
         }
 
@@ -42,7 +41,7 @@ namespace Fishing
         public void Despawn()
         {
             spawn.spawnList.Remove(gameObject);
-            GameController.instance.GetComponent<FoodSearchManager>().edibleItems.Remove(edible);
+            GameController.instance.RemoveFood(edible);
             DestroyImmediate(gameObject);
         }
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 using Unity.Collections;
 using Unity.Jobs;
 
-namespace Fishing
+namespace Fishing.Fishables.Fish
 {
     public struct FoodSearchUpdateJob : IJobParallelFor
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Fishing
+namespace Fishing.IO
 {
     public class PlayerData : MonoBehaviour
     {
@@ -20,7 +20,7 @@ namespace Fishing
 
         private void Start()
         {
-            GenerateRod();
+            GameController.instance.SpawnRod(equippedRod);
         }
 
         private void Update()
@@ -58,54 +58,24 @@ namespace Fishing
             bait = saveData.bait;
             baitCounts = saveData.baitCounts;
 
-            GenerateRod();
+            GameController.instance.SpawnRod(equippedRod);
         }
 
         public void NewGame()
         {
             playerName = "";
             money = 0;
-            fishingRods = new List<string>();
-            fishingRods.Add("Basic Rod");
+            fishingRods = new List<string>()
+            {
+                "Basic Rod"
+            };
             equippedRod = fishingRods[0];
             gear = new List<string>();
             equippedGear = new List<string>();
             bait = new List<string>();
             baitCounts = new List<int>();
 
-            GenerateRod();
-        }
-
-        private void GenerateRod()
-        {
-            if (this.GetComponent<GameController>().equippedRod != null)
-            {
-                GameController.instance.GetComponent<FoodSearchManager>().edibleItems.Remove(GameController.instance.equippedRod.GetHook().GetComponent<Edible>());
-                Destroy(this.GetComponent<GameController>().equippedRod);
-            }
-            else
-            {
-                equippedRod = "Basic Rod";
-            }
-
-            foreach (GameObject prefab in RodsMenu.instance.rodPrefabs)
-            {
-                if (prefab.name != equippedRod) continue;
-
-                GameObject newRod = Instantiate(prefab);
-                GetComponent<GameController>().equippedRod = newRod.GetComponent<RodBehaviour>();
-                GameController.instance.GetComponent<FoodSearchManager>().edibleItems.Add(GameController.instance.equippedRod.GetHook().GetComponent<Edible>());
-                foreach (Transform child in newRod.transform)
-                {
-                    if (child.GetComponent<HookBehaviour>())
-                    {
-                        Camera.main.GetComponent<CameraBehaviour>().hook = child.GetComponent<HookBehaviour>();
-                        Camera.main.transform.parent = child.transform;
-                        GameController.instance.foodTransforms.Add(child.transform);
-                    }
-                }
-            }
+            GameController.instance.SpawnRod(equippedRod);
         }
     }
-
 }

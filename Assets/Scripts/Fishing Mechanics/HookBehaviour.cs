@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fishing.Fishables;
+using Fishing.Inventory; // may not be necessary with AddToBucket rework
+using Fishing.UI; // may not be necessary with AddToBucket rework
 
-namespace Fishing
+namespace Fishing.FishingMechanics
 {
     public class HookBehaviour : MonoBehaviour, IEdible
     {
@@ -27,6 +30,9 @@ namespace Fishing
         {
             _rod = transform.parent.GetComponent<RodBehaviour>();
             _rb = this.GetComponent<Rigidbody>();
+
+            Camera.main.transform.parent = transform;
+            GameController.instance.AddFood(GetComponent<Edible>());
         }
 
         void Update()
@@ -110,7 +116,7 @@ namespace Fishing
             _rb.AddForce(rot * Vector3.right * _force);
         }
 
-        public void Reel(float _force) => _rb.AddForce(Vector3.Normalize(linePivotPoint.position - transform.position) * _force * Time.deltaTime);
+        public void Reel(float _force) => _rb.AddForce(_force * Time.deltaTime * Vector3.Normalize(linePivotPoint.position - transform.position));
 
         public Transform GetHookAnchorPoint() => linePivotPoint;
         private void OnTriggerEnter(Collider _other)
@@ -124,6 +130,11 @@ namespace Fishing
 
             fishable.OnHooked(transform);
             hookedObject = fishable.gameObject;
+        }
+
+        public void DespawnHookedObject()
+        {
+            if (hookedObject != null) hookedObject.GetComponent<IEdible>().Despawn();
         }
 
         public void AddToBucket()
@@ -145,11 +156,15 @@ namespace Fishing
                 _overflowMenu.UpdateName(_item.GetName());
                 _overflowMenu.UpdateLength(_item.GetLength());
                 _overflowMenu.UpdateWeight(_item.GetWeight());
+
                 FishData newData = new FishData();
-                newData.itemName = _item.GetName();
-                newData.itemDescription = _item.GetDescription();
-                newData.itemWeight = _item.GetWeight();
-                newData.itemLength = _item.GetLength();
+                {
+                    newData.itemName = _item.GetName();
+                    newData.itemDescription = _item.GetDescription();
+                    newData.itemWeight = _item.GetWeight();
+                    newData.itemLength = _item.GetLength();
+                }
+
                 _overflowMenu.UpdateReference(newData);
                 Destroy(hookedObject);
                 hookedObject = null;

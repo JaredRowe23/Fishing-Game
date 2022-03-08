@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using Fishing.IO;
 
-namespace Fishing
+namespace Fishing.UI
 {
     public class RodsMenu : MonoBehaviour
     {
@@ -15,16 +15,15 @@ namespace Fishing
         [SerializeField] private float slotYPadding;
         [SerializeField] private int slotXMax;
 
-        private bool initialized;
-
-        [SerializeField] public List<GameObject> rodPrefabs;
-        [SerializeField] public List<Sprite> rodSprites;
+        public List<GameObject> rodPrefabs;
+        public List<Sprite> rodSprites;
 
         public static RodsMenu instance;
 
         private RodsMenu() => instance = this;
 
         private void Start() => GenerateSlots();
+
 
         public void ShowRodMenu(bool active)
         {
@@ -82,34 +81,28 @@ namespace Fishing
             }
         }
 
-        public void EquipRod(string rodName)
+        //may want to move this to another script to handle inventory item instancing and such
+        public void EquipRod(string _rodName)
         {
-            GameController.instance.GetComponent<FoodSearchManager>().edibleItems.Remove(GameController.instance.equippedRod.GetHook().GetComponent<Edible>());
-            Destroy(GameController.instance.equippedRod);
-            foreach (GameObject prefab in rodPrefabs)
+            if (_rodName != "")
             {
-                if (prefab.name != rodName)
-                {
-                    continue;
-                }
-
-                GameObject newRod = Instantiate(prefab);
-                GameController.instance.equippedRod = newRod.GetComponent<RodBehaviour>();
-                GameController.instance.GetComponent<FoodSearchManager>().edibleItems.Add(GameController.instance.equippedRod.GetHook().GetComponent<Edible>());
-                foreach (Transform child in newRod.transform)
-                {
-                    if (child.GetComponent<HookBehaviour>())
-                    {
-                        Camera.main.GetComponent<CameraBehaviour>().hook = child.GetComponent<HookBehaviour>();
-                        Camera.main.transform.parent = child.transform;
-                    }
-                }
+                GameController.instance.equippedRod.GetHook().DespawnHookedObject();
+                Destroy(GetComponent<GameController>().equippedRod);
             }
-            GameController.instance.GetComponent<PlayerData>().equippedRod = rodName;
+            else
+            {
+                _rodName = "Basic Rod";
+            }
+
+            foreach (GameObject _prefab in rodPrefabs)
+            {
+                if (_prefab.name != _rodName) continue;
+
+                Instantiate(_prefab);
+            }
+            GameController.instance.GetComponent<PlayerData>().equippedRod = _rodName;
             UpdateEquippedRod();
             AudioManager.instance.PlaySound("Equip Rod");
         }
-
     }
-
 }

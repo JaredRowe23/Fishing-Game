@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Fishing.FishingMechanics;
 
-namespace Fishing
+namespace Fishing.UI
 {
     public class RodInfoMenu : MonoBehaviour
     {

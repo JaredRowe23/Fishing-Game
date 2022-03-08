@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Fishing.Inventory;
 
-namespace Fishing
+namespace Fishing.UI
 {
     public class ItemInfoMenu : MonoBehaviour
     {
@@ -17,7 +18,6 @@ namespace Fishing
         [SerializeField] private List<string> modelNames;
         private GameObject currentModel;
 
-        //private GameObject itemReference;
         private FishData itemReference;
         private GameObject menuListingReference;
 
