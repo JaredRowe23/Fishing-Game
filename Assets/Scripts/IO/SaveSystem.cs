@@ -6,35 +6,35 @@ namespace Fishing.IO
 {
     public static class SaveSystem
     {
-        public static void SaveGame(PlayerData player)
+        public static void SaveGame(PlayerData _player)
         {
-            BinaryFormatter formatter = new BinaryFormatter();
+            BinaryFormatter _formatter = new BinaryFormatter();
 
-            string path = Application.persistentDataPath + "/player.fish";
-            FileStream stream = new FileStream(path, FileMode.Create);
+            string _path = Application.persistentDataPath + "/player.fish";
+            FileStream _stream = new FileStream(_path, FileMode.Create);
 
-            GameData data = new GameData(player);
+            GameData _data = new GameData(_player);
 
-            formatter.Serialize(stream, data);
-            stream.Close();
+            _formatter.Serialize(_stream, _data);
+            _stream.Close();
         }
 
         public static GameData LoadGame()
         {
-            string path = Application.persistentDataPath + "/player.fish";
-            if (File.Exists(path))
+            string _path = Application.persistentDataPath + "/player.fish";
+            if (File.Exists(_path))
             {
-                BinaryFormatter formatter = new BinaryFormatter();
-                FileStream stream = new FileStream(path, FileMode.Open);
+                BinaryFormatter _formatter = new BinaryFormatter();
+                FileStream _stream = new FileStream(_path, FileMode.Open);
 
-                GameData data = formatter.Deserialize(stream) as GameData;
-                stream.Close();
+                GameData _data = _formatter.Deserialize(_stream) as GameData;
+                _stream.Close();
 
-                return data;
+                return _data;
             }
             else
             {
-                Debug.LogError("Save file not found in " + path);
+                Debug.LogError("Save file not found in " + _path);
                 return null;
             }
         }

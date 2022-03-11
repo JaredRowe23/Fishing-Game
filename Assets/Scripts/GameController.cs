@@ -40,9 +40,9 @@ namespace Fishing
 
         public bool IsActiveUI()
         {
-            foreach (GameObject ui in interuptableUI)
+            foreach (GameObject _ui in interuptableUI)
             {
-                if (ui.activeSelf)
+                if (_ui.activeSelf)
                 {
                     return true;
                 }

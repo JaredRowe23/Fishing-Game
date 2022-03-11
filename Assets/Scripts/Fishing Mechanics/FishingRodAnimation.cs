@@ -55,21 +55,21 @@ namespace Fishing.FishingMechanics
         {
             if (Mathf.Abs(targetRot - ((targetAnimationObject.transform.rotation.eulerAngles.z + 180) % 360 - 180)) >= rotateThreshold)
             {
-                Vector3 targetRotation = new Vector3(targetAnimationObject.transform.rotation.x, targetAnimationObject.transform.rotation.y, targetRot);
+                Vector3 _targetRotation = new Vector3(targetAnimationObject.transform.rotation.x, targetAnimationObject.transform.rotation.y, targetRot);
 
                 switch (state)
                 {
                     case RodState.Resting:
-                        targetAnimationObject.transform.rotation = Quaternion.RotateTowards(targetAnimationObject.transform.rotation, Quaternion.Euler(targetRotation), restStrength * Time.deltaTime);
+                        targetAnimationObject.transform.rotation = Quaternion.RotateTowards(targetAnimationObject.transform.rotation, Quaternion.Euler(_targetRotation), restStrength * Time.deltaTime);
                         break;
                     case RodState.Reeling:
-                        targetAnimationObject.transform.rotation = Quaternion.RotateTowards(targetAnimationObject.transform.rotation, Quaternion.Euler(targetRotation), reelStrength * Time.deltaTime);
+                        targetAnimationObject.transform.rotation = Quaternion.RotateTowards(targetAnimationObject.transform.rotation, Quaternion.Euler(_targetRotation), reelStrength * Time.deltaTime);
                         break;
                     case RodState.CastPull:
-                        targetAnimationObject.transform.rotation = Quaternion.RotateTowards(targetAnimationObject.transform.rotation, Quaternion.Euler(targetRotation), castPullStrength * Time.deltaTime);
+                        targetAnimationObject.transform.rotation = Quaternion.RotateTowards(targetAnimationObject.transform.rotation, Quaternion.Euler(_targetRotation), castPullStrength * Time.deltaTime);
                         break;
                     case RodState.CastForward:
-                        targetAnimationObject.transform.rotation = Quaternion.RotateTowards(targetAnimationObject.transform.rotation, Quaternion.Euler(targetRotation), castForwardStrength * Time.deltaTime);
+                        targetAnimationObject.transform.rotation = Quaternion.RotateTowards(targetAnimationObject.transform.rotation, Quaternion.Euler(_targetRotation), castForwardStrength * Time.deltaTime);
                         break;
                 }
             }

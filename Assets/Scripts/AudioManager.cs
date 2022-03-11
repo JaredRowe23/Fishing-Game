@@ -107,25 +107,25 @@ namespace Fishing
 
         public bool IsPlaying(string _name)
         {
-            AudioSource source = GetSource(_name);
-            if (source == null)
+            AudioSource _source = GetSource(_name);
+            if (_source == null)
             {
                 Debug.Log("Could not find source with the given name: " + _name);
                 return false;
             }
-            return source.isPlaying;
+            return _source.isPlaying;
 
         }
 
         public AudioSource GetSource(string _name)
         {
-            foreach (AudioSource source in transform.GetComponentsInChildren<AudioSource>())
+            foreach (AudioSource _source in transform.GetComponentsInChildren<AudioSource>())
             {
-                if (!source.name.Contains(_name))
+                if (!_source.name.Contains(_name))
                 {
                     continue;
                 }
-                return source;
+                return _source;
             }
             Debug.Log("Could not find source with the given name: " + _name);
             return null;
@@ -133,10 +133,10 @@ namespace Fishing
 
         public Sound GetSound(string _name)
         {
-            foreach (Sound sound in sounds)
+            foreach (Sound _sound in sounds)
             {
-                if (sound.name != _name) continue;
-                return sound;
+                if (_sound.name != _name) continue;
+                return _sound;
             }
             Debug.Log("Could not find sound with the given name: " + _name);
             return null;
@@ -144,7 +144,7 @@ namespace Fishing
 
         public void StopPlaying(string _name)
         {
-            AudioSource source = GetSource(_name);
+            AudioSource _source = GetSource(_name);
             for (int i = 0; i > sounds.Length; i++)
             {
                 if (sounds[i].name != _name)
@@ -152,7 +152,7 @@ namespace Fishing
                     continue;
                 }
             }
-            source.Stop();
+            _source.Stop();
         }
     }
 

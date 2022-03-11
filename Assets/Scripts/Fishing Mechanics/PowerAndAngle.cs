@@ -9,24 +9,24 @@ namespace Fishing.FishingMechanics
     {
         [Header("Power Charge")]
         [SerializeField] private float chargeThreshold;
-        [SerializeField] private Slider _powerSlider;
+        [SerializeField] private Slider powerSlider;
 
 
         [Header("Angle Arrow")]
         [SerializeField] private float angleThreshold;
-        [SerializeField] private RectTransform _arrowRect;
+        [SerializeField] private RectTransform arrowRect;
 
-        private bool _charging;
-        private float _targetCharge;
-        private float _chargeFrequency;
-        private float _charge;
-        private float _minStrength;
-        private float _maxStrength;
+        private bool charging;
+        private float targetCharge;
+        private float chargeFrequency;
+        private float charge;
+        private float minStrength;
+        private float maxStrength;
 
-        private bool _angling;
-        private float _targetAngle;
-        private float _maxAngle;
-        private float _angleFrequency;
+        private bool angling;
+        private float targetAngle;
+        private float maxAngle;
+        private float angleFrequence;
         private float currentAngle;
 
         public static PowerAndAngle instance;
@@ -40,7 +40,7 @@ namespace Fishing.FishingMechanics
 
         void Update()
         {
-            if (_charging)
+            if (charging)
             {
                 Charge();
                 if (Input.GetMouseButtonUp(0))
@@ -48,7 +48,7 @@ namespace Fishing.FishingMechanics
                     StartAngling();
                 }    
             }
-            else if (_angling)
+            else if (angling)
             {
                 Angle();
                 if (Input.GetMouseButtonDown(0))
@@ -57,83 +57,83 @@ namespace Fishing.FishingMechanics
                 }
             }
         }
-        public void StartCharging(float __chargeFrequency, float __minStrength, float __maxStrength, float __maxAngle, float __angleFrequency)
+        public void StartCharging(float _chargeFrequency, float _minStrength, float _maxStrength, float _maxAngle, float _angleFrequence)
         {
             transform.SetParent(GameController.instance.rodCanvas.transform);
 
             AudioManager.instance.PlaySound("Power Audio");
 
-            _charge = 0f;
-            _minStrength = __minStrength;
-            _powerSlider.minValue = _minStrength;
+            charge = 0f;
+            minStrength = _minStrength;
+            powerSlider.minValue = minStrength;
 
-            _maxStrength = __maxStrength;
-            _powerSlider.maxValue = _maxStrength;
+            maxStrength = _maxStrength;
+            powerSlider.maxValue = maxStrength;
 
-            _chargeFrequency = __chargeFrequency;
-            _targetCharge = 1f;
-            _charging = true;
+            chargeFrequency = _chargeFrequency;
+            targetCharge = 1f;
+            charging = true;
 
             currentAngle = 0f;
-            _maxAngle = __maxAngle;
-            _targetAngle = _maxAngle;
-            _angleFrequency = __angleFrequency;
+            maxAngle = _maxAngle;
+            targetAngle = maxAngle;
+            angleFrequence = _angleFrequence;
 
-            _arrowRect.rotation = Quaternion.identity;
-            _angling = false;
+            arrowRect.rotation = Quaternion.identity;
+            angling = false;
         }
 
         private void Charge()
         {
             // Mathy schenanigans because I don't feel like recreating code to see if charging up or down
-            _charge += ((_targetCharge * 2) - 1) * Time.deltaTime / _chargeFrequency;
+            charge += ((targetCharge * 2) - 1) * Time.deltaTime / chargeFrequency;
 
-            if (_charge >= 1f - chargeThreshold && _targetCharge * 2 - 1 > 0f)
+            if (charge >= 1f - chargeThreshold && targetCharge * 2 - 1 > 0f)
             {
-                _charge = 1f;
-                _targetCharge = 0f;
+                charge = 1f;
+                targetCharge = 0f;
             }
-            else if (_charge <= 0f + chargeThreshold && _targetCharge * 2 - 1 < 0f)
+            else if (charge <= 0f + chargeThreshold && targetCharge * 2 - 1 < 0f)
             {
-                _charge = 0f;
-                _targetCharge = 1f;
+                charge = 0f;
+                targetCharge = 1f;
             }
-            _powerSlider.value = Mathf.Lerp(_minStrength, _maxStrength, _charge);
-            AudioManager.instance.GetSource("Power Audio").pitch = _charge;
+            powerSlider.value = Mathf.Lerp(minStrength, maxStrength, charge);
+            AudioManager.instance.GetSource("Power Audio").pitch = charge;
         }
 
         private void StartAngling()
         {
-            _charge = Mathf.Lerp(_powerSlider.minValue, _powerSlider.maxValue, _charge);
-            _angling = true;
-            _charging = false;
+            charge = Mathf.Lerp(powerSlider.minValue, powerSlider.maxValue, charge);
+            angling = true;
+            charging = false;
         }
 
         private void Angle()
         {
-            currentAngle += (((_targetAngle * 2 / _maxAngle) - 1) * Time.deltaTime / _angleFrequency) * _maxAngle;
+            currentAngle += (((targetAngle * 2 / maxAngle) - 1) * Time.deltaTime / angleFrequence) * maxAngle;
 
-            if (currentAngle >= _maxAngle - angleThreshold && (_targetAngle * 2 / _maxAngle) - 1 > 0f)
+            if (currentAngle >= maxAngle - angleThreshold && (targetAngle * 2 / maxAngle) - 1 > 0f)
             {
-                currentAngle = _maxAngle;
-                _targetAngle = 0f;
+                currentAngle = maxAngle;
+                targetAngle = 0f;
             }
-            else if (currentAngle <= 0f + angleThreshold && (_targetAngle * 2 / _maxAngle) - 1 < 0f)
+            else if (currentAngle <= 0f + angleThreshold && (targetAngle * 2 / maxAngle) - 1 < 0f)
             {
                 currentAngle = 0f;
-                _targetAngle = _maxAngle;
+                targetAngle = maxAngle;
             }
 
-            _arrowRect.rotation = Quaternion.Euler(0f, 0f, currentAngle);
-            AudioManager.instance.GetSource("Power Audio").pitch = Mathf.InverseLerp(0f, _maxAngle, currentAngle) + AudioManager.instance.GetSound("Power Audio").pitch;
+            arrowRect.rotation = Quaternion.Euler(0f, 0f, currentAngle);
+            AudioManager.instance.GetSource("Power Audio").pitch = Mathf.InverseLerp(0f, maxAngle, currentAngle) + AudioManager.instance.GetSound("Power Audio").pitch;
         }
 
         private void Cast()
         {
             AudioManager.instance.StopPlaying("Power Audio");
-            _angling = false;
+            angling = false;
             transform.SetParent(GameController.instance.transform);
-            GameController.instance.equippedRod.Cast(currentAngle, _charge);
+            GameController.instance.equippedRod.Cast(currentAngle, charge);
         }
     }
 

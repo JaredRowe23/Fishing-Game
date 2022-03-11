@@ -16,9 +16,12 @@ namespace Fishing
         private WaitForSeconds spawnTimer;
         [SerializeField] private int spawnAttempts;
 
+        private CameraBehaviour playerCam;
+
         private void Awake()
         {
             spawnTimer = new WaitForSeconds(spawnTimeSpacing);
+            playerCam = CameraBehaviour.instance;
         }
 
         private void Start()
@@ -46,7 +49,7 @@ namespace Fishing
         private void Spawn()
         {
             int i = 0;
-            Vector2 rand;
+            Vector2 _rand;
             while (true)
             {
                 if (i > spawnAttempts)
@@ -54,15 +57,15 @@ namespace Fishing
                     return;
                 }
 
-                rand = Random.insideUnitCircle * radius;
+                _rand = Random.insideUnitCircle * radius;
                 i++;
 
-                if (rand.y + transform.position.y >= 0f)
+                if (_rand.y + transform.position.y >= 0f)
                 {
                     continue;
                 }
 
-                if (Camera.main.GetComponent<CameraBehaviour>().IsInFrame(new Vector3(rand.x + transform.position.x, rand.y + transform.position.y, transform.position.z)))
+                if (playerCam.IsInFrame(new Vector3(_rand.x + transform.position.x, _rand.y + transform.position.y, transform.position.z)))
                 {
                     continue;
                 }
@@ -70,7 +73,7 @@ namespace Fishing
                 break;
             }
 
-            Vector3 spawnPos = new Vector3(rand.x + transform.position.x, rand.y + transform.position.y, transform.position.z);
+            Vector3 spawnPos = new Vector3(_rand.x + transform.position.x, _rand.y + transform.position.y, transform.position.z);
             GameObject newFish = Instantiate(prefab, spawnPos, Quaternion.identity, this.transform);
             spawnList.Add(newFish);
         }

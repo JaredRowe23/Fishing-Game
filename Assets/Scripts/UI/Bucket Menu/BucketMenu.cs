@@ -30,9 +30,9 @@ namespace Fishing.UI
 
         public void ShowBucketMenu()
         {
-            this.gameObject.SetActive(!this.gameObject.activeSelf);
+            gameObject.SetActive(!gameObject.activeSelf);
 
-            if (this.gameObject.activeSelf)
+            if (gameObject.activeSelf)
             {
                 AudioManager.instance.PlaySound("Open Bucket");
                 InitializeMenu();
@@ -48,13 +48,13 @@ namespace Fishing.UI
 
         void InitializeMenu()
         {
-            foreach (FishData item in bucket.bucketList)
+            foreach (FishData _item in bucket.bucketList)
             {
-                BucketMenuItem menu = Instantiate(bucketItemPrefab, content.transform).GetComponent<BucketMenuItem>();
-                menu.UpdateName(item.itemName);
-                menu.UpdateWeight(item.itemWeight);
-                menu.UpdateLength(item.itemLength);
-                menu.UpdateReference(item);
+                BucketMenuItem _menu = Instantiate(bucketItemPrefab, content.transform).GetComponent<BucketMenuItem>();
+                _menu.UpdateName(_item.itemName);
+                _menu.UpdateWeight(_item.itemWeight);
+                _menu.UpdateLength(_item.itemLength);
+                _menu.UpdateReference(_item);
             }
             capacityBar.value = bucket.bucketList.Count;
             capacityBar.maxValue = bucket.maxItems;
@@ -63,11 +63,11 @@ namespace Fishing.UI
 
         void DestroyMenu()
         {
-            foreach (Transform child in content.transform)
+            foreach (Transform _child in content.transform)
             {
-                if (child.GetComponent<BucketMenuItem>())
+                if (_child.GetComponent<BucketMenuItem>())
                 {
-                    Destroy(child.gameObject);
+                    Destroy(_child.gameObject);
                 }
             }
         }
@@ -78,50 +78,34 @@ namespace Fishing.UI
             InitializeMenu();
         }
 
-        public void ThrowAway(FishData itemReference, GameObject modelReference, GameObject menuItem)
+        public void ThrowAway(FishData _itemReference, GameObject _modelReference, GameObject _menuItem)
         {
-
             if (GameController.instance.overflowItem.activeSelf)
             {
-                if (menuItem == GameController.instance.overflowItem)
-                {
-                    if (modelReference)
-                    {
-                        Destroy(modelReference);
-                    }
-                    bucket.bucketList.Remove(itemReference);
-                    GameController.instance.itemInfoMenu.SetActive(false);
-                    menuItem.SetActive(false);
-                    ShowBucketMenu();
-                }
-                else
-                {
-                    if (modelReference)
-                    {
-                        Destroy(modelReference);
-                    }
-                    bucket.bucketList.Remove(itemReference);
-                    Destroy(menuItem);
-                    RefreshMenu();
+                bucket.bucketList.Remove(_itemReference);
 
+                if (_menuItem != GameController.instance.overflowItem)
+                {
                     GameController.instance.equippedRod.GetHook().AddToBucket();
-                    GameController.instance.itemInfoMenu.SetActive(false);
-                    menuItem.SetActive(false);
-                    GameController.instance.overflowItem.SetActive(false);
-                    ShowBucketMenu();
+                    Destroy(_menuItem);
                 }
+
+                GameController.instance.equippedRod.GetHook().DespawnHookedObject();
+                _menuItem.SetActive(false);
+                GameController.instance.overflowItem.SetActive(false);
             }
+
             else
             {
-                if (modelReference)
-                {
-                    Destroy(modelReference);
-                }
-                bucket.bucketList.Remove(itemReference);
-                Destroy(menuItem);
-                RefreshMenu();
+                bucket.bucketList.Remove(_itemReference);
+                Destroy(_menuItem);
             }
+
+            if (_modelReference) Destroy(_modelReference);
             AudioManager.instance.PlaySound("Throwaway Fish");
+            GameController.instance.itemInfoMenu.SetActive(false);
+            RefreshMenu();
+            ShowBucketMenu();
         }
     }
 

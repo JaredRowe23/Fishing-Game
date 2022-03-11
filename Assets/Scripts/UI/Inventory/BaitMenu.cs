@@ -17,31 +17,31 @@ namespace Fishing.UI
 
         [SerializeField] private List<Sprite> itemSprites;
 
-        public void ShowBaitMenu(bool active)
+        public void ShowBaitMenu(bool _active)
         {
-            this.gameObject.SetActive(active);
+            this.gameObject.SetActive(_active);
             InventoryMenu.instance.UpdateActiveMenu(1);
             GenerateSlots();
         }
 
         public void GenerateSlots()
         {
-            foreach (Transform child in slotParent.transform)
+            foreach (Transform _child in slotParent.transform)
             {
-                Destroy(child.gameObject);
+                Destroy(_child.gameObject);
             }
 
             int i = 0;
             if (GameController.instance.GetComponent<PlayerData>().bait.Count > 0)
             {
-                foreach (string bait in GameController.instance.GetComponent<PlayerData>().bait)
+                foreach (string _bait in GameController.instance.GetComponent<PlayerData>().bait)
                 {
-                    GameObject newSlot = Instantiate(slotPrefab, slotParent.transform);
-                    newSlot.GetComponent<RectTransform>().anchoredPosition = new Vector2((i % slotXMax) * slotXPadding + slotXStart, Mathf.Floor(i / slotXMax) * slotYPadding + slotYStart);
-                    BaitInventorySlot invSlot = newSlot.GetComponent<BaitInventorySlot>();
+                    GameObject _newSlot = Instantiate(slotPrefab, slotParent.transform);
+                    _newSlot.GetComponent<RectTransform>().anchoredPosition = new Vector2((i % slotXMax) * slotXPadding + slotXStart, Mathf.Floor(i / slotXMax) * slotYPadding + slotYStart);
+                    BaitInventorySlot _invSlot = _newSlot.GetComponent<BaitInventorySlot>();
 
-                    invSlot.title.text = bait;
-                    invSlot.countText.text = "x" + GameController.instance.GetComponent<PlayerData>().baitCounts[i].ToString();
+                    _invSlot.title.text = _bait;
+                    _invSlot.countText.text = "x" + GameController.instance.GetComponent<PlayerData>().baitCounts[i].ToString();
 
                     i++;
                 }

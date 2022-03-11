@@ -25,35 +25,35 @@ namespace Fishing.UI
         private void Start() => GenerateSlots();
 
 
-        public void ShowRodMenu(bool active)
+        public void ShowRodMenu(bool _active)
         {
-            gameObject.SetActive(active);
+            gameObject.SetActive(_active);
             InventoryMenu.instance.UpdateActiveMenu(0);
             GenerateSlots();
         }
 
         public void GenerateSlots()
         {
-            foreach (Transform child in slotParent.transform)
+            foreach (Transform _child in slotParent.transform)
             {
-                Destroy(child.gameObject);
+                Destroy(_child.gameObject);
             }
             int i = 0;
-            foreach (string rod in GameController.instance.GetComponent<PlayerData>().fishingRods)
+            foreach (string _rod in GameController.instance.GetComponent<PlayerData>().fishingRods)
             {
-                GameObject newSlot = Instantiate(slotPrefab, slotParent.transform);
-                newSlot.GetComponent<RectTransform>().anchoredPosition = new Vector2((i % slotXMax) * slotXPadding + slotXStart, Mathf.Floor(i / slotXMax) * slotYPadding + slotYStart);
-                RodInventorySlot invSlot = newSlot.GetComponent<RodInventorySlot>();
+                GameObject _newSlot = Instantiate(slotPrefab, slotParent.transform);
+                _newSlot.GetComponent<RectTransform>().anchoredPosition = new Vector2((i % slotXMax) * slotXPadding + slotXStart, Mathf.Floor(i / slotXMax) * slotYPadding + slotYStart);
+                RodInventorySlot _invSlot = _newSlot.GetComponent<RodInventorySlot>();
 
-                invSlot.title.text = rod;
+                _invSlot.title.text = _rod;
 
                 int j = 0;
-                foreach (GameObject prefab in rodPrefabs)
+                foreach (GameObject _prefab in rodPrefabs)
                 {
-                    if (prefab.name == rod)
+                    if (_prefab.name == _rod)
                     {
-                        invSlot.itemReference = prefab;
-                        invSlot.sprite.sprite = rodSprites[j];
+                        _invSlot.itemReference = _prefab;
+                        _invSlot.sprite.sprite = rodSprites[j];
                         break;
                     }
                     j++;
@@ -67,16 +67,16 @@ namespace Fishing.UI
 
         public void UpdateEquippedRod()
         {
-            foreach (Transform slot in slotParent.transform)
+            foreach (Transform _slot in slotParent.transform)
             {
-                RodInventorySlot invSlot = slot.GetComponent<RodInventorySlot>();
-                if (invSlot.itemReference.name == GameController.instance.GetComponent<PlayerData>().equippedRod)
+                RodInventorySlot _invSlot = _slot.GetComponent<RodInventorySlot>();
+                if (_invSlot.itemReference.name == GameController.instance.GetComponent<PlayerData>().equippedRod)
                 {
-                    invSlot.equippedCheck.SetActive(true);
+                    _invSlot.equippedCheck.SetActive(true);
                 }
                 else
                 {
-                    invSlot.equippedCheck.SetActive(false);
+                    _invSlot.equippedCheck.SetActive(false);
                 }
             }
         }
@@ -86,6 +86,7 @@ namespace Fishing.UI
         {
             if (_rodName != "")
             {
+                Camera.main.transform.parent = null;
                 DestroyImmediate(GameController.instance.equippedRod.gameObject);
             }
             else

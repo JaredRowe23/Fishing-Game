@@ -13,13 +13,13 @@ namespace Fishing.UI
         [SerializeField] private Text itemLength;
         private FishData itemReference;
 
-        public void UpdateName(string name) => itemName.text = name;
+        public void UpdateName(string _name) => itemName.text = _name;
 
-        public void UpdateWeight(float weight) => itemWeight.text = weight.ToString() + " kg";
+        public void UpdateWeight(float _weight) => itemWeight.text = _weight.ToString() + " kg";
 
-        public void UpdateLength(float length) => itemLength.text = length.ToString() + " cm";
+        public void UpdateLength(float _length) => itemLength.text = _length.ToString() + " cm";
 
-        public void UpdateReference(FishData reference) => itemReference = reference;
+        public void UpdateReference(FishData _reference) => itemReference = _reference;
 
         public void OpenInfoMenu()
         {

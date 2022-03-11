@@ -31,11 +31,11 @@ namespace Fishing.Fishables
             transform.parent = null;
             transform.localScale = Vector3.one * length / 100f;
             transform.parent = parent;
-            foreach (Transform child in transform)
+            foreach (Transform _child in transform)
             {
-                if (child.name == "Cube")
+                if (_child.name == "Cube")
                 {
-                    minimapIndicator = child.gameObject;
+                    minimapIndicator = _child.gameObject;
                 }
             }
         }

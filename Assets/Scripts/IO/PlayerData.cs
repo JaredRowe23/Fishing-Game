@@ -44,19 +44,19 @@ namespace Fishing.IO
 
         public void LoadPlayer()
         {
-            GameData saveData = SaveSystem.LoadGame();
+            GameData _saveData = SaveSystem.LoadGame();
 
-            playerName = saveData.playerName;
-            money = saveData.money;
+            playerName = _saveData.playerName;
+            money = _saveData.money;
 
-            fishingRods = saveData.fishingRods;
-            equippedRod = saveData.equippedRod;
+            fishingRods = _saveData.fishingRods;
+            equippedRod = _saveData.equippedRod;
 
-            gear = saveData.gear;
-            equippedGear = saveData.equippedGear;
+            gear = _saveData.gear;
+            equippedGear = _saveData.equippedGear;
 
-            bait = saveData.bait;
-            baitCounts = saveData.baitCounts;
+            bait = _saveData.bait;
+            baitCounts = _saveData.baitCounts;
 
             GameController.instance.SpawnRod(equippedRod);
         }

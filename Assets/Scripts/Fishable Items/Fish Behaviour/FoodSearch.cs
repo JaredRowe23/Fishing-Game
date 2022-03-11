@@ -88,15 +88,7 @@ namespace Fishing.Fishables.Fish
                     }
                 }
 
-                int[] typeArray = GetTypesArray(types);
-
-                bool desiredType = false;
-                for (int i = 0; i < typeArray.Length; i++)
-                {
-                    if (typeArray[i] != toCheckType) continue;
-                    desiredType = true;
-                }
-                if (desiredType == false)
+                if (!IsDesiredType())
                 {
                     return nearestFoodIndex;
                 }
@@ -107,9 +99,7 @@ namespace Fishing.Fishables.Fish
                     return foodSearchIndex;
                 }
 
-                float dot = Vector2.Dot(forward, Vector3.Normalize(GlobalToLocal()));
-                float angle = Mathf.Acos(dot) * 180 * 0.3183098861928886f;
-                if (angle < sightAngle)
+                if (IsInSightAngle())
                 {
                     nearestFoodDistance = _distance;
                     return foodSearchIndex;
@@ -119,27 +109,47 @@ namespace Fishing.Fishables.Fish
                 return nearestFoodIndex;
             }
 
+            private bool IsDesiredType()
+            {
+                int[] _typeArray = GetTypesArray(types);
+
+                for (int i = 0; i < _typeArray.Length; i++)
+                {
+                    if (_typeArray[i] == toCheckType) return true;
+                }
+
+                return false;
+            }
+
+            private bool IsInSightAngle()
+            {
+                float _dot = Vector2.Dot(forward, Vector3.Normalize(GlobalToLocal()));
+                float _angle = Mathf.Acos(_dot) * 180 * 0.3183098861928886f;
+                if (_angle < sightAngle) return true;
+                return false;
+            }
+
             private int[] GetTypesArray(long _types)
             {
-                int[] digitArray = new int[(int)(Mathf.Floor(Mathf.Log10((long)_types) + 1) - 1)];
-                int[] typeArray = new int[(int)(digitArray.Length * 0.5f)];
+                int[] _digitArray = new int[(int)(Mathf.Floor(Mathf.Log10((long)_types) + 1) - 1)];
+                int[] _typeArray = new int[(int)(_digitArray.Length * 0.5f)];
 
                 long num = _types;
-                for (int i = 0; i < digitArray.Length; i++)
+                for (int i = 0; i < _digitArray.Length; i++)
                 {
                     if (num == 1)
                     {
                         break;
                     }
-                    digitArray[digitArray.Length - 1 - i] = (int)(num % 10);
+                    _digitArray[_digitArray.Length - 1 - i] = (int)(num % 10);
                     num = (long)(num / 10);
                 }
 
-                for (int i = 0; i < typeArray.Length; i++)
+                for (int i = 0; i < _typeArray.Length; i++)
                 {
-                    typeArray[i] = digitArray[i * 2] * 10 + digitArray[(i * 2) + 1];
+                    _typeArray[i] = _digitArray[i * 2] * 10 + _digitArray[(i * 2) + 1];
                 }
-                return typeArray;
+                return _typeArray;
             }
 
             private Vector3 GlobalToLocal() => (toCheckPos - position);
@@ -164,9 +174,9 @@ namespace Fishing.Fishables.Fish
 
                 for (int i = 0; i < sightDensity; i++)
                 {
-                    Vector3 dir = -transform.right;
-                    dir = Quaternion.Euler(0f, 0f, -sightAngle + (i * sightAngle * 2 / sightDensity)) * dir;
-                    Debug.DrawRay(transform.position, dir * sightDistance, Color.green);
+                    Vector3 _dir = -transform.right;
+                    _dir = Quaternion.Euler(0f, 0f, -sightAngle + (i * sightAngle * 2 / sightDensity)) * _dir;
+                    Debug.DrawRay(transform.position, _dir * sightDistance, Color.green);
                 }
             }
             else
@@ -186,17 +196,17 @@ namespace Fishing.Fishables.Fish
                 Debug.LogError("Too many food types assigned to object for c# long to handle!", this);
                 return 0;
             }
-            string typesString = "1";
+            string _typesString = "1";
             for (int i = 0; i < desiredFoodTypes.Length; i++)
             {
-                int typeInt = (int)desiredFoodTypes[i];
-                if (typeInt < 10)
+                int _typeInt = (int)desiredFoodTypes[i];
+                if (_typeInt < 10)
                 {
-                    typesString += "0";
+                    _typesString += "0";
                 }
-                typesString += typeInt.ToString();
+                _typesString += _typeInt.ToString();
             }
-            long types = long.Parse(typesString);
+            long types = long.Parse(_typesString);
             return types;
         }
     }

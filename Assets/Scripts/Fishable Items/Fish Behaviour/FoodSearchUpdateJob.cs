@@ -13,18 +13,18 @@ namespace Fishing.Fishables.Fish
         [NativeDisableParallelForRestriction] public NativeArray<int> PotentialFoodTypeArray;
         [NativeDisableParallelForRestriction] public NativeArray<bool> IsOccupiedHookArray;
 
-        public void Execute(int index)
+        public void Execute(int _index)
         {
-            FoodSearch.Data data = FoodSearchDataArray[index];
+            FoodSearch.Data _data = FoodSearchDataArray[_index];
             for (int i = 0; i < PotentialFoodPositionArray.Length; i++)
             {
-                data.toCheckPos = PotentialFoodPositionArray[i];
-                data.toCheckType = PotentialFoodTypeArray[i];
-                data.isOccupiedHook = IsOccupiedHookArray[i];
-                data.foodSearchIndex = i;
-                data.Update();
+                _data.toCheckPos = PotentialFoodPositionArray[i];
+                _data.toCheckType = PotentialFoodTypeArray[i];
+                _data.isOccupiedHook = IsOccupiedHookArray[i];
+                _data.foodSearchIndex = i;
+                _data.Update();
             }
-            FoodSearchDataArray[index] = data;
+            FoodSearchDataArray[_index] = _data;
         }
     }
 

@@ -11,12 +11,16 @@ namespace Fishing.Fishables.Fish
     public class Fish1Behaviour : MonoBehaviour, IEdible
     {
         [Header("Movement")]
+        [SerializeField] private int generateWanderPositionPasses;
         [SerializeField] private float wanderSpeed;
         [SerializeField] private float wanderDistance;
         [SerializeField] private float wanderDistanceVariation;
+
         [SerializeField] private float maxHomeDistance;
         [SerializeField] private float maxHomeDistanceVariation;
+
         [SerializeField] private float distanceThreshold;
+
         [SerializeField] private float chaseSpeed;
         [SerializeField] private float eatDistance;
 
@@ -88,12 +92,22 @@ namespace Fishing.Fishables.Fish
                 }
                 else
                 {
-                    Vector2 rand = Random.insideUnitCircle * wanderDistance;
-                    while (rand.y + transform.position.y >= 0f || Vector3.Distance(new Vector3(rand.x + transform.position.x, rand.y + transform.position.y, transform.position.z), transform.parent.position) >= maxHomeDistance)
+                    Vector2 _rand = Random.insideUnitCircle * wanderDistance;
+                    int i = 0;
+                    while (true)
                     {
-                        rand = Random.insideUnitCircle * wanderDistance;
+                        if (i >= generateWanderPositionPasses) break;
+
+                        bool _aboveWater = _rand.y + transform.position.y >= 0f;
+                        float _distanceFromHome = Vector3.Distance(new Vector3(_rand.x + transform.position.x, _rand.y + transform.position.y, transform.position.z), transform.parent.position);
+                        i++;
+
+                        if (_aboveWater) continue;
+                        if (_distanceFromHome > maxHomeDistance) continue;
+                        targetPos = new Vector3(transform.position.x + _rand.x, transform.position.y + _rand.y, 0f);
+                        break;
                     }
-                    targetPos = new Vector3(transform.position.x + rand.x, transform.position.y + rand.y, 0f);
+
                 }
                 yield return holdTimer;
             }

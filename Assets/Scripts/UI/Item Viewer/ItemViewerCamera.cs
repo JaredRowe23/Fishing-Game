@@ -29,12 +29,12 @@ namespace Fishing.UI
 
                 // scrollwheel will move (zoom) the camera in and out
                 // scaled off it's current distance and the item's scale
-                float scroll = Input.GetAxis("Mouse ScrollWheel");
+                float _scroll = Input.GetAxis("Mouse ScrollWheel");
 
-                Transform parent = currentItem.transform.parent;
+                Transform _parent = currentItem.transform.parent;
                 currentItem.transform.parent = null;
 
-                transform.Translate(0f, 0f, scroll * scrollMultiplier * Mathf.Abs(transform.localPosition.z));
+                transform.Translate(0f, 0f, _scroll * scrollMultiplier * Mathf.Abs(transform.localPosition.z));
 
                 if (transform.localPosition.z > -currentItem.transform.localScale.z)
                 {
@@ -45,7 +45,7 @@ namespace Fishing.UI
                     transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -currentItem.transform.localScale.z * maximumZoomOutMultiplier);
                 }
 
-                currentItem.transform.parent = parent;
+                currentItem.transform.parent = _parent;
             }
 
             if (Input.GetMouseButtonUp(0))
@@ -66,23 +66,23 @@ namespace Fishing.UI
         // This is a runoff of the ItemInfoMenu's UpdateMenu function, which does most of the heavy lifting
         // Change all items to an "unrendered" layer to this camera and move our current item to the rendered layer
         // Also reset the rotation and set the location to fit into the camera
-        public void UpdateCurrentItem(GameObject item)
+        public void UpdateCurrentItem(GameObject _item)
         {
-            currentItem = item;
+            currentItem = _item;
 
             currentItem.layer = 8;
-            foreach (Transform child in currentItem.transform)
+            foreach (Transform _child in currentItem.transform)
             {
-                child.gameObject.layer = 8;
+                _child.gameObject.layer = 8;
             }
 
             currentItem.transform.rotation = Quaternion.identity;
-            Transform parent = currentItem.transform.parent;
+            Transform _parent = currentItem.transform.parent;
             currentItem.transform.parent = null;
 
             transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -currentItem.transform.localScale.z);
 
-            currentItem.transform.parent = parent;
+            currentItem.transform.parent = _parent;
         }
     }
 

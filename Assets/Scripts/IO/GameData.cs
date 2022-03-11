@@ -17,19 +17,19 @@ namespace Fishing.IO
         public List<string> bait;
         public List<int> baitCounts;
 
-        public GameData(PlayerData playerData)
+        public GameData(PlayerData _playerData)
         {
-            playerName = playerData.playerName;
-            money = playerData.money;
+            playerName = _playerData.playerName;
+            money = _playerData.money;
 
-            fishingRods = playerData.fishingRods;
-            equippedRod = playerData.equippedRod;
+            fishingRods = _playerData.fishingRods;
+            equippedRod = _playerData.equippedRod;
 
-            gear = playerData.gear;
-            equippedGear = playerData.equippedGear;
+            gear = _playerData.gear;
+            equippedGear = _playerData.equippedGear;
 
-            bait = playerData.bait;
-            baitCounts = playerData.baitCounts;
+            bait = _playerData.bait;
+            baitCounts = _playerData.baitCounts;
         }
     }
 

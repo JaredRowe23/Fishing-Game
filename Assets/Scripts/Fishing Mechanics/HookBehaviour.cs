@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fishing.Fishables;
 using Fishing.Inventory; // may not be necessary with AddToBucket rework
-using Fishing.UI; // may not be necessary with AddToBucket rework
 
 namespace Fishing.FishingMechanics
 {
@@ -98,7 +97,6 @@ namespace Fishing.FishingMechanics
         public void Despawn()
         {
             DespawnHookedObject();
-            playerCam.transform.parent = null;
             GameController.instance.RemoveFood(GetComponent<Edible>());
         }
 
@@ -132,12 +130,12 @@ namespace Fishing.FishingMechanics
             SetHook(_other.GetComponent<FishableItem>());
         }
 
-        public void SetHook(FishableItem fishable)
+        public void SetHook(FishableItem _fishable)
         {
             if (hookedObject != null) return;
 
-            fishable.OnHooked(transform);
-            hookedObject = fishable.gameObject;
+            _fishable.OnHooked(transform);
+            hookedObject = _fishable.gameObject;
         }
 
         public void DespawnHookedObject()
@@ -147,43 +145,9 @@ namespace Fishing.FishingMechanics
 
         public void AddToBucket()
         {
-            AudioManager.instance.StopPlaying("Reel");
-
             if (hookedObject == null) return;
 
-            AudioManager.instance.PlaySound("Catch Fish");
-
-            if (BucketBehaviour.instance.bucketList.Count >= BucketBehaviour.instance.maxItems)
-            {
-                BucketMenu.instance.ShowBucketMenu();
-                GameController.instance.overflowItem.SetActive(true);
-
-                FishableItem _item = hookedObject.GetComponent<FishableItem>();
-                BucketMenuItem _overflowMenu = GameController.instance.overflowItem.GetComponent<BucketMenuItem>();
-
-                _overflowMenu.UpdateName(_item.GetName());
-                _overflowMenu.UpdateLength(_item.GetLength());
-                _overflowMenu.UpdateWeight(_item.GetWeight());
-
-                FishData newData = new FishData();
-                {
-                    newData.itemName = _item.GetName();
-                    newData.itemDescription = _item.GetDescription();
-                    newData.itemWeight = _item.GetWeight();
-                    newData.itemLength = _item.GetLength();
-                }
-
-                _overflowMenu.UpdateReference(newData);
-                Destroy(hookedObject);
-                hookedObject = null;
-            }
-            else
-            {
-                AudioManager.instance.PlaySound("Add To Bucket");
-                BucketBehaviour.instance.AddToBucket(hookedObject.GetComponent<FishableItem>());
-                hookedObject.GetComponent<IEdible>().Despawn();
-                hookedObject = null;
-            }
+            BucketBehaviour.instance.AddToBucket(hookedObject.GetComponent<FishableItem>());
         }
     }
 

@@ -45,9 +45,9 @@ namespace Fishing.UI
 
             if (!this.gameObject.activeSelf)
             {
-                foreach (GameObject page in menuPages)
+                foreach (GameObject _page in menuPages)
                 {
-                    page.SetActive(false);
+                    _page.SetActive(false);
                 }
             }
             else
@@ -58,20 +58,20 @@ namespace Fishing.UI
             GameController.instance.inventoryMenuButton.SetActive(!this.gameObject.activeSelf);
         }
 
-        public void UpdateActiveMenu(int menu)
+        public void UpdateActiveMenu(int _menu)
         {
-            if (menu != activeMenu)
+            if (_menu != activeMenu)
             {
                 AudioManager.instance.PlaySound("Inventory Tab");
-                foreach (Image tab in tabButtons)
+                foreach (Image _tab in tabButtons)
                 {
-                    tab.transform.SetAsFirstSibling();
+                    _tab.transform.SetAsFirstSibling();
                 }
 
                 menuPages[activeMenu].SetActive(false);
                 tabButtons[activeMenu].sprite = inactiveTabBackground;
 
-                activeMenu = menu;
+                activeMenu = _menu;
                 menuPages[activeMenu].SetActive(true);
                 tabButtons[activeMenu].sprite = activeTabBackground;
                 tabButtons[activeMenu].transform.SetAsLastSibling();

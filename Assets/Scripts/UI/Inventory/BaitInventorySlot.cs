@@ -11,5 +11,4 @@ namespace Fishing.UI
         public Image sprite;
         public Text countText;
     }
-
 }

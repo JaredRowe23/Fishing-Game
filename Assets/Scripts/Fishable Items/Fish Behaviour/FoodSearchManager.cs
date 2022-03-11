@@ -15,27 +15,27 @@ namespace Fishing.Fishables.Fish
 
         private void Update()
         {
-            NativeArray<FoodSearch.Data> foodSearchDataArray = new NativeArray<FoodSearch.Data>(fish.Count, Allocator.TempJob);
+            NativeArray<FoodSearch.Data> _foodSearchDataArray = new NativeArray<FoodSearch.Data>(fish.Count, Allocator.TempJob);
             for (int i = 0; i < fish.Count; i++)
             {
-                FoodSearch search = fish[i].GetComponent<FoodSearch>();
-                foodSearchDataArray[i] = new FoodSearch.Data(fish[i].transform.position, -fish[i].transform.right, search.GetSightRange(), search.GetSightAngle(), search.GetSmellRange(), i, search.GetFoodTypes());
+                FoodSearch _search = fish[i].GetComponent<FoodSearch>();
+                _foodSearchDataArray[i] = new FoodSearch.Data(fish[i].transform.position, -fish[i].transform.right, _search.GetSightRange(), _search.GetSightAngle(), _search.GetSmellRange(), i, _search.GetFoodTypes());
                 
             }
 
-            NativeArray<Vector3> potentialFoodPositionArray = new NativeArray<Vector3>(edibleItems.Count, Allocator.TempJob);
-            NativeArray<int> potentialFoodTypeArray = new NativeArray<int>(edibleItems.Count, Allocator.TempJob);
-            NativeArray<bool> isOccupiedHookArray = new NativeArray<bool>(edibleItems.Count, Allocator.TempJob);
+            NativeArray<Vector3> _potentialFoodPositionArray = new NativeArray<Vector3>(edibleItems.Count, Allocator.TempJob);
+            NativeArray<int> _potentialFoodTypeArray = new NativeArray<int>(edibleItems.Count, Allocator.TempJob);
+            NativeArray<bool> _isOccupiedHookArray = new NativeArray<bool>(edibleItems.Count, Allocator.TempJob);
 
             for (int i = 0; i < edibleItems.Count; i++)
             {
                 Vector3 pos = edibleItems[i].transform.position;
-                potentialFoodPositionArray[i] = pos;
+                _potentialFoodPositionArray[i] = pos;
 
                 int type = edibleItems[i].GetFoodType();
-                potentialFoodTypeArray[i] = type;
+                _potentialFoodTypeArray[i] = type;
 
-                isOccupiedHookArray[i] = false;
+                _isOccupiedHookArray[i] = false;
                 if (!edibleItems[i].GetComponent<HookBehaviour>())
                 {
                     continue;
@@ -43,35 +43,35 @@ namespace Fishing.Fishables.Fish
 
                 if (edibleItems[i].GetComponent<HookBehaviour>().hookedObject != null)
                 {
-                    isOccupiedHookArray[i] = true;
+                    _isOccupiedHookArray[i] = true;
                 }
             }
 
-            FoodSearchUpdateJob job = new FoodSearchUpdateJob
+            FoodSearchUpdateJob _job = new FoodSearchUpdateJob
             {
-                FoodSearchDataArray = foodSearchDataArray,
-                PotentialFoodPositionArray = potentialFoodPositionArray,
-                PotentialFoodTypeArray = potentialFoodTypeArray,
-                IsOccupiedHookArray = isOccupiedHookArray
+                FoodSearchDataArray = _foodSearchDataArray,
+                PotentialFoodPositionArray = _potentialFoodPositionArray,
+                PotentialFoodTypeArray = _potentialFoodTypeArray,
+                IsOccupiedHookArray = _isOccupiedHookArray
             };
 
-            JobHandle jobHandle = job.Schedule(foodSearchDataArray.Length, innerloopBatchCount);
-            jobHandle.Complete();
+            JobHandle _jobHandle = _job.Schedule(_foodSearchDataArray.Length, innerloopBatchCount);
+            _jobHandle.Complete();
 
             for (int i = 0; i < fish.Count; i++)
             {
-                if (foodSearchDataArray[i].nearestFoodIndex == -1)
+                if (_foodSearchDataArray[i].nearestFoodIndex == -1)
                 {
                     fish[i].desiredFood = null;
                     continue;
                 }
-                fish[i].desiredFood = edibleItems[foodSearchDataArray[i].nearestFoodIndex].gameObject;
+                fish[i].desiredFood = edibleItems[_foodSearchDataArray[i].nearestFoodIndex].gameObject;
             }
 
-            foodSearchDataArray.Dispose();
-            potentialFoodPositionArray.Dispose();
-            potentialFoodTypeArray.Dispose();
-            isOccupiedHookArray.Dispose();
+            _foodSearchDataArray.Dispose();
+            _potentialFoodPositionArray.Dispose();
+            _potentialFoodTypeArray.Dispose();
+            _isOccupiedHookArray.Dispose();
         }
     }
 

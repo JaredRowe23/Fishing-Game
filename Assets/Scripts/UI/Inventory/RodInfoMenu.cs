@@ -12,11 +12,11 @@ namespace Fishing.UI
         [SerializeField] private Text rodName;
         [SerializeField] private Text rodDescription;
 
-        public void UpdateRodInfo(RodBehaviour rod)
+        public void UpdateRodInfo(RodBehaviour _rod)
         {
-            rodSprite.sprite = rod.inventorySprite;
-            rodName.text = rod.gameObject.name;
-            rodDescription.text = rod.GetDescription();
+            rodSprite.sprite = _rod.inventorySprite;
+            rodName.text = _rod.gameObject.name;
+            rodDescription.text = _rod.GetDescription();
         }
 
         public void UpdateBaitOptions()

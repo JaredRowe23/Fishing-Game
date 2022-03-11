@@ -14,11 +14,11 @@ namespace Fishing.UI
 
         public void EquipRod()
         {
-            foreach (Transform child in transform)
+            foreach (Transform _child in transform)
             {
-                if (child.GetComponent<Text>())
+                if (_child.GetComponent<Text>())
                 {
-                    RodsMenu.instance.EquipRod(child.GetComponent<Text>().text, true);
+                    RodsMenu.instance.EquipRod(_child.GetComponent<Text>().text, true);
                 }
             }
         }

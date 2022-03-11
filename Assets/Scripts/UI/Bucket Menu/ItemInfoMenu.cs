@@ -21,15 +21,15 @@ namespace Fishing.UI
         private FishData itemReference;
         private GameObject menuListingReference;
 
-        public void UpdateMenu(string name, string weight, string length, string description, FishData reference, GameObject menuListing)
+        public void UpdateMenu(string _name, string _weight, string _length, string _description, FishData _reference, GameObject _menuListing)
         {
-            itemName.text = name;
-            itemWeight.text = weight;
-            itemLength.text = length;
-            itemDescription.text = description;
-            menuListingReference = menuListing;
-            itemReference = reference;
-            GenerateModel(name);
+            itemName.text = _name;
+            itemWeight.text = _weight;
+            itemLength.text = _length;
+            itemDescription.text = _description;
+            menuListingReference = _menuListing;
+            itemReference = _reference;
+            GenerateModel(_name);
             ItemViewerCamera.instance.UpdateCurrentItem(currentModel);
         }
 
@@ -44,16 +44,13 @@ namespace Fishing.UI
             return itemName.text;
         }
 
-        public GameObject GenerateModel(string itemName)
+        public GameObject GenerateModel(string _itemName)
         {
-            if (currentModel != null)
-            {
-                Destroy(currentModel);
-            }
+            if (currentModel != null) Destroy(currentModel);
 
             for (int i = 0; i < models.Count; i++)
             {
-                if (modelNames[i] == itemName)
+                if (modelNames[i] == _itemName)
                 {
                     currentModel = Instantiate(models[i]);
                 }

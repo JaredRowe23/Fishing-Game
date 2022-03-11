@@ -16,9 +16,10 @@ namespace Fishing.PlayerCamera
         public static CameraBehaviour instance;
         public Camera cam;
 
+        private CameraBehaviour() => instance = this;
+
         private void Awake()
         {
-            instance = this;
             cam = GetComponent<Camera>();
         }
 
@@ -31,11 +32,11 @@ namespace Fishing.PlayerCamera
             else if (Mathf.Abs(transform.position.z) < minZoom) transform.position = new Vector3(transform.position.x, transform.position.y, -minZoom);
         }
 
-        public bool IsInFrame(Vector3 pos)
+        public bool IsInFrame(Vector3 _pos)
         {
-            Vector3 viewportPos = cam.WorldToViewportPoint(pos);
+            Vector3 _viewportPos = cam.WorldToViewportPoint(_pos);
 
-            if (viewportPos.x < 0f || viewportPos.x > 1f || viewportPos.y < 0f || viewportPos.y > 1f) return false;
+            if (_viewportPos.x < 0f || _viewportPos.x > 1f || _viewportPos.y < 0f || _viewportPos.y > 1f) return false;
 
             else return true;
         }
