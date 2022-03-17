@@ -21,9 +21,9 @@ namespace Fishing.UI
         private void Start()
         {
             activeMenu = 0;
-            GameController.instance.rodMenuButton.GetComponent<Image>().sprite = activeTabBackground;
-            GameController.instance.baitMenuButton.GetComponent<Image>().sprite = inactiveTabBackground;
-            GameController.instance.gearMenuButton.GetComponent<Image>().sprite = inactiveTabBackground;
+            UIManager.instance.rodMenuButton.GetComponent<Image>().sprite = activeTabBackground;
+            UIManager.instance.baitMenuButton.GetComponent<Image>().sprite = inactiveTabBackground;
+            UIManager.instance.gearMenuButton.GetComponent<Image>().sprite = inactiveTabBackground;
         }
 
         void Update()
@@ -39,7 +39,7 @@ namespace Fishing.UI
 
         public void ShowInventoryMenu()
         {
-            GameController.instance.mouseOverUI = null;
+            UIManager.instance.mouseOverUI = null;
 
             this.gameObject.SetActive(!this.gameObject.activeSelf);
 
@@ -54,8 +54,8 @@ namespace Fishing.UI
             {
                 menuPages[activeMenu].SetActive(true);
             }
-            GameController.instance.bucketMenuButton.gameObject.SetActive(!this.gameObject.activeSelf);
-            GameController.instance.inventoryMenuButton.SetActive(!this.gameObject.activeSelf);
+            UIManager.instance.bucketMenuButton.gameObject.SetActive(!this.gameObject.activeSelf);
+            UIManager.instance.inventoryMenuButton.SetActive(!this.gameObject.activeSelf);
         }
 
         public void UpdateActiveMenu(int _menu)

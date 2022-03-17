@@ -35,7 +35,7 @@ namespace Fishing.FishingMechanics
 
         private void Start()
         {
-            transform.SetParent(GameController.instance.transform);
+            transform.SetParent(UIManager.instance.transform);
         }
 
         void Update()
@@ -59,7 +59,7 @@ namespace Fishing.FishingMechanics
         }
         public void StartCharging(float _chargeFrequency, float _minStrength, float _maxStrength, float _maxAngle, float _angleFrequence)
         {
-            transform.SetParent(GameController.instance.rodCanvas.transform);
+            transform.SetParent(UIManager.instance.rodCanvas.transform);
 
             AudioManager.instance.PlaySound("Power Audio");
 
@@ -132,7 +132,7 @@ namespace Fishing.FishingMechanics
         {
             AudioManager.instance.StopPlaying("Power Audio");
             angling = false;
-            transform.SetParent(GameController.instance.transform);
+            transform.SetParent(UIManager.instance.transform);
             GameController.instance.equippedRod.Cast(currentAngle, charge);
         }
     }

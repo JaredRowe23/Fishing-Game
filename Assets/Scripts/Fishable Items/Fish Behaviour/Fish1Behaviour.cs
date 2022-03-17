@@ -82,7 +82,7 @@ namespace Fishing.Fishables.Fish
             FlipTowardsTarget();
         }
 
-        IEnumerator Co_SetWanderPoint()
+        private IEnumerator Co_SetWanderPoint()
         {
             while (true)
             {

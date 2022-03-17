@@ -32,8 +32,8 @@ namespace Fishing.Inventory
             if (bucketList.Count >= maxItems)
             {
                 BucketMenu.instance.ShowBucketMenu();
-                GameController.instance.overflowItem.SetActive(true);
-                BucketMenuItem _overflowMenu = GameController.instance.overflowItem.GetComponent<BucketMenuItem>();
+                UIManager.instance.overflowItem.SetActive(true);
+                BucketMenuItem _overflowMenu = UIManager.instance.overflowItem.GetComponent<BucketMenuItem>();
 
                 _overflowMenu.UpdateName(_item.GetName());
                 _overflowMenu.UpdateLength(_newItem.itemLength);

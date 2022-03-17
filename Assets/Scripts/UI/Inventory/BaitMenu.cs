@@ -16,6 +16,12 @@ namespace Fishing.UI
         [SerializeField] private int slotXMax;
 
         [SerializeField] private List<Sprite> itemSprites;
+        private PlayerData playerData;
+
+        private void Start()
+        {
+            playerData = UIManager.instance.GetComponent<PlayerData>();
+        }
 
         public void ShowBaitMenu(bool _active)
         {
@@ -32,16 +38,17 @@ namespace Fishing.UI
             }
 
             int i = 0;
-            if (GameController.instance.GetComponent<PlayerData>().bait.Count > 0)
+
+            if (playerData.bait.Count > 0)
             {
-                foreach (string _bait in GameController.instance.GetComponent<PlayerData>().bait)
+                foreach (string _bait in playerData.bait)
                 {
                     GameObject _newSlot = Instantiate(slotPrefab, slotParent.transform);
                     _newSlot.GetComponent<RectTransform>().anchoredPosition = new Vector2((i % slotXMax) * slotXPadding + slotXStart, Mathf.Floor(i / slotXMax) * slotYPadding + slotYStart);
                     BaitInventorySlot _invSlot = _newSlot.GetComponent<BaitInventorySlot>();
 
                     _invSlot.title.text = _bait;
-                    _invSlot.countText.text = "x" + GameController.instance.GetComponent<PlayerData>().baitCounts[i].ToString();
+                    _invSlot.countText.text = "x" + playerData.baitCounts[i].ToString();
 
                     i++;
                 }

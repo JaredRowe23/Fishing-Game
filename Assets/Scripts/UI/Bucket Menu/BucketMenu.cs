@@ -30,6 +30,8 @@ namespace Fishing.UI
 
         public void ShowBucketMenu()
         {
+            if (UIManager.instance.overflowItem.activeSelf) return;
+
             gameObject.SetActive(!gameObject.activeSelf);
 
             if (gameObject.activeSelf)
@@ -41,7 +43,7 @@ namespace Fishing.UI
             {
                 AudioManager.instance.PlaySound("Close Bucket");
                 DestroyMenu();
-                GameController.instance.itemInfoMenu.SetActive(false);
+                UIManager.instance.itemInfoMenu.SetActive(false);
             }
 
         }
@@ -80,11 +82,11 @@ namespace Fishing.UI
 
         public void ThrowAway(FishData _itemReference, GameObject _modelReference, GameObject _menuItem)
         {
-            if (GameController.instance.overflowItem.activeSelf)
+            if (UIManager.instance.overflowItem.activeSelf)
             {
                 bucket.bucketList.Remove(_itemReference);
 
-                if (_menuItem != GameController.instance.overflowItem)
+                if (_menuItem != UIManager.instance.overflowItem)
                 {
                     GameController.instance.equippedRod.GetHook().AddToBucket();
                     Destroy(_menuItem);
@@ -92,7 +94,7 @@ namespace Fishing.UI
 
                 GameController.instance.equippedRod.GetHook().DespawnHookedObject();
                 _menuItem.SetActive(false);
-                GameController.instance.overflowItem.SetActive(false);
+                UIManager.instance.overflowItem.SetActive(false);
             }
 
             else
@@ -103,7 +105,7 @@ namespace Fishing.UI
 
             if (_modelReference) Destroy(_modelReference);
             AudioManager.instance.PlaySound("Throwaway Fish");
-            GameController.instance.itemInfoMenu.SetActive(false);
+            UIManager.instance.itemInfoMenu.SetActive(false);
             RefreshMenu();
             ShowBucketMenu();
         }

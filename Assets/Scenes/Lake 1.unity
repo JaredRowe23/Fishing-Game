@@ -7122,8 +7122,9 @@ GameObject:
   - component: {fileID: 965623139}
   - component: {fileID: 965623138}
   - component: {fileID: 965623137}
+  - component: {fileID: 965623140}
   m_Layer: 0
-  m_Name: Store
+  m_Name: Map
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7194,9 +7195,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1556563468}
-        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: LoadStore
+      - m_Target: {fileID: 965623140}
+        m_TargetAssemblyTypeName: Fishing.MapButtonBehaviour, Assembly-CSharp
+        m_MethodName: OpenMap
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -7244,6 +7245,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 965623135}
   m_CullTransparentMesh: 0
+--- !u!114 &965623140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 965623135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 342cc2f8231990944a1533fd317ae6d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &987608064
 GameObject:
   m_ObjectHideFlags: 0
@@ -8130,7 +8143,7 @@ MonoBehaviour:
   continueSpawning: 1
   radius: 15
   prefab: {fileID: 8313649653780738666, guid: f29394d0aad20604a93052bf91102f0c, type: 3}
-  spawnMax: 250
+  spawnMax: 15
   spawnList: []
   spawnTimeSpacing: 0.1
   spawnAttempts: 10
@@ -11405,9 +11418,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Store
-
-'
+  m_Text: Exit To World Map
 --- !u!222 &1396695932
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11539,7 +11550,7 @@ MonoBehaviour:
   continueSpawning: 1
   radius: 25
   prefab: {fileID: 211761124399546875, guid: 3734a2df5dcb86d4c97a764a01df9c3e, type: 3}
-  spawnMax: 750
+  spawnMax: 50
   spawnList: []
   spawnTimeSpacing: 0.1
   spawnAttempts: 10
@@ -14139,6 +14150,7 @@ GameObject:
   - component: {fileID: 1615404182}
   - component: {fileID: 1615404183}
   - component: {fileID: 1615404185}
+  - component: {fileID: 1615404186}
   m_Layer: 0
   m_Name: Game Controller
   m_TagString: GameController
@@ -14173,22 +14185,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ea39c0d9b3638d4fa900cd61cbbc0a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bucketMenuButton: {fileID: 1392575644}
-  mouseOverUI: {fileID: 0}
-  itemInfoMenu: {fileID: 322881850}
-  overflowItem: {fileID: 525958420}
-  itemViewer: {fileID: 1975610145}
-  rodCanvas: {fileID: 1683829982}
-  inventoryMenuButton: {fileID: 2064017309}
-  rodMenuButton: {fileID: 1179696491}
-  baitMenuButton: {fileID: 2091532947}
-  gearMenuButton: {fileID: 531925082}
   equippedRod: {fileID: 0}
   rodsMenu: {fileID: 817339335}
-  interuptableUI:
-  - {fileID: 58787919}
-  - {fileID: 593709720}
-  - {fileID: 2129825784}
 --- !u!114 &1615404182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14339,6 +14337,33 @@ MonoBehaviour:
   fish: []
   edibleItems: []
   innerloopBatchCount: 64
+--- !u!114 &1615404186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615404179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e40da851585bca41a933648b4a587ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bucketMenuButton: {fileID: 1392575644}
+  mouseOverUI: {fileID: 0}
+  itemInfoMenu: {fileID: 322881850}
+  overflowItem: {fileID: 525958420}
+  itemViewer: {fileID: 1975610145}
+  rodCanvas: {fileID: 1683829982}
+  inventoryMenuButton: {fileID: 2064017309}
+  rodMenuButton: {fileID: 1179696491}
+  baitMenuButton: {fileID: 2091532947}
+  gearMenuButton: {fileID: 531925082}
+  rodsMenu: {fileID: 817339335}
+  interuptableUI:
+  - {fileID: 58787919}
+  - {fileID: 593709720}
+  - {fileID: 2129825784}
 --- !u!1 &1632562128
 GameObject:
   m_ObjectHideFlags: 0
@@ -15621,8 +15646,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1556563468}
-        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: QuitGame
+        m_TargetAssemblyTypeName: Fishing.UI.PauseMenu, Assembly-CSharp
+        m_MethodName: ExitToTitle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17274,7 +17299,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Quit
+  m_Text: Exit To Title
 --- !u!222 &1886242970
 CanvasRenderer:
   m_ObjectHideFlags: 0

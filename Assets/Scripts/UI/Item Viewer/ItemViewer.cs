@@ -7,8 +7,8 @@ namespace Fishing.UI
 {
     public class ItemViewer : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
-        public void OnPointerEnter(PointerEventData eventData) => GameController.instance.mouseOverUI = this.gameObject;
-        public void OnPointerExit(PointerEventData eventData) => GameController.instance.mouseOverUI = null;
+        public void OnPointerEnter(PointerEventData eventData) => UIManager.instance.mouseOverUI = this.gameObject;
+        public void OnPointerExit(PointerEventData eventData) => UIManager.instance.mouseOverUI = null;
     }
 
 }

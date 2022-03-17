@@ -20,7 +20,7 @@ namespace Fishing.UI
         private void Update()
         {
             // enable mouse rotation when clicking and holding
-            if (GameController.instance.mouseOverUI == GameController.instance.itemViewer)
+            if (UIManager.instance.mouseOverUI == UIManager.instance.itemViewer)
             {
                 if (Input.GetMouseButtonDown(0))
                 {

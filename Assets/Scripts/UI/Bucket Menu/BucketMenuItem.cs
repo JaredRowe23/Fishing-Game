@@ -23,11 +23,11 @@ namespace Fishing.UI
 
         public void OpenInfoMenu()
         {
-            if (!GameController.instance.itemInfoMenu.activeSelf)
+            if (!UIManager.instance.itemInfoMenu.activeSelf)
             {
-                GameController.instance.itemInfoMenu.SetActive(true);
+                UIManager.instance.itemInfoMenu.SetActive(true);
             }
-            GameController.instance.itemInfoMenu.GetComponent<ItemInfoMenu>().UpdateMenu(itemName.text, itemWeight.text, itemLength.text, itemReference.itemDescription, itemReference, gameObject);
+            UIManager.instance.itemInfoMenu.GetComponent<ItemInfoMenu>().UpdateMenu(itemName.text, itemWeight.text, itemLength.text, itemReference.itemDescription, itemReference, gameObject);
         }
     }
 

@@ -11,20 +11,8 @@ namespace Fishing
 {
     public class GameController : MonoBehaviour
     {
-        public Button bucketMenuButton;
-        public GameObject mouseOverUI;
-        public GameObject itemInfoMenu;
-        public GameObject overflowItem;
-        public GameObject itemViewer;
-        public Canvas rodCanvas;
-        public GameObject inventoryMenuButton;
-        public GameObject rodMenuButton;
-        public GameObject baitMenuButton;
-        public GameObject gearMenuButton;
         public RodBehaviour equippedRod;
         public GameObject rodsMenu;
-
-        [SerializeField] private List<GameObject> interuptableUI;
 
         private FoodSearchManager foodManager;
 
@@ -35,19 +23,6 @@ namespace Fishing
         private void Awake()
         {
             foodManager = GetComponent<FoodSearchManager>();
-        }
-
-
-        public bool IsActiveUI()
-        {
-            foreach (GameObject _ui in interuptableUI)
-            {
-                if (_ui.activeSelf)
-                {
-                    return true;
-                }
-            }
-            return false;
         }
 
         public void SpawnRod(string _rodName) => rodsMenu.GetComponent<RodsMenu>().EquipRod(_rodName, false);

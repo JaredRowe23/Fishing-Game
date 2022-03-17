@@ -42,11 +42,11 @@ namespace Fishing.FishingMechanics
                             anim.SetState(FishingRodAnimation.RodState.Reeling);
                         }
                     }
-                    else if (!GameController.instance.mouseOverUI && !GameController.instance.IsActiveUI())
+                    else if (!UIManager.instance.mouseOverUI && !UIManager.instance.IsActiveUI())
                     {
                         anim.SetState(FishingRodAnimation.RodState.CastPull);
-                        GameController.instance.bucketMenuButton.gameObject.SetActive(false);
-                        GameController.instance.inventoryMenuButton.SetActive(false);
+                        UIManager.instance.bucketMenuButton.gameObject.SetActive(false);
+                        UIManager.instance.inventoryMenuButton.SetActive(false);
 
                         // Show the power slider and begin the process for charging/angling our cast
                         PowerAndAngle.instance.StartCharging(stats.GetChargeFrequency(),stats.GetMinCastStrength(), stats.GetMaxCastStrength(),
@@ -75,8 +75,8 @@ namespace Fishing.FishingMechanics
                     hook.GetComponent<HookBehaviour>().AddToBucket();
                     anim.SetState(FishingRodAnimation.RodState.Resting);
                     casted = false;
-                    GameController.instance.bucketMenuButton.gameObject.SetActive(true);
-                    GameController.instance.inventoryMenuButton.SetActive(true);
+                    UIManager.instance.bucketMenuButton.gameObject.SetActive(true);
+                    UIManager.instance.inventoryMenuButton.SetActive(true);
                 }
             }
         }

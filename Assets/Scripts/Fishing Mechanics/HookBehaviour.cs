@@ -51,7 +51,7 @@ namespace Fishing.FishingMechanics
                 OnSurfaced();
             }
 
-            if (hookedObject && !GameController.instance.overflowItem.activeSelf)
+            if (hookedObject && !UIManager.instance.overflowItem.activeSelf)
             {
                 hookedObject.transform.position = this.transform.position;
             }

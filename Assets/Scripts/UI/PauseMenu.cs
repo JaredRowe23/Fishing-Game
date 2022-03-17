@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Fishing.IO;
+using UnityEngine.SceneManagement;
 
 namespace Fishing.UI
 {
@@ -9,9 +10,16 @@ namespace Fishing.UI
     {
         public GameObject pauseMenu;
 
+        private PlayerData playerData;
+
         public static PauseMenu instance;
 
         private PauseMenu() => instance = this;
+
+        private void Start()
+        {
+            playerData = UIManager.instance.GetComponent<PlayerData>();
+        }
 
         void Update()
         {
@@ -39,19 +47,24 @@ namespace Fishing.UI
                 Time.timeScale = 1f;
             }
 
-            GameController.instance.bucketMenuButton.gameObject.SetActive(!pauseMenu.activeSelf);
-            GameController.instance.inventoryMenuButton.SetActive(!pauseMenu.activeSelf);
+            UIManager.instance.bucketMenuButton.gameObject.SetActive(!pauseMenu.activeSelf);
+            UIManager.instance.inventoryMenuButton.SetActive(!pauseMenu.activeSelf);
         }
 
-        public void NewGame() => GameController.instance.GetComponent<PlayerData>().NewGame();
+        public void NewGame() => playerData.NewGame();
 
-        public void SaveGame() => GameController.instance.GetComponent<PlayerData>().SavePlayer();
+        public void SaveGame() => playerData.SavePlayer();
 
-        public void LoadGame() => GameController.instance.GetComponent<PlayerData>().LoadPlayer();
+        public void LoadGame() => playerData.LoadPlayer();
 
         public void LoadStore()
         {
             //Application.LoadLevel(1);
+        }
+
+        public void ExitToTitle()
+        {
+            SceneManager.LoadScene("Title Screen");
         }
 
         public void QuitGame() => Application.Quit();
