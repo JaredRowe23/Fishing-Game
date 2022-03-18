@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Fishing.PlayerCamera;
+using Fishing.Fishables.Fish;
 
 namespace Fishing.Fishables
 {
@@ -41,7 +42,7 @@ namespace Fishing.Fishables
         public void Despawn()
         {
             spawn.spawnList.Remove(gameObject);
-            GameController.instance.RemoveFood(edible);
+            FoodSearchManager.instance.RemoveFood(edible);
             DestroyImmediate(gameObject);
         }
     }

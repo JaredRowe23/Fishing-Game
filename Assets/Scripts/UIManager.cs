@@ -2,10 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Fishing.Fishables;
-using Fishing.Fishables.Fish;
-using Fishing.FishingMechanics;
-using Fishing.UI;
 
 namespace Fishing
 {
@@ -28,7 +24,6 @@ namespace Fishing
         public static UIManager instance;
 
         private UIManager() => instance = this;
-
 
         public bool IsActiveUI()
         {

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fishing.Fishables.Fish;
 using Fishing.Fishables;
 using Fishing.Inventory; // may not be necessary with AddToBucket rework
 
@@ -97,7 +98,7 @@ namespace Fishing.FishingMechanics
         public void Despawn()
         {
             DespawnHookedObject();
-            GameController.instance.RemoveFood(GetComponent<Edible>());
+            FoodSearchManager.instance.RemoveFood(GetComponent<Edible>());
         }
 
         private void OnSubmerged()

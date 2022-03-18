@@ -20,7 +20,7 @@ namespace Fishing.UI
 
         private void Start()
         {
-            playerData = UIManager.instance.GetComponent<PlayerData>();
+            playerData = GameController.instance.GetComponent<PlayerData>();
         }
 
         public void ShowBaitMenu(bool _active)

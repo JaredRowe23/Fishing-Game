@@ -165,8 +165,8 @@ namespace Fishing.Fishables.Fish
         public void Despawn()
         {
             spawn.spawnList.Remove(gameObject);
-            GameController.instance.RemoveFish(GetComponent<FoodSearch>());
-            GameController.instance.RemoveFood(GetComponent<Edible>());
+            FoodSearchManager.instance.RemoveFish(GetComponent<FoodSearch>());
+            FoodSearchManager.instance.RemoveFood(GetComponent<Edible>());
             DestroyImmediate(gameObject);
         }
     }

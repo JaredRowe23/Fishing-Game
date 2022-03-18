@@ -163,7 +163,7 @@ namespace Fishing.Fishables.Fish
         [SerializeField] private Edible.FoodTypes[] desiredFoodTypes;
         public GameObject desiredFood;
 
-        private void Start() => GameController.instance.AddFish(this);
+        private void Start() => FoodSearchManager.instance.AddFish(this);
 
         private void OnDrawGizmosSelected()
         {

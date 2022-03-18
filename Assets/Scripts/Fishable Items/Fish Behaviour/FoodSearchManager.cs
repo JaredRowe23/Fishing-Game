@@ -13,6 +13,10 @@ namespace Fishing.Fishables.Fish
         public List<Edible> edibleItems;
         [SerializeField] private int innerloopBatchCount;
 
+        public static FoodSearchManager instance;
+
+        private FoodSearchManager() => instance = this;
+
         private void Update()
         {
             NativeArray<FoodSearch.Data> _foodSearchDataArray = new NativeArray<FoodSearch.Data>(fish.Count, Allocator.TempJob);
@@ -72,6 +76,16 @@ namespace Fishing.Fishables.Fish
             _potentialFoodPositionArray.Dispose();
             _potentialFoodTypeArray.Dispose();
             _isOccupiedHookArray.Dispose();
+        }
+        public void AddFood(Edible _food) => edibleItems.Add(_food);
+        public void AddFish(FoodSearch _fish) => fish.Add(_fish);
+        public void RemoveFish(FoodSearch _fish)
+        {
+            if (fish.Contains(_fish)) fish.Remove(_fish);
+        }
+        public void RemoveFood(Edible _food)
+        {
+            if (edibleItems.Contains(_food)) edibleItems.Remove(_food);
         }
     }
 
