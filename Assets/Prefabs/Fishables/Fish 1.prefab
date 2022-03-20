@@ -233,6 +233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Fish 1
   itemDescription: Just your normal basic fish guy here
+  baseValue: 10
   weightMax: 25
   weightMin: 20
   lengthMax: 25
