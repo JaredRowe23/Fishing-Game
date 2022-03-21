@@ -16,9 +16,9 @@ namespace Fishing.UI
 
         private PauseMenu() => instance = this;
 
-        private void Start()
+        private void Awake()
         {
-            playerData = GameController.instance.GetComponent<PlayerData>();
+            playerData = PlayerData.instance;
         }
 
         void Update()

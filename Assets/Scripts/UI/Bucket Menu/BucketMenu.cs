@@ -14,9 +14,16 @@ namespace Fishing.UI
         [SerializeField] private Text capacityText;
         [SerializeField] private GameObject bucketItemPrefab;
 
+        private RodManager rodManager;
+
         public static BucketMenu instance;
 
         private BucketMenu() => instance = this;
+
+        private void Awake()
+        {
+            rodManager = RodManager.instance;
+        }
 
         void Update()
         {
@@ -88,11 +95,11 @@ namespace Fishing.UI
 
                 if (_menuItem != UIManager.instance.overflowItem)
                 {
-                    GameController.instance.equippedRod.GetHook().AddToBucket();
+                    rodManager.equippedRod.GetHook().AddToBucket();
                     Destroy(_menuItem);
                 }
 
-                GameController.instance.equippedRod.GetHook().DespawnHookedObject();
+                rodManager.equippedRod.GetHook().DespawnHookedObject();
                 _menuItem.SetActive(false);
                 UIManager.instance.overflowItem.SetActive(false);
             }

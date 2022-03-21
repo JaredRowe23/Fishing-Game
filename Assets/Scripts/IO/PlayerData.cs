@@ -18,9 +18,20 @@ namespace Fishing.IO
         public List<string> bait;
         public List<int> baitCounts;
 
+        private RodManager rodManager;
+
+        public static PlayerData instance;
+
+        private PlayerData() => instance = this;
+
+        private void Awake()
+        {
+            rodManager = RodManager.instance;
+        }
+
         private void Start()
         {
-            GameController.instance.SpawnRod(equippedRod);
+            rodManager.EquipRod(equippedRod, false);
         }
 
         private void Update()
@@ -58,7 +69,7 @@ namespace Fishing.IO
             bait = _saveData.bait;
             baitCounts = _saveData.baitCounts;
 
-            GameController.instance.SpawnRod(equippedRod);
+            rodManager.EquipRod(equippedRod, false);
         }
 
         public void NewGame()
@@ -75,7 +86,7 @@ namespace Fishing.IO
             bait = new List<string>();
             baitCounts = new List<int>();
 
-            GameController.instance.SpawnRod(equippedRod);
+            rodManager.EquipRod(equippedRod, false);
         }
     }
 }

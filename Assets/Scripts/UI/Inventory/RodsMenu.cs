@@ -15,16 +15,19 @@ namespace Fishing.UI
         [SerializeField] private float slotYPadding;
         [SerializeField] private int slotXMax;
 
-        public List<GameObject> rodPrefabs;
-        public List<Sprite> rodSprites;
-
         private PlayerData playerData;
+        private RodManager rodManager;
 
         public static RodsMenu instance;
 
         private RodsMenu() => instance = this;
 
-        private void Awake() => playerData = GameController.instance.GetComponent<PlayerData>();
+        private void Awake()
+        {
+            rodManager = RodManager.instance;
+            playerData = PlayerData.instance;
+        }
+
 
         private void Start() => GenerateSlots();
 
@@ -51,12 +54,14 @@ namespace Fishing.UI
                 _invSlot.title.text = _rod;
 
                 int j = 0;
-                foreach (GameObject _prefab in rodPrefabs)
+                List<GameObject> _rodPrefabs = rodManager.rodPrefabs;
+                List<Sprite> _rodSprites = rodManager.rodSprites;
+                foreach (GameObject _prefab in _rodPrefabs)
                 {
                     if (_prefab.name == _rod)
                     {
                         _invSlot.itemReference = _prefab;
-                        _invSlot.sprite.sprite = rodSprites[j];
+                        _invSlot.sprite.sprite = _rodSprites[j];
                         break;
                     }
                     j++;
@@ -82,30 +87,6 @@ namespace Fishing.UI
                     _invSlot.equippedCheck.SetActive(false);
                 }
             }
-        }
-
-        //may want to move this to another script to handle inventory item instancing and such
-        public void EquipRod(string _rodName, bool _playSound)
-        {
-            if (_rodName != "")
-            {
-                Camera.main.transform.parent = null;
-                DestroyImmediate(GameController.instance.equippedRod.gameObject);
-            }
-            else
-            {
-                _rodName = "Basic Rod";
-            }
-
-            foreach (GameObject _prefab in rodPrefabs)
-            {
-                if (_prefab.name != _rodName) continue;
-
-                Instantiate(_prefab);
-            }
-            playerData.equippedRod = _rodName;
-            UpdateEquippedRod();
-            if (_playSound) AudioManager.instance.PlaySound("Equip Rod");
         }
     }
 }

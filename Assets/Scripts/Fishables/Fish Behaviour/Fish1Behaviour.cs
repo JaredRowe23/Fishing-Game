@@ -33,8 +33,11 @@ namespace Fishing.Fishables.Fish
         private FoodSearch foodSearch;
         private SpawnZone spawn;
 
+        private RodManager rodManager;
+
         private void Awake()
         {
+            rodManager = RodManager.instance;
             foodSearch = GetComponent<FoodSearch>();
             spawn = transform.parent.GetComponent<SpawnZone>();
         }
@@ -125,8 +128,8 @@ namespace Fishing.Fishables.Fish
             {
                 GetComponent<AudioSource>().Play();
                 foodSearch.desiredFood.GetComponent<IEdible>().Despawn();
-                GameController.instance.equippedRod.GetHook().hookedObject = null;
-                GameController.instance.equippedRod.GetHook().SetHook(GetComponent<FishableItem>());
+                rodManager.equippedRod.GetHook().hookedObject = null;
+                rodManager.equippedRod.GetHook().SetHook(GetComponent<FishableItem>());
                 return;
             }
 

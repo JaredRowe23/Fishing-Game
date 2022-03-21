@@ -17,16 +17,19 @@ namespace Fishing.FishingMechanics
         private FishingRodAnimation anim;
         private FishingRodStats stats;
 
+        private RodManager rodManager;
+
         private void Awake()
         {
             anim = GetComponent<FishingRodAnimation>();
             stats = GetComponent<FishingRodStats>();
+            rodManager = RodManager.instance;
         }
 
         void Start()
         {
             casted = false;
-            GameController.instance.equippedRod = this;
+            rodManager.equippedRod = this;
         }
 
         void Update()

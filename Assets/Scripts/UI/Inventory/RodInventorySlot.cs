@@ -12,13 +12,20 @@ namespace Fishing.UI
         public GameObject equippedCheck;
         public GameObject itemReference;
 
+        private RodManager rodManager;
+
+        private RodInventorySlot()
+        {
+            rodManager = RodManager.instance;
+        }
+
         public void EquipRod()
         {
             foreach (Transform _child in transform)
             {
                 if (_child.GetComponent<Text>())
                 {
-                    RodsMenu.instance.EquipRod(_child.GetComponent<Text>().text, true);
+                    rodManager.EquipRod(_child.GetComponent<Text>().text, true);
                 }
             }
         }
