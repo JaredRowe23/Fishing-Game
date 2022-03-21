@@ -7,7 +7,7 @@ namespace Fishing.Fishables.Fish
 {
     [RequireComponent(typeof(Edible))]
     [RequireComponent(typeof(FoodSearch))]
-    [RequireComponent(typeof(FishableItem))]
+    [RequireComponent(typeof(Fishable))]
     public class Fish1Behaviour : MonoBehaviour, IEdible
     {
         [Header("Movement")]
@@ -52,7 +52,7 @@ namespace Fishing.Fishables.Fish
 
         private void Update()
         {
-            if (GetComponent<FishableItem>().isHooked) return;
+            if (GetComponent<Fishable>().isHooked) return;
 
             MoveTowardsTarget();
         }
@@ -120,16 +120,16 @@ namespace Fishing.Fishables.Fish
         {
             if (foodSearch.desiredFood.GetComponent<HookBehaviour>())
             {
-                foodSearch.desiredFood.GetComponent<HookBehaviour>().SetHook(GetComponent<FishableItem>());
+                foodSearch.desiredFood.GetComponent<HookBehaviour>().SetHook(GetComponent<Fishable>());
                 return;
             }
 
-            if (foodSearch.desiredFood.GetComponent<FishableItem>().isHooked)
+            if (foodSearch.desiredFood.GetComponent<Fishable>().isHooked)
             {
                 GetComponent<AudioSource>().Play();
                 foodSearch.desiredFood.GetComponent<IEdible>().Despawn();
                 rodManager.equippedRod.GetHook().hookedObject = null;
-                rodManager.equippedRod.GetHook().SetHook(GetComponent<FishableItem>());
+                rodManager.equippedRod.GetHook().SetHook(GetComponent<Fishable>());
                 return;
             }
 
@@ -152,7 +152,7 @@ namespace Fishing.Fishables.Fish
 
         private void OnDrawGizmosSelected()
         {
-            if (!GetComponent<FishableItem>().isHooked)
+            if (!GetComponent<Fishable>().isHooked)
             {
                 Gizmos.color = Color.cyan;
                 Gizmos.DrawWireSphere(transform.position, wanderDistance);

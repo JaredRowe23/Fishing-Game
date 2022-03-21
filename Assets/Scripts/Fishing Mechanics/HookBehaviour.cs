@@ -128,10 +128,10 @@ namespace Fishing.FishingMechanics
         public Transform GetHookAnchorPoint() => linePivotPoint;
         private void OnTriggerEnter(Collider _other)
         {
-            SetHook(_other.GetComponent<FishableItem>());
+            SetHook(_other.GetComponent<Fishable>());
         }
 
-        public void SetHook(FishableItem _fishable)
+        public void SetHook(Fishable _fishable)
         {
             if (hookedObject != null) return;
 
@@ -148,7 +148,7 @@ namespace Fishing.FishingMechanics
         {
             if (hookedObject == null) return;
 
-            BucketBehaviour.instance.AddToBucket(hookedObject.GetComponent<FishableItem>());
+            BucketBehaviour.instance.AddToBucket(hookedObject.GetComponent<Fishable>());
         }
     }
 

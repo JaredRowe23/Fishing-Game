@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Fishing.Fishables
 {
-    public class FishableItem : MonoBehaviour
+    public class Fishable : MonoBehaviour
     {
         [Header("Stats")]
         [SerializeField] private string itemName;

@@ -13,7 +13,7 @@ namespace Fishing.Fishables
         [SerializeField] private Vector3 sinkDirection;
         [SerializeField] private float maximumDepth;
 
-        private FishableItem fishableItem;
+        private Fishable fishableItem;
         private Edible edible;
         private CameraBehaviour cam;
         private SpawnZone spawn;
@@ -21,7 +21,7 @@ namespace Fishing.Fishables
         private void Awake()
         {
             edible = GetComponent<Edible>();
-            fishableItem = GetComponent<FishableItem>();
+            fishableItem = GetComponent<Fishable>();
             cam = CameraBehaviour.instance;
             spawn = transform.parent.GetComponent<SpawnZone>();
         }

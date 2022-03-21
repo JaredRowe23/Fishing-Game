@@ -17,7 +17,7 @@ namespace Fishing.Inventory
 
         private void Start() => bucketList = new List<FishData>();
 
-        public void AddToBucket(FishableItem _item)
+        public void AddToBucket(Fishable _item)
         {
             AudioManager.instance.PlaySound("Catch Fish");
 
