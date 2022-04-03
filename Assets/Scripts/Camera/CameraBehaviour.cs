@@ -25,16 +25,13 @@ namespace Fishing.PlayerCamera
 
         void Update()
         {
-            transform.Translate(0f, 0f, Input.GetAxis("Mouse ScrollWheel") * zoomMagnitude);
-
-            if (Mathf.Abs(transform.position.z) > maxZoom) transform.position = new Vector3(transform.position.x, transform.position.y, -maxZoom);
-
-            else if (Mathf.Abs(transform.position.z) < minZoom) transform.position = new Vector3(transform.position.x, transform.position.y, -minZoom);
+            cam.orthographicSize -= Input.GetAxis("Mouse ScrollWheel") * zoomMagnitude;
+            cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, minZoom, maxZoom);
         }
 
-        public bool IsInFrame(Vector3 _pos)
+        public bool IsInFrame(Vector2 _pos)
         {
-            Vector3 _viewportPos = cam.WorldToViewportPoint(_pos);
+            Vector2 _viewportPos = cam.WorldToViewportPoint(_pos);
 
             if (_viewportPos.x < 0f || _viewportPos.x > 1f || _viewportPos.y < 0f || _viewportPos.y > 1f) return false;
 

@@ -9,7 +9,7 @@ namespace Fishing.Fishables.Fish
     public struct FoodSearchUpdateJob : IJobParallelFor
     {
         [NativeDisableParallelForRestriction] public NativeArray<FoodSearch.Data> FoodSearchDataArray;
-        [NativeDisableParallelForRestriction] public NativeArray<Vector3> PotentialFoodPositionArray;
+        [NativeDisableParallelForRestriction] public NativeArray<Vector2> PotentialFoodPositionArray;
         [NativeDisableParallelForRestriction] public NativeArray<int> PotentialFoodTypeArray;
         [NativeDisableParallelForRestriction] public NativeArray<bool> IsOccupiedHookArray;
 

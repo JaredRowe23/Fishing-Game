@@ -27,13 +27,13 @@ namespace Fishing.Fishables.Fish
                 
             }
 
-            NativeArray<Vector3> _potentialFoodPositionArray = new NativeArray<Vector3>(edibleItems.Count, Allocator.TempJob);
+            NativeArray<Vector2> _potentialFoodPositionArray = new NativeArray<Vector2>(edibleItems.Count, Allocator.TempJob);
             NativeArray<int> _potentialFoodTypeArray = new NativeArray<int>(edibleItems.Count, Allocator.TempJob);
             NativeArray<bool> _isOccupiedHookArray = new NativeArray<bool>(edibleItems.Count, Allocator.TempJob);
 
             for (int i = 0; i < edibleItems.Count; i++)
             {
-                Vector3 pos = edibleItems[i].transform.position;
+                Vector2 pos = edibleItems[i].transform.position;
                 _potentialFoodPositionArray[i] = pos;
 
                 int type = edibleItems[i].GetFoodType();

@@ -10,7 +10,7 @@ namespace Fishing.Fishables
     public class SinkingTrash : MonoBehaviour, IEdible
     {
         [SerializeField] private float sinkSpeed;
-        [SerializeField] private Vector3 sinkDirection;
+        [SerializeField] private Vector2 sinkDirection;
         [SerializeField] private float maximumDepth;
 
         private Fishable fishableItem;

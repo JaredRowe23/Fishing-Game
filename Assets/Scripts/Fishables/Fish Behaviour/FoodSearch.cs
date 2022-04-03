@@ -11,8 +11,8 @@ namespace Fishing.Fishables.Fish
     {
         public struct Data
         {
-            public readonly Vector3 position;
-            readonly Vector3 forward;
+            public readonly Vector2 position;
+            readonly Vector2 forward;
 
             readonly float sightRange;
             readonly float sightAngle;
@@ -22,7 +22,7 @@ namespace Fishing.Fishables.Fish
             public int foodSearchIndex;
             public int thisIndex;
 
-            public Vector3 toCheckPos;
+            public Vector2 toCheckPos;
             public int toCheckType;
             public bool isOccupiedHook;
             public long types;
@@ -31,14 +31,14 @@ namespace Fishing.Fishables.Fish
             public float nearestFoodDistance;
 
 
-            public Data(Vector3 _pos, Vector3 _forward, float _sightRange, float _sightAngle, float _smellRange, int _index, long _types)
+            public Data(Vector2 _pos, Vector2 _forward, float _sightRange, float _sightAngle, float _smellRange, int _index, long _types)
             {
                 position = _pos;
                 forward = _forward;
                 sightRange = _sightRange;
                 sightAngle = _sightAngle;
                 smellRange = _smellRange;
-                toCheckPos = Vector3.zero;
+                toCheckPos = Vector2.zero;
                 toCheckType = 0;
                 nearestFoodIndex = -1;
                 nearestFoodDistance = -1f;
@@ -69,7 +69,7 @@ namespace Fishing.Fishables.Fish
                     return nearestFoodIndex;
                 }
 
-                float _distance = Vector3.Distance(toCheckPos, position);
+                float _distance = Vector2.Distance(toCheckPos, position);
                 if (_distance == 0)
                 {
                     return nearestFoodIndex;
@@ -152,7 +152,7 @@ namespace Fishing.Fishables.Fish
                 return _typeArray;
             }
 
-            private Vector3 GlobalToLocal() => (toCheckPos - position);
+            private Vector2 GlobalToLocal() => (toCheckPos - position);
         }
 
         [SerializeField] private float sightAngle;
@@ -174,7 +174,7 @@ namespace Fishing.Fishables.Fish
 
                 for (int i = 0; i < sightDensity; i++)
                 {
-                    Vector3 _dir = -transform.right;
+                    Vector2 _dir = -transform.right;
                     _dir = Quaternion.Euler(0f, 0f, -sightAngle + (i * sightAngle * 2 / sightDensity)) * _dir;
                     Debug.DrawRay(transform.position, _dir * sightDistance, Color.green);
                 }

@@ -72,7 +72,7 @@ namespace Fishing.FishingMechanics
             {
                 AudioManager.instance.PlaySound("Reel", true);
                 hook.Reel(stats.GetReelSpeed());
-                if (Vector3.Distance(hook.transform.position, hook.GetHookAnchorPoint().position) <= reeledInDistance)
+                if (Vector2.Distance(hook.transform.position, hook.GetHookAnchorPoint().position) <= reeledInDistance)
                 {
                     AudioManager.instance.StopPlaying("Reel");
                     hook.GetComponent<HookBehaviour>().AddToBucket();

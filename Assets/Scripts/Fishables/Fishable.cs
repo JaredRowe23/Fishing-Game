@@ -19,7 +19,7 @@ namespace Fishing.Fishables
         [SerializeField] private float lengthMax;
         [SerializeField] private float lengthMin;
 
-        private GameObject minimapIndicator;
+        [SerializeField] private GameObject minimapIndicator;
 
         public bool isHooked;
 
@@ -30,15 +30,8 @@ namespace Fishing.Fishables
             length = Mathf.Round(Random.Range(lengthMin, lengthMax) * 100f) / 100f;
             Transform parent = transform.parent;
             transform.parent = null;
-            transform.localScale = Vector3.one * length / 100f;
+            transform.localScale = Vector2.one * length / 100f;
             transform.parent = parent;
-            foreach (Transform _child in transform)
-            {
-                if (_child.name == "Cube")
-                {
-                    minimapIndicator = _child.gameObject;
-                }
-            }
         }
 
         public string GetName() => itemName;

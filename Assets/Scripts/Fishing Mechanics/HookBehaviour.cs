@@ -22,7 +22,7 @@ namespace Fishing.FishingMechanics
 
         public bool playedSplash;
 
-        private Vector3 _targetPos;
+        private Vector2 _targetPos;
         private RodBehaviour _rod;
         private Rigidbody _rb;
 
@@ -39,6 +39,7 @@ namespace Fishing.FishingMechanics
             _rb = this.GetComponent<Rigidbody>();
 
             playerCam.transform.parent = transform;
+            playerCam.transform.position = new Vector3(transform.position.x, transform.position.y, playerCam.transform.position.z);
         }
 
         void Update()
@@ -61,7 +62,7 @@ namespace Fishing.FishingMechanics
             {
                 _rb.isKinematic = true;
                 _targetPos = linePivotPoint.position - new Vector3(0, hookHangHeight, 0);
-                transform.position = Vector3.MoveTowards(transform.position, _targetPos, resetSpeed * Time.deltaTime);
+                transform.position = Vector2.MoveTowards(transform.position, _targetPos, resetSpeed * Time.deltaTime);
                 return;
             }
 
@@ -70,7 +71,7 @@ namespace Fishing.FishingMechanics
 
         private void HandlePhysics()
         {
-            if (Vector3.Distance(transform.position, linePivotPoint.position) >= _rod.GetLineLength())
+            if (Vector2.Distance(transform.position, linePivotPoint.position) >= _rod.GetLineLength())
             {
                 if (transform.position.y < 0f)
                 {
@@ -85,7 +86,7 @@ namespace Fishing.FishingMechanics
 
                 else
                 {
-                    _rb.velocity = new Vector3(0f, _rb.velocity.y, _rb.velocity.z);
+                    _rb.velocity = new Vector2(0f, _rb.velocity.y);
                 }
             }
             else
@@ -120,7 +121,7 @@ namespace Fishing.FishingMechanics
         {
             _rb.isKinematic = false;
             Quaternion rot = Quaternion.AngleAxis(_angle, Vector3.forward);
-            _rb.AddForce(rot * Vector3.right * _force);
+            _rb.AddForce(rot * Vector2.right * _force);
         }
 
         public void Reel(float _force) => _rb.AddForce(_force * Time.deltaTime * Vector3.Normalize(linePivotPoint.position - transform.position));

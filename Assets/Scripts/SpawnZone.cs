@@ -65,7 +65,7 @@ namespace Fishing
                     continue;
                 }
 
-                if (playerCam.IsInFrame(new Vector3(_rand.x + transform.position.x, _rand.y + transform.position.y, transform.position.z)))
+                if (playerCam.IsInFrame(new Vector2(_rand.x + transform.position.x, _rand.y + transform.position.y)))
                 {
                     continue;
                 }
@@ -73,7 +73,7 @@ namespace Fishing
                 break;
             }
 
-            Vector3 spawnPos = new Vector3(_rand.x + transform.position.x, _rand.y + transform.position.y, transform.position.z);
+            Vector2 spawnPos = new Vector2(_rand.x + transform.position.x, _rand.y + transform.position.y);
             GameObject newFish = Instantiate(prefab, spawnPos, Quaternion.identity, this.transform);
             spawnList.Add(newFish);
         }

@@ -61,21 +61,21 @@ namespace Fishing.Fishables.Fish
         {
             if (!foodSearch.desiredFood)
             {
-                if (Vector3.Distance(transform.position, targetPos) <= distanceThreshold)
+                if (Vector2.Distance(transform.position, targetPos) <= distanceThreshold)
                 {
                     return;
                 }
                 else
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, targetPos, wanderSpeed * Time.deltaTime);
+                    transform.position = Vector2.MoveTowards(transform.position, targetPos, wanderSpeed * Time.deltaTime);
                 }
             }
             else
             {
                 targetPos = foodSearch.desiredFood.transform.position;
-                if (Vector3.Distance(transform.position, targetPos) > eatDistance)
+                if (Vector2.Distance(transform.position, targetPos) > eatDistance)
                 {
-                    transform.position = Vector3.MoveTowards(transform.position, targetPos, chaseSpeed * Time.deltaTime);
+                    transform.position = Vector2.MoveTowards(transform.position, targetPos, chaseSpeed * Time.deltaTime);
                 }
                 else
                 {
@@ -89,7 +89,7 @@ namespace Fishing.Fishables.Fish
         {
             while (true)
             {
-                if (Vector3.Distance(transform.position, transform.parent.position) >= maxHomeDistance)
+                if (Vector2.Distance(transform.position, transform.parent.position) >= maxHomeDistance)
                 {
                     targetPos = transform.parent.position;
                 }
@@ -102,12 +102,12 @@ namespace Fishing.Fishables.Fish
                         if (i >= generateWanderPositionPasses) break;
 
                         bool _aboveWater = _rand.y + transform.position.y >= 0f;
-                        float _distanceFromHome = Vector3.Distance(new Vector3(_rand.x + transform.position.x, _rand.y + transform.position.y, transform.position.z), transform.parent.position);
+                        float _distanceFromHome = Vector2.Distance(new Vector2(_rand.x + transform.position.x, _rand.y + transform.position.y), transform.parent.position);
                         i++;
 
                         if (_aboveWater) continue;
                         if (_distanceFromHome > maxHomeDistance) continue;
-                        targetPos = new Vector3(transform.position.x + _rand.x, transform.position.y + _rand.y, 0f);
+                        targetPos = new Vector2(transform.position.x + _rand.x, transform.position.y + _rand.y);
                         break;
                     }
 
