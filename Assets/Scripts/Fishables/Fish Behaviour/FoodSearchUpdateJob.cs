@@ -8,14 +8,14 @@ namespace Fishing.Fishables.Fish
 {
     public struct FoodSearchUpdateJob : IJobParallelFor
     {
-        [NativeDisableParallelForRestriction] public NativeArray<FoodSearch.Data> FoodSearchDataArray;
+        [NativeDisableParallelForRestriction] public NativeArray<FoodSearchData> FoodSearchDataArray;
         [NativeDisableParallelForRestriction] public NativeArray<Vector2> PotentialFoodPositionArray;
         [NativeDisableParallelForRestriction] public NativeArray<int> PotentialFoodTypeArray;
         [NativeDisableParallelForRestriction] public NativeArray<bool> IsOccupiedHookArray;
 
         public void Execute(int _index)
         {
-            FoodSearch.Data _data = FoodSearchDataArray[_index];
+            FoodSearchData _data = FoodSearchDataArray[_index];
             for (int i = 0; i < PotentialFoodPositionArray.Length; i++)
             {
                 _data.toCheckPos = PotentialFoodPositionArray[i];

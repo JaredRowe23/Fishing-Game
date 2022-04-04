@@ -19,11 +19,11 @@ namespace Fishing.Fishables.Fish
 
         private void Update()
         {
-            NativeArray<FoodSearch.Data> _foodSearchDataArray = new NativeArray<FoodSearch.Data>(fish.Count, Allocator.TempJob);
+            NativeArray<FoodSearchData> _foodSearchDataArray = new NativeArray<FoodSearchData>(fish.Count, Allocator.TempJob);
             for (int i = 0; i < fish.Count; i++)
             {
                 FoodSearch _search = fish[i].GetComponent<FoodSearch>();
-                _foodSearchDataArray[i] = new FoodSearch.Data(fish[i].transform.position, -fish[i].transform.right, _search.GetSightRange(), _search.GetSightAngle(), _search.GetSmellRange(), i, _search.GetFoodTypes());
+                _foodSearchDataArray[i] = new FoodSearchData(fish[i].transform.position, -fish[i].transform.right, _search.GetSightRange(), _search.GetSightAngle(), _search.GetSmellRange(), i, _search.GetFoodTypes());
                 
             }
 
