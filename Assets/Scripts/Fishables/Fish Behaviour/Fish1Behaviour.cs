@@ -82,7 +82,7 @@ namespace Fishing.Fishables.Fish
                     Eat();
                 }
             }
-            FlipTowardsTarget();
+            FaceTarget();
         }
 
         private IEnumerator Co_SetWanderPoint()
@@ -138,16 +138,21 @@ namespace Fishing.Fishables.Fish
             foodSearch.desiredFood = null;
         }
 
-        private void FlipTowardsTarget()
+        private void FaceTarget()
         {
+            float angleToTarget = 0f;
             if (targetPos.x < transform.position.x)
             {
                 transform.rotation = Quaternion.identity;
+                angleToTarget = Vector3.SignedAngle(-transform.right, targetPos - transform.position, Vector3.forward);
             }
             else if (targetPos.x > transform.position.x)
             {
                 transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+                angleToTarget = -Vector3.SignedAngle(-transform.right, targetPos - transform.position, Vector3.forward);
             }
+
+            transform.Rotate(Vector3.forward, angleToTarget);
         }
 
         private void OnDrawGizmosSelected()
