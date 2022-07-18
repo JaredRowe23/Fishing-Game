@@ -10,5 +10,6 @@ namespace Fishing.Inventory
         public string itemDescription;
         public float itemWeight;
         public float itemLength;
+        public float itemValue;
     }
 }

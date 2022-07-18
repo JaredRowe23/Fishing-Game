@@ -51,11 +51,11 @@ namespace Fishing.UI
             UIManager.instance.inventoryMenuButton.SetActive(!pauseMenu.activeSelf);
         }
 
-        public void NewGame() => playerData.NewGame();
+        public void NewGame() => Debug.Log("new game"); //playerData.NewGame();
 
         public void SaveGame() => playerData.SavePlayer();
 
-        public void LoadGame() => playerData.LoadPlayer();
+        public void LoadGame() => Debug.Log("load game"); //playerData.LoadPlayer();
 
         public void LoadStore()
         {
@@ -65,6 +65,7 @@ namespace Fishing.UI
         public void ExitToTitle()
         {
             SceneManager.LoadScene("Title Screen");
+            Time.timeScale = 1f;
         }
 
         public void QuitGame() => Application.Quit();

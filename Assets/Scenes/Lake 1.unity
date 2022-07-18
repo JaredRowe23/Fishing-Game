@@ -1582,7 +1582,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &856688145
 GameObject:
@@ -1728,7 +1728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f884a4e26635dfb478715beb9876b378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxItems: 2
+  maxItems: 10
 --- !u!4 &935549801
 Transform:
   m_ObjectHideFlags: 0
@@ -2234,10 +2234,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1615404180}
-  - component: {fileID: 1615404182}
   - component: {fileID: 1615404183}
   m_Layer: 0
-  m_Name: Game Controller
+  m_Name: Audio Manager
   m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2256,39 +2255,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1615404182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1615404179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0cc02e45b28196448992c15ad01788f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerName: CrazyFisherMan
-  money: 1000
-  fishingRods:
-  - Basic Rod
-  - Basic Rod
-  - Basic Rod
-  - Basic Rod
-  - Basic Rod
-  - Basic Rod
-  - Basic Rod
-  - Basic Rod
-  - Basic Rod
-  - THICC ROD
-  equippedRod: 
-  gear: []
-  equippedGear: []
-  bait:
-  - Basic Bait
-  baitCounts: 45000000
 --- !u!114 &1615404183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2429,7 +2397,7 @@ Transform:
   - {fileID: 192946224}
   - {fileID: 529541638}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1728010487
 GameObject:
@@ -2988,7 +2956,7 @@ Transform:
   - {fileID: 1085002196}
   - {fileID: 1404601215}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2084702445
 MonoBehaviour:
@@ -3035,7 +3003,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2906787414817156468, guid: 2ae4443c83f9f3c43b6c575b3b7d2739, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2906787414817156468, guid: 2ae4443c83f9f3c43b6c575b3b7d2739, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3091,6 +3059,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7607593466835511093, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607593466835511093, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607593466999701825, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7607593467332315094, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
       propertyPath: rodCanvas
       value: 
@@ -3101,7 +3081,7 @@ PrefabInstance:
       objectReference: {fileID: 2129825784}
     - target: {fileID: 7607593467332315095, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7607593467332315095, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3147,10 +3127,38 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fishing Level UI
       objectReference: {fileID: 0}
+    - target: {fileID: 7607593467942033842, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607593467942033842, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607593467942033842, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -17
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607593468025901463, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: -940.9759
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607593468214882957, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7607593468225395098, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7607593468488724781, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
       propertyPath: bucket
       value: 
       objectReference: {fileID: 935549800}
+    - target: {fileID: 7607593468488724783, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
 --- !u!1001 &6066845617681267025

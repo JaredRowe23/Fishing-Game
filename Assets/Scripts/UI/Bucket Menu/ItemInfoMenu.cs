@@ -13,6 +13,7 @@ namespace Fishing.UI
         [SerializeField] private Text itemName;
         [SerializeField] private Text itemWeight;
         [SerializeField] private Text itemLength;
+        [SerializeField] private Text itemValue;
         [SerializeField] private Text itemDescription;
         [SerializeField] private List<GameObject> models;
         [SerializeField] private List<string> modelNames;
@@ -21,9 +22,10 @@ namespace Fishing.UI
         private FishData itemReference;
         private GameObject menuListingReference;
 
-        public void UpdateMenu(string _name, string _weight, string _length, string _description, FishData _reference, GameObject _menuListing)
+        public void UpdateMenu(string _name, string _value, string _weight, string _length, string _description, FishData _reference, GameObject _menuListing)
         {
             itemName.text = _name;
+            itemValue.text = _value;
             itemWeight.text = _weight;
             itemLength.text = _length;
             itemDescription.text = _description;

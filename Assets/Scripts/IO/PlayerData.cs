@@ -9,6 +9,12 @@ namespace Fishing.IO
         public string playerName;
         public int money;
 
+        public List<string> bucketFish;
+        public List<string> bucketFishDescription;
+        public List<float> bucketFishWeight;
+        public List<float> bucketFishLength;
+        public List<float> bucketFishValue;
+
         public List<string> fishingRods;
         public string equippedRod;
 
@@ -18,7 +24,7 @@ namespace Fishing.IO
         public List<string> bait;
         public List<int> baitCounts;
 
-        private RodManager rodManager;
+        public string currentSceneName;
 
         public static PlayerData instance;
 
@@ -26,38 +32,25 @@ namespace Fishing.IO
 
         private void Awake()
         {
-            rodManager = RodManager.instance;
-        }
-
-        private void Start()
-        {
-            rodManager.EquipRod(equippedRod, false);
-        }
-
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.F9))
-            {
-                LoadPlayer();
-                Debug.Log("Loaded Game Save");
-            }
-            if (Input.GetKeyDown(KeyCode.F5))
-            {
-                Debug.Log("Saved Game");
-                SavePlayer();
-            }
+            DontDestroyOnLoad(gameObject);
         }
 
         public void SavePlayer()
         {
-            SaveSystem.SaveGame(this);
+            SaveManager.SaveGame(this, playerName);
         }
 
-        public void LoadPlayer()
+        public void LoadPlayer(GameData _saveData)
         {
-            GameData _saveData = SaveSystem.LoadGame();
-
             playerName = _saveData.playerName;
+            currentSceneName = _saveData.currentSceneName;
+
+            bucketFish = _saveData.bucketFish;
+            bucketFishDescription = _saveData.bucketFishDescription;
+            bucketFishWeight = _saveData.bucketFishWeight;
+            bucketFishLength = _saveData.bucketFishLength;
+            bucketFishValue = _saveData.bucketFishValue;
+
             money = _saveData.money;
 
             fishingRods = _saveData.fishingRods;
@@ -68,25 +61,32 @@ namespace Fishing.IO
 
             bait = _saveData.bait;
             baitCounts = _saveData.baitCounts;
-
-            rodManager.EquipRod(equippedRod, false);
         }
 
         public void NewGame()
         {
             playerName = "";
+            currentSceneName = "World Map";
+
+            bucketFish = new List<string>();
+            bucketFishDescription = new List<string>();
+            bucketFishWeight = new List<float>();
+            bucketFishLength = new List<float>();
+            bucketFishValue = new List<float>();
+
             money = 0;
+
             fishingRods = new List<string>()
             {
                 "Basic Rod"
             };
             equippedRod = fishingRods[0];
+
             gear = new List<string>();
             equippedGear = new List<string>();
+
             bait = new List<string>();
             baitCounts = new List<int>();
-
-            rodManager.EquipRod(equippedRod, false);
         }
     }
 }

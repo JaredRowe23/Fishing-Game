@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Fishing.Inventory;
+using Fishing.IO;
 
 namespace Fishing.UI
 {
@@ -63,10 +64,12 @@ namespace Fishing.UI
                 _menu.UpdateName(_item.itemName);
                 _menu.UpdateWeight(_item.itemWeight);
                 _menu.UpdateLength(_item.itemLength);
+                _menu.UpdateValue(_item.itemValue);
                 _menu.UpdateReference(_item);
             }
-            capacityBar.value = bucket.bucketList.Count;
+
             capacityBar.maxValue = bucket.maxItems;
+            capacityBar.value = bucket.bucketList.Count;
             capacityText.text = bucket.bucketList.Count.ToString() + "/" + bucket.maxItems.ToString();
         }
 
@@ -106,6 +109,20 @@ namespace Fishing.UI
 
             else
             {
+                for(int i = 0; i < PlayerData.instance.bucketFish.Count; i++)
+                {
+                    if (PlayerData.instance.bucketFish[i] != _itemReference.itemName) continue;
+                    if (PlayerData.instance.bucketFishDescription[i] != _itemReference.itemDescription) continue;
+                    if (PlayerData.instance.bucketFishLength[i] != _itemReference.itemLength) continue;
+                    if (PlayerData.instance.bucketFishWeight[i] != _itemReference.itemWeight) continue;
+                    if (PlayerData.instance.bucketFishValue[i] != _itemReference.itemValue) continue;
+
+                    PlayerData.instance.bucketFish.Remove(PlayerData.instance.bucketFish[i]);
+                    PlayerData.instance.bucketFishDescription.Remove(PlayerData.instance.bucketFishDescription[i]);
+                    PlayerData.instance.bucketFishLength.Remove(PlayerData.instance.bucketFishLength[i]);
+                    PlayerData.instance.bucketFishWeight.Remove(PlayerData.instance.bucketFishWeight[i]);
+                    PlayerData.instance.bucketFishValue.Remove(PlayerData.instance.bucketFishValue[i]);
+                }
                 bucket.bucketList.Remove(_itemReference);
                 Destroy(_menuItem);
             }

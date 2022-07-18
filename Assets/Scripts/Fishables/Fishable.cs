@@ -12,6 +12,7 @@ namespace Fishing.Fishables
         private float weight;
         private float length;
         [SerializeField] private int baseValue;
+        private float actualValue;
 
         [Header("Variation")]
         [SerializeField] private float weightMax;
@@ -32,6 +33,14 @@ namespace Fishing.Fishables
             transform.parent = null;
             transform.localScale = Vector2.one * length / 100f;
             transform.parent = parent;
+
+            float _weightValueDelta = Mathf.InverseLerp(weightMin, weightMax, weight) + 0.5f;
+            //Debug.Log(_weightValueDelta);
+            float _lengthValueDelta = Mathf.InverseLerp(lengthMin, lengthMax, length) + 0.5f;
+            //Debug.Log(_lengthValueDelta);
+            float _valueDelta = (_weightValueDelta + _lengthValueDelta) * 0.5f;
+            Debug.Log(_valueDelta);
+            actualValue = baseValue * _valueDelta;
         }
 
         public string GetName() => itemName;
@@ -41,6 +50,8 @@ namespace Fishing.Fishables
         public float GetWeight() => weight;
 
         public float GetLength() => length;
+
+        public float GetValue() => actualValue;
 
         public void DisableMinimapIndicator() => minimapIndicator.SetActive(false);
 

@@ -28,12 +28,17 @@ namespace Fishing
             playerCam = Camera.main;
         }
 
+        private void Start()
+        {
+            EquipRod(PlayerData.instance.equippedRod, false);
+        }
+
         public void EquipRod(string _rodName, bool _playSound)
         {
             if (_rodName != "")
             {
                 playerCam.transform.parent = null;
-                DestroyImmediate(equippedRod.gameObject);
+                if (equippedRod != null) DestroyImmediate(equippedRod.gameObject);
             }
             else
             {
@@ -46,6 +51,7 @@ namespace Fishing
 
                 Instantiate(_prefab);
             }
+
             playerData.equippedRod = _rodName;
             rodsMenu.UpdateEquippedRod();
             if (_playSound) AudioManager.instance.PlaySound("Equip Rod");

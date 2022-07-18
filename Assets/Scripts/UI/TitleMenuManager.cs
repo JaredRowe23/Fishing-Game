@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Fishing.IO;
 using UnityEngine.SceneManagement;
+using Fishing.IO;
 
 namespace Fishing.UI
 {
@@ -14,14 +14,28 @@ namespace Fishing.UI
         [SerializeField] private GameObject settingsMenu;
         [SerializeField] private GameObject quitMenu;
 
+        private void Awake()
+        {
+            loadMenu = LoadMenu.instance.gameObject;
+        }
+
         public void NewGame()
         {
-            //Wipe the current session's player data
+            PlayerData.instance.NewGame();
             SceneManager.LoadScene("World Map");
         }
 
-        public void ShowLoadMenu() => SwapActive(loadMenu, mainMenu);
-        public void HideLoadMenu() => SwapActive(mainMenu, loadMenu);
+        public void ShowLoadMenu()
+        {
+            SwapActive(loadMenu, mainMenu);
+            loadMenu.GetComponent<LoadMenu>().GenerateSaveListings();
+        }
+        public void HideLoadMenu()
+        {
+            LoadMenu.instance.DestroySaveListings();
+            SaveSlotDetails.instance.gameObject.SetActive(false);
+            SwapActive(mainMenu, loadMenu);
+        }
         public void LoadGame(int _saveSlot)
         {
             //Set the current session's data to match with the selected slot, then call SceneManager.LoadScene("World Map")

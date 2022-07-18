@@ -1,0 +1,29 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using Fishing.IO;
+
+namespace Fishing.UI
+{
+    public class SaveSlotListing : MonoBehaviour
+    {
+        [SerializeField] private Text saveNameText;
+        [SerializeField] private Text saveTimeDateText;
+        private int saveIndex;
+
+        public void SetInfo(string _saveName, string _saveDate, int _saveIndex)
+        {
+            saveNameText.text = _saveName;
+            saveTimeDateText.text = _saveDate;
+            saveIndex = _saveIndex;
+        }
+
+        public void ShowData()
+        {
+            SaveSlotDetails.instance.gameObject.SetActive(true);
+            SaveSlotDetails.instance.UpdateInfo(SaveManager.saveFiles[saveIndex].name, SaveManager.saveFiles[saveIndex].money);
+            LoadMenu.instance.selectedSlotIndex = saveIndex;
+        }
+    }
+}

@@ -11,6 +11,7 @@ namespace Fishing.UI
         [SerializeField] private Text itemName;
         [SerializeField] private Text itemWeight;
         [SerializeField] private Text itemLength;
+        [SerializeField] private Text itemValue;
         private FishData itemReference;
 
         public void UpdateName(string _name) => itemName.text = _name;
@@ -18,6 +19,8 @@ namespace Fishing.UI
         public void UpdateWeight(float _weight) => itemWeight.text = _weight.ToString() + " kg";
 
         public void UpdateLength(float _length) => itemLength.text = _length.ToString() + " cm";
+
+        public void UpdateValue(float _value) => itemValue.text = "$" + _value.ToString("F2");
 
         public void UpdateReference(FishData _reference) => itemReference = _reference;
 
@@ -27,7 +30,7 @@ namespace Fishing.UI
             {
                 UIManager.instance.itemInfoMenu.SetActive(true);
             }
-            UIManager.instance.itemInfoMenu.GetComponent<ItemInfoMenu>().UpdateMenu(itemName.text, itemWeight.text, itemLength.text, itemReference.itemDescription, itemReference, gameObject);
+            UIManager.instance.itemInfoMenu.GetComponent<ItemInfoMenu>().UpdateMenu(itemName.text, itemValue.text, itemWeight.text, itemLength.text, itemReference.itemDescription, itemReference, gameObject);
         }
     }
 
