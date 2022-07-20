@@ -62,10 +62,16 @@ namespace Fishing.UI
             //Application.LoadLevel(1);
         }
 
+        public void OpenMap()
+        {
+            Time.timeScale = 1f;
+            SceneManager.LoadScene("World Map");
+        }
+
         public void ExitToTitle()
         {
-            SceneManager.LoadScene("Title Screen");
             Time.timeScale = 1f;
+            SceneManager.LoadScene("Title Screen");
         }
 
         public void QuitGame() => Application.Quit();

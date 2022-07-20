@@ -13,7 +13,7 @@ namespace Fishing
 
         void Update()
         {
-            moneyText.text = "$" + PlayerData.instance.money.ToString();
+            moneyText.text = "$" + PlayerData.instance.money.ToString("F2");
         }
     }
 }

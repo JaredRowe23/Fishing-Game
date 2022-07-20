@@ -15,16 +15,10 @@ namespace Fishing.UI
         [SerializeField] private Text capacityText;
         [SerializeField] private GameObject bucketItemPrefab;
 
-        private RodManager rodManager;
-
         public static BucketMenu instance;
 
         private BucketMenu() => instance = this;
 
-        private void Awake()
-        {
-            rodManager = RodManager.instance;
-        }
 
         void Update()
         {
@@ -56,7 +50,7 @@ namespace Fishing.UI
 
         }
 
-        void InitializeMenu()
+        public void InitializeMenu()
         {
             foreach (FishData _item in bucket.bucketList)
             {
@@ -73,7 +67,7 @@ namespace Fishing.UI
             capacityText.text = bucket.bucketList.Count.ToString() + "/" + bucket.maxItems.ToString();
         }
 
-        void DestroyMenu()
+        public void DestroyMenu()
         {
             foreach (Transform _child in content.transform)
             {
@@ -84,54 +78,44 @@ namespace Fishing.UI
             }
         }
 
-        void RefreshMenu()
+        public void RefreshMenu()
         {
             DestroyMenu();
             InitializeMenu();
         }
 
-        public void ThrowAway(FishData _itemReference, GameObject _modelReference, GameObject _menuItem)
+        public void ThrowAway(FishData _itemReference, GameObject _modelReference, GameObject _menuItem, bool _isSelling)
         {
-            if (UIManager.instance.overflowItem.activeSelf)
-            {
-                bucket.bucketList.Remove(_itemReference);
 
-                if (_menuItem != UIManager.instance.overflowItem)
+            for (int i = 0; i < PlayerData.instance.bucketFish.Count; i++)
+            {
+                if (PlayerData.instance.bucketFish[i] != _itemReference.itemName) continue;
+                if (PlayerData.instance.bucketFishDescription[i] != _itemReference.itemDescription) continue;
+                if (PlayerData.instance.bucketFishLength[i] != _itemReference.itemLength) continue;
+                if (PlayerData.instance.bucketFishWeight[i] != _itemReference.itemWeight) continue;
+                if (PlayerData.instance.bucketFishValue[i] != _itemReference.itemValue) continue;
+
+                if (_isSelling)
                 {
-                    rodManager.equippedRod.GetHook().AddToBucket();
-                    Destroy(_menuItem);
+                    PlayerData.instance.money += PlayerData.instance.bucketFishValue[i];
                 }
 
-                rodManager.equippedRod.GetHook().DespawnHookedObject();
-                _menuItem.SetActive(false);
-                UIManager.instance.overflowItem.SetActive(false);
+                PlayerData.instance.bucketFish.Remove(PlayerData.instance.bucketFish[i]);
+                PlayerData.instance.bucketFishDescription.Remove(PlayerData.instance.bucketFishDescription[i]);
+                PlayerData.instance.bucketFishLength.Remove(PlayerData.instance.bucketFishLength[i]);
+                PlayerData.instance.bucketFishWeight.Remove(PlayerData.instance.bucketFishWeight[i]);
+                PlayerData.instance.bucketFishValue.Remove(PlayerData.instance.bucketFishValue[i]);
             }
 
-            else
-            {
-                for(int i = 0; i < PlayerData.instance.bucketFish.Count; i++)
-                {
-                    if (PlayerData.instance.bucketFish[i] != _itemReference.itemName) continue;
-                    if (PlayerData.instance.bucketFishDescription[i] != _itemReference.itemDescription) continue;
-                    if (PlayerData.instance.bucketFishLength[i] != _itemReference.itemLength) continue;
-                    if (PlayerData.instance.bucketFishWeight[i] != _itemReference.itemWeight) continue;
-                    if (PlayerData.instance.bucketFishValue[i] != _itemReference.itemValue) continue;
-
-                    PlayerData.instance.bucketFish.Remove(PlayerData.instance.bucketFish[i]);
-                    PlayerData.instance.bucketFishDescription.Remove(PlayerData.instance.bucketFishDescription[i]);
-                    PlayerData.instance.bucketFishLength.Remove(PlayerData.instance.bucketFishLength[i]);
-                    PlayerData.instance.bucketFishWeight.Remove(PlayerData.instance.bucketFishWeight[i]);
-                    PlayerData.instance.bucketFishValue.Remove(PlayerData.instance.bucketFishValue[i]);
-                }
-                bucket.bucketList.Remove(_itemReference);
-                Destroy(_menuItem);
-            }
+            bucket.bucketList.Remove(_itemReference);
+            Destroy(_menuItem);
 
             if (_modelReference) Destroy(_modelReference);
             AudioManager.instance.PlaySound("Throwaway Fish");
             UIManager.instance.itemInfoMenu.SetActive(false);
             RefreshMenu();
-            ShowBucketMenu();
+            if (!_isSelling) ShowBucketMenu();
+
         }
     }
 

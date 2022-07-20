@@ -10,8 +10,9 @@ namespace Fishing.IO
     {
         public string playerName;
         public string currentSceneName;
-
-        public int money;
+        public float money;
+        public string dateTime;
+        public string playtime;
 
         public List<string> bucketFish;
         public List<string> bucketFishDescription;
@@ -32,6 +33,8 @@ namespace Fishing.IO
         {
             playerName = _playerData.playerName;
             currentSceneName = _playerData.currentSceneName;
+            dateTime = _playerData.dateTime;
+            playtime = _playerData.playtime;
 
             bucketFish = _playerData.bucketFish;
             bucketFishDescription = _playerData.bucketFishDescription;

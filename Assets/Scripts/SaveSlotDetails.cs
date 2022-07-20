@@ -18,10 +18,12 @@ namespace Fishing.UI
 
         private SaveSlotDetails() => instance = this;
 
-        public void UpdateInfo(string _saveName, int _money)
+        public void UpdateInfo(string _saveName, float _money, string _saveTime, string _playtime)
         {
             saveNameText.text = _saveName;
-            moneyText.text = _money.ToString();
+            moneyText.text = _money.ToString("F2");
+            saveTimeDateText.text = _saveTime;
+            playTimeText.text = _playtime;
         }
     }
 }

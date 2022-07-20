@@ -1,0 +1,138 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2577893268382081175
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2577893268382081168}
+  - component: {fileID: 2577893268382081171}
+  m_Layer: 0
+  m_Name: Audio Manager
+  m_TagString: GameController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &2577893268382081168
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2577893268382081175}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2577893268382081171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2577893268382081175}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 402cb54d3d13d46448944cedc42eeb9c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sounds:
+  - name: Catch Fish
+    clip: {fileID: 8300000, guid: f11ec4c929f36e440aae094d88a40b49, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1.5
+    randomVolume: 0
+    randomPitch: 0
+  - name: Hook Splash
+    clip: {fileID: 8300000, guid: e4286638587203c44a0624bb4cd53d0f, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1.5
+    randomVolume: 0.2
+    randomPitch: 0.2
+  - name: Reel
+    clip: {fileID: 8300000, guid: 6410672d8d799454c9b02c5b18541a65, type: 3}
+    loop: 1
+    volume: 1
+    pitch: 1.5
+    randomVolume: 0
+    randomPitch: 0
+  - name: Pause
+    clip: {fileID: 8300000, guid: 2aa1f3195bd543340a6b533913752108, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1.5
+    randomVolume: 0
+    randomPitch: 0
+  - name: Unpause
+    clip: {fileID: 8300000, guid: 2aa1f3195bd543340a6b533913752108, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 0.5
+    randomVolume: 0
+    randomPitch: 0
+  - name: Open Bucket
+    clip: {fileID: 8300000, guid: ec49ef7da7a08534a95b7cef6995043a, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1.5
+    randomVolume: 0
+    randomPitch: 0
+  - name: Close Bucket
+    clip: {fileID: 8300000, guid: ec49ef7da7a08534a95b7cef6995043a, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 0.5
+    randomVolume: 0
+    randomPitch: 0
+  - name: Add To Bucket
+    clip: {fileID: 8300000, guid: 28af537a1ac82e84d852e4015f77e1a6, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: Throwaway Fish
+    clip: {fileID: 8300000, guid: ec3bc3d048f60b948a7cbe8babbd831c, type: 3}
+    loop: 0
+    volume: 1
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0
+  - name: Inventory Tab
+    clip: {fileID: 8300000, guid: ec49ef7da7a08534a95b7cef6995043a, type: 3}
+    loop: 0
+    volume: 0.25
+    pitch: 1.5
+    randomVolume: 0
+    randomPitch: 0
+  - name: Equip Rod
+    clip: {fileID: 8300000, guid: ec49ef7da7a08534a95b7cef6995043a, type: 3}
+    loop: 0
+    volume: 0.25
+    pitch: 0.5
+    randomVolume: 0
+    randomPitch: 0
+  - name: Power Audio
+    clip: {fileID: 8300000, guid: ac97c886a5d889c41a495a8b74814b2f, type: 3}
+    loop: 1
+    volume: 0.25
+    pitch: 0.5
+    randomVolume: 0
+    randomPitch: 0
+  - name: Background Music
+    clip: {fileID: 8300000, guid: e068c959a86e15f4eb726171b165fc92, type: 3}
+    loop: 1
+    volume: 0.2
+    pitch: 1
+    randomVolume: 0
+    randomPitch: 0

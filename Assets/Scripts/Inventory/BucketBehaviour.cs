@@ -54,7 +54,7 @@ namespace Fishing.Inventory
                 _overflowMenu.UpdateName(_item.GetName());
                 _overflowMenu.UpdateLength(_newItem.itemLength);
                 _overflowMenu.UpdateWeight(_newItem.itemWeight);
-
+                _overflowMenu.UpdateValue(_newItem.itemValue);
                 _overflowMenu.UpdateReference(_newItem);
 
                 return;

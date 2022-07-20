@@ -30,7 +30,7 @@ namespace Fishing.UI
             for (int i = 0; i < SaveManager.saveFiles.Count; i++)
             {
                 SaveSlotListing _newSlot = Instantiate(saveFileListingPrefab, contentParent).GetComponent<SaveSlotListing>();
-                _newSlot.SetInfo(SaveManager.saveFiles[i].name, "4/4/2022 - 21:48", i);
+                _newSlot.SetInfo(SaveManager.saveFiles[i].name, SaveManager.saveFiles[i].dateTime, i);
             }
         }
 

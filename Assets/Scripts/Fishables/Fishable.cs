@@ -35,11 +35,8 @@ namespace Fishing.Fishables
             transform.parent = parent;
 
             float _weightValueDelta = Mathf.InverseLerp(weightMin, weightMax, weight) + 0.5f;
-            //Debug.Log(_weightValueDelta);
             float _lengthValueDelta = Mathf.InverseLerp(lengthMin, lengthMax, length) + 0.5f;
-            //Debug.Log(_lengthValueDelta);
             float _valueDelta = (_weightValueDelta + _lengthValueDelta) * 0.5f;
-            Debug.Log(_valueDelta);
             actualValue = baseValue * _valueDelta;
         }
 

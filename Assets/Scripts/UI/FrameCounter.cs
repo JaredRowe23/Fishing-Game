@@ -13,7 +13,7 @@ namespace Fishing.UI
 
         private void Update()
         {
-            text.text = "FPS: " + (Mathf.Round(1 / Time.deltaTime * 100) / 100).ToString();
+            text.text = "FPS: " + (Mathf.Round(1 / Time.deltaTime * 100) / 100).ToString("F2");
         }
     }
 

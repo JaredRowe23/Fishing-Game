@@ -35,9 +35,19 @@ namespace Fishing.UI
             ItemViewerCamera.instance.UpdateCurrentItem(currentModel);
         }
 
-        public void ThrowAway()
+        public void ThrowAway(bool _isSelling)
         {
-            BucketMenu.instance.ThrowAway(itemReference, currentModel, menuListingReference);
+            if (UIManager.instance.overflowItem != null)
+            {
+                if (UIManager.instance.overflowItem.activeSelf)
+                {
+                    OverflowItem.instance.ThrowAway(itemReference, currentModel, menuListingReference);
+                    gameObject.SetActive(false);
+                    return;
+                }
+            }
+
+            BucketMenu.instance.ThrowAway(itemReference, currentModel, menuListingReference, _isSelling);
             gameObject.SetActive(false);
         }
 
@@ -58,8 +68,8 @@ namespace Fishing.UI
                 }
             }
 
-            currentModel.transform.parent = BucketBehaviour.instance.transform;
-            currentModel.transform.position = BucketBehaviour.instance.transform.position;
+            currentModel.transform.parent = ItemViewerCamera.instance.transform.parent;
+            currentModel.transform.position = ItemViewerCamera.instance.transform.parent.position;
             currentModel.transform.rotation = Quaternion.identity;
 
             return currentModel;

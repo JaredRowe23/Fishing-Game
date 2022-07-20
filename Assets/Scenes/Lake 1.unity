@@ -619,7 +619,6 @@ Transform:
   - {fileID: 755682315}
   - {fileID: 935549801}
   - {fileID: 763268868}
-  - {fileID: 434996644}
   m_Father: {fileID: 1666063066}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -829,14 +828,14 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 434996643}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.5600004, y: 3.533366, z: -1.5}
-  m_LocalScale: {x: 1.3333334, y: 1.3333334, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 639651234}
   - {fileID: 282512309}
-  m_Father: {fileID: 192946224}
-  m_RootOrder: 6
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &510468689
 GameObject:
@@ -1104,6 +1103,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rotateSpeed: 100
   scrollMultiplier: 1
+  minimumOrthoSize: 0.1
+  maximumOrthoSize: 10
   maximumZoomOutMultiplier: 5
   currentItem: {fileID: 0}
 --- !u!20 &639651236
@@ -1132,8 +1133,8 @@ Camera:
   near clip plane: 0.05
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 1.5
   m_Depth: 0
   m_CullingMask:
     serializedVersion: 2
@@ -1708,7 +1709,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 935549801}
-  - component: {fileID: 935549800}
   m_Layer: 0
   m_Name: Bucket
   m_TagString: Untagged
@@ -1716,19 +1716,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &935549800
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 935549799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f884a4e26635dfb478715beb9876b378, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxItems: 10
 --- !u!4 &935549801
 Transform:
   m_ObjectHideFlags: 0
@@ -2225,142 +2212,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &1615404179
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1615404180}
-  - component: {fileID: 1615404183}
-  m_Layer: 0
-  m_Name: Audio Manager
-  m_TagString: GameController
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 4294967295
-  m_IsActive: 1
---- !u!4 &1615404180
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1615404179}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1615404183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1615404179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 402cb54d3d13d46448944cedc42eeb9c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sounds:
-  - name: Catch Fish
-    clip: {fileID: 8300000, guid: f11ec4c929f36e440aae094d88a40b49, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 1.5
-    randomVolume: 0
-    randomPitch: 0
-  - name: Hook Splash
-    clip: {fileID: 8300000, guid: e4286638587203c44a0624bb4cd53d0f, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 1.5
-    randomVolume: 0.2
-    randomPitch: 0.2
-  - name: Reel
-    clip: {fileID: 8300000, guid: 6410672d8d799454c9b02c5b18541a65, type: 3}
-    loop: 1
-    volume: 1
-    pitch: 1.5
-    randomVolume: 0
-    randomPitch: 0
-  - name: Pause
-    clip: {fileID: 8300000, guid: 2aa1f3195bd543340a6b533913752108, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 1.5
-    randomVolume: 0
-    randomPitch: 0
-  - name: Unpause
-    clip: {fileID: 8300000, guid: 2aa1f3195bd543340a6b533913752108, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 0.5
-    randomVolume: 0
-    randomPitch: 0
-  - name: Open Bucket
-    clip: {fileID: 8300000, guid: ec49ef7da7a08534a95b7cef6995043a, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 1.5
-    randomVolume: 0
-    randomPitch: 0
-  - name: Close Bucket
-    clip: {fileID: 8300000, guid: ec49ef7da7a08534a95b7cef6995043a, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 0.5
-    randomVolume: 0
-    randomPitch: 0
-  - name: Add To Bucket
-    clip: {fileID: 8300000, guid: 28af537a1ac82e84d852e4015f77e1a6, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 1
-    randomVolume: 0
-    randomPitch: 0
-  - name: Throwaway Fish
-    clip: {fileID: 8300000, guid: ec3bc3d048f60b948a7cbe8babbd831c, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 1
-    randomVolume: 0
-    randomPitch: 0
-  - name: Inventory Tab
-    clip: {fileID: 8300000, guid: ec49ef7da7a08534a95b7cef6995043a, type: 3}
-    loop: 0
-    volume: 0.25
-    pitch: 1.5
-    randomVolume: 0
-    randomPitch: 0
-  - name: Equip Rod
-    clip: {fileID: 8300000, guid: ec49ef7da7a08534a95b7cef6995043a, type: 3}
-    loop: 0
-    volume: 0.25
-    pitch: 0.5
-    randomVolume: 0
-    randomPitch: 0
-  - name: Power Audio
-    clip: {fileID: 8300000, guid: ac97c886a5d889c41a495a8b74814b2f, type: 3}
-    loop: 1
-    volume: 0.25
-    pitch: 0.5
-    randomVolume: 0
-    randomPitch: 0
-  - name: Background Music
-    clip: {fileID: 8300000, guid: e068c959a86e15f4eb726171b165fc92, type: 3}
-    loop: 1
-    volume: 0.2
-    pitch: 1
-    randomVolume: 0
-    randomPitch: 0
 --- !u!1 &1666063065
 GameObject:
   m_ObjectHideFlags: 0
@@ -3059,18 +2910,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7607593466835511093, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7607593466835511093, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7607593466999701825, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 7607593467332315094, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
       propertyPath: rodCanvas
       value: 
@@ -3127,40 +2966,30 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fishing Level UI
       objectReference: {fileID: 0}
-    - target: {fileID: 7607593467942033842, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
-      propertyPath: m_AnchorMax.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7607593467942033842, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7607593467942033842, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: -17
-      objectReference: {fileID: 0}
-    - target: {fileID: 7607593468025901463, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: -940.9759
-      objectReference: {fileID: 0}
-    - target: {fileID: 7607593468214882957, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7607593468225395098, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7607593468488724781, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
+    - target: {fileID: 8730486207342758656, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
       propertyPath: bucket
       value: 
-      objectReference: {fileID: 935549800}
-    - target: {fileID: 7607593468488724783, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 6914334847326442418}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
+--- !u!1 &5776758396999115750 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7607593468019345059, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
+  m_PrefabInstance: {fileID: 5776758396999115749}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5776758396999115751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5776758396999115750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fcde01a86d985794facb2db8d84ab57b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bucket: {fileID: 6914334847326442418}
 --- !u!1001 &6066845617681267025
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3319,3 +3148,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18f0ddb02befd0b4980b30dce550ecc6, type: 3}
+--- !u!1 &6914334847326442417 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6914334846692841112, guid: 18f0ddb02befd0b4980b30dce550ecc6, type: 3}
+  m_PrefabInstance: {fileID: 6914334847326442416}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6914334847326442418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6914334847326442417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f884a4e26635dfb478715beb9876b378, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxItems: 10

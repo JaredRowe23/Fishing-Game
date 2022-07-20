@@ -45,10 +45,16 @@ namespace Fishing
         [SerializeField]
         Sound[] sounds;
 
-        private AudioManager()
+        private void Awake()
         {
-            if (instance != null) Debug.LogError("More than one AudioManager in the scene."); 
-            else instance = this;
+            if (instance != null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            instance = this;
+            DontDestroyOnLoad(gameObject);
         }
 
         private void Start()

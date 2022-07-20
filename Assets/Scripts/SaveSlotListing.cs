@@ -22,7 +22,7 @@ namespace Fishing.UI
         public void ShowData()
         {
             SaveSlotDetails.instance.gameObject.SetActive(true);
-            SaveSlotDetails.instance.UpdateInfo(SaveManager.saveFiles[saveIndex].name, SaveManager.saveFiles[saveIndex].money);
+            SaveSlotDetails.instance.UpdateInfo(SaveManager.saveFiles[saveIndex].name, SaveManager.saveFiles[saveIndex].money, SaveManager.saveFiles[saveIndex].dateTime, SaveManager.saveFiles[saveIndex].playtime);
             LoadMenu.instance.selectedSlotIndex = saveIndex;
         }
     }

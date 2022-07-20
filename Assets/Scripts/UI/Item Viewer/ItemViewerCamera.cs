@@ -8,19 +8,31 @@ namespace Fishing.UI
     {
         [SerializeField] private float rotateSpeed;
         [SerializeField] private float scrollMultiplier;
+        [SerializeField] private float minimumOrthoSize;
+        [SerializeField] private float maximumOrthoSize;
         [SerializeField] private float maximumZoomOutMultiplier;
 
         [SerializeField] private GameObject currentItem;
         private bool isDragging;
 
+        private Camera cam;
+
         public static ItemViewerCamera instance;
 
-        private void Start() => instance = this;
+        private ItemViewerCamera()
+        {
+            instance = this;
+        }
+
+        private void Awake()
+        {
+            cam = GetComponent<Camera>();
+        }
 
         private void Update()
         {
             // enable mouse rotation when clicking and holding
-            if (UIManager.instance.mouseOverUI == UIManager.instance.itemViewer)
+            if (UIManager.instance.mouseOverUI == UIManager.instance.itemViewer.gameObject)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -30,22 +42,24 @@ namespace Fishing.UI
                 // scrollwheel will move (zoom) the camera in and out
                 // scaled off it's current distance and the item's scale
                 float _scroll = Input.GetAxis("Mouse ScrollWheel");
+                cam.orthographicSize -= _scroll * scrollMultiplier;
+                cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, minimumOrthoSize, maximumOrthoSize);
 
-                Transform _parent = currentItem.transform.parent;
-                currentItem.transform.parent = null;
+                //Transform _parent = currentItem.transform.parent;
+                //currentItem.transform.parent = null;
 
-                transform.Translate(0f, 0f, _scroll * scrollMultiplier * Mathf.Abs(transform.localPosition.z));
+                //transform.Translate(0f, 0f, _scroll * scrollMultiplier * Mathf.Abs(transform.localPosition.z));
 
-                if (transform.localPosition.z > -currentItem.transform.localScale.z)
-                {
-                    transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -currentItem.transform.localScale.z);
-                }
-                else if (transform.localPosition.z < -currentItem.transform.localScale.z * maximumZoomOutMultiplier)
-                {
-                    transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -currentItem.transform.localScale.z * maximumZoomOutMultiplier);
-                }
+                //if (transform.localPosition.z > -currentItem.transform.localScale.z)
+                //{
+                //    transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -currentItem.transform.localScale.z);
+                //}
+                //else if (transform.localPosition.z < -currentItem.transform.localScale.z * maximumZoomOutMultiplier)
+                //{
+                //    transform.localPosition = new Vector3(transform.localPosition.x, transform.localPosition.y, -currentItem.transform.localScale.z * maximumZoomOutMultiplier);
+                //}
 
-                currentItem.transform.parent = _parent;
+                //currentItem.transform.parent = _parent;
             }
 
             if (Input.GetMouseButtonUp(0))
