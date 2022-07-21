@@ -4,6 +4,7 @@ using UnityEngine;
 using Fishing.IO;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 namespace Fishing.UI
 {
@@ -11,6 +12,7 @@ namespace Fishing.UI
     {
         [SerializeField] private GameObject saveFileListingPrefab;
         [SerializeField] private Transform contentParent;
+        public SaveSlotDetails slotDetails;
         public int selectedSlotIndex;
 
         public static LoadMenu instance;
@@ -19,8 +21,7 @@ namespace Fishing.UI
 
         public void LoadSaveSlot()
         {
-            SaveManager.LoadGame(Application.persistentDataPath+ "/" + SaveManager.saveFiles[selectedSlotIndex].name + ".fish");
-            SceneManager.LoadScene(PlayerData.instance.currentSceneName);
+            TitleMenuManager.instance.LoadGame(selectedSlotIndex);
         }
 
         public void GenerateSaveListings()
@@ -40,6 +41,21 @@ namespace Fishing.UI
             {
                 Destroy(child.gameObject);
             }
+        }
+
+        public void DeleteSaveSlot()
+        {
+            string _path = Application.persistentDataPath + "/" + SaveManager.saveFiles[selectedSlotIndex].name + ".fish";
+            if (File.Exists(_path))
+            {
+                File.Delete(_path);
+                TitleMenuManager.instance.HideLoadMenu();
+            }
+            else
+            {
+                Debug.LogError("Save file not found in " + Application.persistentDataPath + "/" + SaveManager.saveFiles[selectedSlotIndex].name + ".fish");
+            }
+            
         }
     }
 }

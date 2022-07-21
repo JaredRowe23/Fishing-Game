@@ -24,7 +24,7 @@ namespace Fishing.UI
         {
             if (!gameObject.activeSelf) return;
 
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (Input.GetKeyDown(KeyCode.B))
             {
                 ShowBucketMenu();
             }

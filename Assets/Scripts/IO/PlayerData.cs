@@ -8,6 +8,7 @@ namespace Fishing.IO
     {
         public string playerName;
         public float money;
+        private System.DateTime sessionStartTime;
         public string dateTime;
         public string playtime;
 
@@ -40,7 +41,7 @@ namespace Fishing.IO
         public void SavePlayer()
         {
             System.DateTime previousDateTime = System.DateTime.Parse(dateTime);
-            System.TimeSpan currentSessionTime = System.DateTime.Now.Subtract(previousDateTime);
+            System.TimeSpan currentSessionTime = System.DateTime.Now.Subtract(sessionStartTime);
             System.TimeSpan previousPlaytime = System.TimeSpan.Parse(playtime);
             System.TimeSpan addPlaytime = previousPlaytime.Add(currentSessionTime);
             playtime = string.Format("{0}:{1}:{2}", addPlaytime.Hours, addPlaytime.Minutes, addPlaytime.Seconds);
@@ -55,6 +56,7 @@ namespace Fishing.IO
             currentSceneName = _saveData.currentSceneName;
             dateTime = _saveData.dateTime;
             playtime = _saveData.playtime;
+            sessionStartTime = System.DateTime.Now;
 
             bucketFish = _saveData.bucketFish;
             bucketFishDescription = _saveData.bucketFishDescription;
@@ -79,6 +81,7 @@ namespace Fishing.IO
             playerName = "";
             currentSceneName = "World Map";
             dateTime = System.DateTime.Now.ToString("G");
+            sessionStartTime = System.DateTime.Now;
             playtime = System.TimeSpan.Zero.ToString();
 
             bucketFish = new List<string>();

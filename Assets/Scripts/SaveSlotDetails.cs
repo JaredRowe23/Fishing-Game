@@ -14,10 +14,6 @@ namespace Fishing.UI
         [SerializeField] private Text fishCaughtText;
         [SerializeField] private Text playTimeText;
 
-        public static SaveSlotDetails instance;
-
-        private SaveSlotDetails() => instance = this;
-
         public void UpdateInfo(string _saveName, float _money, string _saveTime, string _playtime)
         {
             saveNameText.text = _saveName;

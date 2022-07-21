@@ -14,17 +14,27 @@ namespace Fishing.UI
 
         public static PauseMenu instance;
 
-        private PauseMenu() => instance = this;
-
         private void Awake()
         {
+            if (instance != null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+
             playerData = PlayerData.instance;
         }
 
         void Update()
         {
-            if (BucketMenu.instance.gameObject.activeSelf) return;
-            if (InventoryMenu.instance.gameObject.activeSelf) return;
+            if (SceneManager.GetActiveScene().handle == 2)
+            {
+                if (BucketMenu.instance.gameObject.activeSelf) return;
+                if (InventoryMenu.instance.gameObject.activeSelf) return;
+            }
 
             if (Input.GetKeyDown(KeyCode.Escape))
             {
@@ -47,20 +57,14 @@ namespace Fishing.UI
                 Time.timeScale = 1f;
             }
 
-            UIManager.instance.bucketMenuButton.gameObject.SetActive(!pauseMenu.activeSelf);
-            UIManager.instance.inventoryMenuButton.SetActive(!pauseMenu.activeSelf);
+            if (SceneManager.GetActiveScene().handle == 2)
+            {
+                UIManager.instance.bucketMenuButton.gameObject.SetActive(!pauseMenu.activeSelf);
+                UIManager.instance.inventoryMenuButton.SetActive(!pauseMenu.activeSelf);
+            }
         }
-
-        public void NewGame() => Debug.Log("new game"); //playerData.NewGame();
 
         public void SaveGame() => playerData.SavePlayer();
-
-        public void LoadGame() => Debug.Log("load game"); //playerData.LoadPlayer();
-
-        public void LoadStore()
-        {
-            //Application.LoadLevel(1);
-        }
 
         public void OpenMap()
         {
@@ -72,6 +76,7 @@ namespace Fishing.UI
         {
             Time.timeScale = 1f;
             SceneManager.LoadScene("Title Screen");
+            Destroy(gameObject);
         }
 
         public void QuitGame() => Application.Quit();

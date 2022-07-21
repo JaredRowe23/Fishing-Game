@@ -9,10 +9,15 @@ namespace Fishing.UI
     public class TitleMenuManager : MonoBehaviour
     {
         [SerializeField] private GameObject mainMenu;
+        [SerializeField] private GameObject newGameMenu;
         [SerializeField] private GameObject continueMenu;
         [SerializeField] private GameObject loadMenu;
         [SerializeField] private GameObject settingsMenu;
         [SerializeField] private GameObject quitMenu;
+
+        public static TitleMenuManager instance;
+
+        private TitleMenuManager() => instance = this;
 
         private void Awake()
         {
@@ -21,8 +26,17 @@ namespace Fishing.UI
 
         public void NewGame()
         {
-            PlayerData.instance.NewGame();
-            SceneManager.LoadScene("World Map");
+
+        }
+
+        public void ShowNewGameMenu()
+        {
+            SwapActive(newGameMenu, mainMenu);
+        }
+
+        public void HideNewGameMenu()
+        {
+            SwapActive(mainMenu, newGameMenu);
         }
 
         public void ShowLoadMenu()
@@ -33,21 +47,24 @@ namespace Fishing.UI
         public void HideLoadMenu()
         {
             LoadMenu.instance.DestroySaveListings();
-            SaveSlotDetails.instance.gameObject.SetActive(false);
+            LoadMenu.instance.slotDetails.gameObject.SetActive(false);
             SwapActive(mainMenu, loadMenu);
         }
         public void LoadGame(int _saveSlot)
         {
-            //Set the current session's data to match with the selected slot, then call SceneManager.LoadScene("World Map")
+            SaveManager.LoadGame(Application.persistentDataPath + "/" + SaveManager.saveFiles[_saveSlot].name + ".fish");
+            SceneManager.LoadScene(PlayerData.instance.currentSceneName);
         }
 
         public void Continue()
         {
-            //Check for the most recent saved slot, and pass that into LoadGame
+            LoadGame(0);
         }
+
         public void ShowContinueMenu()
         {
-            //Check and cache the most recent saved slot
+            SaveManager.LoadSaveSlots();
+            ContinueMenu.instance.LoadContinueSlotDetails();
             SwapActive(continueMenu, mainMenu);
         }
         public void HideContinueMenu() => SwapActive(mainMenu, continueMenu);

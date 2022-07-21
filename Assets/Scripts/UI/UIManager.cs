@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Fishing.UI;
 
 namespace Fishing
 {
@@ -19,7 +20,7 @@ namespace Fishing
         public GameObject gearMenuButton;
         public GameObject rodsMenu;
 
-        [SerializeField] private List<GameObject> interuptableUI;
+        [SerializeField] public List<GameObject> interuptableUI;
 
         public static UIManager instance;
 
@@ -34,6 +35,9 @@ namespace Fishing
                     return true;
                 }
             }
+
+            if (PauseMenu.instance.pauseMenu.gameObject.activeSelf) return true;
+
             return false;
         }
     }

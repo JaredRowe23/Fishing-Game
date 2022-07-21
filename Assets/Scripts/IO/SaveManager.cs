@@ -79,11 +79,8 @@ namespace Fishing.IO
 
             foreach (SaveFile _saveFile in _unorganizedFiles)
             {
-                Debug.Log("---------------------------------------");
-                Debug.Log("checking unorganized file: " + _saveFile.name);
                 if (_sortedFiles.Count == 0)
                 {
-                    Debug.Log("adding first file to sorted list");
                     _sortedFiles.Add(_saveFile);
                     continue;
                 }
@@ -96,17 +93,14 @@ namespace Fishing.IO
                     System.DateTime _sortedFileDateTime = System.DateTime.Parse(_sortedFile.dateTime);
                     int _dateTimeComparison = System.DateTime.Compare(_saveFileDateTime, _sortedFileDateTime);
 
-                    Debug.Log("comparing with sorted file");
                     if (_dateTimeComparison > 0)
                     {
-                        Debug.Log("earlier than sorted file, adding in place");
                         _sortedFiles.Insert(i, _saveFile);
                         break;
                     }
 
                     else if (_dateTimeComparison == 0)
                     {
-                        Debug.Log("same time as sorted file, adding in place");
                         _sortedFiles.Add(_saveFile);
                         continue;
                     }
@@ -115,13 +109,11 @@ namespace Fishing.IO
                     {
                         if (i == _sortedFiles.Count - 1)
                         {
-                            Debug.Log("older than sorted file, which is the final file, adding to end");
                             _sortedFiles.Add(_saveFile);
                             break;
                         }
                         else
                         {
-                            Debug.Log("older than sorted file, continuing to next file");
                             i++;
                             continue;
                         }
@@ -129,11 +121,6 @@ namespace Fishing.IO
                 }
             }
 
-            Debug.Log("list completed:");
-            foreach(SaveFile _saveFile in _sortedFiles)
-            {
-                Debug.Log(_saveFile.name);
-            }
             return _sortedFiles;
         }
 
@@ -167,6 +154,5 @@ namespace Fishing.IO
                 Debug.LogError("Save file not found in " + _path);
             }
         }
-
     }
 }

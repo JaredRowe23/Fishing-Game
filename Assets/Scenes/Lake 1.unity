@@ -2824,11 +2824,6 @@ MonoBehaviour:
   fish: []
   edibleItems: []
   innerloopBatchCount: 64
---- !u!1 &2129825784 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6066845618871236265, guid: 0fdd6603d6955c144ab78f80b48b06f3, type: 3}
-  m_PrefabInstance: {fileID: 6066845617681267025}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2906787415738384384
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2915,9 +2910,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 763268871}
     - target: {fileID: 7607593467332315094, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
-      propertyPath: interuptableUI.Array.data[2]
-      value: 
-      objectReference: {fileID: 2129825784}
+      propertyPath: interuptableUI.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7607593467332315095, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
       propertyPath: m_RootOrder
       value: 4
