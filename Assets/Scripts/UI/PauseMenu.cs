@@ -64,11 +64,16 @@ namespace Fishing.UI
             }
         }
 
-        public void SaveGame() => playerData.SavePlayer();
+        public void SaveGame()
+        {
+            playerData.SavePlayer();
+            ToggleMenu();
+        }
 
         public void OpenMap()
         {
             Time.timeScale = 1f;
+            ToggleMenu();
             SceneManager.LoadScene("World Map");
         }
 

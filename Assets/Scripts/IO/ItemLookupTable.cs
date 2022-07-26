@@ -2,46 +2,34 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fishing.Fishables;
+using Fishing.FishingMechanics;
 
 namespace Fishing.IO
 {
     public class ItemLookupTable : MonoBehaviour
     {
-        public enum ItemType { Fishable, Rod, Gear, Bait }
+        [SerializeField] public List<RodScriptable> rodScriptables;
 
-        [Header("Fishable Items")]
-        public List<string> fishableNames;
-        public List<GameObject> fishablePrefabs;
+        public static ItemLookupTable instance;
 
-        [Header("Fishing Rods")]
-        public List<string> rodNames;
-        public List<GameObject> rodPrefabs;
+        private ItemLookupTable() => instance = this;
+        private void Awake()
+        {
+            DontDestroyOnLoad(gameObject);
+        }
 
-        [Header("Gear")]
-        public List<string> gearNames;
-        public List<GameObject> gearPrefabs;
+        public RodScriptable StringToRod(string _rodName)
+        {
+            foreach (RodScriptable _rodScriptable in rodScriptables)
+            {
+                if (_rodName == _rodScriptable.rodName)
+                {
+                    return _rodScriptable;
+                }
+            }
 
-        [Header("Bait")]
-        public List<string> baitNames;
-        public List<GameObject> baitPrefabs;
-
-        //FishableData FishableToData(FishableItem fish)
-        //{
-        //    return new FishableData(fish.GetName(), fish.GetWeight(), fish.GetLength());
-        //}
+            Debug.Log("No rod exists with provided string");
+            return null;
+        }
     }
-
-    //public class FishableData
-    //{
-    //    string name;
-    //    float weight;
-    //    float length;
-
-    //    public FishableData(string _name, float _weight, float _length)
-    //    {
-    //        name = _name;
-    //        weight = _weight;
-    //        length = _length;
-    //    }
-    //}
 }

@@ -8,24 +8,29 @@ namespace Fishing.IO
     [System.Serializable]
     public class GameData
     {
+        [Header("Save File Data")]
         public string playerName;
         public string currentSceneName;
         public float money;
         public string dateTime;
         public string playtime;
 
+        [Header("Fish Inventory")]
         public List<string> bucketFish;
         public List<string> bucketFishDescription;
         public List<float> bucketFishWeight;
         public List<float> bucketFishLength;
         public List<float> bucketFishValue;
 
+        [Header("Fishing Rods")]
         public List<string> fishingRods;
         public string equippedRod;
 
+        [Header("Gear")]
         public List<string> gear;
         public List<string> equippedGear;
 
+        [Header("Bait")]
         public List<string> bait;
         public List<int> baitCounts;
 

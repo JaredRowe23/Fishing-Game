@@ -38,6 +38,7 @@ namespace Fishing.UI
 
             if (gameObject.activeSelf)
             {
+                if (InventoryMenu.instance.gameObject.activeSelf) InventoryMenu.instance.ShowInventoryMenu();
                 AudioManager.instance.PlaySound("Open Bucket");
                 InitializeMenu();
             }

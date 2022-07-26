@@ -52,6 +52,7 @@ namespace Fishing.UI
             }
             else
             {
+                if (BucketMenu.instance.gameObject.activeSelf) BucketMenu.instance.ShowBucketMenu();
                 menuPages[activeMenu].SetActive(true);
             }
             UIManager.instance.bucketMenuButton.gameObject.SetActive(!this.gameObject.activeSelf);
