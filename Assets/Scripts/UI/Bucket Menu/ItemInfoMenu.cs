@@ -41,12 +41,14 @@ namespace Fishing.UI
             {
                 if (UIManager.instance.overflowItem.activeSelf)
                 {
+                    TooltipSystem.instance.NewTooltip(5f, "Threw away the " + itemReference.itemName + " you just caught");
                     OverflowItem.instance.ThrowAway(itemReference, currentModel, menuListingReference);
                     gameObject.SetActive(false);
                     return;
                 }
             }
 
+            TooltipSystem.instance.NewTooltip(5f, "Threw away the " + itemReference.itemName + " worth $" + itemReference.itemValue.ToString("F2"));
             BucketMenu.instance.ThrowAway(itemReference, currentModel, menuListingReference, _isSelling);
             gameObject.SetActive(false);
         }

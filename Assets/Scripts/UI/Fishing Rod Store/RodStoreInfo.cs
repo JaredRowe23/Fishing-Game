@@ -40,10 +40,11 @@ namespace Fishing.UI
         {
             if (PlayerData.instance.money < float.Parse(costText.text))
             {
-                Debug.Log("You don't have enough money to buy this fishing rod");
+                TooltipSystem.instance.NewTooltip(5f, "You don't have enough money to buy this fishing rod");
                 return;
             }
 
+            TooltipSystem.instance.NewTooltip(5f, "You bought the " + nameText.text + " for $" + costText.text);
             PlayerData.instance.money -= float.Parse(costText.text);
             PlayerData.instance.fishingRods.Add(nameText.text);
             RodsStoreMenu.instance.RefreshStore();

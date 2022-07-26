@@ -52,6 +52,7 @@ namespace Fishing
                 Instantiate(_prefab);
             }
 
+            TooltipSystem.instance.NewTooltip(5f, "Equipped the " + _rodName);
             playerData.equippedRod = _rodName;
             rodsMenu.UpdateEquippedRod();
             if (_playSound) AudioManager.instance.PlaySound("Equip Rod");

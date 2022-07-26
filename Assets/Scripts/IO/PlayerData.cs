@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fishing.UI;
 
 namespace Fishing.IO
 {
@@ -45,6 +46,8 @@ namespace Fishing.IO
 
         public void SavePlayer()
         {
+            TooltipSystem.instance.NewTooltip(5f, "Game Saved!");
+
             System.DateTime previousDateTime = System.DateTime.Parse(dateTime);
             System.TimeSpan currentSessionTime = System.DateTime.Now.Subtract(sessionStartTime);
             System.TimeSpan previousPlaytime = System.TimeSpan.Parse(playtime);

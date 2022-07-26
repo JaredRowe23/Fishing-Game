@@ -17,7 +17,7 @@ namespace Fishing.UI
         public void UpdateInfo(string _saveName, float _money, string _saveTime, string _playtime)
         {
             saveNameText.text = _saveName;
-            moneyText.text = _money.ToString("F2");
+            moneyText.text = "$" + _money.ToString("F2");
             saveTimeDateText.text = _saveTime;
             playTimeText.text = _playtime;
         }
