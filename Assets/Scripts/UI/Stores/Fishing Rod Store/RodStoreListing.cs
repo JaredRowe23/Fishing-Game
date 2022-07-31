@@ -33,7 +33,7 @@ namespace Fishing.UI
         {
             referenceScriptable = _rod;
             nameText.text = _rod.rodName;
-            costText.text = _rod.cost.ToString();
+            costText.text = "$" + _rod.cost.ToString();
             rodSprite.sprite = _rod.inventorySprite;
         }
 

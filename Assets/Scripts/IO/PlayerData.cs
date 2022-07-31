@@ -23,6 +23,9 @@ namespace Fishing.IO
 
         [Header("Fishing Rods")]
         public List<string> fishingRods;
+        public List<string> equippedLines;
+        public List<string> equippedHooks;
+        public List<string> equippedBaits;
         public string equippedRod;
 
         [Header("Gear")]
@@ -75,6 +78,9 @@ namespace Fishing.IO
             money = _saveData.money;
 
             fishingRods = _saveData.fishingRods;
+            equippedLines = _saveData.equippedLines;
+            equippedHooks = _saveData.equippedHooks;
+            equippedBaits = _saveData.equippedBaits;
             equippedRod = _saveData.equippedRod;
 
             gear = _saveData.gear;
@@ -100,10 +106,11 @@ namespace Fishing.IO
 
             money = 0;
 
-            fishingRods = new List<string>()
-            {
-                "Basic Rod"
-            };
+            fishingRods = new List<string>();
+            equippedBaits = new List<string>();
+            equippedHooks = new List<string>();
+            equippedLines = new List<string>();
+            AddRod("Basic Rod");
             equippedRod = fishingRods[0];
 
             gear = new List<string>();
@@ -111,6 +118,26 @@ namespace Fishing.IO
 
             bait = new List<string>();
             baitCounts = new List<int>();
+        }
+
+        public void AddRod(string _rod)
+        {
+            fishingRods.Add(_rod);
+            equippedBaits.Add("");
+            equippedLines.Add("");
+            equippedHooks.Add("");
+        }
+
+        public void AddBait(string _baitName)
+        {
+            for (int j = 0; j < PlayerData.instance.bait.Count; j++)
+            {
+                if (_baitName != PlayerData.instance.bait[j]) continue;
+                PlayerData.instance.baitCounts[j]++;
+                return;
+            }
+            PlayerData.instance.baitCounts.Insert(PlayerData.instance.bait.Count, 1);
+            PlayerData.instance.bait.Add(_baitName);
         }
     }
 }

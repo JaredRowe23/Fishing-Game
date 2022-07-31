@@ -27,7 +27,7 @@ namespace Fishing.UI
         {
             nameText.text = _rod.rodName;
             descriptionText.text = _rod.description;
-            costText.text = _rod.cost.ToString();
+            costText.text = "$" + _rod.cost.ToString();
             reelSpeedText.text = _rod.reelSpeed.ToString();
             castStrengthText.text = _rod.minCastStrength + "/" + _rod.maxCastStrength;
             castAngleText.text = _rod.maxCastAngle.ToString();
@@ -46,7 +46,7 @@ namespace Fishing.UI
 
             TooltipSystem.instance.NewTooltip(5f, "You bought the " + nameText.text + " for $" + costText.text);
             PlayerData.instance.money -= float.Parse(costText.text);
-            PlayerData.instance.fishingRods.Add(nameText.text);
+            PlayerData.instance.AddRod(nameText.text);
             RodsStoreMenu.instance.RefreshStore();
             gameObject.SetActive(false);
         }

@@ -24,6 +24,9 @@ namespace Fishing.IO
 
         [Header("Fishing Rods")]
         public List<string> fishingRods;
+        public List<string> equippedLines;
+        public List<string> equippedHooks;
+        public List<string> equippedBaits;
         public string equippedRod;
 
         [Header("Gear")]
@@ -50,6 +53,9 @@ namespace Fishing.IO
             money = _playerData.money;
 
             fishingRods = _playerData.fishingRods;
+            equippedLines = _playerData.equippedLines;
+            equippedHooks = _playerData.equippedHooks;
+            equippedBaits = _playerData.equippedBaits;
             equippedRod = _playerData.equippedRod;
 
             gear = _playerData.gear;

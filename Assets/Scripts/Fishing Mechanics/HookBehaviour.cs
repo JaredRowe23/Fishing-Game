@@ -53,11 +53,6 @@ namespace Fishing.FishingMechanics
                 OnSurfaced();
             }
 
-            if (hookedObject && !UIManager.instance.overflowItem.activeSelf)
-            {
-                hookedObject.transform.position = this.transform.position;
-            }
-
             if (!_rod.casted)
             {
                 _rb.isKinematic = true;
@@ -138,6 +133,7 @@ namespace Fishing.FishingMechanics
 
             _fishable.OnHooked(transform);
             hookedObject = _fishable.gameObject;
+            hookedObject.transform.position = transform.position;
         }
 
         public void DespawnHookedObject()

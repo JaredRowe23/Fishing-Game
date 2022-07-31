@@ -124,18 +124,31 @@ namespace Fishing.Fishables.Fish
                 return;
             }
 
-            if (foodSearch.desiredFood.GetComponent<Fishable>().isHooked)
+            if (foodSearch.desiredFood.GetComponent<Fishable>())
             {
-                GetComponent<AudioSource>().Play();
-                foodSearch.desiredFood.GetComponent<IEdible>().Despawn();
-                rodManager.equippedRod.GetHook().hookedObject = null;
-                rodManager.equippedRod.GetHook().SetHook(GetComponent<Fishable>());
+                if (foodSearch.desiredFood.GetComponent<Fishable>().isHooked)
+                {
+                    SetThisToHooked();
+                    return;
+                }
+            }
+            if (foodSearch.desiredFood.GetComponent<BaitBehaviour>())
+            {
+                SetThisToHooked();
                 return;
             }
 
             GetComponent<AudioSource>().Play();
             foodSearch.desiredFood.GetComponent<IEdible>().Despawn();
             foodSearch.desiredFood = null;
+        }
+
+        private void SetThisToHooked()
+        {
+            GetComponent<AudioSource>().Play();
+            foodSearch.desiredFood.GetComponent<IEdible>().Despawn();
+            rodManager.equippedRod.GetHook().hookedObject = null;
+            rodManager.equippedRod.GetHook().SetHook(GetComponent<Fishable>());
         }
 
         private void FaceTarget()
@@ -175,6 +188,7 @@ namespace Fishing.Fishables.Fish
             spawn.spawnList.Remove(gameObject);
             FoodSearchManager.instance.RemoveFish(GetComponent<FoodSearch>());
             FoodSearchManager.instance.RemoveFood(GetComponent<Edible>());
+            BaitManager.instance.RemoveFish(GetComponent<FoodSearch>());
             DestroyImmediate(gameObject);
         }
     }

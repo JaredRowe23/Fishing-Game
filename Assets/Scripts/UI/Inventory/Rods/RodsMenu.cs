@@ -8,12 +8,8 @@ namespace Fishing.UI
     public class RodsMenu : MonoBehaviour
     {
         [SerializeField] private GameObject slotPrefab;
-        [SerializeField] private GameObject slotParent;
-        [SerializeField] private float slotXStart;
-        [SerializeField] private float slotYStart;
-        [SerializeField] private float slotXPadding;
-        [SerializeField] private float slotYPadding;
-        [SerializeField] private int slotXMax;
+        [SerializeField] private GameObject content;
+        [SerializeField] private RodInfoMenu rodInfoMenu;
 
         private PlayerData playerData;
         private RodManager rodManager;
@@ -36,22 +32,21 @@ namespace Fishing.UI
             gameObject.SetActive(_active);
             InventoryMenu.instance.UpdateActiveMenu(0);
             GenerateSlots();
+            if (!gameObject.activeSelf) rodInfoMenu.HideButtonScrollViews();
         }
 
         public void GenerateSlots()
         {
-            foreach (Transform _child in slotParent.transform)
+            foreach (Transform _child in content.transform)
             {
                 Destroy(_child.gameObject);
             }
             int i = 0;
             foreach (string _rod in playerData.fishingRods)
             {
-                GameObject _newSlot = Instantiate(slotPrefab, slotParent.transform);
-                _newSlot.GetComponent<RectTransform>().anchoredPosition = new Vector2((i % slotXMax) * slotXPadding + slotXStart, Mathf.Floor(i / slotXMax) * slotYPadding + slotYStart);
-                RodInventorySlot _invSlot = _newSlot.GetComponent<RodInventorySlot>();
+                RodInventorySlot _newSlot = Instantiate(slotPrefab, content.transform).GetComponent<RodInventorySlot>();
 
-                _invSlot.title.text = _rod;
+                _newSlot.title.text = _rod;
 
                 int j = 0;
                 List<GameObject> _rodPrefabs = rodManager.rodPrefabs;
@@ -60,8 +55,8 @@ namespace Fishing.UI
                 {
                     if (_prefab.name == _rod)
                     {
-                        _invSlot.itemReference = _prefab;
-                        _invSlot.sprite.sprite = _rodSprites[j];
+                        _newSlot.itemReference = _prefab;
+                        _newSlot.sprite.sprite = _rodSprites[j];
                         break;
                     }
                     j++;
@@ -75,7 +70,7 @@ namespace Fishing.UI
 
         public void UpdateEquippedRod()
         {
-            foreach (Transform _slot in slotParent.transform)
+            foreach (Transform _slot in content.transform)
             {
                 RodInventorySlot _invSlot = _slot.GetComponent<RodInventorySlot>();
                 if (_invSlot.itemReference.name == playerData.equippedRod)

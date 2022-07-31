@@ -41,7 +41,6 @@ namespace Fishing.UI
             {
                 if (UIManager.instance.overflowItem.activeSelf)
                 {
-                    TooltipSystem.instance.NewTooltip(5f, "Threw away the " + itemReference.itemName + " you just caught");
                     OverflowItem.instance.ThrowAway(itemReference, currentModel, menuListingReference);
                     gameObject.SetActive(false);
                     return;
@@ -50,6 +49,22 @@ namespace Fishing.UI
 
             TooltipSystem.instance.NewTooltip(5f, "Threw away the " + itemReference.itemName + " worth $" + itemReference.itemValue.ToString("F2"));
             BucketMenu.instance.ThrowAway(itemReference, currentModel, menuListingReference, _isSelling);
+            gameObject.SetActive(false);
+        }
+
+        public void ConvertToBait()
+        {
+            if (UIManager.instance.overflowItem != null)
+            {
+                if (UIManager.instance.overflowItem.activeSelf)
+                {
+                    OverflowItem.instance.ConvertToBait(itemReference, currentModel, menuListingReference);
+                    gameObject.SetActive(false);
+                    return;
+                }
+            }
+            TooltipSystem.instance.NewTooltip(5f, "Converted the " + itemReference.itemName + " into bait");
+            BucketMenu.instance.ConvertToBait(itemReference, currentModel, menuListingReference);
             gameObject.SetActive(false);
         }
 

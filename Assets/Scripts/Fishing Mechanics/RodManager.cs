@@ -4,6 +4,7 @@ using UnityEngine;
 using Fishing.FishingMechanics;
 using Fishing.UI;
 using Fishing.IO;
+using Fishing.Fishables;
 
 namespace Fishing
 {
@@ -49,13 +50,30 @@ namespace Fishing
             {
                 if (_prefab.name != _rodName) continue;
 
-                Instantiate(_prefab);
+                equippedRod = Instantiate(_prefab).GetComponent<RodBehaviour>();
             }
 
             TooltipSystem.instance.NewTooltip(5f, "Equipped the " + _rodName);
             playerData.equippedRod = _rodName;
             rodsMenu.UpdateEquippedRod();
             if (_playSound) AudioManager.instance.PlaySound("Equip Rod");
+            SpawnBait();
+        }
+
+        public void SpawnBait()
+        {
+            for (int i = 0; i < PlayerData.instance.fishingRods.Count; i++)
+            {
+                if (PlayerData.instance.fishingRods[i] != equippedRod.scriptable.rodName) continue;
+                if (PlayerData.instance.equippedBaits[i] == "") return;
+
+                BaitBehaviour _newBait = Instantiate(ItemLookupTable.instance.StringToBait(PlayerData.instance.equippedBaits[i]).prefab, equippedRod.GetHook().transform).GetComponent<BaitBehaviour>();
+                equippedRod.equippedBait = _newBait;
+                equippedRod.GetHook().hookedObject = _newBait.gameObject;
+                _newBait.transform.localPosition = _newBait.anchorPoint;
+                _newBait.transform.localRotation = Quaternion.Euler(_newBait.anchorRotation);
+                BaitManager.instance.bait = _newBait;
+            }
         }
     }
 

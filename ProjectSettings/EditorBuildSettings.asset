@@ -20,4 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Fishing Rod Store.unity
     guid: 7bd56325ba6a6d44d9cadf084663ff25
+  - enabled: 1
+    path: Assets/Scenes/Bait Store.unity
+    guid: 3ef1252baa0b82d41a1944ebded3e170
   m_configObjects: {}

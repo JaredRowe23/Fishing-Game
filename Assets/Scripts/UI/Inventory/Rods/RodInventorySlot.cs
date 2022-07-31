@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Fishing.FishingMechanics;
 
 namespace Fishing.UI
 {
@@ -14,9 +15,15 @@ namespace Fishing.UI
 
         private RodManager rodManager;
 
-        private RodInventorySlot()
+        private void Awake()
         {
             rodManager = RodManager.instance;
+        }
+
+        public void UpdateInfoMenu()
+        {
+            RodInfoMenu.instance.gameObject.SetActive(true);
+            RodInfoMenu.instance.UpdateRodInfo(rodManager.equippedRod.GetComponent<RodBehaviour>());
         }
 
         public void EquipRod()
@@ -25,7 +32,7 @@ namespace Fishing.UI
             {
                 if (_child.GetComponent<Text>())
                 {
-                    rodManager.EquipRod(_child.GetComponent<Text>().text, true);
+                    rodManager.EquipRod(itemReference.GetComponent<RodBehaviour>().scriptable.rodName, true);
                 }
             }
         }

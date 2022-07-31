@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Jobs;
 using Unity.Collections;
 using System.Linq;
+using Fishing.FishingMechanics;
 
 namespace Fishing.Fishables.Fish
 {
@@ -17,7 +18,11 @@ namespace Fishing.Fishables.Fish
         [SerializeField] private Edible.FoodTypes[] desiredFoodTypes;
         public GameObject desiredFood;
 
-        private void Start() => FoodSearchManager.instance.AddFish(this);
+        private void Start()
+        {
+            FoodSearchManager.instance.AddFish(this);
+            BaitManager.instance.AddFish(this);
+        }
 
         private void OnDrawGizmosSelected()
         {
@@ -37,6 +42,17 @@ namespace Fishing.Fishables.Fish
             {
                 Debug.DrawRay(transform.position, (desiredFood.transform.position - transform.position), Color.red);
             }
+        }
+
+        public List<int> DesiredTypesToInts()
+        {
+            List<int> _typesList = new List<int>();
+            for (int i = 0; i < desiredFoodTypes.Length; i++)
+            {
+                int _typeInt = (int)desiredFoodTypes[i];
+                _typesList.Add(_typeInt);
+            }
+            return _typesList;
         }
 
         public float GetSightRange() => sightDistance;

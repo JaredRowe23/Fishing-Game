@@ -9,6 +9,7 @@ namespace Fishing.IO
     public class ItemLookupTable : MonoBehaviour
     {
         [SerializeField] public List<RodScriptable> rodScriptables;
+        [SerializeField] public List<BaitScriptable> baitScriptables;
 
         public static ItemLookupTable instance;
 
@@ -29,6 +30,20 @@ namespace Fishing.IO
             }
 
             Debug.Log("No rod exists with provided string");
+            return null;
+        }
+
+        public BaitScriptable StringToBait(string _baitName)
+        {
+            foreach (BaitScriptable _baitScriptable in baitScriptables)
+            {
+                if (_baitName == _baitScriptable.baitName)
+                {
+                    return _baitScriptable;
+                }
+            }
+
+            Debug.Log("No bait exists with provided string");
             return null;
         }
     }

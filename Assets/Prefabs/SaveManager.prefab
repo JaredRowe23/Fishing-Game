@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6404902397406429032
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6404902397406429039}
+  - component: {fileID: 6404902397406429038}
+  - component: {fileID: 6404902397406429037}
+  - component: {fileID: 6404902397406429036}
+  m_Layer: 0
+  m_Name: SaveManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6404902397406429039
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6404902397406429032}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6404902397406429038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6404902397406429032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f152b609568b7904499e25c4dc38dc9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6404902397406429037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6404902397406429032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0cc02e45b28196448992c15ad01788f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerName: 
+  money: 0
+  dateTime: 
+  playtime: 
+  bucketFish: []
+  bucketFishDescription: []
+  bucketFishWeight: []
+  bucketFishLength: []
+  bucketFishValue: []
+  fishingRods: []
+  equippedRod: 
+  gear: []
+  equippedGear: []
+  bait: []
+  baitCounts: 
+  currentSceneName: 
+--- !u!114 &6404902397406429036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6404902397406429032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cf127488e91d09448a08c9b60f9a3c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rodScriptables:
+  - {fileID: 11400000, guid: 8bbefb858cec305448271c5527e207e6, type: 2}
+  - {fileID: 11400000, guid: 239f10765cbbb8948b1031ab66e2c5ec, type: 2}
+  baitScriptables:
+  - {fileID: 11400000, guid: f7c756b623c98f3489420c0b865ea269, type: 2}
+  - {fileID: 11400000, guid: 71c449390337a4742a15cd510a2c51ee, type: 2}
+  - {fileID: 11400000, guid: 7962d0e233c440743bd304a692f42f44, type: 2}

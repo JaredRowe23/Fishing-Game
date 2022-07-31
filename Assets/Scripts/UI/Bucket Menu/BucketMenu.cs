@@ -116,8 +116,34 @@ namespace Fishing.UI
             UIManager.instance.itemInfoMenu.SetActive(false);
             RefreshMenu();
             if (!_isSelling) ShowBucketMenu();
+        }
 
+        public void ConvertToBait(FishData _itemReference, GameObject _modelReference, GameObject _menuItem)
+        {
+            for (int i = 0; i < PlayerData.instance.bucketFish.Count; i++)
+            {
+                if (PlayerData.instance.bucketFish[i] != _itemReference.itemName) continue;
+                if (PlayerData.instance.bucketFishDescription[i] != _itemReference.itemDescription) continue;
+                if (PlayerData.instance.bucketFishLength[i] != _itemReference.itemLength) continue;
+                if (PlayerData.instance.bucketFishWeight[i] != _itemReference.itemWeight) continue;
+                if (PlayerData.instance.bucketFishValue[i] != _itemReference.itemValue) continue;
+
+                PlayerData.instance.bucketFish.Remove(PlayerData.instance.bucketFish[i]);
+                PlayerData.instance.bucketFishDescription.Remove(PlayerData.instance.bucketFishDescription[i]);
+                PlayerData.instance.bucketFishLength.Remove(PlayerData.instance.bucketFishLength[i]);
+                PlayerData.instance.bucketFishWeight.Remove(PlayerData.instance.bucketFishWeight[i]);
+                PlayerData.instance.bucketFishValue.Remove(PlayerData.instance.bucketFishValue[i]);
+            }
+
+            PlayerData.instance.AddBait(_itemReference.itemName);
+
+            bucket.bucketList.Remove(_itemReference);
+            Destroy(_menuItem);
+
+            if (_modelReference) Destroy(_modelReference);
+            AudioManager.instance.PlaySound("Throwaway Fish");
+            UIManager.instance.itemInfoMenu.SetActive(false);
+            RefreshMenu();
         }
     }
-
 }

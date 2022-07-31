@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fishing.Fishables;
 
 namespace Fishing.FishingMechanics
 {
@@ -10,6 +11,9 @@ namespace Fishing.FishingMechanics
     {
         [SerializeField] private GameObject rodObject;
         public Sprite inventorySprite;
+        public RodScriptable scriptable;
+
+        public BaitBehaviour equippedBait;
 
         public bool casted = false;
         [SerializeField] private float reeledInDistance = 0.1f;
@@ -29,7 +33,6 @@ namespace Fishing.FishingMechanics
         void Start()
         {
             casted = false;
-            rodManager.equippedRod = this;
         }
 
         void Update()
@@ -75,7 +78,10 @@ namespace Fishing.FishingMechanics
                 if (Vector2.Distance(hook.transform.position, hook.GetHookAnchorPoint().position) <= reeledInDistance)
                 {
                     AudioManager.instance.StopPlaying("Reel");
-                    hook.GetComponent<HookBehaviour>().AddToBucket();
+                    if (hook.GetComponent<HookBehaviour>().hookedObject.GetComponent<BaitBehaviour>() == null)
+                    {
+                        hook.GetComponent<HookBehaviour>().AddToBucket();
+                    }
                     anim.SetState(FishingRodAnimation.RodState.Resting);
                     casted = false;
                     UIManager.instance.bucketMenuButton.gameObject.SetActive(true);
