@@ -95,7 +95,6 @@ GameObject:
   - component: {fileID: 1958218463193938486}
   - component: {fileID: 1516301341}
   - component: {fileID: -5159941108352702020}
-  - component: {fileID: -1567782086465237684}
   m_Layer: 0
   m_Name: Basic Rod
   m_TagString: Untagged
@@ -162,26 +161,6 @@ MonoBehaviour:
   restStrength: 100
   reelStrength: 150
   state: 3
---- !u!114 &-1567782086465237684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1958218463193938487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cd1fc50294811bc4c8d7687916d936ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  description: Just a stick with a spinning metal disk
-  lineLength: 50
-  reelSpeed: 1500
-  minCastStrength: 500
-  maxCastStrength: 1000
-  maxCastAngle: 45
-  chargeFrequency: 1
-  angleFrequency: 1
 --- !u!1 &1958218463267145868
 GameObject:
   m_ObjectHideFlags: 0

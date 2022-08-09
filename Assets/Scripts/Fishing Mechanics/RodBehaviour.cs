@@ -6,7 +6,7 @@ using Fishing.Fishables;
 namespace Fishing.FishingMechanics
 {
     [RequireComponent(typeof(FishingRodAnimation))]
-    [RequireComponent(typeof(FishingRodStats))]
+    [RequireComponent(typeof(RodScriptable))]
     public class RodBehaviour : MonoBehaviour
     {
         [SerializeField] private GameObject rodObject;
@@ -19,14 +19,14 @@ namespace Fishing.FishingMechanics
         [SerializeField] private float reeledInDistance = 0.1f;
         [SerializeField] private HookBehaviour hook;
         private FishingRodAnimation anim;
-        private FishingRodStats stats;
+        //private FishingRodStats stats;
 
         private RodManager rodManager;
 
         private void Awake()
         {
             anim = GetComponent<FishingRodAnimation>();
-            stats = GetComponent<FishingRodStats>();
+            //stats = GetComponent<FishingRodStats>();
             rodManager = RodManager.instance;
         }
 
@@ -55,8 +55,8 @@ namespace Fishing.FishingMechanics
                         UIManager.instance.inventoryMenuButton.SetActive(false);
 
                         // Show the power slider and begin the process for charging/angling our cast
-                        PowerAndAngle.instance.StartCharging(stats.GetChargeFrequency(),stats.GetMinCastStrength(), stats.GetMaxCastStrength(),
-                            stats.GetMaxCastAngle(), stats.GetAngleFrequency());
+                        PowerAndAngle.instance.StartCharging(scriptable.chargeFrequency, scriptable.minCastStrength, scriptable.maxCastStrength,
+                            scriptable.maxCastAngle, scriptable.angleFrequency);
                     }
                 }
             }
@@ -74,7 +74,7 @@ namespace Fishing.FishingMechanics
             if (anim.state == FishingRodAnimation.RodState.Reeling)
             {
                 AudioManager.instance.PlaySound("Reel", true);
-                hook.Reel(stats.GetReelSpeed());
+                hook.Reel(scriptable.reelSpeed);
                 if (Vector2.Distance(hook.transform.position, hook.GetHookAnchorPoint().position) <= reeledInDistance)
                 {
                     AudioManager.instance.StopPlaying("Reel");
@@ -98,8 +98,8 @@ namespace Fishing.FishingMechanics
             hook.Cast(_angle, _strength);
         }
         public HookBehaviour GetHook() => hook;
-        public float GetLineLength() => stats.GetLineLength();
-        public string GetDescription() => stats.GetDescription();
+        public float GetLineLength() => scriptable.lineLength;
+        public string GetDescription() => scriptable.description;
 
         private void OnDestroy() => hook.Despawn();
     }
