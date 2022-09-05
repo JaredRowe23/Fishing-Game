@@ -31,16 +31,18 @@ namespace Fishing.Fishables.Fish
                 Gizmos.color = Color.green;
                 Gizmos.DrawWireSphere(transform.position, smellRadius);
 
-                for (int i = 0; i < sightDensity; i++)
-                {
-                    Vector2 _dir = -transform.right;
-                    _dir = Quaternion.Euler(0f, 0f, -sightAngle + (i * sightAngle * 2 / sightDensity)) * _dir;
-                    Debug.DrawRay(transform.position, _dir * sightDistance, Color.green);
-                }
+                Vector2 _dir = -transform.right;
+                _dir = Quaternion.Euler(0f, 0f, -sightAngle) * _dir;
+                Gizmos.DrawRay(transform.position, _dir * sightDistance);
+
+                _dir = -transform.right;
+                _dir = Quaternion.Euler(0f, 0f, sightAngle) * _dir;
+                Gizmos.DrawRay(transform.position, _dir * sightDistance);
             }
             else
             {
-                Debug.DrawRay(transform.position, (desiredFood.transform.position - transform.position), Color.red);
+                Gizmos.color = Color.red;
+                Gizmos.DrawRay(transform.position, (desiredFood.transform.position - transform.position));
             }
         }
 

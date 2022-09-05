@@ -8,6 +8,7 @@ namespace Fishing.Fishables.Fish
     [RequireComponent(typeof(Edible))]
     [RequireComponent(typeof(FoodSearch))]
     [RequireComponent(typeof(Fishable))]
+    [RequireComponent(typeof(Fish))]
     public class Fish1Behaviour : MonoBehaviour, IEdible
     {
         [Header("Movement")]
@@ -16,36 +17,26 @@ namespace Fishing.Fishables.Fish
         [SerializeField] private float wanderDistance;
         [SerializeField] private float wanderDistanceVariation;
 
-        [SerializeField] private float maxHomeDistance;
-        [SerializeField] private float maxHomeDistanceVariation;
-
         [SerializeField] private float distanceThreshold;
-
-        [SerializeField] private float chaseSpeed;
-        [SerializeField] private float eatDistance;
 
         [Header("Hold")]
         [SerializeField] private float holdTime;
 
-        private Vector3 targetPos;
-
         private WaitForSeconds holdTimer;
+        private Fish fish;
         private FoodSearch foodSearch;
         private SpawnZone spawn;
 
-        private RodManager rodManager;
-
         private void Awake()
         {
-            rodManager = RodManager.instance;
             foodSearch = GetComponent<FoodSearch>();
+            fish = GetComponent<Fish>();
             spawn = transform.parent.GetComponent<SpawnZone>();
         }
 
         private void Start()
         {
             wanderDistance += Random.Range(-wanderDistanceVariation, wanderDistanceVariation);
-            maxHomeDistance += Random.Range(-maxHomeDistanceVariation, maxHomeDistanceVariation);
             holdTimer = new WaitForSeconds(holdTime);
             StartCoroutine(Co_SetWanderPoint());
         }
@@ -61,37 +52,37 @@ namespace Fishing.Fishables.Fish
         {
             if (!foodSearch.desiredFood)
             {
-                if (Vector2.Distance(transform.position, targetPos) <= distanceThreshold)
+                if (Vector2.Distance(transform.position, fish.targetPos) <= distanceThreshold)
                 {
                     return;
                 }
                 else
                 {
-                    transform.position = Vector2.MoveTowards(transform.position, targetPos, wanderSpeed * Time.deltaTime);
+                    transform.position = Vector2.MoveTowards(transform.position, fish.targetPos, wanderSpeed * Time.deltaTime);
                 }
             }
             else
             {
-                targetPos = foodSearch.desiredFood.transform.position;
-                if (Vector2.Distance(transform.position, targetPos) > eatDistance)
+                fish.targetPos = foodSearch.desiredFood.transform.position;
+                if (Vector2.Distance(transform.position, fish.targetPos) > fish.eatDistance)
                 {
-                    transform.position = Vector2.MoveTowards(transform.position, targetPos, chaseSpeed * Time.deltaTime);
+                    transform.position = Vector2.MoveTowards(transform.position, fish.targetPos, fish.swimSpeed * Time.deltaTime);
                 }
                 else
                 {
-                    Eat();
+                    fish.Eat();
                 }
             }
-            FaceTarget();
+            fish.FaceTarget();
         }
 
         private IEnumerator Co_SetWanderPoint()
         {
             while (true)
             {
-                if (Vector2.Distance(transform.position, transform.parent.position) >= maxHomeDistance)
+                if (Vector2.Distance(transform.position, transform.parent.position) >= fish.maxHomeDistance)
                 {
-                    targetPos = transform.parent.position;
+                    fish.targetPos = transform.parent.position;
                 }
                 else
                 {
@@ -106,8 +97,8 @@ namespace Fishing.Fishables.Fish
                         i++;
 
                         if (_aboveWater) continue;
-                        if (_distanceFromHome > maxHomeDistance) continue;
-                        targetPos = new Vector2(transform.position.x + _rand.x, transform.position.y + _rand.y);
+                        if (_distanceFromHome > fish.maxHomeDistance) continue;
+                        fish.targetPos = new Vector2(transform.position.x + _rand.x, transform.position.y + _rand.y);
                         break;
                     }
 
@@ -116,70 +107,12 @@ namespace Fishing.Fishables.Fish
             }
         }
 
-        private void Eat()
-        {
-            if (foodSearch.desiredFood.GetComponent<HookBehaviour>())
-            {
-                foodSearch.desiredFood.GetComponent<HookBehaviour>().SetHook(GetComponent<Fishable>());
-                return;
-            }
-
-            if (foodSearch.desiredFood.GetComponent<Fishable>())
-            {
-                if (foodSearch.desiredFood.GetComponent<Fishable>().isHooked)
-                {
-                    SetThisToHooked();
-                    return;
-                }
-            }
-            if (foodSearch.desiredFood.GetComponent<BaitBehaviour>())
-            {
-                SetThisToHooked();
-                return;
-            }
-
-            GetComponent<AudioSource>().Play();
-            foodSearch.desiredFood.GetComponent<IEdible>().Despawn();
-            foodSearch.desiredFood = null;
-        }
-
-        private void SetThisToHooked()
-        {
-            GetComponent<AudioSource>().Play();
-            foodSearch.desiredFood.GetComponent<IEdible>().Despawn();
-            rodManager.equippedRod.GetHook().hookedObject = null;
-            rodManager.equippedRod.GetHook().SetHook(GetComponent<Fishable>());
-        }
-
-        private void FaceTarget()
-        {
-            float angleToTarget = 0f;
-            if (targetPos.x < transform.position.x)
-            {
-                transform.rotation = Quaternion.identity;
-                angleToTarget = Vector3.SignedAngle(-transform.right, targetPos - transform.position, Vector3.forward);
-            }
-            else if (targetPos.x > transform.position.x)
-            {
-                transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-                angleToTarget = -Vector3.SignedAngle(-transform.right, targetPos - transform.position, Vector3.forward);
-            }
-
-            transform.Rotate(Vector3.forward, angleToTarget);
-        }
-
         private void OnDrawGizmosSelected()
         {
             if (!GetComponent<Fishable>().isHooked)
             {
                 Gizmos.color = Color.cyan;
                 Gizmos.DrawWireSphere(transform.position, wanderDistance);
-                Gizmos.color = Color.blue;
-                Gizmos.DrawWireSphere(transform.parent.position, maxHomeDistance);
-                if (foodSearch.desiredFood == null)
-                {
-                    Debug.DrawRay(transform.position, targetPos - transform.position, Color.green);
-                }
             }
         }
 

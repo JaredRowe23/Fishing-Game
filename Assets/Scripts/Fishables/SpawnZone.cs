@@ -16,6 +16,8 @@ namespace Fishing
         private WaitForSeconds spawnTimer;
         [SerializeField] private int spawnAttempts;
 
+        public GameObject testObject;
+
         private CameraBehaviour playerCam;
 
         private void Awake()

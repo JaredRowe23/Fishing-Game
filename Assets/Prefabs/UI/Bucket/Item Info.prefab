@@ -430,9 +430,11 @@ MonoBehaviour:
   models:
   - {fileID: 7303385876319023491, guid: 365661b763c788f40a90f336cc1c378c, type: 3}
   - {fileID: 5955192670779189969, guid: bcd4dedebdcee3446b2e6e5ce05a385c, type: 3}
+  - {fileID: 6439172435045833344, guid: d26a5e40af271aa4f90fd00149aa5098, type: 3}
   modelNames:
   - Fish 1
   - Tin Can
+  - Fish 2
 --- !u!1 &4683908497521584747
 GameObject:
   m_ObjectHideFlags: 0

@@ -78,9 +78,12 @@ namespace Fishing.FishingMechanics
                 if (Vector2.Distance(hook.transform.position, hook.GetHookAnchorPoint().position) <= reeledInDistance)
                 {
                     AudioManager.instance.StopPlaying("Reel");
-                    if (hook.GetComponent<HookBehaviour>().hookedObject.GetComponent<BaitBehaviour>() == null)
+                    if (hook.hookedObject != null)
                     {
-                        hook.GetComponent<HookBehaviour>().AddToBucket();
+                        if (hook.hookedObject.GetComponent<BaitBehaviour>() == null)
+                        {
+                            hook.AddToBucket();
+                        }
                     }
                     anim.SetState(FishingRodAnimation.RodState.Resting);
                     casted = false;
