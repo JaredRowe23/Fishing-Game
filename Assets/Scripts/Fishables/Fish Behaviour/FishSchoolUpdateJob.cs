@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Collections;
 using Unity.Jobs;
+using Unity.Burst;
 
 namespace Fishing.Fishables.Fish
 {
+    [BurstCompile]
     public struct FishSchoolUpdateJob : IJobParallelFor
     {
         [NativeDisableParallelForRestriction] public NativeArray<ShoalData> ShoalDataArray;

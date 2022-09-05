@@ -1388,7 +1388,7 @@ MonoBehaviour:
   continueSpawning: 1
   radius: 25
   prefab: {fileID: 3997795474192000409, guid: d7c3dce2b731ea74bbc407de29769494, type: 3}
-  spawnMax: 50
+  spawnMax: 1000
   spawnList: []
   spawnTimeSpacing: 0.1
   spawnAttempts: 10
@@ -2367,7 +2367,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1085002195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2873,7 +2873,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1404601215
 Transform:
   m_ObjectHideFlags: 0

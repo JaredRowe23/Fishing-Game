@@ -12,6 +12,7 @@ namespace Fishing.FishingMechanics
         public GameObject hookedObject;
 
         [SerializeField] private Transform linePivotPoint;
+        [SerializeField] private Transform hookPivotPoint;
         [SerializeField] private float resetSpeed;
         [SerializeField] private float hookHangHeight;
 
@@ -28,9 +29,12 @@ namespace Fishing.FishingMechanics
 
         private Camera playerCam;
 
+        private LineRenderer lineRenderer;
+
         private void Awake()
         {
             playerCam = Camera.main;
+            lineRenderer = GetComponent<LineRenderer>();
         }
 
         private void Start()
@@ -40,10 +44,14 @@ namespace Fishing.FishingMechanics
 
             playerCam.transform.parent = transform;
             playerCam.transform.position = new Vector3(transform.position.x, transform.position.y, playerCam.transform.position.z);
+
+            lineRenderer.SetPosition(0, linePivotPoint.position);
         }
 
         void Update()
         {
+            lineRenderer.SetPosition(1, hookPivotPoint.position);
+
             if (transform.position.y <= 0f)
             {
                 OnSubmerged();

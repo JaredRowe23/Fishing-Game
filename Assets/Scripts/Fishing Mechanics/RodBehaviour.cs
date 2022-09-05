@@ -19,15 +19,15 @@ namespace Fishing.FishingMechanics
         [SerializeField] private float reeledInDistance = 0.1f;
         [SerializeField] private HookBehaviour hook;
         private FishingRodAnimation anim;
-        //private FishingRodStats stats;
+        private LineRenderer lineRenderer;
 
         private RodManager rodManager;
 
         private void Awake()
         {
             anim = GetComponent<FishingRodAnimation>();
-            //stats = GetComponent<FishingRodStats>();
             rodManager = RodManager.instance;
+            lineRenderer = GetComponent<LineRenderer>();
         }
 
         void Start()
