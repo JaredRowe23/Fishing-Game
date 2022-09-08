@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 13675fa7a4d4d9c40a66b78adfc1baaf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: eae191fe956c3d645b0d1ae780ff0597, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -238,8 +238,8 @@ MonoBehaviour:
   baseValue: 10
   weightMax: 25
   weightMin: 20
-  lengthMax: 25
-  lengthMin: 20
+  lengthMax: 180
+  lengthMin: 50
   minimapIndicator: {fileID: 2737784646829355076}
   isHooked: 0
 --- !u!114 &6838956506335450506
@@ -400,7 +400,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d54292142b7b6e845a524e72f51bc66f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHomeDistance: 20
+  maxHomeDistance: 15
   maxHomeDistanceVariation: 5
   swimSpeed: 1.5
   eatDistance: 0.1

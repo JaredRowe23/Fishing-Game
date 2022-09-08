@@ -70,8 +70,8 @@ MonoBehaviour:
   baseValue: 15
   weightMax: 30
   weightMin: 20
-  lengthMax: 30
-  lengthMin: 25
+  lengthMax: 20
+  lengthMin: 10
   minimapIndicator: {fileID: 7054204082299250615}
   isHooked: 0
 --- !u!114 &2675576245423916417
@@ -214,8 +214,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d54292142b7b6e845a524e72f51bc66f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHomeDistance: 20
-  maxHomeDistanceVariation: 5
+  maxHomeDistance: 5
+  maxHomeDistanceVariation: 1
   swimSpeed: 5
   eatDistance: 0.1
   targetPos: {x: 0, y: 0, z: 0}
@@ -233,11 +233,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 607f95fe04642b04995280c64558d300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 300
-  separationDirWeight: 5
-  cohesionDirWeight: 2
+  rotationSpeed: 100
+  separationDirWeight: 11
+  cohesionDirWeight: 9
   alignmentDirWeight: 1
-  targetPosDirWeight: 4
+  targetPosDirWeight: 10
   separationDir: 0
   cohesionDir: 0
   alignmentDir: 0
@@ -400,7 +400,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 86e7f29f7852f9448a5e3a9eedb9256c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 53f8d65d29b8cdf46bca4d3af9725e4f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

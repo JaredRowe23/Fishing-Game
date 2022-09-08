@@ -51,15 +51,38 @@ namespace Fishing.Fishables.Fish
         {
             if (GetComponent<Fishable>().isHooked) return;
 
-            if (foodSearch.desiredFood == null) fish.targetPos = spawn.testObject.transform.position;
-            else fish.targetPos = foodSearch.desiredFood.transform.position;
+            Vector3 _surfacingCheck = transform.position - (transform.right * school.separationMaxDistance);
+            if (_surfacingCheck.y >= 0)
+            {
+                float _trueRotation = (360 - transform.rotation.eulerAngles.z + 270) % 360;
+                if (_trueRotation <= 180 && _trueRotation > 0)
+                {
+                    rotationDir = separationDirWeight;
+                }
+                else
+                {
+                    rotationDir = -separationDirWeight;
+                }
+            }
+            else
+            {
+                if (foodSearch.desiredFood == null)
+                {
+                    fish.targetPos = spawn.testObject.transform.position;
+                    FollowSchool();
+                }
+                else
+                {
+                    fish.targetPos = foodSearch.desiredFood.transform.position;
+                    FollowFood();
+                }
+            }
 
-            AssignDirections();
             MoveTowardsTarget();
             FlipSprite();
         }
 
-        private void AssignDirections()
+        private void FollowFood()
         {
             float _calculatedDir;
             float _trueRotation = (360 - transform.rotation.eulerAngles.z + 270) % 360;
@@ -68,21 +91,31 @@ namespace Fishing.Fishables.Fish
             float _targetPosAngleDelta = Mathf.DeltaAngle(_trueRotation, _angleToTargetPos);
             targetPosDir = _targetPosAngleDelta < 180 && _targetPosAngleDelta > 0 ? 1 : -1;
 
-            if (foodSearch.desiredFood == null)
-            {
-                float _angleToSchoolCenter = (360 - SignedToUnsignedAngle(Vector2.SignedAngle(-Vector3.up, (Vector2)transform.position - school.schoolCenter)));
-                float _schoolCenterAngleDelta = Mathf.DeltaAngle(_trueRotation, _angleToSchoolCenter);
-                cohesionDir = _schoolCenterAngleDelta < 180 && _schoolCenterAngleDelta > 0 ? 1 : -1;
+            _calculatedDir = targetPosDir * targetPosDirWeight;
 
-                float _alignmentAngleDelta = Mathf.DeltaAngle(_trueRotation, school.averageAngle);
-                alignmentDir = _alignmentAngleDelta < 180 && _alignmentAngleDelta > 0 ? 1 : -1;
+            rotationDir = Mathf.Clamp(_calculatedDir, -1, 1);
+        }
 
-                alignmentDir = WeighDirection(alignmentDir, _alignmentAngleDelta);
-                targetPosDir = WeighDirection(targetPosDir, _targetPosAngleDelta) * Mathf.InverseLerp(0, fish.maxHomeDistance, Mathf.Clamp(Vector3.Distance(transform.position, fish.targetPos), 0, fish.maxHomeDistance));
-                cohesionDir = WeighDirection(cohesionDir, _schoolCenterAngleDelta) * Mathf.InverseLerp(0, fish.maxHomeDistance, Mathf.Clamp(Vector3.Distance(transform.position, school.schoolCenter), 0, fish.maxHomeDistance));
-                _calculatedDir = (alignmentDir * alignmentDirWeight + cohesionDir * cohesionDirWeight + separationDir * separationDirWeight + targetPosDir * targetPosDirWeight) / 4f;
-            }
-            else _calculatedDir = targetPosDir * targetPosDirWeight;
+        private void FollowSchool()
+        {
+            float _calculatedDir;
+            float _trueRotation = (360 - transform.rotation.eulerAngles.z + 270) % 360;
+
+            float _angleToTargetPos = (360 - SignedToUnsignedAngle(Vector2.SignedAngle(-Vector3.up, (Vector2)transform.position - (Vector2)fish.targetPos)));
+            float _targetPosAngleDelta = Mathf.DeltaAngle(_trueRotation, _angleToTargetPos);
+            targetPosDir = _targetPosAngleDelta < 180 && _targetPosAngleDelta > 0 ? 1 : -1;
+
+            float _angleToSchoolCenter = (360 - SignedToUnsignedAngle(Vector2.SignedAngle(-Vector3.up, (Vector2)transform.position - school.schoolCenter)));
+            float _schoolCenterAngleDelta = Mathf.DeltaAngle(_trueRotation, _angleToSchoolCenter);
+            cohesionDir = _schoolCenterAngleDelta < 180 && _schoolCenterAngleDelta > 0 ? 1 : -1;
+
+            float _alignmentAngleDelta = Mathf.DeltaAngle(_trueRotation, school.averageAngle);
+            alignmentDir = _alignmentAngleDelta < 180 && _alignmentAngleDelta > 0 ? 1 : -1;
+
+            alignmentDir = WeighDirection(alignmentDir, _alignmentAngleDelta);
+            targetPosDir = WeighDirection(targetPosDir, _targetPosAngleDelta) * Mathf.InverseLerp(0, fish.maxHomeDistance, Mathf.Clamp(Vector3.Distance(transform.position, fish.targetPos), 0, fish.maxHomeDistance));
+            cohesionDir = WeighDirection(cohesionDir, _schoolCenterAngleDelta) * Mathf.InverseLerp(0, fish.maxHomeDistance, Mathf.Clamp(Vector3.Distance(transform.position, school.schoolCenter), 0, fish.maxHomeDistance));
+            _calculatedDir = (alignmentDir * alignmentDirWeight + cohesionDir * cohesionDirWeight + separationDir * separationDirWeight + targetPosDir * targetPosDirWeight) / 4f;
 
             rotationDir = Mathf.Clamp(_calculatedDir, -1, 1);
         }
