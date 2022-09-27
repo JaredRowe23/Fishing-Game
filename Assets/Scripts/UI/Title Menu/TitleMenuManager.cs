@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Fishing.IO;
+using UnityEngine.InputSystem;
+using UnityEngine.EventSystems;
 
 namespace Fishing.UI
 {
@@ -15,18 +17,25 @@ namespace Fishing.UI
         [SerializeField] private GameObject settingsMenu;
         [SerializeField] private GameObject quitMenu;
 
+        private GameObject currentActiveMenu;
+
+        private EventSystem eventSystem;
+
+        public Controls _controls;
+
         public static TitleMenuManager instance;
 
         private TitleMenuManager() => instance = this;
 
         private void Awake()
         {
+            eventSystem = FindObjectOfType<EventSystem>();
             loadMenu = LoadMenu.instance.gameObject;
-        }
 
-        public void NewGame()
-        {
-
+            _controls = new Controls();
+            _controls.TitleMenuInput.Enable();
+            _controls.TitleMenuInput.Select.performed += Select;
+            _controls.TitleMenuInput.Back.performed += Back;
         }
 
         public void ShowNewGameMenu()
@@ -80,6 +89,38 @@ namespace Fishing.UI
         {
             _setActive.SetActive(true);
             _setInactive.SetActive(false);
+            currentActiveMenu = _setActive;
+        }
+        private void Select(InputAction.CallbackContext _context)
+        {
+            if (!_context.performed) return;
+            if (_context.action.WasPerformedThisFrame()) return;
+            ExecuteEvents.Execute(eventSystem.currentSelectedGameObject, new BaseEventData(eventSystem), ExecuteEvents.submitHandler);
+        }
+        private void Back(InputAction.CallbackContext _context)
+        {
+            if (!_context.performed) return;
+            if (!gameObject.activeSelf) return;
+
+            Debug.Log("test");
+
+            MenuNavigation _menuNavi = currentActiveMenu.GetComponent<MenuNavigation>();
+
+            if (!_menuNavi.isSubMenu) return;
+
+            ExecuteEvents.Execute(_menuNavi.menuOptions[_menuNavi.menuOptions.Capacity - 1].gameObject, new BaseEventData(eventSystem), ExecuteEvents.submitHandler);
+        }
+
+        private void OnEnable()
+        {
+            _controls.TitleMenuInput.Select.performed += Select;
+            _controls.TitleMenuInput.Back.performed += Back;
+        }
+
+        private void OnDisable()
+        {
+            _controls.TitleMenuInput.Select.performed -= Select;
+            _controls.TitleMenuInput.Back.performed -= Back;
         }
     }
 

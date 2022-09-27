@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Fishing.IO;
+using UnityEngine.InputSystem;
 
 namespace Fishing.FishingMechanics
 {
@@ -38,6 +40,10 @@ namespace Fishing.FishingMechanics
         private void Awake()
         {
             rodManager = RodManager.instance;
+            Controls _controls = new Controls();
+            _controls.FishingLevelInputs.Enable();
+            _controls.FishingLevelInputs.SetPower.performed += StartAngling;
+            _controls.FishingLevelInputs.Cast.performed += Cast;
         }
 
         private void Start()
@@ -49,19 +55,11 @@ namespace Fishing.FishingMechanics
         {
             if (charging)
             {
-                Charge();
-                if (Input.GetMouseButtonUp(0))
-                {
-                    StartAngling();
-                }    
+                Charge(); 
             }
             else if (angling)
             {
                 Angle();
-                if (Input.GetMouseButtonDown(0))
-                {
-                    Cast();
-                }
             }
         }
         public void StartCharging(float _chargeFrequency, float _minStrength, float _maxStrength, float _maxAngle, float _angleFrequence)
@@ -109,8 +107,10 @@ namespace Fishing.FishingMechanics
             AudioManager.instance.GetSource("Power Audio").pitch = charge;
         }
 
-        private void StartAngling()
+        private void StartAngling(InputAction.CallbackContext _context)
         {
+            if (!_context.performed) return;
+            if (!RodManager.instance.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Start Cast")) return;
             charge = Mathf.Lerp(powerSlider.minValue, powerSlider.maxValue, charge);
             angling = true;
             charging = false;
@@ -135,8 +135,10 @@ namespace Fishing.FishingMechanics
             AudioManager.instance.GetSource("Power Audio").pitch = Mathf.InverseLerp(0f, maxAngle, currentAngle) + AudioManager.instance.GetSound("Power Audio").pitch;
         }
 
-        private void Cast()
+        private void Cast(InputAction.CallbackContext _context)
         {
+            if (!_context.performed) return;
+            if (!RodManager.instance.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Start Cast")) return;
             AudioManager.instance.StopPlaying("Power Audio");
             angling = false;
             transform.SetParent(UIManager.instance.transform);

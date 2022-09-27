@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
+using Fishing.IO;
 
 namespace Fishing.UI
 {
@@ -35,6 +37,12 @@ namespace Fishing.UI
                     ShowInventoryMenu();
                 }
             }
+        }
+
+        public void InventoryMenuAction(InputAction.CallbackContext _context)
+        {
+            if (!_context.performed) return;
+            ShowInventoryMenu();
         }
 
         public void ShowInventoryMenu()

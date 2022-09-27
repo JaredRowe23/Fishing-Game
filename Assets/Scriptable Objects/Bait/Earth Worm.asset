@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b77d52887577a564691aeedf49baa842, type: 3}
   m_Name: Earth Worm
   m_EditorClassIdentifier: 
-  inventorySprite: {fileID: 21300000, guid: 854d90ae5773cc8458ad554b54881637, type: 3}
+  inventorySprite: {fileID: 21300000, guid: ab6b5d88002af884eb0adf9c6866fe63, type: 3}
   baitName: Earth Worm
   description: Noodly boi from the ground
   prefab: {fileID: 7061067434651880759, guid: 4024686567b544849a3adb8df5b04eab, type: 3}

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Fishing.Inventory;
 using Fishing.IO;
+using UnityEngine.InputSystem;
 
 namespace Fishing.UI
 {
@@ -19,15 +20,10 @@ namespace Fishing.UI
 
         private BucketMenu() => instance = this;
 
-
-        void Update()
+        public void BucketMenuAction(InputAction.CallbackContext _context)
         {
-            if (!gameObject.activeSelf) return;
-
-            if (Input.GetKeyDown(KeyCode.B))
-            {
-                ShowBucketMenu();
-            }
+            if (!_context.performed) return;
+            ShowBucketMenu();
         }
 
         public void ShowBucketMenu()

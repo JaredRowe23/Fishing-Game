@@ -50,6 +50,7 @@ namespace Fishing.FishingMechanics
 
         void Update()
         {
+            lineRenderer.SetPosition(0, linePivotPoint.position);
             lineRenderer.SetPosition(1, hookPivotPoint.position);
 
             if (transform.position.y <= 0f)

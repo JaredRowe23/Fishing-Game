@@ -32,6 +32,9 @@ namespace Fishing
         private void Start()
         {
             EquipRod(PlayerData.instance.equippedRod, false);
+
+            Controls _controls = new Controls();
+            _controls.FishingLevelInputs.Enable();
         }
 
         public void EquipRod(string _rodName, bool _playSound)
