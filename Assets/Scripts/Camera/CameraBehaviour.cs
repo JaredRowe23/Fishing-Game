@@ -35,7 +35,6 @@ namespace Fishing.PlayerCamera
             if (!_context.performed) return;
 
             float _zoomDelta = _context.ReadValue<float>();
-            Debug.Log(_zoomDelta);
             cam.orthographicSize += _zoomDelta * zoomMagnitude;
             cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, minZoom, maxZoom);
         }

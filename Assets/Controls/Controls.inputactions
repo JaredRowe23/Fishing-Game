@@ -76,6 +76,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "MoveHook",
+                    "type": "Value",
+                    "id": "59ab2e84-0cd5-4730-8dc4-d75b931793f0",
+                    "expectedControlType": "Axis",
+                    "processors": "Normalize(min=-1,max=1)",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -205,7 +214,7 @@
                     "id": "d178c575-2204-414b-aeea-98bc3984479c",
                     "path": "<Gamepad>/rightStick/y",
                     "interactions": "",
-                    "processors": "AxisDeadzone(max=1)",
+                    "processors": "AxisDeadzone",
                     "groups": "",
                     "action": "CameraZoom",
                     "isComposite": false,
@@ -254,6 +263,105 @@
                     "action": "BackpackMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "Keyboard Arrows",
+                    "id": "5dbb9fe5-b72d-46c9-be4f-f6fe5212b016",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveHook",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "a8f03c58-08f1-43c5-86e8-02d32e883ccf",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveHook",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "8f88eec3-8f7d-4ad0-b998-875bd087b8ae",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveHook",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Keyboard WASD",
+                    "id": "1da1931a-4201-4abd-86ee-91f0b0f3170d",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveHook",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "af4ef613-69af-486f-b489-a72ba24d833f",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveHook",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "9667d184-456c-4f64-82a5-82c0eb6fa659",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveHook",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Controller",
+                    "id": "cc7ecde2-3f57-448e-8c6a-7b980830baa4",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "AxisDeadzone(max=1)",
+                    "groups": "",
+                    "action": "MoveHook",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "94f03307-d060-4960-9829-5636f140edf8",
+                    "path": "<Gamepad>/leftStick/left",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveHook",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "7dcd1e67-5fe7-477a-9f5f-bec1459192ea",
+                    "path": "<Gamepad>/leftStick/right",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveHook",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },

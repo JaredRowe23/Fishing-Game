@@ -134,7 +134,6 @@ namespace Fishing.FishingMechanics
         }
         public void ReelingLineAnchorPosition(int _index)
         {
-            Debug.Log("test");
             linePivotPoint.position = reelingAnimationPositions[_index].position;
         }
 

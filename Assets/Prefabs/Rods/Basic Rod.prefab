@@ -327,6 +327,7 @@ GameObject:
   - component: {fileID: 1752809347937356463}
   - component: {fileID: 3742546425547266251}
   - component: {fileID: 1408322187}
+  - component: {fileID: 2934546551568702899}
   m_Layer: 0
   m_Name: Hook
   m_TagString: Untagged
@@ -573,6 +574,19 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
+--- !u!114 &2934546551568702899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958218464476562888}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfbfa8f2e5ffa0142934b6fe0917ebc3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 500
 --- !u!1 &2453322157797498138
 GameObject:
   m_ObjectHideFlags: 0

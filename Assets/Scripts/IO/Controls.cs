@@ -100,6 +100,15 @@ namespace Fishing.IO
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveHook"",
+                    ""type"": ""Value"",
+                    ""id"": ""59ab2e84-0cd5-4730-8dc4-d75b931793f0"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": ""Normalize(min=-1,max=1)"",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -229,7 +238,7 @@ namespace Fishing.IO
                     ""id"": ""d178c575-2204-414b-aeea-98bc3984479c"",
                     ""path"": ""<Gamepad>/rightStick/y"",
                     ""interactions"": """",
-                    ""processors"": ""AxisDeadzone(max=1)"",
+                    ""processors"": ""AxisDeadzone"",
                     ""groups"": """",
                     ""action"": ""CameraZoom"",
                     ""isComposite"": false,
@@ -278,6 +287,105 @@ namespace Fishing.IO
                     ""action"": ""BackpackMenu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Keyboard Arrows"",
+                    ""id"": ""5dbb9fe5-b72d-46c9-be4f-f6fe5212b016"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveHook"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""a8f03c58-08f1-43c5-86e8-02d32e883ccf"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveHook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""8f88eec3-8f7d-4ad0-b998-875bd087b8ae"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveHook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Keyboard WASD"",
+                    ""id"": ""1da1931a-4201-4abd-86ee-91f0b0f3170d"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveHook"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""af4ef613-69af-486f-b489-a72ba24d833f"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveHook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""9667d184-456c-4f64-82a5-82c0eb6fa659"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveHook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Controller"",
+                    ""id"": ""cc7ecde2-3f57-448e-8c6a-7b980830baa4"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": ""AxisDeadzone(max=1)"",
+                    ""groups"": """",
+                    ""action"": ""MoveHook"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""94f03307-d060-4960-9829-5636f140edf8"",
+                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveHook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""7dcd1e67-5fe7-477a-9f5f-bec1459192ea"",
+                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveHook"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         },
@@ -656,6 +764,7 @@ namespace Fishing.IO
             m_FishingLevelInputs_CameraZoom = m_FishingLevelInputs.FindAction("CameraZoom", throwIfNotFound: true);
             m_FishingLevelInputs_BucketMenu = m_FishingLevelInputs.FindAction("BucketMenu", throwIfNotFound: true);
             m_FishingLevelInputs_BackpackMenu = m_FishingLevelInputs.FindAction("BackpackMenu", throwIfNotFound: true);
+            m_FishingLevelInputs_MoveHook = m_FishingLevelInputs.FindAction("MoveHook", throwIfNotFound: true);
             // Title Menu Input
             m_TitleMenuInput = asset.FindActionMap("Title Menu Input", throwIfNotFound: true);
             m_TitleMenuInput_Select = m_TitleMenuInput.FindAction("Select", throwIfNotFound: true);
@@ -736,6 +845,7 @@ namespace Fishing.IO
         private readonly InputAction m_FishingLevelInputs_CameraZoom;
         private readonly InputAction m_FishingLevelInputs_BucketMenu;
         private readonly InputAction m_FishingLevelInputs_BackpackMenu;
+        private readonly InputAction m_FishingLevelInputs_MoveHook;
         public struct FishingLevelInputsActions
         {
             private @Controls m_Wrapper;
@@ -748,6 +858,7 @@ namespace Fishing.IO
             public InputAction @CameraZoom => m_Wrapper.m_FishingLevelInputs_CameraZoom;
             public InputAction @BucketMenu => m_Wrapper.m_FishingLevelInputs_BucketMenu;
             public InputAction @BackpackMenu => m_Wrapper.m_FishingLevelInputs_BackpackMenu;
+            public InputAction @MoveHook => m_Wrapper.m_FishingLevelInputs_MoveHook;
             public InputActionMap Get() { return m_Wrapper.m_FishingLevelInputs; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -781,6 +892,9 @@ namespace Fishing.IO
                     @BackpackMenu.started -= m_Wrapper.m_FishingLevelInputsActionsCallbackInterface.OnBackpackMenu;
                     @BackpackMenu.performed -= m_Wrapper.m_FishingLevelInputsActionsCallbackInterface.OnBackpackMenu;
                     @BackpackMenu.canceled -= m_Wrapper.m_FishingLevelInputsActionsCallbackInterface.OnBackpackMenu;
+                    @MoveHook.started -= m_Wrapper.m_FishingLevelInputsActionsCallbackInterface.OnMoveHook;
+                    @MoveHook.performed -= m_Wrapper.m_FishingLevelInputsActionsCallbackInterface.OnMoveHook;
+                    @MoveHook.canceled -= m_Wrapper.m_FishingLevelInputsActionsCallbackInterface.OnMoveHook;
                 }
                 m_Wrapper.m_FishingLevelInputsActionsCallbackInterface = instance;
                 if (instance != null)
@@ -809,6 +923,9 @@ namespace Fishing.IO
                     @BackpackMenu.started += instance.OnBackpackMenu;
                     @BackpackMenu.performed += instance.OnBackpackMenu;
                     @BackpackMenu.canceled += instance.OnBackpackMenu;
+                    @MoveHook.started += instance.OnMoveHook;
+                    @MoveHook.performed += instance.OnMoveHook;
+                    @MoveHook.canceled += instance.OnMoveHook;
                 }
             }
         }
@@ -954,6 +1071,7 @@ namespace Fishing.IO
             void OnCameraZoom(InputAction.CallbackContext context);
             void OnBucketMenu(InputAction.CallbackContext context);
             void OnBackpackMenu(InputAction.CallbackContext context);
+            void OnMoveHook(InputAction.CallbackContext context);
         }
         public interface ITitleMenuInputActions
         {

@@ -73,27 +73,6 @@ namespace Fishing.Fishables.Fish
             }
 
             transform.Rotate(Vector3.forward, angleToTarget);
-
-            //if ((360 - transform.rotation.eulerAngles.z + 270) % 360 < 180)
-            //{
-            //    foreach (Transform child in transform)
-            //    {
-            //        if (child.GetComponent<SpriteRenderer>() != null && child.gameObject.layer != LayerMask.NameToLayer("Minimap"))
-            //        {
-            //            child.GetComponent<SpriteRenderer>().flipY = true;
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    foreach (Transform child in transform)
-            //    {
-            //        if (child.GetComponent<SpriteRenderer>() != null && child.gameObject.layer != LayerMask.NameToLayer("Minimap"))
-            //        {
-            //            child.GetComponent<SpriteRenderer>().flipY = false;
-            //        }
-            //    }
-            //}
         }
         private void OnDrawGizmosSelected()
         {
