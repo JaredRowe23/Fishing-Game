@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 629361283186392710}
   - component: {fileID: -2929111798186344732}
   m_Layer: 0
-  m_Name: Fish 1
+  m_Name: Minnow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: eae191fe956c3d645b0d1ae780ff0597, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 53f8d65d29b8cdf46bca4d3af9725e4f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5087a8be7993fe4480ab09fe9d718fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scriptable: {fileID: 11400000, guid: 71c449390337a4742a15cd510a2c51ee, type: 2}
+  scriptable: {fileID: 11400000, guid: 67988d550581d16478774e3b59be493d, type: 2}
   anchorPoint: {x: 0.1, y: -0.3, z: 1}
   anchorRotation: {x: 0, y: 0, z: -110}
 --- !u!114 &629361283186392710
@@ -114,7 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ed023c87f291a42a62ede1f6a833e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodType: 1
+  foodType: 8
 --- !u!58 &-2929111798186344732
 CircleCollider2D:
   m_ObjectHideFlags: 0

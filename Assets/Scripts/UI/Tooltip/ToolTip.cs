@@ -12,7 +12,6 @@ namespace Fishing.UI
         [SerializeField] private Text tipText;
 
         private float lifetimeCount;
-        private float speed;
 
         private void Update()
         {

@@ -37,6 +37,16 @@ namespace Fishing.IO
         public List<string> bait;
         public List<int> baitCounts;
 
+        [Header("Tutorials")]
+        public bool hasSeenCastTut;
+        public bool hasSeenReelingTut;
+        public bool hasSeenBucketTut;
+        public bool hasSeenBucketMenuTut;
+        public bool hasSeenBaitTut;
+        public bool hasSeenInventoryTut;
+        public bool hasSeenFishTut;
+        public bool hasSeenNPCTut;
+
         public GameData(PlayerData _playerData)
         {
             playerName = _playerData.playerName;
@@ -63,6 +73,15 @@ namespace Fishing.IO
 
             bait = _playerData.bait;
             baitCounts = _playerData.baitCounts;
+
+            hasSeenCastTut = _playerData.hasSeenCastTut;
+            hasSeenBucketTut = _playerData.hasSeenBucketTut;
+            hasSeenBucketMenuTut = _playerData.hasSeenBucketMenuTut;
+            hasSeenBaitTut = _playerData.hasSeenBaitTut;
+            hasSeenReelingTut = _playerData.hasSeenReelingTut;
+            hasSeenInventoryTut = _playerData.hasSeenInventoryTut;
+            hasSeenFishTut = _playerData.hasSeenFishTut;
+            hasSeenNPCTut = _playerData.hasSeenNPCTut;
         }
     }
 

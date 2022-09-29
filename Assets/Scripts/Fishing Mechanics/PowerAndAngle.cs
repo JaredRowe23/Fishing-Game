@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Fishing.IO;
 using UnityEngine.InputSystem;
+using Fishing.UI;
 
 namespace Fishing.FishingMechanics
 {
@@ -86,6 +87,9 @@ namespace Fishing.FishingMechanics
 
             arrowRect.rotation = Quaternion.identity;
             angling = false;
+
+            if (PlayerData.instance.hasSeenCastTut) return;
+            TutorialSystem.instance.QueueTutorial("Release the left mouse button to set your power", true, 3f);
         }
 
         private void Charge()
@@ -114,6 +118,10 @@ namespace Fishing.FishingMechanics
             charge = Mathf.Lerp(powerSlider.minValue, powerSlider.maxValue, charge);
             angling = true;
             charging = false;
+
+            if (PlayerData.instance.hasSeenCastTut) return;
+            TutorialSystem.instance.QueueTutorial("Click the left mouse button once more to set your angle and cast.", true, 3f);
+            PlayerData.instance.hasSeenCastTut = true;
         }
 
         private void Angle()

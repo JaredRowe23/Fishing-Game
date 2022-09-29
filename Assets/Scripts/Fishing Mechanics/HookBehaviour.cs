@@ -4,6 +4,8 @@ using UnityEngine;
 using Fishing.Fishables.Fish;
 using Fishing.Fishables;
 using Fishing.Inventory; // may not be necessary with AddToBucket rework
+using Fishing.UI;
+using Fishing.IO;
 
 namespace Fishing.FishingMechanics
 {
@@ -114,6 +116,11 @@ namespace Fishing.FishingMechanics
                 playedSplash = true;
             }
             _rb.drag = waterDrag;
+
+            if (PlayerData.instance.hasSeenReelingTut) return;
+            TutorialSystem.instance.QueueTutorial("Hold the left mouse button to begin reeling.");
+            TutorialSystem.instance.QueueTutorial("Use A and D or the arrow keys to move the hook left and right slightly");
+            PlayerData.instance.hasSeenReelingTut = true;
         }
         private void OnSurfaced()
         {
@@ -143,6 +150,10 @@ namespace Fishing.FishingMechanics
             _fishable.OnHooked(transform);
             hookedObject = _fishable.gameObject;
             hookedObject.transform.position = transform.position;
+
+            if (PlayerData.instance.hasSeenFishTut) return;
+            TutorialSystem.instance.QueueTutorial("You've hooked something! Reel it back in to catch it!");
+            PlayerData.instance.hasSeenFishTut = true;
         }
 
         public void DespawnHookedObject()
@@ -155,6 +166,10 @@ namespace Fishing.FishingMechanics
             if (hookedObject == null) return;
 
             BucketBehaviour.instance.AddToBucket(hookedObject.GetComponent<Fishable>());
+
+            if (PlayerData.instance.hasSeenBucketTut) return;
+            TutorialSystem.instance.QueueTutorial("Press B or click the bucket icon in the top-left corner to access your bucket");
+            PlayerData.instance.hasSeenBucketTut = true;
         }
     }
 

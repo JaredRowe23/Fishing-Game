@@ -114,7 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10928d4e47012d4cb92bf3ed5f54ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Tin Can
+  itemName: Seaweed
   itemDescription: Just a rust tube with nothing in it
   baseValue: 1
   weightMax: 1

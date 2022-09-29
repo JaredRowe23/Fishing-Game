@@ -62,6 +62,10 @@ namespace Fishing.UI
             {
                 if (BucketMenu.instance.gameObject.activeSelf) BucketMenu.instance.ShowBucketMenu();
                 menuPages[activeMenu].SetActive(true);
+
+                if (PlayerData.instance.hasSeenInventoryTut) return;
+                TutorialSystem.instance.QueueTutorial("Here, you can view attachment slots for your fishing rod (line, bait, and hook). You can also take inventory of bait you have and equip bits of gear (TBD)");
+                PlayerData.instance.hasSeenInventoryTut = true;
             }
             UIManager.instance.bucketMenuButton.gameObject.SetActive(!this.gameObject.activeSelf);
             UIManager.instance.inventoryMenuButton.SetActive(!this.gameObject.activeSelf);

@@ -36,6 +36,16 @@ namespace Fishing.IO
         public List<string> bait;
         public List<int> baitCounts;
 
+        [Header("Tutorials")]
+        public bool hasSeenCastTut;
+        public bool hasSeenReelingTut;
+        public bool hasSeenBucketTut;
+        public bool hasSeenBucketMenuTut;
+        public bool hasSeenBaitTut;
+        public bool hasSeenInventoryTut;
+        public bool hasSeenFishTut;
+        public bool hasSeenNPCTut;
+
         public string currentSceneName;
 
         public static PlayerData instance;
@@ -88,6 +98,15 @@ namespace Fishing.IO
 
             bait = _saveData.bait;
             baitCounts = _saveData.baitCounts;
+
+            hasSeenCastTut = _saveData.hasSeenCastTut;
+            hasSeenBucketTut = _saveData.hasSeenBucketTut;
+            hasSeenBucketMenuTut = _saveData.hasSeenBucketMenuTut;
+            hasSeenBaitTut = _saveData.hasSeenBaitTut;
+            hasSeenReelingTut = _saveData.hasSeenReelingTut;
+            hasSeenInventoryTut = _saveData.hasSeenInventoryTut;
+            hasSeenFishTut = _saveData.hasSeenFishTut;
+            hasSeenNPCTut = _saveData.hasSeenNPCTut;
         }
 
         public void NewGame()
@@ -118,6 +137,8 @@ namespace Fishing.IO
 
             bait = new List<string>();
             baitCounts = new List<int>();
+
+            hasSeenCastTut = hasSeenBucketTut = hasSeenBucketMenuTut = hasSeenBaitTut = hasSeenReelingTut = hasSeenInventoryTut = hasSeenFishTut = hasSeenNPCTut = false;
         }
 
         public void AddRod(string _rod)

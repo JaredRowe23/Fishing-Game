@@ -37,6 +37,10 @@ namespace Fishing.UI
                 if (InventoryMenu.instance.gameObject.activeSelf) InventoryMenu.instance.ShowInventoryMenu();
                 AudioManager.instance.PlaySound("Open Bucket");
                 InitializeMenu();
+
+                if (PlayerData.instance.hasSeenBucketMenuTut) return;
+                TutorialSystem.instance.QueueTutorial("Here you can view each fish or item you've caught. Click on each one to view more details, throw it away, or turn it into bait!");
+                PlayerData.instance.hasSeenBucketMenuTut = true;
             }
             else
             {
@@ -140,6 +144,10 @@ namespace Fishing.UI
             AudioManager.instance.PlaySound("Throwaway Fish");
             UIManager.instance.itemInfoMenu.SetActive(false);
             RefreshMenu();
+
+            if (PlayerData.instance.hasSeenBaitTut) return;
+            TutorialSystem.instance.QueueTutorial("Bait can help you catch fish that aren't interested in just your hook as is. Close the bucket menu and open the inventory menu (I) to equip it!");
+            PlayerData.instance.hasSeenBaitTut = true;
         }
     }
 }

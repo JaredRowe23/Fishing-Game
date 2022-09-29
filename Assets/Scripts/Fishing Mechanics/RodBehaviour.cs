@@ -4,6 +4,7 @@ using UnityEngine;
 using Fishing.Fishables;
 using UnityEngine.InputSystem;
 using Fishing.IO;
+using Fishing.UI;
 
 namespace Fishing.FishingMechanics
 {
@@ -47,6 +48,9 @@ namespace Fishing.FishingMechanics
         {
             casted = false;
             playerAnim = rodManager.GetComponent<Animator>();
+
+            if (PlayerData.instance.hasSeenCastTut) return;
+            TutorialSystem.instance.QueueTutorial("Hold the left mouse button to begin casting.");
         }
 
         void Update()
@@ -101,7 +105,7 @@ namespace Fishing.FishingMechanics
         {
             if (!_context.performed) return;
             if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) return;
-            if (UIManager.instance.mouseOverUI || UIManager.instance.IsActiveUI()) return;
+            if (UIManager.instance.mouseOverUI || UIManager.instance.IsActiveUI() || TutorialSystem.instance.content.activeSelf) return;
             if (casted) return;
 
             anim.SetTrigger("startCast");

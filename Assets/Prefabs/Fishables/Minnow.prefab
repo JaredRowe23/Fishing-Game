@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10928d4e47012d4cb92bf3ed5f54ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Fish 2
+  itemName: Minnow
   itemDescription: These guys don't like to be alone
   baseValue: 15
   weightMax: 30
