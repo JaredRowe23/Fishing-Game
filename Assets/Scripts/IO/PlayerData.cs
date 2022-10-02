@@ -129,7 +129,7 @@ namespace Fishing.IO
             equippedBaits = new List<string>();
             equippedHooks = new List<string>();
             equippedLines = new List<string>();
-            AddRod("Basic Rod");
+            AddRod("Wooden Fishing Rod");
             equippedRod = fishingRods[0];
 
             gear = new List<string>();

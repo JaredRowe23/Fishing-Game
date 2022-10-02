@@ -46,7 +46,7 @@ namespace Fishing
             }
             else
             {
-                _rodName = "Basic Rod";
+                _rodName = "Wooden Fishing Rod";
             }
 
             foreach (GameObject _prefab in rodPrefabs)

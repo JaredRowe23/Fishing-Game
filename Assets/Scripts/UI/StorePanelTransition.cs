@@ -42,13 +42,21 @@ namespace Fishing.NPC
             while (true)
             {
                 MoveRectOffset(_transitionDir * verticalOffset / transitionSeconds * Time.deltaTime);
-
                 if (Mathf.Abs(panelRect.offsetMin.y - _targetPos) <= transitionThreshold)
                 {
                     SetRectOffset(_targetPos);
                     transitioning = false;
                     break;
                 }
+                //Work on fixing overshooting issue
+                //else if (!downwardsTransition && panelRect.offsetMin.y < _targetPos * _transitionDir)
+                //{
+                //    Debug.Log("test too far: " + gameObject.name);
+                //}
+                //else if (downwardsTransition && panelRect.offsetMin.y > _targetPos * _transitionDir)
+                //{
+                //    Debug.Log("test too far: " + gameObject.name);
+                //}
 
                 yield return null;
             }

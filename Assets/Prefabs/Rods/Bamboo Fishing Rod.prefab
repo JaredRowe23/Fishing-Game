@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 2874879027062079839}
   - component: {fileID: 1516301341}
   m_Layer: 0
-  m_Name: Basic Rod
+  m_Name: Bamboo Fishing Rod
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -141,7 +141,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 4
   m_Sprite: {fileID: 121743923, guid: 70aef99b7526f6847a9a3cec83ce65d0, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.08926833, g: 1, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -184,7 +184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventorySprite: {fileID: 21300000, guid: e087e6c73489fb944b06d8ede48148d6, type: 3}
-  scriptable: {fileID: 11400000, guid: 8bbefb858cec305448271c5527e207e6, type: 2}
+  scriptable: {fileID: 11400000, guid: 9be0a5cbde443c24c94b040697b56a51, type: 2}
   equippedBait: {fileID: 0}
   linePivotPoint: {fileID: 1958218463701778770}
   casted: 0
@@ -400,7 +400,7 @@ MonoBehaviour:
   hookHangHeight: 2.5
   drag: 0
   waterDrag: 5
-  lineRotationAngle: -5
+  lineRotationAngle: -1
   playedSplash: 0
 --- !u!212 &5497299263962119491
 SpriteRenderer:

@@ -92,8 +92,8 @@ MonoBehaviour:
   followSpeed: 3
   followThreshold: 0.1
   zoomMagnitude: 1
-  maxZoom: 20
-  minZoom: 5
+  maxZoom: 50
+  minZoom: 1
   cam: {fileID: 0}
 --- !u!114 &2906787414817156470
 MonoBehaviour:

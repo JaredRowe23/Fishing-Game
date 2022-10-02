@@ -25,12 +25,15 @@ namespace Fishing.UI
             baitDescription.text = _bait.description;
 
             baitAttractionList.text = "";
-            foreach (string _str in _bait.GetFoodTypesAsString())
+            if (_bait.GetFoodTypesAsString() != null)
             {
-                baitAttractionList.text += _str + ", ";
+                foreach (string _str in _bait.GetFoodTypesAsString())
+                {
+                    baitAttractionList.text += _str + ", ";
+                }
+                baitAttractionList.text = baitAttractionList.text.Substring(0, baitAttractionList.text.Length - 2);
+                baitAttractionList.text += '.';
             }
-            baitAttractionList.text = baitAttractionList.text.Substring(0, baitAttractionList.text.Length - 2);
-            baitAttractionList.text += '.';
 
             foreach (BaitEffectsListing _effectListing in baitEffectsListings)
             {

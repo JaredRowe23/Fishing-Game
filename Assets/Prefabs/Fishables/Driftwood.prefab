@@ -116,7 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Driftwood
   itemDescription: Just a rust tube with nothing in it
-  baseValue: 1
+  baseValue: 2
   weightMax: 1
   weightMin: 1
   lengthMax: 50

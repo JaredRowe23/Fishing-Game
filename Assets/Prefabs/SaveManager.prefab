@@ -68,11 +68,22 @@ MonoBehaviour:
   bucketFishLength: []
   bucketFishValue: []
   fishingRods: []
+  equippedLines: []
+  equippedHooks: []
+  equippedBaits: []
   equippedRod: 
   gear: []
   equippedGear: []
   bait: []
   baitCounts: 
+  hasSeenCastTut: 0
+  hasSeenReelingTut: 0
+  hasSeenBucketTut: 0
+  hasSeenBucketMenuTut: 0
+  hasSeenBaitTut: 0
+  hasSeenInventoryTut: 0
+  hasSeenFishTut: 0
+  hasSeenNPCTut: 0
   currentSceneName: 
 --- !u!114 &6404902397406429036
 MonoBehaviour:
@@ -88,8 +99,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rodScriptables:
   - {fileID: 11400000, guid: 8bbefb858cec305448271c5527e207e6, type: 2}
-  - {fileID: 11400000, guid: 239f10765cbbb8948b1031ab66e2c5ec, type: 2}
+  - {fileID: 11400000, guid: 9be0a5cbde443c24c94b040697b56a51, type: 2}
   baitScriptables:
   - {fileID: 11400000, guid: f7c756b623c98f3489420c0b865ea269, type: 2}
   - {fileID: 11400000, guid: 71c449390337a4742a15cd510a2c51ee, type: 2}
   - {fileID: 11400000, guid: 7962d0e233c440743bd304a692f42f44, type: 2}
+  - {fileID: 11400000, guid: eb308beeec5adad4fa5803944072bf18, type: 2}
+  - {fileID: 11400000, guid: c10b3a6018ffedc4a80d661b999f9427, type: 2}
+  - {fileID: 11400000, guid: 13f145a2a6536db4cb6226dc18c4a5a5, type: 2}
+  - {fileID: 11400000, guid: 67988d550581d16478774e3b59be493d, type: 2}
+  - {fileID: 11400000, guid: 54c6f6fe382225140bbd70211a7fcd26, type: 2}

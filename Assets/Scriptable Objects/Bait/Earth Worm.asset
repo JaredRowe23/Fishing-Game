@@ -18,7 +18,7 @@ MonoBehaviour:
   prefab: {fileID: 7061067434651880759, guid: 4024686567b544849a3adb8df5b04eab, type: 3}
   cost: 0.2
   areaOfEffect: 5
-  baitableFishTypes: 01000000
+  baitableFishTypes: 010000000400000008000000
   effects:
   - Live Bait
   - Early Bird

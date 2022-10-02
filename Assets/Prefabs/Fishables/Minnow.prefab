@@ -119,7 +119,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Minnow
   itemDescription: These guys don't like to be alone
-  baseValue: 15
+  baseValue: 12.5
   weightMax: 30
   weightMin: 20
   lengthMax: 40
@@ -139,11 +139,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sightAngle: 45
-  sightDistance: 5
+  sightDistance: 10
   sightDensity: 10
-  smellRadius: 1
+  smellRadius: 2.5
   chaseDistance: 10
-  desiredFoodTypes: 00000000020000000300000005000000
+  desiredFoodTypes: 000000000300000005000000
   desiredFood: {fileID: 0}
 --- !u!82 &7240242511635904219
 AudioSource:

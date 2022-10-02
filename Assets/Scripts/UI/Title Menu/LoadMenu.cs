@@ -61,6 +61,7 @@ namespace Fishing.UI
 
         public void DestroySaveListings()
         {
+            if (navi.menuOptions.Count <= 3) return;
             navi.menuOptions.RemoveRange(0, navi.menuOptions.Count - 3);
             navi.menuCoordinates.RemoveRange(0, navi.menuCoordinates.Count - 3);
             if (slotDetails.gameObject.activeSelf)

@@ -26,12 +26,15 @@ namespace Fishing.UI
             costText.text = "$" + _bait.cost.ToString();
             attractsText.text = "";
 
-            foreach (string _str in _bait.GetFoodTypesAsString())
+            if (_bait.GetFoodTypesAsString() != null)
             {
-                attractsText.text += _str + ", ";
+                foreach (string _str in _bait.GetFoodTypesAsString())
+                {
+                    attractsText.text += _str + ", ";
+                }
+                attractsText.text = attractsText.text.Substring(0, attractsText.text.Length - 2);
+                attractsText.text += '.';
             }
-            attractsText.text = attractsText.text.Substring(0, attractsText.text.Length - 2);
-            attractsText.text += '.';
 
             foreach (BaitEffectsListing _effectListing in effects)
             {
@@ -47,14 +50,15 @@ namespace Fishing.UI
 
         public void BuyBait()
         {
-            if (PlayerData.instance.money < float.Parse(costText.text))
+            float _cost = float.Parse(costText.text.Remove(0, 1));
+            if (PlayerData.instance.money < _cost)
             {
                 TooltipSystem.instance.NewTooltip(5f, "You don't have enough money to buy this bait");
                 return;
             }
 
-            TooltipSystem.instance.NewTooltip(5f, "You bought the " + nameText.text + " for $" + costText.text);
-            PlayerData.instance.money -= float.Parse(costText.text);
+            TooltipSystem.instance.NewTooltip(5f, "You bought the " + nameText.text + " for $" + _cost);
+            PlayerData.instance.money -= _cost;
             PlayerData.instance.AddBait(nameText.text);
             BaitStoreMenu.instance.RefreshStore();
             gameObject.SetActive(false);

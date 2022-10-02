@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventorySprite: {fileID: 21300000, guid: eae191fe956c3d645b0d1ae780ff0597, type: 3}
   baitName: Salmon
-  description: Basic fish cut and mushed up
+  description: Larger fish. More frequently used for meals for humans, but surely
+    something else would enjoy eating this.
   prefab: {fileID: 7061067434651880759, guid: f93c6278e1195e54994d9d197f19c3a5, type: 3}
-  cost: 1
+  cost: 75
   areaOfEffect: 10
-  baitableFishTypes: 01000000
+  baitableFishTypes: 
   effects:
   - Fresh Catch
   effectsSprites:

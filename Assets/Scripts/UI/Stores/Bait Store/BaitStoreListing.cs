@@ -35,7 +35,7 @@ namespace Fishing.UI
             referenceScriptable = _bait;
             nameText.text = _bait.baitName;
             costText.text = "$" + _bait.cost.ToString();
-            attractsText.text = "Attracts: x" + _bait.GetFoodTypesAsString().Count.ToString();
+            if (_bait.GetFoodTypesAsString() != null) attractsText.text = "Attracts: x" + _bait.GetFoodTypesAsString().Count.ToString();
             effectsText.text = "Effects: x" + _bait.effects.Count.ToString();
             baitSprite.sprite = _bait.inventorySprite;
         }

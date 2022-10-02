@@ -203,9 +203,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Carp
   itemDescription: Just your normal basic fish guy here
-  baseValue: 10
-  weightMax: 25
-  weightMin: 20
+  baseValue: 50
+  weightMax: 14
+  weightMin: 2
   lengthMax: 80
   lengthMin: 40
   minimapIndicator: {fileID: 2737784646829355076}
@@ -241,11 +241,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sightAngle: 45
-  sightDistance: 5
+  sightDistance: 15
   sightDensity: 10
-  smellRadius: 1
+  smellRadius: 2.5
   chaseDistance: 10
-  desiredFoodTypes: 0000000002000000030000000500000008000000
+  desiredFoodTypes: 00000000020000000300000008000000
   desiredFood: {fileID: 0}
 --- !u!82 &-6890081191903633112
 AudioSource:

@@ -11,7 +11,7 @@ namespace Fishing.Fishables
         [SerializeField] private string itemDescription;
         private float weight;
         private float length;
-        [SerializeField] private int baseValue;
+        [SerializeField] private float baseValue;
         private float actualValue;
 
         [Header("Variation")]
