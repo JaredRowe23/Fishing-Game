@@ -27,7 +27,7 @@ namespace Fishing.FishingMechanics
 
         private Vector2 _targetPos;
         private RodBehaviour _rod;
-        private Rigidbody _rb;
+        private Rigidbody2D _rb;
 
         private Camera playerCam;
 
@@ -42,7 +42,7 @@ namespace Fishing.FishingMechanics
         private void Start()
         {
             _rod = transform.parent.GetComponent<RodBehaviour>();
-            _rb = this.GetComponent<Rigidbody>();
+            _rb = this.GetComponent<Rigidbody2D>();
 
             playerCam.transform.parent = transform;
             playerCam.transform.position = new Vector3(transform.position.x, transform.position.y, playerCam.transform.position.z);
@@ -81,7 +81,7 @@ namespace Fishing.FishingMechanics
             {
                 if (transform.position.y < 0f)
                 {
-                    _rb.useGravity = false;
+                    _rb.gravityScale = 0;
                     _rb.isKinematic = false;
                     if (transform.position.x - linePivotPoint.position.x >= 0f)
                     {
@@ -97,7 +97,7 @@ namespace Fishing.FishingMechanics
             }
             else
             {
-                _rb.useGravity = true;
+                _rb.gravityScale = 1;
                 _rb.isKinematic = false;
             }
         }
@@ -171,6 +171,12 @@ namespace Fishing.FishingMechanics
             TutorialSystem.instance.QueueTutorial("Press B or click the bucket icon in the top-left corner to access your bucket");
             PlayerData.instance.hasSeenBucketTut = true;
         }
+
+        //public void OnTriggerEnter2D(Collider2D collision)
+        //{
+        //    Debug.Log("---");
+        //    if (collision.gameObject.name == "Sand Tile") Debug.Log("entered sand tile");
+        //}
     }
 
 }

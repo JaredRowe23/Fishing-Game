@@ -10,13 +10,13 @@ namespace Fishing.FishingMechanics
     {
         [SerializeField] private float moveSpeed = 500f;
 
-        private Rigidbody rb;
+        private Rigidbody2D rb;
         private float direction = 0f;
         private bool isMoving;
 
         private void Awake()
         {
-            rb = GetComponent<Rigidbody>();
+            rb = GetComponent<Rigidbody2D>();
 
             Controls _controls = new Controls();
             _controls.FishingLevelInputs.Enable();
@@ -28,7 +28,7 @@ namespace Fishing.FishingMechanics
         {
             if (!isMoving) return;
             if (transform.position.y > 0f) return;
-            rb.AddForce(direction * moveSpeed * Time.deltaTime, 0, 0);
+            rb.AddForce(new Vector2(direction * moveSpeed * Time.deltaTime, 0));
         }
 
         public void MoveHook(InputAction.CallbackContext _context)
