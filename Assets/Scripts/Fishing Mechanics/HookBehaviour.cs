@@ -61,6 +61,7 @@ namespace Fishing.FishingMechanics
             }
             else
             {
+                if (playedSplash) _rb.velocity = Vector2.zero;
                 OnSurfaced();
             }
 

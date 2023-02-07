@@ -43,7 +43,16 @@ namespace Fishing
         public static AudioManager instance;
 
         [SerializeField]
-        Sound[] sounds;
+        Sound[] gameplay;
+
+        [SerializeField]
+        Sound[] UI;
+
+        [SerializeField]
+        Sound[] music;
+
+        Sound[][] soundArrays = new Sound[3][];
+
 
         private void Awake()
         {
@@ -59,50 +68,35 @@ namespace Fishing
 
         private void Start()
         {
-            for (int i = 0; i < sounds.Length; i++)
+            soundArrays[0] = gameplay;
+            soundArrays[1] = UI;
+            soundArrays[2] = music;
+            for (int i = 0; i < soundArrays.Length; i++)
             {
-                GameObject _go = new GameObject("Sound_" + i + "_" + sounds[i].name);
-                _go.transform.SetParent(transform);
-                sounds[i].SetSource(_go.AddComponent<AudioSource>());
+                for (int j = 0; j < soundArrays[i].Length; j++)
+                {
+                    GameObject _go = new GameObject("Sound_" + i + "_" + soundArrays[i][j].name);
+                    _go.transform.SetParent(transform);
+                    soundArrays[i][j].SetSource(_go.AddComponent<AudioSource>());
+                }
             }
             PlaySound("Background Music");
         }
 
-        private void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                StopPlaying("Reel");
-            }
-            if (Input.GetKeyDown(KeyCode.J))
-            {
-                PlaySound("Reel");
-            }
-        }
-
         public void PlaySound(string _name, bool waitUntilComplete = false)
         {
-            for (int i = 0; i < sounds.Length; i++)
+            Sound requestedSound = GetSound(_name);
+
+            if (requestedSound.loop)
             {
-                if (sounds[i].name != _name)
+                if (GetSource(_name).isPlaying)
                 {
-                    continue;
+                    return;
                 }
-
-                if (sounds[i].loop)
-                {
-                    if (GetSource(_name).isPlaying)
-                    {
-                        return;
-                    }
-                }
-
-                sounds[i].Play();
-                return;
             }
 
-            //no sound with name
-            Debug.LogWarning("AudioManager: Sound not found in list, " + _name);
+            requestedSound.Play();
+            return;
         }
 
         public bool IsPlaying(string _name)
@@ -133,11 +127,15 @@ namespace Fishing
 
         public Sound GetSound(string _name)
         {
-            foreach (Sound _sound in sounds)
+            for (int i = 0; i < soundArrays.Length; i++)
             {
-                if (_sound.name != _name) continue;
-                return _sound;
+                for (int j = 0; j < soundArrays[i].Length; j++)
+                {
+                    if (soundArrays[i][j].name != _name) continue;
+                    return soundArrays[i][j];
+                }
             }
+
             Debug.Log("Could not find sound with the given name: " + _name);
             return null;
         }
@@ -145,13 +143,13 @@ namespace Fishing
         public void StopPlaying(string _name)
         {
             AudioSource _source = GetSource(_name);
-            for (int i = 0; i > sounds.Length; i++)
-            {
-                if (sounds[i].name != _name)
-                {
-                    continue;
-                }
-            }
+            //for (int i = 0; i > sounds.Length; i++)
+            //{
+            //    if (sounds[i].name != _name)
+            //    {
+            //        continue;
+            //    }
+            //}
             _source.Stop();
         }
     }
