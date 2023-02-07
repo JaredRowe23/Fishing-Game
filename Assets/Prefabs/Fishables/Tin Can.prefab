@@ -142,6 +142,7 @@ MonoBehaviour:
   rotationSpeed: 25
   rotationVariance: 10
   maximumDistance: 25
+  stuckDespawnTime: 10
 --- !u!114 &9090202394078601320
 MonoBehaviour:
   m_ObjectHideFlags: 0

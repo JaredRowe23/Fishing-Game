@@ -16,6 +16,7 @@ namespace Fishing.Fishables.Fish
         private SpawnZone spawn;
         private FishSchoolBehaviour school;
         private FishSchoolManager manager;
+        private PolygonCollider2D floorCol;
 
         public float rotationSpeed;
 
@@ -42,6 +43,7 @@ namespace Fishing.Fishables.Fish
             spawn = transform.parent.GetComponent<SpawnZone>();
             school = spawn.GetComponent<FishSchoolBehaviour>();
             manager = spawn.GetComponent<FishSchoolManager>();
+            floorCol = FindObjectOfType<PolygonCollider2D>();
 
             school.fish.Add(GetComponent<Fishable>());
             manager.AddFish(fish);
@@ -52,10 +54,26 @@ namespace Fishing.Fishables.Fish
             if (GetComponent<Fishable>().isHooked) return;
 
             Vector3 _surfacingCheck = transform.position - (transform.right * school.separationMaxDistance);
+            float _distToFloor = Vector2.Distance(transform.position, floorCol.ClosestPoint(transform.position));
+
             if (_surfacingCheck.y >= 0)
             {
                 float _trueRotation = (360 - transform.rotation.eulerAngles.z + 270) % 360;
                 if (_trueRotation <= 180 && _trueRotation > 0)
+                {
+                    rotationDir = separationDirWeight;
+                }
+                else
+                {
+                    rotationDir = -separationDirWeight;
+                }
+            }
+
+            else if (_distToFloor < school.separationMaxDistance)
+            {
+                float _trueRotation = (360 - transform.rotation.eulerAngles.z + 270) % 360;
+                float _rotationToFloor = Vector2.Angle(Vector2.up, (Vector2)transform.position - floorCol.ClosestPoint(transform.position));
+                if (_rotationToFloor - _trueRotation > 0)
                 {
                     rotationDir = separationDirWeight;
                 }

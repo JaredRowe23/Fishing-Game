@@ -19,11 +19,13 @@ namespace Fishing
         public GameObject testObject;
 
         private CameraBehaviour playerCam;
+        private PolygonCollider2D floorCol;
 
         private void Awake()
         {
             spawnTimer = new WaitForSeconds(spawnTimeSpacing);
             playerCam = CameraBehaviour.instance;
+            floorCol = FindObjectOfType<PolygonCollider2D>();
         }
 
         private void Start()
@@ -62,15 +64,11 @@ namespace Fishing
                 _rand = Random.insideUnitCircle * radius;
                 i++;
 
-                if (_rand.y + transform.position.y >= 0f)
-                {
-                    continue;
-                }
+                if (_rand.y + transform.position.y >= 0f) continue;
 
-                if (playerCam.IsInFrame(new Vector2(_rand.x + transform.position.x, _rand.y + transform.position.y)))
-                {
-                    continue;
-                }
+                if (playerCam.IsInFrame(new Vector2(_rand.x + transform.position.x, _rand.y + transform.position.y))) continue;
+
+                if (floorCol.OverlapPoint(new Vector2(_rand.x + transform.position.x, _rand.y + transform.position.y))) continue;
 
                 break;
             }

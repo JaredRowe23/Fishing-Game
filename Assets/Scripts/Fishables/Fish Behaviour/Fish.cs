@@ -18,13 +18,16 @@ namespace Fishing.Fishables.Fish
         public SpawnZone spawn;
 
         private RodManager rodManager;
+        private PolygonCollider2D floorCol;
 
         private void Start()
         {
             foodSearch = GetComponent<FoodSearch>();
             spawn = transform.parent.GetComponent<SpawnZone>();
             maxHomeDistance += Random.Range(-maxHomeDistanceVariation, maxHomeDistanceVariation);
+            floorCol = FindObjectOfType<PolygonCollider2D>();
         }
+
         public void Eat()
         {
             if (foodSearch.desiredFood.GetComponent<HookBehaviour>())

@@ -26,12 +26,14 @@ namespace Fishing.Fishables.Fish
         private Fish fish;
         private FoodSearch foodSearch;
         private SpawnZone spawn;
+        private PolygonCollider2D floorCol;
 
         private void Awake()
         {
             foodSearch = GetComponent<FoodSearch>();
             fish = GetComponent<Fish>();
             spawn = transform.parent.GetComponent<SpawnZone>();
+            floorCol = FindObjectOfType<PolygonCollider2D>();
         }
 
         private void Start()
@@ -98,11 +100,16 @@ namespace Fishing.Fishables.Fish
 
                         if (_aboveWater) continue;
                         if (_distanceFromHome > fish.maxHomeDistance) continue;
-                        fish.targetPos = new Vector2(transform.position.x + _rand.x, transform.position.y + _rand.y);
+                        fish.targetPos = (Vector2)transform.position + _rand;
                         break;
                     }
-
                 }
+
+                if (floorCol.OverlapPoint(fish.targetPos)) 
+                {
+                    fish.targetPos = floorCol.ClosestPoint(transform.position);
+                }
+
                 yield return holdTimer;
             }
         }
@@ -114,6 +121,7 @@ namespace Fishing.Fishables.Fish
                 Gizmos.color = Color.cyan;
                 Gizmos.DrawWireSphere(transform.position, wanderDistance);
             }
+            Gizmos.DrawSphere(fish.targetPos, 1);
         }
 
         public void Despawn()
