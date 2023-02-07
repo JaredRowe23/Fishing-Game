@@ -23,6 +23,8 @@ namespace Fishing.Fishables
         private CameraBehaviour cam;
         private SpawnZone spawn;
         private PolygonCollider2D floorCol;
+
+
         private float stuckCount;
         private bool isStuck;
 
@@ -57,7 +59,20 @@ namespace Fishing.Fishables
                 }
 
                 transform.Translate(sinkSpeed * Time.deltaTime * sinkDirection, Space.World);
-                if (transform.position.y > 0) transform.Translate(Vector3.down * transform.position.y, Space.World);
+                if (transform.position.y > 0)
+                {
+                    transform.Translate(Vector3.down * transform.position.y, Space.World);
+
+                    stuckCount -= Time.deltaTime;
+
+                    if (cam.IsInFrame(transform.position)) return;
+
+                    if (stuckCount <= 0)
+                    {
+                        Despawn();
+                        return;
+                    }
+                }
                 transform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
 
                 if (Vector3.Distance(transform.position, transform.parent.transform.position) < maximumDistance) return;

@@ -58,33 +58,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0cc02e45b28196448992c15ad01788f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerName: 
+  playerName: Test Player
   money: 0
-  dateTime: 
-  playtime: 
+  dateTime: 2/7/2023 12:10:39 AM
+  playtime: 00:00:00
   bucketFish: []
   bucketFishDescription: []
   bucketFishWeight: []
   bucketFishLength: []
   bucketFishValue: []
-  fishingRods: []
-  equippedLines: []
-  equippedHooks: []
-  equippedBaits: []
-  equippedRod: 
+  fishingRods:
+  - Wooden Fishing Rod
+  equippedLines:
+  - 
+  equippedHooks:
+  - 
+  equippedBaits:
+  - 
+  equippedRod: Wooden Fishing Rod
   gear: []
   equippedGear: []
   bait: []
   baitCounts: 
-  hasSeenCastTut: 0
-  hasSeenReelingTut: 0
-  hasSeenBucketTut: 0
-  hasSeenBucketMenuTut: 0
-  hasSeenBaitTut: 0
-  hasSeenInventoryTut: 0
-  hasSeenFishTut: 0
-  hasSeenNPCTut: 0
-  currentSceneName: 
+  hasSeenCastTut: 1
+  hasSeenReelingTut: 1
+  hasSeenBucketTut: 1
+  hasSeenBucketMenuTut: 1
+  hasSeenBaitTut: 1
+  hasSeenInventoryTut: 1
+  hasSeenFishTut: 1
+  hasSeenNPCTut: 1
+  currentSceneName: World Map
 --- !u!114 &6404902397406429036
 MonoBehaviour:
   m_ObjectHideFlags: 0
