@@ -9,7 +9,7 @@ namespace Fishing.Fishables
     {
         private void Start() => FoodSearchManager.instance.AddFood(this);
 
-        public enum FoodTypes { Hook, Salmon, TinCan, EarthWorm, Carp, Seaweed, Boot, Driftwood, Minnow, Fish9, Fish10, Fish11 };
+        public enum FoodTypes { Hook, Salmon, TinCan, EarthWorm, Carp, Seaweed, Boot, Driftwood, Minnow, WaterLilyFruit, Fish10, Fish11 };
         [SerializeField] private FoodTypes foodType;
 
         public int GetFoodType() => (int)foodType;

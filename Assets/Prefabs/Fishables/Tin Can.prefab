@@ -10,10 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 211761124399546879}
   - component: {fileID: 7325286177083733016}
-  - component: {fileID: 211761124399546872}
   - component: {fileID: 211761124399546873}
   - component: {fileID: 211761124399546874}
   - component: {fileID: 9090202394078601320}
+  - component: {fileID: 9130719967873972276}
   m_Layer: 0
   m_Name: Tin Can
   m_TagString: Hookable Object
@@ -89,19 +89,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!65 &211761124399546872
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 211761124399546875}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.6, y: 1, z: 0.6}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &211761124399546873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,6 +143,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foodType: 2
+--- !u!61 &9130719967873972276
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 211761124399546875}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1.0074627, y: 1.0074627}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1 &5875787623742116828
 GameObject:
   m_ObjectHideFlags: 0

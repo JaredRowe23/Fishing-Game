@@ -61,13 +61,13 @@ namespace Fishing.FishingMechanics
             }
             else
             {
-                if (playedSplash) _rb.velocity = Vector2.zero;
                 OnSurfaced();
             }
 
             if (!_rod.casted)
             {
                 _rb.isKinematic = true;
+                _rb.velocity = Vector2.zero;
                 _targetPos = linePivotPoint.position - new Vector3(0, hookHangHeight, 0);
                 transform.position = Vector2.MoveTowards(transform.position, _targetPos, resetSpeed * Time.deltaTime);
                 return;
@@ -139,8 +139,9 @@ namespace Fishing.FishingMechanics
         public void Reel(float _force) => _rb.AddForce(_force * Time.deltaTime * Vector3.Normalize(linePivotPoint.position - transform.position));
 
         public Transform GetHookAnchorPoint() => linePivotPoint;
-        private void OnTriggerEnter(Collider _other)
+        private void OnTriggerEnter2D(Collider2D _other)
         {
+            if (!_other.GetComponent<Fishable>()) return;
             SetHook(_other.GetComponent<Fishable>());
         }
 
@@ -172,12 +173,6 @@ namespace Fishing.FishingMechanics
             TutorialSystem.instance.QueueTutorial("Press B or click the bucket icon in the top-left corner to access your bucket");
             PlayerData.instance.hasSeenBucketTut = true;
         }
-
-        //public void OnTriggerEnter2D(Collider2D collision)
-        //{
-        //    Debug.Log("---");
-        //    if (collision.gameObject.name == "Sand Tile") Debug.Log("entered sand tile");
-        //}
     }
 
 }

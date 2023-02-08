@@ -4898,6 +4898,63 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 2906787414817156470, guid: 2ae4443c83f9f3c43b6c575b3b7d2739, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2ae4443c83f9f3c43b6c575b3b7d2739, type: 3}
+--- !u!1001 &4244703916444203133
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1479293813191896132, guid: ae1c8a6333c8b4f46975e53e711ebeff, type: 3}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1479293813191896132, guid: ae1c8a6333c8b4f46975e53e711ebeff, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -5.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1479293813191896132, guid: ae1c8a6333c8b4f46975e53e711ebeff, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.11
+      objectReference: {fileID: 0}
+    - target: {fileID: 1479293813191896132, guid: ae1c8a6333c8b4f46975e53e711ebeff, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1479293813191896132, guid: ae1c8a6333c8b4f46975e53e711ebeff, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1479293813191896132, guid: ae1c8a6333c8b4f46975e53e711ebeff, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1479293813191896132, guid: ae1c8a6333c8b4f46975e53e711ebeff, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1479293813191896132, guid: ae1c8a6333c8b4f46975e53e711ebeff, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1479293813191896132, guid: ae1c8a6333c8b4f46975e53e711ebeff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1479293813191896132, guid: ae1c8a6333c8b4f46975e53e711ebeff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1479293813191896132, guid: ae1c8a6333c8b4f46975e53e711ebeff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4151622651273980467, guid: ae1c8a6333c8b4f46975e53e711ebeff, type: 3}
+      propertyPath: m_Name
+      value: Water Lily
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ae1c8a6333c8b4f46975e53e711ebeff, type: 3}
 --- !u!1001 &5776758396999115749
 PrefabInstance:
   m_ObjectHideFlags: 0
