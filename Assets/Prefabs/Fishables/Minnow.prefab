@@ -130,7 +130,7 @@ MonoBehaviour:
   sightDensity: 10
   smellRadius: 2.5
   chaseDistance: 10
-  desiredFoodTypes: 000000000300000005000000
+  desiredFoodTypes: 00000000030000000500000009000000
   desiredFood: {fileID: 0}
 --- !u!82 &7240242511635904219
 AudioSource:

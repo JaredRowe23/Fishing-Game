@@ -11,8 +11,8 @@ namespace Fishing.Fishables
         [SerializeField] private GameObject fruitPrefab;
         [SerializeField] private List<Transform> fruitPoints;
 
-        public List<GameObject> fruits;
-        public List<int> fruitIndices;
+        public GameObject[] fruits;
+        public int[] fruitIndices;
         private float spawnCount;
         private CameraBehaviour playerCam;
 
@@ -23,18 +23,14 @@ namespace Fishing.Fishables
 
         private void Start()
         {
-            fruitIndices = new List<int>();
+            fruitIndices = new int[fruitPoints.Count];
+            fruits = new GameObject[fruitPoints.Count];
             for (int j = 0; j < fruitPoints.Count; j++)
             {
-                fruitIndices.Add(-1);
+                fruitIndices[j] = -1;
             }
 
-            int i = 0;
-            while (fruitPoints.Count > fruits.Count)
-            {
-                SpawnFruit(i);
-                i++;
-            }
+            for (int i = 0; i < fruits.Length; i++) SpawnFruit(i);
             spawnCount = spawnTime;
         }
 
@@ -44,11 +40,24 @@ namespace Fishing.Fishables
 
             if (spawnCount > 0) return;
 
-            for (int i = 0; i < fruitPoints.Count; i++)
+            List<int> spawns = new List<int>();
+            foreach (int index in fruitIndices) spawns.Add(index);
+
+            for (int i = 0; i < fruitIndices.Length; i++)
             {
-                if (fruitIndices[i] != -1) continue;
-                if (playerCam.IsInFrame(fruitPoints[i].position)) continue;
-                SpawnFruit(i);
+                int j = Random.Range(0, spawns.Count);
+                if (fruitIndices[j] != -1)
+                {
+                    spawns.RemoveAt(j);
+                    continue;
+                }
+                if (playerCam.IsInFrame(fruitPoints[j].position))
+                {
+                    spawns.RemoveAt(j);
+                    continue;
+                }
+                SpawnFruit(j);
+                break;
             }
 
         }
@@ -56,8 +65,9 @@ namespace Fishing.Fishables
         private void SpawnFruit(int index)
         {
             GameObject newFruit = Instantiate(fruitPrefab, fruitPoints[index].position, Quaternion.identity, this.transform);
-            fruits.Insert(index, newFruit);
+            fruits[index] = newFruit;
             fruitIndices[index] = index;
+            spawnCount = spawnTime;
         }
 
         public void RemoveFruit(GameObject _fruit)
@@ -70,7 +80,7 @@ namespace Fishing.Fishables
                     i++;
                     continue;
                 }
-                fruits.Remove(fruits[i]);
+                fruits[i] = null;
                 fruitIndices[i] = -1;
                 return;
             }
