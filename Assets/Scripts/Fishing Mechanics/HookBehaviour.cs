@@ -139,11 +139,6 @@ namespace Fishing.FishingMechanics
         public void Reel(float _force) => _rb.AddForce(_force * Time.deltaTime * Vector3.Normalize(linePivotPoint.position - transform.position));
 
         public Transform GetHookAnchorPoint() => linePivotPoint;
-        private void OnTriggerEnter2D(Collider2D _other)
-        {
-            if (!_other.GetComponent<Fishable>()) return;
-            SetHook(_other.GetComponent<Fishable>());
-        }
 
         public void SetHook(Fishable _fishable)
         {

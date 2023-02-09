@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fishing.FishingMechanics;
 
 namespace Fishing.Fishables
 {
@@ -58,6 +59,11 @@ namespace Fishing.Fishables
             if (transform.parent.GetComponent<SpawnZone>()) transform.parent.GetComponent<SpawnZone>().spawnList.Remove(gameObject);
             else if (transform.parent.GetComponent<PlantStalk>()) transform.parent.GetComponent<PlantStalk>().RemoveFruit(gameObject);
             transform.parent = _hook;
+        }
+        private void OnTriggerEnter2D(Collider2D _other)
+        {
+            if (!_other.GetComponent<HookBehaviour>()) return;
+            _other.GetComponent<HookBehaviour>().SetHook(this);
         }
     }
 
