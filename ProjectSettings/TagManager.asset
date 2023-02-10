@@ -42,3 +42,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Sand Mask
+    uniqueID: 1499599327
+    locked: 0
+  - name: Camera Effects
+    uniqueID: 2876686365
+    locked: 0

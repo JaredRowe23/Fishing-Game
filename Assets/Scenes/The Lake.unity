@@ -724,7 +724,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6404902397406429037, guid: 25a37ef0581f81b42991f9408dfebd4a, type: 3}
       propertyPath: baitCounts.Array.data[0]
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6404902397406429037, guid: 25a37ef0581f81b42991f9408dfebd4a, type: 3}
       propertyPath: equippedBaits.Array.data[0]
@@ -1512,13 +1512,13 @@ SpriteMask:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 157db20c7119f4b47bd9d162b0ae6745, type: 3}
   m_MaskAlphaCutoff: 0.2
-  m_FrontSortingLayerID: 0
-  m_BackSortingLayerID: 0
-  m_FrontSortingLayer: 0
-  m_BackSortingLayer: 0
-  m_FrontSortingOrder: 0
+  m_FrontSortingLayerID: 1499599327
+  m_BackSortingLayerID: 1499599327
+  m_FrontSortingLayer: 1
+  m_BackSortingLayer: 1
+  m_FrontSortingOrder: 4
   m_BackSortingOrder: 0
-  m_IsCustomRangeActive: 0
+  m_IsCustomRangeActive: 1
   m_SpriteSortPoint: 0
 --- !u!1 &458789824
 GameObject:
@@ -4191,8 +4191,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1499599327
+  m_SortingLayer: 1
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 4e87cb0696b2c8e4291e30eaa76a33e4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

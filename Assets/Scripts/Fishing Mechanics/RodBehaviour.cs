@@ -74,6 +74,7 @@ namespace Fishing.FishingMechanics
 
                                 if (PlayerData.instance.baitCounts[i] <= 0)
                                 {
+                                    TooltipSystem.instance.NewTooltip(3, "Out of bait: " + PlayerData.instance.equippedBaits[i]);
                                     PlayerData.instance.equippedBaits[i] = "";
                                     PlayerData.instance.bait.RemoveAt(i);
                                     PlayerData.instance.baitCounts.RemoveAt(i);
