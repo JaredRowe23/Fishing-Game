@@ -16604,54 +16604,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1833830433659710474, guid: c633e6ebc186c294f9d6dbad12edd882, type: 3}
-      propertyPath: models.Array.size
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1833830433659710474, guid: c633e6ebc186c294f9d6dbad12edd882, type: 3}
-      propertyPath: models.Array.data[3]
-      value: 
-      objectReference: {fileID: 6439172435045833344, guid: 8ad895bf935575949a0726760c60e259, type: 3}
-    - target: {fileID: 1833830433659710474, guid: c633e6ebc186c294f9d6dbad12edd882, type: 3}
-      propertyPath: models.Array.data[4]
-      value: 
-      objectReference: {fileID: 6439172435045833344, guid: db74651ffc3d46f4e8ffbf7e20c6d913, type: 3}
-    - target: {fileID: 1833830433659710474, guid: c633e6ebc186c294f9d6dbad12edd882, type: 3}
-      propertyPath: models.Array.data[5]
-      value: 
-      objectReference: {fileID: 6439172435045833344, guid: df1c65be40b9ee54cb5950fa968f9244, type: 3}
-    - target: {fileID: 1833830433659710474, guid: c633e6ebc186c294f9d6dbad12edd882, type: 3}
-      propertyPath: models.Array.data[6]
-      value: 
-      objectReference: {fileID: 6439172435045833344, guid: 7329c0a6cc4418d4b84e7f601965557d, type: 3}
-    - target: {fileID: 1833830433659710474, guid: c633e6ebc186c294f9d6dbad12edd882, type: 3}
-      propertyPath: modelNames.Array.size
-      value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1833830433659710474, guid: c633e6ebc186c294f9d6dbad12edd882, type: 3}
-      propertyPath: modelNames.Array.data[0]
-      value: Salmon
-      objectReference: {fileID: 0}
-    - target: {fileID: 1833830433659710474, guid: c633e6ebc186c294f9d6dbad12edd882, type: 3}
-      propertyPath: modelNames.Array.data[2]
-      value: Minnow
-      objectReference: {fileID: 0}
-    - target: {fileID: 1833830433659710474, guid: c633e6ebc186c294f9d6dbad12edd882, type: 3}
-      propertyPath: modelNames.Array.data[3]
-      value: Boot
-      objectReference: {fileID: 0}
-    - target: {fileID: 1833830433659710474, guid: c633e6ebc186c294f9d6dbad12edd882, type: 3}
-      propertyPath: modelNames.Array.data[4]
-      value: Driftwood
-      objectReference: {fileID: 0}
-    - target: {fileID: 1833830433659710474, guid: c633e6ebc186c294f9d6dbad12edd882, type: 3}
-      propertyPath: modelNames.Array.data[5]
-      value: Carp
-      objectReference: {fileID: 0}
-    - target: {fileID: 1833830433659710474, guid: c633e6ebc186c294f9d6dbad12edd882, type: 3}
-      propertyPath: modelNames.Array.data[6]
-      value: Seaweed
-      objectReference: {fileID: 0}
     - target: {fileID: 3021454292328423369, guid: c633e6ebc186c294f9d6dbad12edd882, type: 3}
       propertyPath: m_Name
       value: Item Info

@@ -67,6 +67,24 @@ namespace Fishing.FishingMechanics
                         if (hook.hookedObject.GetComponent<BaitBehaviour>() == null)
                         {
                             hook.AddToBucket();
+                            for (int i = 0; i < PlayerData.instance.fishingRods.Count; i++)
+                            {
+                                if (PlayerData.instance.fishingRods[i] != scriptable.rodName) continue;
+                                if (PlayerData.instance.equippedBaits[i] == "") break;
+
+                                if (PlayerData.instance.baitCounts[i] <= 0)
+                                {
+                                    PlayerData.instance.equippedBaits[i] = "";
+                                    PlayerData.instance.bait.RemoveAt(i);
+                                    PlayerData.instance.baitCounts.RemoveAt(i);
+                                }
+                                else
+                                {
+                                    PlayerData.instance.baitCounts[i]--;
+                                    rodManager.SpawnBait();
+                                }
+                                break;
+                            }
                         }
                     }
                     anim.SetBool("isReeling", false);

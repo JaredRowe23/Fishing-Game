@@ -20,6 +20,11 @@ namespace Fishing.Fishables.Fish
         private RodManager rodManager;
         private PolygonCollider2D floorCol;
 
+        private void Awake()
+        {
+            rodManager = RodManager.instance;
+        }
+
         private void Start()
         {
             foodSearch = GetComponent<FoodSearch>();

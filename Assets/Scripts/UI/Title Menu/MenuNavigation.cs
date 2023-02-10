@@ -27,6 +27,8 @@ namespace Fishing.UI
 
             _controls = new Controls();
             _controls.TitleMenuInput.Enable();
+
+            if (menuOptions.Count <= 0) return;
             _controls.TitleMenuInput.Navigate.performed += Navigate;
             _controls.TitleMenuInput.MouseMovement.performed += MouseMovement;
 
@@ -164,6 +166,7 @@ namespace Fishing.UI
         private void OnDisable()
         {
             _currentIndex = 0;
+            if (menuOptions.Count <= 0) return;
             _currentCoordinates = menuCoordinates[0];
             _controls.TitleMenuInput.Navigate.performed -= Navigate;
             _controls.TitleMenuInput.MouseMovement.performed -= MouseMovement;

@@ -692,7 +692,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6404902397406429037, guid: 25a37ef0581f81b42991f9408dfebd4a, type: 3}
       propertyPath: bait.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6404902397406429037, guid: 25a37ef0581f81b42991f9408dfebd4a, type: 3}
       propertyPath: currentSceneName
@@ -707,12 +707,28 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6404902397406429037, guid: 25a37ef0581f81b42991f9408dfebd4a, type: 3}
+      propertyPath: bait.Array.data[0]
+      value: Water Lily Fruit
+      objectReference: {fileID: 0}
+    - target: {fileID: 6404902397406429037, guid: 25a37ef0581f81b42991f9408dfebd4a, type: 3}
       propertyPath: hasSeenInventoryTut
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6404902397406429037, guid: 25a37ef0581f81b42991f9408dfebd4a, type: 3}
       propertyPath: hasSeenBucketMenuTut
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6404902397406429037, guid: 25a37ef0581f81b42991f9408dfebd4a, type: 3}
+      propertyPath: baitCounts.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6404902397406429037, guid: 25a37ef0581f81b42991f9408dfebd4a, type: 3}
+      propertyPath: baitCounts.Array.data[0]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6404902397406429037, guid: 25a37ef0581f81b42991f9408dfebd4a, type: 3}
+      propertyPath: equippedBaits.Array.data[0]
+      value: Water Lily Fruit
       objectReference: {fileID: 0}
     - target: {fileID: 6404902397406429039, guid: 25a37ef0581f81b42991f9408dfebd4a, type: 3}
       propertyPath: m_RootOrder
@@ -5821,6 +5837,14 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1720167122865606202, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
+      propertyPath: models.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1720167122865606202, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
+      propertyPath: models.Array.data[7]
+      value: 
+      objectReference: {fileID: 6439172435045833344, guid: 7329c0a6cc4418d4b84e7f601965557d, type: 3}
     - target: {fileID: 2360686301938143718, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
