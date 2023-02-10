@@ -240,6 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ed023c87f291a42a62ede1f6a833e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseFoodAmount: 10
   foodType: 8
 --- !u!114 &5335008881813189615
 MonoBehaviour:
@@ -255,11 +256,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHomeDistance: 5
   maxHomeDistanceVariation: 1
+  spawn: {fileID: 0}
   swimSpeed: 3
   eatDistance: 0.2
-  targetPos: {x: 0, y: 0, z: 0}
   foodSearch: {fileID: 0}
-  spawn: {fileID: 0}
+  targetPos: {x: 0, y: 0, z: 0}
+  hungerStart: 100
+  decayRate: 0.1
+  foodStart: 50
+  foodStartVariance: 10
+  currentFood: 0
+  growthStart: 75
+  growthCheckFrequency: 15
+  growthVariance: 0.25
+  growthFoodCost: 25
+  growthCheckCount: 0
 --- !u!114 &7264469932497168973
 MonoBehaviour:
   m_ObjectHideFlags: 0

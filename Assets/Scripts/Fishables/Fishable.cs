@@ -45,11 +45,31 @@ namespace Fishing.Fishables
 
         public string GetDescription() => itemDescription;
 
+        public void SetWeight(float _weight) => weight = _weight;
         public float GetWeight() => weight;
+        public float GetMinWeight() => weightMin;
+        public float GetMaxWeight() => weightMax;
 
+        public void SetLength(float _length)
+        {
+            length = _length;
+            Transform parent = transform.parent;
+            transform.parent = null;
+            transform.localScale = Vector2.one * length / 100f;
+            transform.parent = parent;
+        }
         public float GetLength() => length;
+        public float GetMinLength() => lengthMin;
+        public float GetMaxLength() => lengthMax;
 
         public float GetValue() => actualValue;
+        public void RecalculateValue()
+        {
+            float _weightValueDelta = Mathf.InverseLerp(weightMin, weightMax, weight) + 0.5f;
+            float _lengthValueDelta = Mathf.InverseLerp(lengthMin, lengthMax, length) + 0.5f;
+            float _valueDelta = (_weightValueDelta + _lengthValueDelta) * 0.5f;
+            actualValue = baseValue * _valueDelta;
+        }
 
         public void DisableMinimapIndicator() => minimapIndicator.SetActive(false);
 
@@ -60,6 +80,7 @@ namespace Fishing.Fishables
             else if (transform.parent.GetComponent<PlantStalk>()) transform.parent.GetComponent<PlantStalk>().RemoveFruit(gameObject);
             transform.parent = _hook;
         }
+
         private void OnTriggerEnter2D(Collider2D _other)
         {
             if (!_other.GetComponent<HookBehaviour>()) return;

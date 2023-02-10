@@ -142,6 +142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ed023c87f291a42a62ede1f6a833e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  baseFoodAmount: 2
   foodType: 2
 --- !u!61 &9130719967873972276
 BoxCollider2D:
