@@ -55,10 +55,10 @@ namespace Fishing.Fishables.Fish
 
             Vector3 _surfacingCheck = transform.position - (transform.right * school.separationMaxDistance);
             float _distToFloor = Vector2.Distance(transform.position, floorCol.ClosestPoint(transform.position));
+            float _trueRotation = (360 - transform.rotation.eulerAngles.z + 270) % 360;
 
             if (_surfacingCheck.y >= 0)
             {
-                float _trueRotation = (360 - transform.rotation.eulerAngles.z + 270) % 360;
                 if (_trueRotation <= 180 && _trueRotation > 0)
                 {
                     rotationDir = separationDirWeight;
@@ -71,9 +71,20 @@ namespace Fishing.Fishables.Fish
 
             else if (_distToFloor < school.separationMaxDistance)
             {
-                float _trueRotation = (360 - transform.rotation.eulerAngles.z + 270) % 360;
                 float _rotationToFloor = Vector2.Angle(Vector2.up, (Vector2)transform.position - floorCol.ClosestPoint(transform.position));
                 if (_rotationToFloor - _trueRotation > 0)
+                {
+                    rotationDir = separationDirWeight;
+                }
+                else
+                {
+                    rotationDir = -separationDirWeight;
+                }
+            }
+            else if (fish.activePredator != null)
+            {
+                float _rotationToPredator = Vector2.Angle(Vector2.up, (Vector2)transform.position - (Vector2)fish.activePredator.transform.position);
+                if (_rotationToPredator - _trueRotation > 0)
                 {
                     rotationDir = separationDirWeight;
                 }
@@ -151,6 +162,10 @@ namespace Fishing.Fishables.Fish
 
         public void Despawn()
         {
+            if (foodSearch.desiredFood != null)
+            {
+                if (foodSearch.desiredFood.GetComponent<Fish>()) foodSearch.desiredFood.GetComponent<Fish>().activePredator = null;
+            }
             spawn.spawnList.Remove(gameObject);
             FoodSearchManager.instance.RemoveFish(GetComponent<FoodSearch>());
             FoodSearchManager.instance.RemoveFood(GetComponent<Edible>());

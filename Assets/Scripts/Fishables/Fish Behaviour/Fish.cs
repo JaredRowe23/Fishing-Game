@@ -15,6 +15,7 @@ namespace Fishing.Fishables.Fish
         public float eatDistance;
         public FoodSearch foodSearch;
         public Vector3 targetPos;
+        public GameObject activePredator;
 
         [Header("Hunger")]
         [SerializeField] private float hungerStart = 100;
@@ -66,6 +67,9 @@ namespace Fishing.Fishables.Fish
                 if (currentFood >= growthStart) Grow();
                 growthCheckCount = growthCheckFrequency;
             }
+            if (!activePredator) return;
+            if (!activePredator.GetComponent<FoodSearch>()) return;
+            if (activePredator.GetComponent<FoodSearch>().desiredFood == null) activePredator = null;
         }
 
         public void Eat()

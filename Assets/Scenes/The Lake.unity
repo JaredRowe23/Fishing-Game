@@ -1829,10 +1829,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Water Lily (2)
       objectReference: {fileID: 0}
-    - target: {fileID: 9203947249219559613, guid: ae1c8a6333c8b4f46975e53e711ebeff, type: 3}
-      propertyPath: spawnTime
-      value: 0.5
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae1c8a6333c8b4f46975e53e711ebeff, type: 3}
 --- !u!4 &516502219 stripped
@@ -5806,10 +5802,6 @@ PrefabInstance:
     - target: {fileID: 4151622651273980467, guid: ae1c8a6333c8b4f46975e53e711ebeff, type: 3}
       propertyPath: m_Name
       value: Water Lily
-      objectReference: {fileID: 0}
-    - target: {fileID: 9203947249219559613, guid: ae1c8a6333c8b4f46975e53e711ebeff, type: 3}
-      propertyPath: spawnTime
-      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae1c8a6333c8b4f46975e53e711ebeff, type: 3}

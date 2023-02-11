@@ -126,6 +126,10 @@ namespace Fishing.Fishables.Fish
 
         public void Despawn()
         {
+            if (foodSearch.desiredFood != null)
+            {
+                if (foodSearch.desiredFood.GetComponent<Fish>()) foodSearch.desiredFood.GetComponent<Fish>().activePredator = null;
+            }
             spawn.spawnList.Remove(gameObject);
             FoodSearchManager.instance.RemoveFish(GetComponent<FoodSearch>());
             FoodSearchManager.instance.RemoveFood(GetComponent<Edible>());

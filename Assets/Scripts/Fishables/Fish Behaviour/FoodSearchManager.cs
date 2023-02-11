@@ -66,10 +66,21 @@ namespace Fishing.Fishables.Fish
             {
                 if (_foodSearchDataArray[i].nearestFoodIndex == -1)
                 {
+                    if (fish[i].desiredFood != null)
+                    {
+                        if (fish[i].desiredFood.GetComponent<Fish>()) fish[i].desiredFood.GetComponent<Fish>().activePredator = null;
+                    }
                     fish[i].desiredFood = null;
                     continue;
                 }
                 fish[i].desiredFood = edibleItems[_foodSearchDataArray[i].nearestFoodIndex].gameObject;
+                if (!fish[i].desiredFood.GetComponent<Fish>()) continue;
+                Fish desiredFish = fish[i].desiredFood.GetComponent<Fish>();
+                if (desiredFish.activePredator != null)
+                {
+                    if (Vector3.Distance(fish[i].transform.position, fish[i].desiredFood.transform.position) >= Vector3.Distance(desiredFish.activePredator.transform.position, fish[i].desiredFood.transform.position)) continue;
+                }
+                fish[i].desiredFood.GetComponent<Fish>().activePredator = fish[i].gameObject;
             }
 
             _foodSearchDataArray.Dispose();
