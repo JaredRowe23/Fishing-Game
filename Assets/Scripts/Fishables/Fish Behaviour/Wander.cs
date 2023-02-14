@@ -9,7 +9,7 @@ namespace Fishing.Fishables.Fish
     [RequireComponent(typeof(FoodSearch))]
     [RequireComponent(typeof(Fishable))]
     [RequireComponent(typeof(Fish))]
-    public class Fish1Behaviour : MonoBehaviour, IEdible
+    public class Wander : MonoBehaviour, IEdible
     {
         [Header("Movement")]
         [SerializeField] private int generateWanderPositionPasses;

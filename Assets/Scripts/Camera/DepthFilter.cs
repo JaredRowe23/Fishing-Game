@@ -19,7 +19,15 @@ namespace Fishing.PlayerCamera
         void Update()
         {
             if (-transform.position.y < minDepth) return;
-            sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.g, Mathf.InverseLerp(minDepth, maxDepth, (-transform.position.y - minDepth)) * maxAlpha);
+            sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.g, Mathf.InverseLerp(minDepth, maxDepth, (-transform.position.y)) * maxAlpha);
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawLine(new Vector3(-1000, -minDepth, 0), new Vector3(1000, -minDepth, 0));
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(new Vector3(-1000, -maxDepth, 0), new Vector3(1000, -maxDepth, 0));
         }
     }
 }

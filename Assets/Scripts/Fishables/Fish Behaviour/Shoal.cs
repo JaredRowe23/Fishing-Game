@@ -9,7 +9,7 @@ namespace Fishing.Fishables.Fish
     [RequireComponent(typeof(FoodSearch))]
     [RequireComponent(typeof(Fishable))]
     [RequireComponent(typeof(Fish))]
-    public class Fish2Behaviour : MonoBehaviour, IEdible
+    public class Shoal : MonoBehaviour, IEdible
     {
         private Fish fish;
         private FoodSearch foodSearch;

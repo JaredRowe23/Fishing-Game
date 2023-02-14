@@ -4,6 +4,7 @@ using UnityEngine;
 using Fishing.Fishables;
 using Fishing.UI;
 using Fishing.IO;
+using Fishing.Fishables.Fish;
 
 namespace Fishing.Inventory
 {

@@ -8,7 +8,7 @@ namespace Fishing.Fishables
     public class Edible : MonoBehaviour
     {
         public float baseFoodAmount;
-        public enum FoodTypes { Hook, Salmon, TinCan, EarthWorm, Carp, Seaweed, Boot, Driftwood, Minnow, WaterLilyFruit, Anglerfish, Fish11 };
+        public enum FoodTypes { Hook, Salmon, TinCan, EarthWorm, Carp, Seaweed, Boot, Driftwood, Minnow, WaterLilyFruit, Anglerfish, SeaSerpent };
         [SerializeField] private FoodTypes foodType;
 
         private void Start() => FoodSearchManager.instance.AddFood(this);

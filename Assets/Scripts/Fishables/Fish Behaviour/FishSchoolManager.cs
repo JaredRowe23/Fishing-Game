@@ -43,10 +43,10 @@ namespace Fishing.Fishables.Fish
             {
                 if (_shoalDataArray[i].desiredAngle == 0)
                 {
-                    fish[i].GetComponent<Fish2Behaviour>().separationDir = 0f;
+                    fish[i].GetComponent<Shoal>().separationDir = 0f;
                     continue;
                 }
-                fish[i].GetComponent<Fish2Behaviour>().separationDir = _shoalDataArray[i].desiredAngle;
+                fish[i].GetComponent<Shoal>().separationDir = _shoalDataArray[i].desiredAngle;
             }
 
             _shoalDataArray.Dispose();
