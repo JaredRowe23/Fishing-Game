@@ -95,12 +95,14 @@ GameObject:
   - component: {fileID: 8313649653780738670}
   - component: {fileID: 6095402560932649698}
   - component: {fileID: 8022150175084271148}
-  - component: {fileID: 6838956506335450506}
-  - component: {fileID: 7006070457836360306}
-  - component: {fileID: -6890081191903633112}
   - component: {fileID: -5582888590848471281}
-  - component: {fileID: 1014088175661999132}
+  - component: {fileID: 7006070457836360306}
+  - component: {fileID: -8603269694976878974}
+  - component: {fileID: 8947361017917237506}
+  - component: {fileID: 2566662892569205860}
+  - component: {fileID: 6838956506335450506}
   - component: {fileID: 7587219364055408247}
+  - component: {fileID: -6890081191903633112}
   m_Layer: 0
   m_Name: Salmon
   m_TagString: Hookable Object
@@ -197,6 +199,97 @@ MonoBehaviour:
   lengthMin: 50
   minimapIndicator: {fileID: 2737784646829355076}
   isHooked: 0
+--- !u!114 &-5582888590848471281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8313649653780738666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84ed023c87f291a42a62ede1f6a833e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseFoodAmount: 20
+  foodType: 1
+--- !u!114 &7006070457836360306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8313649653780738666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1d187c2bd7d8fc4f9e701b32517bcd4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eatDistance: 0.5
+  sightAngle: 45
+  sightDistance: 15
+  sightDensity: 10
+  smellRadius: 2.5
+  chaseDistance: 10
+  desiredFoodTypes: 0000000002000000030000000800000006000000
+  desiredFood: {fileID: 0}
+--- !u!114 &-8603269694976878974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8313649653780738666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d01d3450772a4804e8298cb12105fc75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hungerStart: 100
+  decayRate: 0.1
+  foodStart: 50
+  foodStartVariance: 10
+  currentFood: 0
+--- !u!114 &8947361017917237506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8313649653780738666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e95c5405c2f3d3641987609571099086, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  growthStart: 75
+  growthCheckFrequency: 15
+  growthVariance: 0.25
+  growthFoodCost: 25
+  growthCheckCount: 0
+--- !u!114 &2566662892569205860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8313649653780738666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a0d7ab1dd7ef4146a9519f5a25964fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activePredator: {fileID: 0}
+  targetPos: {x: 0, y: 0}
+  swimSpeed: 3
+  rotationSpeed: 100
+  obstacleAvoidanceDistance: 2
+  targetPosDirWeight: 10
+  obstacleAvoidanceDirWeight: 11
+  baseMaxHomeDistance: 25
+  maxHomeDistanceVariation: 5
+  targetPosDir: 0
+  rotationDir: 0
 --- !u!114 &6838956506335450506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,29 +304,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generateWanderPositionPasses: 3
   wanderSpeed: 0.6
-  wanderDistance: 5
-  wanderDistanceVariation: 1
   distanceThreshold: 0.1
   holdTime: 2.5
---- !u!114 &7006070457836360306
-MonoBehaviour:
+--- !u!61 &7587219364055408247
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8313649653780738666}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1d187c2bd7d8fc4f9e701b32517bcd4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sightAngle: 45
-  sightDistance: 15
-  sightDensity: 10
-  smellRadius: 2.5
-  chaseDistance: 10
-  desiredFoodTypes: 0000000002000000030000000800000006000000
-  desiredFood: {fileID: 0}
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!82 &-6890081191903633112
 AudioSource:
   m_ObjectHideFlags: 0
@@ -330,72 +428,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &-5582888590848471281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8313649653780738666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84ed023c87f291a42a62ede1f6a833e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseFoodAmount: 20
-  foodType: 1
---- !u!114 &1014088175661999132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8313649653780738666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d54292142b7b6e845a524e72f51bc66f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHomeDistance: 15
-  maxHomeDistanceVariation: 5
-  spawn: {fileID: 0}
-  swimSpeed: 3.1
-  eatDistance: 0.5
-  foodSearch: {fileID: 0}
-  targetPos: {x: 0, y: 0, z: 0}
-  hungerStart: 100
-  decayRate: 0.1
-  foodStart: 50
-  foodStartVariance: 10
-  currentFood: 0
-  growthStart: 75
-  growthCheckFrequency: 15
-  growthVariance: 0.25
-  growthFoodCost: 25
-  growthCheckCount: 0
---- !u!61 &7587219364055408247
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8313649653780738666}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0

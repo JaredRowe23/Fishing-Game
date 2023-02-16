@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Fishing.FishingMechanics;
+using Fishing.Fishables.Fish;
 
 namespace Fishing.Fishables
 {
@@ -25,6 +26,10 @@ namespace Fishing.Fishables
 
         public bool isHooked;
 
+        private RodManager rodManager;
+
+        private void Awake() => rodManager = RodManager.instance;
+
         private void Start()
         {
             isHooked = false;
@@ -39,6 +44,37 @@ namespace Fishing.Fishables
             float _lengthValueDelta = Mathf.InverseLerp(lengthMin, lengthMax, length) + 0.5f;
             float _valueDelta = (_weightValueDelta + _lengthValueDelta) * 0.5f;
             actualValue = baseValue * _valueDelta;
+        }
+
+        public void RecalculateValue()
+        {
+            float _weightValueDelta = Mathf.InverseLerp(weightMin, weightMax, weight) + 0.5f;
+            float _lengthValueDelta = Mathf.InverseLerp(lengthMin, lengthMax, length) + 0.5f;
+            float _valueDelta = (_weightValueDelta + _lengthValueDelta) * 0.5f;
+            actualValue = baseValue * _valueDelta;
+        }
+
+        public void DisableMinimapIndicator() => minimapIndicator.SetActive(false);
+
+        public void OnHooked(Transform _hook)
+        {
+            isHooked = true;
+            if (transform.parent.GetComponent<SpawnZone>()) transform.parent.GetComponent<SpawnZone>().spawnList.Remove(gameObject);
+            else if (transform.parent.GetComponent<PlantStalk>()) transform.parent.GetComponent<PlantStalk>().RemoveFruit(gameObject);
+            transform.parent = _hook;
+        }
+        public void SetThisToHooked()
+        {
+            GetComponent<AudioSource>().Play();
+            if (GetComponent<FoodSearch>()) GetComponent<FoodSearch>().desiredFood.GetComponent<IEdible>().Despawn();
+            rodManager.equippedRod.GetHook().hookedObject = null;
+            rodManager.equippedRod.GetHook().SetHook(this);
+        }
+
+        private void OnTriggerEnter2D(Collider2D _other)
+        {
+            if (!_other.GetComponent<HookBehaviour>()) return;
+            _other.GetComponent<HookBehaviour>().SetHook(this);
         }
 
         public string GetName() => itemName;
@@ -63,29 +99,6 @@ namespace Fishing.Fishables
         public float GetMaxLength() => lengthMax;
 
         public float GetValue() => actualValue;
-        public void RecalculateValue()
-        {
-            float _weightValueDelta = Mathf.InverseLerp(weightMin, weightMax, weight) + 0.5f;
-            float _lengthValueDelta = Mathf.InverseLerp(lengthMin, lengthMax, length) + 0.5f;
-            float _valueDelta = (_weightValueDelta + _lengthValueDelta) * 0.5f;
-            actualValue = baseValue * _valueDelta;
-        }
-
-        public void DisableMinimapIndicator() => minimapIndicator.SetActive(false);
-
-        public void OnHooked(Transform _hook)
-        {
-            isHooked = true;
-            if (transform.parent.GetComponent<SpawnZone>()) transform.parent.GetComponent<SpawnZone>().spawnList.Remove(gameObject);
-            else if (transform.parent.GetComponent<PlantStalk>()) transform.parent.GetComponent<PlantStalk>().RemoveFruit(gameObject);
-            transform.parent = _hook;
-        }
-
-        private void OnTriggerEnter2D(Collider2D _other)
-        {
-            if (!_other.GetComponent<HookBehaviour>()) return;
-            _other.GetComponent<HookBehaviour>().SetHook(this);
-        }
     }
 
 }

@@ -8,7 +8,7 @@ namespace Fishing.Fishables.Fish
 {
     public class FishSchoolManager : MonoBehaviour
     {
-        [SerializeField] private List<Fish> fish;
+        [SerializeField] private List<Shoal> shoals;
         [SerializeField] private int innerloopBatchCount;
         private FishSchoolBehaviour school;
 
@@ -19,13 +19,13 @@ namespace Fishing.Fishables.Fish
 
         private void Update()
         {
-            if (fish.Count == 0) return;
-            NativeArray<ShoalData> _shoalDataArray = new NativeArray<ShoalData>(fish.Count, Allocator.TempJob);
-            NativeArray<Vector2> _shoalmatePositionArray = new NativeArray<Vector2>(fish.Count, Allocator.TempJob);
+            if (shoals.Count == 0) return;
+            NativeArray<ShoalData> _shoalDataArray = new NativeArray<ShoalData>(shoals.Count, Allocator.TempJob);
+            NativeArray<Vector2> _shoalmatePositionArray = new NativeArray<Vector2>(shoals.Count, Allocator.TempJob);
 
-            for (int i = 0; i < fish.Count; i++)
+            for (int i = 0; i < shoals.Count; i++)
             {
-                Fish f = fish[i];
+                Shoal f = shoals[i];
                 _shoalDataArray[i] = new ShoalData((Vector2)f.transform.position, f.transform.right, school.separationAngle, school.separationMaxDistance, school.separationMaxCloseDistance);
                 _shoalmatePositionArray[i] = (Vector2)f.transform.position;
             }
@@ -39,24 +39,24 @@ namespace Fishing.Fishables.Fish
             JobHandle _jobHandle = _job.Schedule(_shoalDataArray.Length, innerloopBatchCount);
             _jobHandle.Complete();
 
-            for (int i = 0; i < fish.Count; i++)
+            for (int i = 0; i < shoals.Count; i++)
             {
                 if (_shoalDataArray[i].desiredAngle == 0)
                 {
-                    fish[i].GetComponent<Shoal>().separationDir = 0f;
+                    shoals[i].GetComponent<Shoal>().separationDir = 0f;
                     continue;
                 }
-                fish[i].GetComponent<Shoal>().separationDir = _shoalDataArray[i].desiredAngle;
+                shoals[i].GetComponent<Shoal>().separationDir = _shoalDataArray[i].desiredAngle;
             }
 
             _shoalDataArray.Dispose();
             _shoalmatePositionArray.Dispose();
         }
 
-        public void AddFish(Fish _fish) => fish.Add(_fish);
-        public void RemoveFish(Fish _fish)
+        public void AddShoal(Shoal _shoal) => shoals.Add(_shoal);
+        public void RemoveShoal(Shoal _shoal)
         {
-            if (fish.Contains(_fish)) fish.Remove(_fish);
+            if (shoals.Contains(_shoal)) shoals.Remove(_shoal);
         }
     }
 }

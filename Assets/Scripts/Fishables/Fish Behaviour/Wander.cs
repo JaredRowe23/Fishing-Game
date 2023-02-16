@@ -5,136 +5,82 @@ using Fishing.FishingMechanics;
 
 namespace Fishing.Fishables.Fish
 {
-    [RequireComponent(typeof(Edible))]
-    [RequireComponent(typeof(FoodSearch))]
-    [RequireComponent(typeof(Fishable))]
-    [RequireComponent(typeof(Fish))]
-    public class Wander : MonoBehaviour, IEdible
+    [RequireComponent(typeof(FishMovement))]
+    public class Wander : MonoBehaviour, IMovement, IEdible
     {
         [Header("Movement")]
         [SerializeField] private int generateWanderPositionPasses;
         [SerializeField] private float wanderSpeed;
-        [SerializeField] private float wanderDistance;
-        [SerializeField] private float wanderDistanceVariation;
 
         [SerializeField] private float distanceThreshold;
 
         [Header("Hold")]
         [SerializeField] private float holdTime;
+        private float holdCount;
 
-        private WaitForSeconds holdTimer;
-        private Fish fish;
-        private FoodSearch foodSearch;
-        private SpawnZone spawn;
+        private FishMovement movement;
         private PolygonCollider2D floorCol;
 
         private void Awake()
         {
-            foodSearch = GetComponent<FoodSearch>();
-            fish = GetComponent<Fish>();
-            spawn = transform.parent.GetComponent<SpawnZone>();
+            movement = GetComponent<FishMovement>();
             floorCol = FindObjectOfType<PolygonCollider2D>();
         }
 
         private void Start()
         {
-            wanderDistance += Random.Range(-wanderDistanceVariation, wanderDistanceVariation);
-            holdTimer = new WaitForSeconds(holdTime);
-            StartCoroutine(Co_SetWanderPoint());
+            GenerateWanderPosition();
+            holdCount = holdTime;
         }
 
-        private void Update()
+        public void Movement()
         {
-            if (GetComponent<Fishable>().isHooked) return;
-
-            MoveTowardsTarget();
-        }
-
-        private void MoveTowardsTarget()
-        {
-            if (!foodSearch.desiredFood)
+            if (Vector2.Distance(transform.position, movement.targetPos) <= distanceThreshold)
             {
-                if (Vector2.Distance(transform.position, fish.targetPos) <= distanceThreshold)
-                {
-                    return;
-                }
-                else
-                {
-                    transform.position = Vector2.MoveTowards(transform.position, fish.targetPos, wanderSpeed * Time.deltaTime);
-                }
+                GenerateWanderPosition();
+                return;
             }
-            else
-            {
-                fish.targetPos = foodSearch.desiredFood.transform.position;
-                if (Vector2.Distance(transform.position, fish.targetPos) > fish.eatDistance)
-                {
-                    transform.position = Vector2.MoveTowards(transform.position, fish.targetPos, fish.swimSpeed * Time.deltaTime);
-                }
-                else
-                {
-                    fish.Eat();
-                }
-            }
-            fish.FaceTarget();
+            movement.TurnToTarget();
+
+            holdCount -= Time.deltaTime;
+            if (holdCount > 0) return;
+
+            GenerateWanderPosition();
+
+            holdCount = holdTime;
         }
 
-        private IEnumerator Co_SetWanderPoint()
+        private void GenerateWanderPosition()
         {
+            Vector2 _rand = Random.insideUnitCircle * movement.GetMaxHomeDistance();
+            int i = 0;
             while (true)
             {
-                if (Vector2.Distance(transform.position, transform.parent.position) >= fish.maxHomeDistance)
-                {
-                    fish.targetPos = transform.parent.position;
-                }
-                else
-                {
-                    Vector2 _rand = Random.insideUnitCircle * wanderDistance;
-                    int i = 0;
-                    while (true)
-                    {
-                        if (i >= generateWanderPositionPasses) break;
+                if (i >= generateWanderPositionPasses) break;
 
-                        bool _aboveWater = _rand.y + transform.position.y >= 0f;
-                        float _distanceFromHome = Vector2.Distance(new Vector2(_rand.x + transform.position.x, _rand.y + transform.position.y), transform.parent.position);
-                        i++;
+                bool _aboveWater = _rand.y + transform.position.y >= 0f;
+                float _distanceFromHome = Vector2.Distance(new Vector2(_rand.x + transform.position.x, _rand.y + transform.position.y), transform.parent.position);
+                i++;
 
-                        if (_aboveWater) continue;
-                        if (_distanceFromHome > fish.maxHomeDistance) continue;
-                        fish.targetPos = (Vector2)transform.position + _rand;
-                        break;
-                    }
-                }
-
-                if (floorCol.OverlapPoint(fish.targetPos)) 
-                {
-                    fish.targetPos = floorCol.ClosestPoint(transform.position);
-                }
-
-                yield return holdTimer;
+                if (_aboveWater) continue;
+                if (_distanceFromHome > movement.GetMaxHomeDistance()) continue;
+                movement.targetPos = (Vector2)transform.position + _rand;
+                break;
             }
-        }
 
-        private void OnDrawGizmosSelected()
-        {
-            if (!GetComponent<Fishable>().isHooked)
-            {
-                Gizmos.color = Color.cyan;
-                Gizmos.DrawWireSphere(transform.position, wanderDistance);
-            }
-            Gizmos.DrawSphere(fish.targetPos, 1);
+            if (floorCol.OverlapPoint(movement.targetPos)) movement.targetPos = floorCol.ClosestPoint(transform.position);
         }
 
         public void Despawn()
         {
-            if (foodSearch.desiredFood != null)
-            {
-                if (foodSearch.desiredFood.GetComponent<Fish>()) foodSearch.desiredFood.GetComponent<Fish>().activePredator = null;
-            }
-            spawn.spawnList.Remove(gameObject);
             FoodSearchManager.instance.RemoveFish(GetComponent<FoodSearch>());
-            FoodSearchManager.instance.RemoveFood(GetComponent<Edible>());
             BaitManager.instance.RemoveFish(GetComponent<FoodSearch>());
-            DestroyImmediate(gameObject);
+            GetComponent<Edible>().Despawn();
+        }
+        private float SignedToUnsignedAngle(float _angle)
+        {
+            if (_angle < 0) _angle += 360f;
+            return _angle % 360;
         }
     }
 }

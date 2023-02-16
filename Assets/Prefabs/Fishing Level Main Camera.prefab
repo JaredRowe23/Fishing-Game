@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 2906787414817156468}
   - component: {fileID: 2906787414817156467}
   - component: {fileID: 2906787414817156469}
-  - component: {fileID: 2906787414817156470}
   m_Layer: 0
   m_Name: Fishing Level Main Camera
   m_TagString: MainCamera
@@ -59,11 +58,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
+  near clip plane: 0
   far clip plane: 1000
   field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  orthographic: 1
+  orthographic size: 20
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -97,21 +96,6 @@ MonoBehaviour:
   maxZoom: 50
   minZoom: 1
   cam: {fileID: 0}
---- !u!114 &2906787414817156470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2906787414817156465}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b826ddd63ab2afb459d985e8fc44eafe, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxAlpha: 0
-  minDepth: 0
-  maxDepth: 0
 --- !u!1 &4342199777047498502
 GameObject:
   m_ObjectHideFlags: 0
@@ -210,8 +194,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxAlpha: 0.9
-  minDepth: 10
-  maxDepth: 100
+  minDepth: 50
+  maxDepth: 125
 --- !u!1 &8734894529570693113
 GameObject:
   m_ObjectHideFlags: 0

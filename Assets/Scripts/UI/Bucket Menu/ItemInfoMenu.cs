@@ -79,6 +79,7 @@ namespace Fishing.UI
 
             for (int i = 0; i < models.Count; i++)
             {
+                Debug.Log(modelNames[i]);
                 if (modelNames[i] == _itemName)
                 {
                     currentModel = Instantiate(models[i]);

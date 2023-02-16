@@ -5,25 +5,18 @@ using Fishing.FishingMechanics;
 
 namespace Fishing.Fishables.Fish
 {
-    [RequireComponent(typeof(Edible))]
-    [RequireComponent(typeof(FoodSearch))]
-    [RequireComponent(typeof(Fishable))]
-    [RequireComponent(typeof(Fish))]
-    public class Shoal : MonoBehaviour, IEdible
+    [RequireComponent(typeof(FishMovement))]
+    public class Shoal : MonoBehaviour, IMovement, IEdible
     {
-        private Fish fish;
-        private FoodSearch foodSearch;
         private SpawnZone spawn;
+
+        private FishMovement movement;
         private FishSchoolBehaviour school;
         private FishSchoolManager manager;
-        private PolygonCollider2D floorCol;
-
-        public float rotationSpeed;
 
         public float separationDirWeight = 1f;
         public float cohesionDirWeight = 1f;
         public float alignmentDirWeight = 1f;
-        public float targetPosDirWeight = 1f;
 
         [Range(-1, 1)]
         public float separationDir = 0;
@@ -31,108 +24,28 @@ namespace Fishing.Fishables.Fish
         public float cohesionDir = 0;
         [Range(-1, 1)]
         public float alignmentDir = 0;
-        [Range(-1, 1)]
-        public float targetPosDir = 0;
-        [Range(-1, 1)]
-        public float rotationDir = 0;
 
         private void Awake()
         {
-            foodSearch = GetComponent<FoodSearch>();
-            fish = GetComponent<Fish>();
+            movement = GetComponent<FishMovement>();
             spawn = transform.parent.GetComponent<SpawnZone>();
             school = spawn.GetComponent<FishSchoolBehaviour>();
             manager = spawn.GetComponent<FishSchoolManager>();
-            floorCol = FindObjectOfType<PolygonCollider2D>();
 
             school.fish.Add(GetComponent<Fishable>());
-            manager.AddFish(fish);
+            manager.AddShoal(this);
         }
 
-        private void Update()
+        public void Movement()
         {
-            if (GetComponent<Fishable>().isHooked) return;
+            movement.targetPos = spawn.testObject.transform.position;
 
-            Vector3 _surfacingCheck = transform.position - (transform.right * school.separationMaxDistance);
-            float _distToFloor = Vector2.Distance(transform.position, floorCol.ClosestPoint(transform.position));
-            float _trueRotation = (360 - transform.rotation.eulerAngles.z + 270) % 360;
-
-            if (_surfacingCheck.y >= 0)
-            {
-                if (_trueRotation <= 180 && _trueRotation > 0)
-                {
-                    rotationDir = separationDirWeight;
-                }
-                else
-                {
-                    rotationDir = -separationDirWeight;
-                }
-            }
-
-            else if (_distToFloor < school.separationMaxDistance)
-            {
-                float _rotationToFloor = Vector2.Angle(Vector2.up, (Vector2)transform.position - floorCol.ClosestPoint(transform.position));
-                if (_rotationToFloor - _trueRotation > 0)
-                {
-                    rotationDir = separationDirWeight;
-                }
-                else
-                {
-                    rotationDir = -separationDirWeight;
-                }
-            }
-            else if (fish.activePredator != null)
-            {
-                float _rotationToPredator = Vector2.Angle(Vector2.up, (Vector2)transform.position - (Vector2)fish.activePredator.transform.position);
-                if (_rotationToPredator - _trueRotation > 0)
-                {
-                    rotationDir = separationDirWeight;
-                }
-                else
-                {
-                    rotationDir = -separationDirWeight;
-                }
-            }
-            else
-            {
-                if (foodSearch.desiredFood == null)
-                {
-                    fish.targetPos = spawn.testObject.transform.position;
-                    FollowSchool();
-                }
-                else
-                {
-                    fish.targetPos = foodSearch.desiredFood.transform.position;
-                    FollowFood();
-                }
-            }
-
-            MoveTowardsTarget();
-            FlipSprite();
-        }
-
-        private void FollowFood()
-        {
             float _calculatedDir;
             float _trueRotation = (360 - transform.rotation.eulerAngles.z + 270) % 360;
 
-            float _angleToTargetPos = (360 - SignedToUnsignedAngle(Vector2.SignedAngle(-Vector3.up, (Vector2)transform.position - (Vector2)fish.targetPos)));
+            float _angleToTargetPos = (360 - SignedToUnsignedAngle(Vector2.SignedAngle(-Vector3.up, (Vector2)transform.position - (Vector2)movement.targetPos)));
             float _targetPosAngleDelta = Mathf.DeltaAngle(_trueRotation, _angleToTargetPos);
-            targetPosDir = _targetPosAngleDelta < 180 && _targetPosAngleDelta > 0 ? 1 : -1;
-
-            _calculatedDir = targetPosDir * targetPosDirWeight;
-
-            rotationDir = Mathf.Clamp(_calculatedDir, -1, 1);
-        }
-
-        private void FollowSchool()
-        {
-            float _calculatedDir;
-            float _trueRotation = (360 - transform.rotation.eulerAngles.z + 270) % 360;
-
-            float _angleToTargetPos = (360 - SignedToUnsignedAngle(Vector2.SignedAngle(-Vector3.up, (Vector2)transform.position - (Vector2)fish.targetPos)));
-            float _targetPosAngleDelta = Mathf.DeltaAngle(_trueRotation, _angleToTargetPos);
-            targetPosDir = _targetPosAngleDelta < 180 && _targetPosAngleDelta > 0 ? 1 : -1;
+            movement.targetPosDir = _targetPosAngleDelta < 180 && _targetPosAngleDelta > 0 ? 1 : -1;
 
             float _angleToSchoolCenter = (360 - SignedToUnsignedAngle(Vector2.SignedAngle(-Vector3.up, (Vector2)transform.position - school.schoolCenter)));
             float _schoolCenterAngleDelta = Mathf.DeltaAngle(_trueRotation, _angleToSchoolCenter);
@@ -142,37 +55,21 @@ namespace Fishing.Fishables.Fish
             alignmentDir = _alignmentAngleDelta < 180 && _alignmentAngleDelta > 0 ? 1 : -1;
 
             alignmentDir = WeighDirection(alignmentDir, _alignmentAngleDelta);
-            targetPosDir = WeighDirection(targetPosDir, _targetPosAngleDelta) * Mathf.InverseLerp(0, fish.maxHomeDistance, Mathf.Clamp(Vector3.Distance(transform.position, fish.targetPos), 0, fish.maxHomeDistance));
-            cohesionDir = WeighDirection(cohesionDir, _schoolCenterAngleDelta) * Mathf.InverseLerp(0, fish.maxHomeDistance, Mathf.Clamp(Vector3.Distance(transform.position, school.schoolCenter), 0, fish.maxHomeDistance));
-            _calculatedDir = (alignmentDir * alignmentDirWeight + cohesionDir * cohesionDirWeight + separationDir * separationDirWeight + targetPosDir * targetPosDirWeight) / 4f;
+            movement.targetPosDir = WeighDirection(movement.targetPosDir, _targetPosAngleDelta) * Mathf.InverseLerp(0, movement.GetMaxHomeDistance(), Mathf.Clamp(Vector3.Distance(transform.position, movement.targetPos), 0, movement.GetMaxHomeDistance()));
+            cohesionDir = WeighDirection(cohesionDir, _schoolCenterAngleDelta) * Mathf.InverseLerp(0, movement.GetMaxHomeDistance(), Mathf.Clamp(Vector3.Distance(transform.position, school.schoolCenter), 0, movement.GetMaxHomeDistance()));
+            _calculatedDir = (alignmentDir * alignmentDirWeight + cohesionDir * cohesionDirWeight + separationDir * separationDirWeight + movement.targetPosDir * movement.targetPosDirWeight) / 4f;
 
-            rotationDir = Mathf.Clamp(_calculatedDir, -1, 1);
+            movement.rotationDir = Mathf.Clamp(_calculatedDir, -1, 1);
         }
 
-        private void MoveTowardsTarget()
-        {
-            transform.Rotate(0f, 0f, -rotationSpeed * rotationDir * Time.deltaTime);
-            transform.position = Vector2.MoveTowards(transform.position, -transform.right + transform.position, fish.swimSpeed * Time.deltaTime);
-            if (Vector2.Distance(transform.position, fish.targetPos) <= fish.eatDistance)
-            {
-                if (foodSearch.desiredFood) fish.Eat();
-            }
-            //fish.FaceTarget();
-        }
 
         public void Despawn()
         {
-            if (foodSearch.desiredFood != null)
-            {
-                if (foodSearch.desiredFood.GetComponent<Fish>()) foodSearch.desiredFood.GetComponent<Fish>().activePredator = null;
-            }
-            spawn.spawnList.Remove(gameObject);
             FoodSearchManager.instance.RemoveFish(GetComponent<FoodSearch>());
-            FoodSearchManager.instance.RemoveFood(GetComponent<Edible>());
-            manager.RemoveFish(fish);
-            school.fish.Remove(GetComponent<Fishable>());
             BaitManager.instance.RemoveFish(GetComponent<FoodSearch>());
-            DestroyImmediate(gameObject);
+            manager.RemoveShoal(this);
+            school.fish.Remove(GetComponent<Fishable>());
+            GetComponent<Edible>().Despawn();
         }
 
         private void OnDrawGizmosSelected()
@@ -190,41 +87,15 @@ namespace Fishing.Fishables.Fish
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, school.separationMaxCloseDistance);
         }
-
         private float SignedToUnsignedAngle(float _angle)
         {
             if (_angle < 0) _angle += 360f;
             return _angle % 360;
         }
-
         private float WeighDirection(float _dir, float _angle)
         {
             Vector3 _angleVector = new Vector3(Mathf.Cos((_angle - 90f) * Mathf.Deg2Rad), Mathf.Sin(-(_angle - 90f) * Mathf.Deg2Rad), 0f);
             return _dir * (1f - ((Vector3.Dot(Vector3.up, _angleVector) + 1f) / 2f));
-        }
-
-        private void FlipSprite()
-        {
-            if ((360 - transform.rotation.eulerAngles.z + 270) % 360 < 180)
-            {
-                foreach (Transform child in transform)
-                {
-                    if (child.GetComponent<SpriteRenderer>() != null && child.gameObject.layer != LayerMask.NameToLayer("Minimap"))
-                    {
-                        child.GetComponent<SpriteRenderer>().flipY = true;
-                    }
-                }
-            }
-            else
-            {
-                foreach (Transform child in transform)
-                {
-                    if (child.GetComponent<SpriteRenderer>() != null && child.gameObject.layer != LayerMask.NameToLayer("Minimap"))
-                    {
-                        child.GetComponent<SpriteRenderer>().flipY = false;
-                    }
-                }
-            }
         }
     }
 }

@@ -447,8 +447,8 @@ MonoBehaviour:
   - Carp
   - Seaweed
   - Water Lily Fruit
-  - Anglerfish Model
-  - Sea Serpent Model
+  - Anglerfish
+  - Sea Serpent
 --- !u!1 &4683908497521584747
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,15 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Unity.Jobs;
-using Unity.Collections;
-using System.Linq;
 using Fishing.FishingMechanics;
 
 namespace Fishing.Fishables.Fish
 {
+    [RequireComponent(typeof(Fishable))]
+    [RequireComponent(typeof(Hunger))]
     public class FoodSearch : MonoBehaviour
     {
+        public float eatDistance;
         [SerializeField] private float sightAngle;
         [SerializeField] private float sightDistance;
         [SerializeField] private float sightDensity;
@@ -18,10 +18,50 @@ namespace Fishing.Fishables.Fish
         [SerializeField] private Edible.FoodTypes[] desiredFoodTypes;
         public GameObject desiredFood;
 
+        private Fishable fishable;
+        private Hunger hunger;
+
+
+        private void Awake()
+        {
+            hunger = GetComponent<Hunger>();
+            fishable = GetComponent<Fishable>();
+        }
+
         private void Start()
         {
             FoodSearchManager.instance.AddFish(this);
             BaitManager.instance.AddFish(this);
+        }
+        public void Eat()
+        {
+            GameObject _food = desiredFood;
+
+            if (_food.GetComponent<HookBehaviour>())
+            {
+                _food.GetComponent<HookBehaviour>().SetHook(fishable);
+                return;
+            }
+
+            if (_food.GetComponent<Fishable>())
+            {
+                if (_food.GetComponent<Fishable>().isHooked)
+                {
+                    fishable.SetThisToHooked();
+                    return;
+                }
+            }
+            if (_food.GetComponent<BaitBehaviour>())
+            {
+                fishable.SetThisToHooked();
+                return;
+            }
+
+            hunger.AddFood(_food);
+
+            GetComponent<AudioSource>().Play();
+            _food.GetComponent<IEdible>().Despawn();
+            desiredFood = null;
         }
 
         private void OnDrawGizmosSelected()

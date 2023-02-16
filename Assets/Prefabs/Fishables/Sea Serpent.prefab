@@ -178,13 +178,15 @@ GameObject:
   - component: {fileID: 8313649653780738670}
   - component: {fileID: 6095402560932649698}
   - component: {fileID: 8022150175084271148}
-  - component: {fileID: 7006070457836360306}
-  - component: {fileID: -6890081191903633112}
   - component: {fileID: -5582888590848471281}
-  - component: {fileID: 1014088175661999132}
-  - component: {fileID: 7472043319420965868}
+  - component: {fileID: 7006070457836360306}
+  - component: {fileID: 711715533592342275}
+  - component: {fileID: -1346237745618794196}
+  - component: {fileID: 8775194993542396431}
   - component: {fileID: -8846642877520513262}
   - component: {fileID: 1462735215908233737}
+  - component: {fileID: 7472043319420965868}
+  - component: {fileID: -6890081191903633112}
   m_Layer: 0
   m_Name: Sea Serpent
   m_TagString: Hookable Object
@@ -283,6 +285,20 @@ MonoBehaviour:
   lengthMin: 1000
   minimapIndicator: {fileID: 2737784646829355076}
   isHooked: 0
+--- !u!114 &-5582888590848471281
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8313649653780738666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84ed023c87f291a42a62ede1f6a833e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseFoodAmount: 750
+  foodType: 11
 --- !u!114 &7006070457836360306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,6 +311,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d187c2bd7d8fc4f9e701b32517bcd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  eatDistance: 4
   sightAngle: 30
   sightDistance: 75
   sightDensity: 10
@@ -302,6 +319,127 @@ MonoBehaviour:
   chaseDistance: 10
   desiredFoodTypes: 010000000300000004000000080000000a0000000b000000
   desiredFood: {fileID: 0}
+--- !u!114 &711715533592342275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8313649653780738666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d01d3450772a4804e8298cb12105fc75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hungerStart: 1500
+  decayRate: 1
+  foodStart: 500
+  foodStartVariance: 10
+  currentFood: 0
+--- !u!114 &-1346237745618794196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8313649653780738666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e95c5405c2f3d3641987609571099086, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  growthStart: 750
+  growthCheckFrequency: 15
+  growthVariance: 0.25
+  growthFoodCost: 250
+  growthCheckCount: 0
+--- !u!114 &8775194993542396431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8313649653780738666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a0d7ab1dd7ef4146a9519f5a25964fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  activePredator: {fileID: 0}
+  targetPos: {x: 0, y: 0}
+  swimSpeed: 15
+  rotationSpeed: 100
+  obstacleAvoidanceDistance: 2
+  targetPosDirWeight: 10
+  obstacleAvoidanceDirWeight: 11
+  baseMaxHomeDistance: 75
+  maxHomeDistanceVariation: 25
+  targetPosDir: 0
+  rotationDir: 0
+--- !u!114 &-8846642877520513262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8313649653780738666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 607f95fe04642b04995280c64558d300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  separationDirWeight: 11
+  cohesionDirWeight: 9
+  alignmentDirWeight: 1
+  separationDir: 0
+  cohesionDir: 0
+  alignmentDir: 0
+--- !u!114 &1462735215908233737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8313649653780738666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa071eeb49792cd449496805bb3f10c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sectionPrefab: {fileID: 3142583375956271979, guid: 9633cfdbe3219e447a6bdc8ab1443684, type: 3}
+  numberOfSections: 25
+  sectionScale: 0.75
+  sectionSpacing: 0.125
+  sectionRotationDampening: 0.1
+  sections: []
+  previousFrameSectionPositions: []
+  previousFrameSectionRotations: []
+--- !u!61 &7472043319420965868
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8313649653780738666}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!82 &-6890081191903633112
 AudioSource:
   m_ObjectHideFlags: 0
@@ -398,115 +536,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &-5582888590848471281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8313649653780738666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84ed023c87f291a42a62ede1f6a833e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseFoodAmount: 750
-  foodType: 11
---- !u!114 &1014088175661999132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8313649653780738666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d54292142b7b6e845a524e72f51bc66f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHomeDistance: 25
-  maxHomeDistanceVariation: 25
-  spawn: {fileID: 0}
-  swimSpeed: 25
-  eatDistance: 4
-  foodSearch: {fileID: 0}
-  targetPos: {x: 0, y: 0, z: 0}
-  activePredator: {fileID: 0}
-  hungerStart: 1500
-  decayRate: 1
-  foodStart: 500
-  foodStartVariance: 10
-  currentFood: 0
-  growthStart: 750
-  growthCheckFrequency: 15
-  growthVariance: 0.25
-  growthFoodCost: 250
-  growthCheckCount: 0
---- !u!61 &7472043319420965868
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8313649653780738666}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
-    newSize: {x: 1, y: 1}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!114 &-8846642877520513262
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8313649653780738666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 607f95fe04642b04995280c64558d300, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rotationSpeed: 100
-  separationDirWeight: 11
-  cohesionDirWeight: 9
-  alignmentDirWeight: 1
-  targetPosDirWeight: 10
-  separationDir: 0
-  cohesionDir: 0
-  alignmentDir: 0
-  targetPosDir: 0
-  rotationDir: 0
---- !u!114 &1462735215908233737
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8313649653780738666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa071eeb49792cd449496805bb3f10c0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sectionPrefab: {fileID: 3142583375956271979, guid: 9633cfdbe3219e447a6bdc8ab1443684, type: 3}
-  numberOfSections: 25
-  sectionScale: 0.75
-  sectionSpacing: 0.125
-  sectionRotationDampening: 0.1
-  sections: []
-  previousFrameSectionPositions: []
-  previousFrameSectionRotations: []

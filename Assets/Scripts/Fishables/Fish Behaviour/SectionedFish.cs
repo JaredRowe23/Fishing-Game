@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace Fishing.Fishables.Fish
 {
+    [RequireComponent(typeof(Fishable))]
     public class SectionedFish : MonoBehaviour
     {
         [SerializeField] private GameObject sectionPrefab;
