@@ -7,16 +7,16 @@ namespace Fishing.Fishables.Fish
     public class Edible : MonoBehaviour
     {
         public float baseFoodAmount;
-        public enum FoodTypes { Hook, Salmon, TinCan, EarthWorm, Carp, Seaweed, Boot, Driftwood, Minnow, WaterLilyFruit, Anglerfish, SeaSerpent };
+        public enum FoodTypes { Hook, Salmon, TinCan, EarthWorm, Carp, Seaweed, Boot, Driftwood, Minnow, WaterLilyFruit, Anglerfish, SeaSerpent, Crab};
         [SerializeField] private FoodTypes foodType;
 
         private FoodSearch foodSearch;
-        private SpawnZone spawn;
+        private ISpawn spawn;
 
         private void Awake()
         {
             foodSearch = GetComponent<FoodSearch>();
-            spawn = transform.parent.GetComponent<SpawnZone>();
+            spawn = transform.parent.GetComponent<ISpawn>();
         }
 
         private void Start() => FoodSearchManager.instance.AddFood(this);
@@ -31,8 +31,8 @@ namespace Fishing.Fishables.Fish
                 {
                     if (foodSearch.desiredFood.GetComponent<FishMovement>()) foodSearch.desiredFood.GetComponent<FishMovement>().activePredator = null;
                 }
-            } 
-            spawn.spawnList.Remove(gameObject);
+            }
+            spawn.RemoveFromList(gameObject);
             FoodSearchManager.instance.RemoveFood(GetComponent<Edible>());
             DestroyImmediate(gameObject);
         }

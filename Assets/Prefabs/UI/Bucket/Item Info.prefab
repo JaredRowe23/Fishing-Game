@@ -438,6 +438,7 @@ MonoBehaviour:
   - {fileID: 6439172435045833344, guid: 55b68672bb34738468ac9c5ca6522f64, type: 3}
   - {fileID: 6439172435045833344, guid: 593b9080ebb334c41bf4d130bc243507, type: 3}
   - {fileID: 6439172435045833344, guid: 2bb467b1c25d6b041b9f88fe2451e9f1, type: 3}
+  - {fileID: 6439172435045833344, guid: 5d97b5749cdda144182f10d89be65a05, type: 3}
   modelNames:
   - Salmon
   - Tin Can
@@ -449,6 +450,7 @@ MonoBehaviour:
   - Water Lily Fruit
   - Anglerfish
   - Sea Serpent
+  - Crab
 --- !u!1 &4683908497521584747
 GameObject:
   m_ObjectHideFlags: 0

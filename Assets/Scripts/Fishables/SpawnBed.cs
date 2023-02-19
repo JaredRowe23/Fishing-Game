@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Fishing
 {
-    public class SpawnBed : MonoBehaviour
+    public class SpawnBed : MonoBehaviour, ISpawn
     {
         [SerializeField] private GameObject prefab;
         [SerializeField] private float radius;
@@ -14,7 +14,7 @@ namespace Fishing
         [SerializeField] private float scale;
         [SerializeField] private float scaleVariance;
 
-        private List<GameObject> spawnList;
+        public List<GameObject> spawnList;
         private PolygonCollider2D floorCol;
 
         private void Awake()
@@ -31,7 +31,7 @@ namespace Fishing
             }
         }
 
-        private void Spawn()
+        public void Spawn()
         {
             int i = 0;
             Vector2 _rand;
@@ -60,6 +60,9 @@ namespace Fishing
             newObject.transform.Rotate(new Vector3(0, 0, _rotationToFloor));
             spawnList.Add(newObject);
         }
+
+        public void RemoveFromList(GameObject _go) => spawnList.Remove(_go);
+
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.yellow;

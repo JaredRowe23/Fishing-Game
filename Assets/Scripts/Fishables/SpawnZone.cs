@@ -5,7 +5,7 @@ using Fishing.PlayerCamera;
 
 namespace Fishing
 {
-    public class SpawnZone : MonoBehaviour
+    public class SpawnZone : MonoBehaviour, ISpawn
     {
         [SerializeField] private bool continueSpawning;
         [SerializeField] private float radius;
@@ -50,7 +50,7 @@ namespace Fishing
             }
         }
 
-        private void Spawn()
+        public void Spawn()
         {
             int i = 0;
             Vector2 _rand;
@@ -77,6 +77,7 @@ namespace Fishing
             GameObject newFish = Instantiate(prefab, spawnPos, Quaternion.identity, this.transform);
             spawnList.Add(newFish);
         }
+        public void RemoveFromList(GameObject _go) => spawnList.Remove(_go);
 
         private void OnDrawGizmosSelected()
         {
