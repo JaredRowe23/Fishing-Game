@@ -21,7 +21,7 @@ namespace Fishing.Fishables.Fish
 
         private SpawnZone spawnZone;
 
-        public void Update()
+        public void FixedUpdate()
         {
             schoolCenter = Vector2.zero;
             averageAngle = 0f;

@@ -21,7 +21,6 @@ namespace Fishing.Fishables.Fish
         private Fishable fishable;
         private Hunger hunger;
 
-
         private void Awake()
         {
             hunger = GetComponent<Hunger>();
@@ -33,6 +32,8 @@ namespace Fishing.Fishables.Fish
             FoodSearchManager.instance.AddFish(this);
             BaitManager.instance.AddFish(this);
         }
+
+
         public void Eat()
         {
             GameObject _food = desiredFood;

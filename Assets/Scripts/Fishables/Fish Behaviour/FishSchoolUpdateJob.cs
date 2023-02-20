@@ -19,7 +19,7 @@ namespace Fishing.Fishables.Fish
             for (int i = 0; i < ShoalmatePositionArray.Length; i++)
             {
                 _data.shoalmatePos = ShoalmatePositionArray[i];
-                _data.Update();
+                _data.FixedUpdate();
             }
             ShoalDataArray[_index] = _data;
         }

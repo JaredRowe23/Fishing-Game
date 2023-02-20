@@ -161,8 +161,8 @@ SpriteMask:
   m_MaskAlphaCutoff: 0.2
   m_FrontSortingLayerID: -1418280931
   m_BackSortingLayerID: -1418280931
-  m_FrontSortingLayer: 2
-  m_BackSortingLayer: 2
+  m_FrontSortingLayer: 4
+  m_BackSortingLayer: 4
   m_FrontSortingOrder: 5
   m_BackSortingOrder: 0
   m_IsCustomRangeActive: 1
@@ -187,6 +187,7 @@ GameObject:
   - component: {fileID: 1462735215908233737}
   - component: {fileID: 7472043319420965868}
   - component: {fileID: -6890081191903633112}
+  - component: {fileID: 7443942791228371110}
   m_Layer: 0
   m_Name: Sea Serpent
   m_TagString: Hookable Object
@@ -249,9 +250,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingLayerID: -86950305
+  m_SortingLayer: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 81877fa698005bb47b5830df40ed9552, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -534,3 +535,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7443942791228371110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8313649653780738666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f87ee3d6f47b9b1498d55c4c46fc4a4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  optimizationDistance: 100

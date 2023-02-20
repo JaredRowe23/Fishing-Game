@@ -14,13 +14,20 @@ namespace Fishing.Fishables.Fish
         public float currentFood;
 
         private FoodSearch foodSearch;
+        private IEdible edible;
+        private FoodSearchManager foodSearchManager;
 
         private void Awake()
         {
             foodSearch = GetComponent<FoodSearch>();
+            edible = GetComponent<IEdible>();
         }
 
-        void Start() => currentFood = foodStart + Random.Range(-foodStartVariance, foodStartVariance);
+        void Start()
+        {
+            foodSearchManager = FoodSearchManager.instance;
+            currentFood = foodStart + Random.Range(-foodStartVariance, foodStartVariance);
+        }
 
         void Update()
         {
@@ -29,17 +36,18 @@ namespace Fishing.Fishables.Fish
                 if (Vector2.Distance(transform.position, foodSearch.desiredFood.transform.position) <= foodSearch.eatDistance) foodSearch.Eat();
             }
             currentFood -= Time.deltaTime * decayRate;
-            if (currentFood <= 0) GetComponent<IEdible>().Despawn();
+            if (currentFood <= 0) edible.Despawn();
             else if (currentFood <= hungerStart)
             {
-                if (!FoodSearchManager.instance.fish.Contains(foodSearch)) FoodSearchManager.instance.AddFish(foodSearch);
+                if (!foodSearchManager.fish.Contains(foodSearch)) foodSearchManager.AddFish(foodSearch);
             }
-            else if (FoodSearchManager.instance.fish.Contains(foodSearch)) FoodSearchManager.instance.RemoveFish(foodSearch);
+            else if (foodSearchManager.fish.Contains(foodSearch)) foodSearchManager.RemoveFish(foodSearch);
         }
         public void AddFood(GameObject _food)
         {
-            float _lengthScalar = Mathf.InverseLerp(_food.GetComponent<Fishable>().GetMinLength(), _food.GetComponent<Fishable>().GetMaxLength(), _food.GetComponent<Fishable>().GetLength());
-            float _weightScalar = Mathf.InverseLerp(_food.GetComponent<Fishable>().GetMinWeight(), _food.GetComponent<Fishable>().GetMaxWeight(), _food.GetComponent<Fishable>().GetWeight());
+            Fishable _foodFishable = _food.GetComponent<Fishable>();
+            float _lengthScalar = Mathf.InverseLerp(_foodFishable.GetMinLength(), _foodFishable.GetMaxLength(), _foodFishable.GetLength());
+            float _weightScalar = Mathf.InverseLerp(_foodFishable.GetMinWeight(), _foodFishable.GetMaxWeight(), _foodFishable.GetWeight());
             if (_lengthScalar == 0) _lengthScalar = 0.5f;
             if (_weightScalar == 0) _weightScalar = 0.5f;
             currentFood += _food.GetComponent<Edible>().baseFoodAmount * (_lengthScalar * 2) * (_weightScalar * 2);

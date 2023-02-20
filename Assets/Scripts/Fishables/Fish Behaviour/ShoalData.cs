@@ -30,7 +30,7 @@ namespace Fishing.Fishables.Fish
             desiredAngle = 0f;
         }
 
-        public void Update()
+        public void FixedUpdate()
         {
             float _distanceToShoalmate = Vector2.Distance(thisPos, shoalmatePos);
             if (_distanceToShoalmate == 0) return;

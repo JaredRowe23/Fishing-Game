@@ -17,7 +17,7 @@ namespace Fishing.Fishables.Fish
             school = GetComponent<FishSchoolBehaviour>();
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (shoals.Count == 0) return;
             NativeArray<ShoalData> _shoalDataArray = new NativeArray<ShoalData>(shoals.Count, Allocator.TempJob);

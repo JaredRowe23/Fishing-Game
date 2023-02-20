@@ -17,7 +17,7 @@ namespace Fishing.Fishables.Fish
 
         private FoodSearchManager() => instance = this;
 
-        private void Update()
+        private void FixedUpdate()
         {
             NativeArray<FoodSearchData> _foodSearchDataArray = new NativeArray<FoodSearchData>(fish.Count, Allocator.TempJob);
             for (int i = 0; i < fish.Count; i++)

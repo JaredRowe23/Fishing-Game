@@ -42,7 +42,7 @@ namespace Fishing.UI
                 gr.enabled = false;
                 content.SetActive(false);
                 filter.color = new Color(filter.color.r, filter.color.g, filter.color.b, Mathf.Lerp(filter.color.a, 0f, transitionSpeed * Time.deltaTime));
-                Time.timeScale = Mathf.Lerp(Time.timeScale, 1f, transitionSpeed * Time.deltaTime);
+                if (!PauseMenu.instance.pauseMenu.activeSelf) Time.timeScale = Mathf.Lerp(Time.timeScale, 1f, transitionSpeed * Time.deltaTime);
 
                 if (tutorialQueue.Count == 0) return;
 

@@ -739,7 +739,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6404902397406429037, guid: 25a37ef0581f81b42991f9408dfebd4a, type: 3}
       propertyPath: bait.Array.data[0]
-      value: Earthworm
+      value: Earth Worm
       objectReference: {fileID: 0}
     - target: {fileID: 6404902397406429037, guid: 25a37ef0581f81b42991f9408dfebd4a, type: 3}
       propertyPath: hasSeenInventoryTut
@@ -1424,8 +1424,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 23000013209316742, guid: 14049f85cb9f2e144aeee966e936fadf, type: 3}
+      propertyPath: m_SortingLayer
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 23000013209316742, guid: 14049f85cb9f2e144aeee966e936fadf, type: 3}
       propertyPath: m_SortingOrder
-      value: 7
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 23000013209316742, guid: 14049f85cb9f2e144aeee966e936fadf, type: 3}
+      propertyPath: m_SortingLayerID
+      value: -1418280931
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 64000013061176366, guid: 14049f85cb9f2e144aeee966e936fadf, type: 3}
@@ -1598,8 +1606,8 @@ SpriteMask:
   m_MaskAlphaCutoff: 0.2
   m_FrontSortingLayerID: 1499599327
   m_BackSortingLayerID: 1499599327
-  m_FrontSortingLayer: 1
-  m_BackSortingLayer: 1
+  m_FrontSortingLayer: 3
+  m_BackSortingLayer: 3
   m_FrontSortingOrder: 4
   m_BackSortingOrder: 0
   m_IsCustomRangeActive: 1
@@ -1990,9 +1998,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 6
+  m_SortingLayerID: -1418280931
+  m_SortingLayer: 4
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: c4373a70e8350404c8f7652548e07081, type: 3}
   m_Color: {r: 0.07048772, g: 0.22388254, b: 0.4528302, a: 0.5019608}
   m_FlipX: 0
@@ -4331,7 +4339,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1499599327
-  m_SortingLayer: 1
+  m_SortingLayer: 3
   m_SortingOrder: 4
   m_Sprite: {fileID: 21300000, guid: 4e87cb0696b2c8e4291e30eaa76a33e4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4932,6 +4940,58 @@ MonoBehaviour:
   spawnTimeSpacing: 0.1
   spawnAttempts: 10
   testObject: {fileID: 1032123706}
+--- !u!1 &1789320321
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1789320322}
+  - component: {fileID: 1789320323}
+  m_Layer: 0
+  m_Name: Anglerfish Spawn Zone (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1789320322
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789320321}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5.1, y: -12.3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2084702444}
+  m_RootOrder: 21
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1789320323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1789320321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff8cf2880c06928439d1e2fc91609fa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  continueSpawning: 1
+  radius: 10
+  prefab: {fileID: 8313649653780738666, guid: 38cfc22d749e3fd4289007bd2df9664e, type: 3}
+  spawnMax: 25
+  spawnList: []
+  spawnTimeSpacing: 0.1
+  spawnAttempts: 10
+  testObject: {fileID: 0}
 --- !u!1 &1816387841
 GameObject:
   m_ObjectHideFlags: 0
@@ -5361,7 +5421,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 2855300750751475942, guid: 8d3d1d5557cd04a4c94c1d62676b69a4, type: 3}
   radius: 25
-  spawnMax: 10
+  spawnMax: 100
   spawnAttempts: 10
   positionOffset: {x: 0, y: -0.4}
   scale: 5
@@ -5637,6 +5697,7 @@ Transform:
   - {fileID: 1035771418}
   - {fileID: 421997193}
   - {fileID: 1958498729}
+  - {fileID: 1789320322}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

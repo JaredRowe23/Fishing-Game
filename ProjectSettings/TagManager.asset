@@ -42,6 +42,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Fish Glow
+    uniqueID: 3815347805
+    locked: 0
+  - name: Fishables
+    uniqueID: 4208016991
+    locked: 0
   - name: Sand Mask
     uniqueID: 1499599327
     locked: 0

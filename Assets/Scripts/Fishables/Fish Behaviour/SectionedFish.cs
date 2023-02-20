@@ -36,7 +36,7 @@ namespace Fishing.Fishables.Fish
             }
         }
 
-        void Update()
+        void FixedUpdate()
         {
             for (int i = 1; i < sections.Count; i++)
             {

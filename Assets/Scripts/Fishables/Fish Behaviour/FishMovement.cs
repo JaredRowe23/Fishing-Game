@@ -48,8 +48,9 @@ namespace Fishing.Fishables.Fish
             if (GetComponent<Fishable>().isHooked) return;
 
 
-            Vector3 _surfacingCheck = transform.position - (transform.right * obstacleAvoidanceDistance);
-            float _distToFloor = Vector2.Distance(transform.position, floorCol.ClosestPoint(transform.position));
+            Vector2 _surfacingCheck = transform.position - (transform.right * obstacleAvoidanceDistance);
+            Vector2 _closestFloorPoint = floorCol.ClosestPoint(transform.position);
+            float _distToFloor = Vector2.Distance(transform.position, _closestFloorPoint);
             float _trueRotation = (360 - transform.rotation.eulerAngles.z + 270) % 360;
 
             if (_surfacingCheck.y >= 0)
@@ -66,7 +67,7 @@ namespace Fishing.Fishables.Fish
 
             else if (_distToFloor < obstacleAvoidanceDistance)
             {
-                float _rotationToFloor = Vector2.Angle(Vector2.up, (Vector2)transform.position - floorCol.ClosestPoint(transform.position));
+                float _rotationToFloor = Vector2.Angle(Vector2.up, (Vector2)transform.position - _closestFloorPoint);
                 if (_rotationToFloor - _trueRotation > 0)
                 {
                     rotationDir = obstacleAvoidanceDirWeight;

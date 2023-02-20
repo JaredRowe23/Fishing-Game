@@ -33,6 +33,7 @@ namespace Fishing.Fishables.Fish
         {
             if (GetComponent<Fishable>().isHooked) return;
 
+
             directionChangeCount -= Time.deltaTime;
             if (Vector2.Distance(transform.position, floorCol.ClosestPoint(transform.parent.position)) > maxRangeFromHome)
             {
@@ -45,14 +46,15 @@ namespace Fishing.Fishables.Fish
             }
             if (moveDirection == 0) moveDirection = -1;
 
+            Vector2 _closestFloorPoint = floorCol.ClosestPoint(transform.position);
             Vector3 _surfacingCheck = transform.position - (transform.right * obstacleAvoidanceDistance);
-            float _rotationToFloor = Vector2.Angle(Vector2.up, (Vector2)transform.position - floorCol.ClosestPoint(transform.position));
+            float _rotationToFloor = Vector2.Angle(Vector2.up, (Vector2)transform.position - _closestFloorPoint);
             float _trueRotation = (360 - transform.rotation.eulerAngles.z) % 360;
             float _distToFloor = Vector2.Distance(transform.position, floorCol.ClosestPoint(transform.position));
 
             transform.Rotate(-Vector3.forward, _rotationToFloor - _trueRotation);
             transform.Translate(transform.right * moveSpeed * moveDirection * Time.deltaTime);
-            transform.position = floorCol.ClosestPoint(transform.position) + (Vector2)(Vector3.Normalize((Vector2)transform.position - floorCol.ClosestPoint(transform.position)) * groundOffset);
+            transform.position = _closestFloorPoint + (Vector2)(Vector3.Normalize((Vector2)transform.position - _closestFloorPoint) * groundOffset);
 
             //if (_surfacingCheck.y >= 0)
             //{
