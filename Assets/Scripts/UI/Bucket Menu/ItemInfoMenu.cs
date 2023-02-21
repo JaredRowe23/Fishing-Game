@@ -92,6 +92,8 @@ namespace Fishing.UI
             return currentModel;
 
         }
+
+        public List<string> GetModelNames() => modelNames;
     }
 
 }

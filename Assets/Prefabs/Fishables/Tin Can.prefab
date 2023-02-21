@@ -194,6 +194,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1840834420769086230}
   - component: {fileID: 5573508551348388170}
+  - component: {fileID: 1066539386238648418}
   m_Layer: 10
   m_Name: Radar Sprite
   m_TagString: Untagged
@@ -210,8 +211,8 @@ Transform:
   m_GameObject: {fileID: 5875787623742116828}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 211761124399546879}
   m_RootOrder: 0
@@ -257,7 +258,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: c4373a70e8350404c8f7652548e07081, type: 3}
+  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
   m_Color: {r: 1, g: 0.9964248, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -268,3 +269,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1066539386238648418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5875787623742116828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 426add82db23744459d1e4ccad60bdcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scannedScale: 25
+  lifeTime: 5

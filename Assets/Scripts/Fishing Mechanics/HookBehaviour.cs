@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fishing.Fishables.Fish;
 using Fishing.Fishables;
-using Fishing.Inventory; // may not be necessary with AddToBucket rework
+using Fishing.Inventory;
 using Fishing.UI;
 using Fishing.IO;
 

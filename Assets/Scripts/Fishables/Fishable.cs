@@ -22,7 +22,7 @@ namespace Fishing.Fishables
         [SerializeField] private float lengthMax;
         [SerializeField] private float lengthMin;
 
-        [SerializeField] private GameObject minimapIndicator;
+        public GameObject minimapIndicator;
 
         public bool isHooked;
 
