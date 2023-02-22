@@ -22,8 +22,9 @@ namespace Fishing.Fishables.Fish
             sections.Add(transform);
             for (int i = 0; i < numberOfSections; i++)
             {
-                GameObject newSection = Instantiate(sectionPrefab, transform.position, transform.rotation, transform.parent);
+                GameObject newSection = Instantiate(sectionPrefab, transform.position, transform.rotation, null);
                 newSection.transform.localScale = transform.localScale * sectionScale;
+                newSection.transform.SetParent(transform.parent);
                 sections.Add(newSection.transform);
             }
 
@@ -36,7 +37,7 @@ namespace Fishing.Fishables.Fish
             }
         }
 
-        void FixedUpdate()
+        void Update()
         {
             for (int i = 1; i < sections.Count; i++)
             {
