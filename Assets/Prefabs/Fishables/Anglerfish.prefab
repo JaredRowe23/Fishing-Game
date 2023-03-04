@@ -379,7 +379,7 @@ MonoBehaviour:
   itemName: Anglerfish
   itemDescription: It has a sort of lantern dangling from it's head, lighting up
     the nearby area with a form of bioluminescence.
-  baseValue: 250
+  baseValue: 150
   weightMax: 50
   weightMin: 30
   lengthMax: 100
@@ -483,7 +483,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activePredator: {fileID: 0}
   targetPos: {x: 0, y: 0}
-  swimSpeed: 1
+  swimSpeed: 1.5
   rotationSpeed: 100
   obstacleAvoidanceDistance: 2
   targetPosDirWeight: 10
@@ -528,8 +528,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 10
+  MinDistance: 0.5
+  MaxDistance: 2.5
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0

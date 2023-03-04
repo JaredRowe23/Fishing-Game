@@ -12828,6 +12828,13 @@ MonoBehaviour:
   - {fileID: 7607593468794167408}
   - {fileID: 7607593466844164005}
   - {fileID: 7607593467828174730}
+  setDisabledOnClose:
+  - {fileID: 7607593467434994200}
+  - {fileID: 7607593468314341328}
+  - {fileID: 7607593467806378806}
+  - {fileID: 7607593468794167408}
+  - {fileID: 7607593466844164005}
+  - {fileID: 7607593467828174730}
   tabButtons:
   - {fileID: 7607593466828801753}
   - {fileID: 7607593467519383841}
@@ -15593,7 +15600,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &7607593468794167423
 RectTransform:
   m_ObjectHideFlags: 0

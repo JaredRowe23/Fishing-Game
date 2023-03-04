@@ -17,9 +17,9 @@ MonoBehaviour:
   description: Fruit that is grown from a water lily plant, seen on the surface of
     the water.
   prefab: {fileID: 7061067434651880759, guid: 88c9928eac000ee4fa379b91a092868c, type: 3}
-  cost: 1
+  cost: 5
   areaOfEffect: 1
-  baitableFishTypes: 08000000
+  baitableFishTypes: 080000000a000000
   effects:
   - Leafy Greens
   effectsSprites:

@@ -17,9 +17,9 @@ MonoBehaviour:
   description: Larger fish. More frequently used for meals for humans, but surely
     something else would enjoy eating this.
   prefab: {fileID: 7061067434651880759, guid: f93c6278e1195e54994d9d197f19c3a5, type: 3}
-  cost: 75
-  areaOfEffect: 10
-  baitableFishTypes: 
+  cost: 100
+  areaOfEffect: 20
+  baitableFishTypes: 0b000000
   effects:
   - Fresh Catch
   effectsSprites:

@@ -245,7 +245,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Water Lily Fruit
   itemDescription: The fruit that comes from water lilies.
-  baseValue: 10
+  baseValue: 5
   weightMax: 1
   weightMin: 1
   lengthMax: 50

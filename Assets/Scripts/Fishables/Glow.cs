@@ -15,14 +15,13 @@ namespace Fishing.Fishables
 
         private void Start()
         {
-            hook = RodManager.instance.equippedRod.GetHook();
             sprite.color = new Color(1, 1, 1, 0);
         }
 
         void FixedUpdate()
         {
             sprite.flipY = GetComponent<SpriteRenderer>().flipY;
-            float _distance = Vector2.Distance(hook.transform.position, transform.position);
+            float _distance = Vector2.Distance(RodManager.instance.equippedRod.GetHook().transform.position, transform.position);
             if (_distance >= minGlowDistance) sprite.color = new Color(1, 1, 1, 0);
             else if (_distance <= maxGlowDistance) sprite.color = new Color(1, 1, 1, 1);
             else sprite.color = new Color(1, 1, 1, Mathf.InverseLerp(minGlowDistance, maxGlowDistance, _distance));

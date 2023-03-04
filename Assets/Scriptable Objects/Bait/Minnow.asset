@@ -16,7 +16,7 @@ MonoBehaviour:
   baitName: Minnow
   description: Just a lil guy
   prefab: {fileID: 7061067434651880759, guid: 58e393ee163f9ab429be80488ff13825, type: 3}
-  cost: 10
+  cost: 15
   areaOfEffect: 10
   baitableFishTypes: 0100000004000000
   effects:

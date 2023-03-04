@@ -109,7 +109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Minnow
   itemDescription: These guys don't like to be alone
-  baseValue: 12.5
+  baseValue: 10
   weightMax: 30
   weightMin: 20
   lengthMax: 40
@@ -198,7 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activePredator: {fileID: 0}
   targetPos: {x: 0, y: 0}
-  swimSpeed: 1.5
+  swimSpeed: 2
   rotationSpeed: 100
   obstacleAvoidanceDistance: 2
   targetPosDirWeight: 10
@@ -245,8 +245,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 10
+  MinDistance: 0.5
+  MaxDistance: 2.5
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0

@@ -13,12 +13,14 @@ namespace Fishing.Fishables.Fish
         [SerializeField] private float foodStartVariance = 10;
         public float currentFood;
 
+        private Fishable fishable;
         private FoodSearch foodSearch;
         private IEdible edible;
         private FoodSearchManager foodSearchManager;
 
         private void Awake()
         {
+            fishable = GetComponent<Fishable>();
             foodSearch = GetComponent<FoodSearch>();
             edible = GetComponent<IEdible>();
         }
@@ -31,6 +33,8 @@ namespace Fishing.Fishables.Fish
 
         void Update()
         {
+            if (fishable.isHooked) return;
+
             if (foodSearch.desiredFood)
             {
                 if (Vector2.Distance(transform.position, foodSearch.desiredFood.transform.position) <= foodSearch.eatDistance) foodSearch.Eat();

@@ -11,6 +11,7 @@ namespace Fishing.UI
     {
         private int activeMenu = 0;
         [SerializeField] private List<GameObject> menuPages;
+        [SerializeField] private List<GameObject> setDisabledOnClose;
         [SerializeField] private List<Image> tabButtons;
 
         public Sprite activeTabBackground;
@@ -49,13 +50,13 @@ namespace Fishing.UI
         {
             UIManager.instance.mouseOverUI = null;
 
-            this.gameObject.SetActive(!this.gameObject.activeSelf);
+            gameObject.SetActive(!gameObject.activeSelf);
 
-            if (!this.gameObject.activeSelf)
+            if (!gameObject.activeSelf)
             {
-                foreach (GameObject _page in menuPages)
+                foreach(GameObject _obj in setDisabledOnClose)
                 {
-                    _page.SetActive(false);
+                    _obj.SetActive(false);
                 }
             }
             else
@@ -67,8 +68,8 @@ namespace Fishing.UI
                 TutorialSystem.instance.QueueTutorial("Here, you can view attachment slots for your fishing rod (line, bait, and hook). You can also take inventory of bait you have and equip bits of gear (TBD)");
                 PlayerData.instance.hasSeenInventoryTut = true;
             }
-            UIManager.instance.bucketMenuButton.gameObject.SetActive(!this.gameObject.activeSelf);
-            UIManager.instance.inventoryMenuButton.SetActive(!this.gameObject.activeSelf);
+            UIManager.instance.bucketMenuButton.gameObject.SetActive(!gameObject.activeSelf);
+            UIManager.instance.inventoryMenuButton.SetActive(!gameObject.activeSelf);
         }
 
         public void UpdateActiveMenu(int _menu)

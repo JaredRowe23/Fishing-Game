@@ -80,14 +80,14 @@ MonoBehaviour:
   equippedGear: []
   bait: []
   baitCounts: 
-  hasSeenCastTut: 1
-  hasSeenReelingTut: 1
-  hasSeenBucketTut: 1
-  hasSeenBucketMenuTut: 1
-  hasSeenBaitTut: 1
-  hasSeenInventoryTut: 1
-  hasSeenFishTut: 1
-  hasSeenNPCTut: 1
+  hasSeenCastTut: 0
+  hasSeenReelingTut: 0
+  hasSeenBucketTut: 0
+  hasSeenBucketMenuTut: 0
+  hasSeenBaitTut: 0
+  hasSeenInventoryTut: 0
+  hasSeenFishTut: 0
+  hasSeenNPCTut: 0
   currentSceneName: World Map
 --- !u!114 &6404902397406429036
 MonoBehaviour:
@@ -117,15 +117,3 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 270025bb5d449c941b70f04f2fc52125, type: 2}
   - {fileID: 11400000, guid: 9d86f0afcb7d3a54c9a585caf63a805c, type: 2}
   - {fileID: 11400000, guid: 5b2eda1a1afc77a4d84b205459f3d456, type: 2}
-  fishableNames:
-  - Anglerfish
-  - Boot
-  - Carp
-  - Crab
-  - Driftwood
-  - Minnow
-  - Salmon
-  - Sea Serpent
-  - Seaweed
-  - Tin Can
-  - Water Lily Fruit

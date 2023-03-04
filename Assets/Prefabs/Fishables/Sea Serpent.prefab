@@ -294,7 +294,7 @@ MonoBehaviour:
   itemName: Sea Serpent
   itemDescription: This apex predator must have been living at the bottom of the
     lake for centuries.
-  baseValue: 2500
+  baseValue: 1000
   weightMax: 2500
   weightMin: 1500
   lengthMax: 1500
@@ -385,7 +385,7 @@ MonoBehaviour:
   targetPos: {x: 0, y: 0}
   swimSpeed: 15
   rotationSpeed: 100
-  obstacleAvoidanceDistance: 2
+  obstacleAvoidanceDistance: 10
   targetPosDirWeight: 10
   obstacleAvoidanceDirWeight: 11
   baseMaxHomeDistance: 75
@@ -474,8 +474,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 10
+  MinDistance: 0.5
+  MaxDistance: 2.5
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0

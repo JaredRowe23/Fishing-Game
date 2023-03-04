@@ -17,9 +17,9 @@ MonoBehaviour:
   description: Common ocean plantlife, some smaller fish might like to nibble on
     this.
   prefab: {fileID: 7061067434651880759, guid: b94978a89042f26469ea5f72a86ac73c, type: 3}
-  cost: 5
+  cost: 10
   areaOfEffect: 10
-  baitableFishTypes: 08000000
+  baitableFishTypes: 080000000a000000
   effects:
   - Fresh Catch
   effectsSprites:

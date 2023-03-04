@@ -50,10 +50,15 @@ namespace Fishing.IO
 
         public static PlayerData instance;
 
-        private PlayerData() => instance = this;
-
         private void Awake()
         {
+            if (instance != null)
+            {
+                Destroy(gameObject);
+                return;
+            }
+
+            instance = this;
             DontDestroyOnLoad(gameObject);
         }
 

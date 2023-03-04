@@ -17,9 +17,9 @@ MonoBehaviour:
   description: It has a sort of lantern dangling from it's head, lighting up the
     nearby area with a form of bioluminescence.
   prefab: {fileID: 8313649653780738666, guid: 38cfc22d749e3fd4289007bd2df9664e, type: 3}
-  cost: 200
+  cost: 100
   areaOfEffect: 50
-  baitableFishTypes: 
+  baitableFishTypes: 0b000000
   effects:
   - Fresh Catch
   effectsSprites:

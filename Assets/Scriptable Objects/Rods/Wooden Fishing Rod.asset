@@ -17,10 +17,10 @@ MonoBehaviour:
   description: Just a stick with a spinning metal disk. Gets the job done at least.
   prefab: {fileID: 1958218463193938487, guid: eb73e4b47a483ae478173c4a1ebfbe60, type: 3}
   cost: 0
-  lineLength: 500
+  lineLength: 200
   reelSpeed: 2000
-  minCastStrength: 1500
-  maxCastStrength: 5000
+  minCastStrength: 750
+  maxCastStrength: 1500
   maxCastAngle: 45
   chargeFrequency: 1
   angleFrequency: 1

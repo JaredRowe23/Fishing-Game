@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2384184230315833498}
   - component: {fileID: 3801037571254687765}
   - component: {fileID: 9007554588732733358}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Radar Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -297,7 +297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activePredator: {fileID: 0}
   targetPos: {x: 0, y: 0}
-  swimSpeed: 2
+  swimSpeed: 2.5
   rotationSpeed: 100
   obstacleAvoidanceDistance: 2
   targetPosDirWeight: 10
@@ -342,8 +342,8 @@ AudioSource:
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 10
+  MinDistance: 0.5
+  MaxDistance: 2.5
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0

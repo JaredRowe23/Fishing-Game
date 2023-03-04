@@ -17,9 +17,9 @@ MonoBehaviour:
   description: Fresh out of the water, these guys got a good amount of meat on their
     bones.
   prefab: {fileID: 7061067434651880759, guid: bed25caa61bd9e74a9ab6805ae0e5a28, type: 3}
-  cost: 50
+  cost: 75
   areaOfEffect: 10
-  baitableFishTypes: 
+  baitableFishTypes: 0b000000
   effects:
   - Fresh Catch
   effectsSprites:

@@ -123,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8806f565621dfd84ebf2f3ab517c832a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sinkSpeed: 1
+  sinkSpeed: 1.5
   speedVariance: 0.1
   sinkDirection: {x: -1, y: 1}
   directionVariance: 25

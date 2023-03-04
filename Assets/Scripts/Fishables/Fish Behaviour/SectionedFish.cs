@@ -17,6 +17,13 @@ namespace Fishing.Fishables.Fish
         [SerializeField] private List<Vector3> previousFrameSectionPositions;
         [SerializeField] private List<Quaternion> previousFrameSectionRotations;
 
+        private Fishable fishable;
+
+        private void Awake()
+        {
+            fishable = GetComponent<Fishable>();
+        }
+
         void Start()
         {
             sections.Add(transform);
@@ -43,7 +50,14 @@ namespace Fishing.Fishables.Fish
             {
                 sections[i].transform.position += (previousFrameSectionPositions[i - 1] - sections[i].transform.position) * sectionSpacing;
                 sections[i].transform.Rotate(0f, 0f, Vector3.SignedAngle(sections[i].transform.right, sections[i - 1].right, Vector3.forward) * sectionRotationDampening);
+                if (!fishable.isHooked)
+                {
+                    sections[i].transform.SetParent(null);
+                    sections[i].transform.localScale = transform.localScale * sectionScale;
+                    sections[i].transform.SetParent(transform.parent);
+                }
             }
+
 
             previousFrameSectionPositions = new List<Vector3>();
             previousFrameSectionRotations = new List<Quaternion>();

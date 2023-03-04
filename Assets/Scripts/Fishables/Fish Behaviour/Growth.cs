@@ -26,6 +26,8 @@ namespace Fishing.Fishables.Fish
 
         void Update()
         {
+            if (fishable.isHooked) return;
+
             growthCheckCount -= Time.deltaTime;
             if (growthCheckCount <= 0)
             {
