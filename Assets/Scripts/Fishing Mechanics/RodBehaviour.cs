@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Fishing.Fishables;
-using UnityEngine.InputSystem;
 using Fishing.IO;
 using Fishing.UI;
 
@@ -28,8 +27,6 @@ namespace Fishing.FishingMechanics
         [SerializeField] private List<Transform> castAnimationPositions;
         [SerializeField] private List<Transform> reelingAnimationPositions;
 
-        private Controls _controls;
-
         private RodManager rodManager;
 
         private void Awake()
@@ -37,11 +34,7 @@ namespace Fishing.FishingMechanics
             rodManager = RodManager.instance;
             anim = GetComponent<Animator>();
 
-            _controls = new Controls();
-            _controls.FishingLevelInputs.Enable();
-            _controls.FishingLevelInputs.StartCast.performed += StartCast;
-            _controls.FishingLevelInputs.StartReeling.performed += StartReeling;
-            _controls.FishingLevelInputs.StopReeling.performed += StopReeling;
+            InputManager.onCastReel += StartCast;
         }
 
         void Start()
@@ -93,13 +86,13 @@ namespace Fishing.FishingMechanics
                     casted = false;
                     UIManager.instance.bucketMenuButton.gameObject.SetActive(true);
                     UIManager.instance.inventoryMenuButton.SetActive(true);
+                    InputManager.onCastReel += StartCast;
                 }
             }
         }
 
-        private void StartReeling(InputAction.CallbackContext _context)
+        private void StartReeling()
         {
-            if (!_context.performed) return;
             if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) return;
             if (!casted) return;
 
@@ -110,9 +103,8 @@ namespace Fishing.FishingMechanics
             }
         }
 
-        private void StopReeling(InputAction.CallbackContext _context)
+        private void StopReeling()
         {
-            if (!_context.performed) return;
             if (!anim.GetBool("isReeling")) return;
 
             AudioManager.instance.StopPlaying("Reel");
@@ -120,9 +112,8 @@ namespace Fishing.FishingMechanics
             playerAnim.SetBool("isReeling", false);
         }
 
-        private void StartCast(InputAction.CallbackContext _context)
+        private void StartCast()
         {
-            if (!_context.performed) return;
             if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) return;
             if (UIManager.instance.mouseOverUI || UIManager.instance.IsActiveUI() || TutorialSystem.instance.content.activeSelf) return;
             if (casted) return;
@@ -131,6 +122,7 @@ namespace Fishing.FishingMechanics
             playerAnim.SetTrigger("startCast");
             UIManager.instance.bucketMenuButton.gameObject.SetActive(false);
             UIManager.instance.inventoryMenuButton.SetActive(false);
+            InputManager.onCastReel -= StartCast;
             PowerAndAngle.instance.StartCharging(scriptable.chargeFrequency, scriptable.minCastStrength, scriptable.maxCastStrength,
                 scriptable.maxCastAngle, scriptable.angleFrequency);
         }
@@ -141,6 +133,8 @@ namespace Fishing.FishingMechanics
             playerAnim.SetTrigger("cast");
             casted = true;
             hook.Cast(_angle, _strength);
+            InputManager.onCastReel += StartReeling;
+            InputManager.releaseCastReel += StopReeling;
         }
 
         public void IdleLineAnchorPosition(int _index)
@@ -165,20 +159,6 @@ namespace Fishing.FishingMechanics
         public string GetDescription() => scriptable.description;
 
         private void OnDestroy() => hook.Despawn();
-
-        private void OnEnable()
-        {
-            _controls.FishingLevelInputs.StartCast.performed += StartCast;
-            _controls.FishingLevelInputs.StartReeling.performed += StartReeling;
-            _controls.FishingLevelInputs.StopReeling.performed += StopReeling;
-        }
-
-        private void OnDisable()
-        {
-            _controls.FishingLevelInputs.StartCast.performed -= StartCast;
-            _controls.FishingLevelInputs.StartReeling.performed -= StartReeling;
-            _controls.FishingLevelInputs.StopReeling.performed -= StopReeling;
-        }
     }
 
 }

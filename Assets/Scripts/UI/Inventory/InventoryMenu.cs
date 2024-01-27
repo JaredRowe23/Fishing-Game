@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.InputSystem;
 using Fishing.IO;
 
 namespace Fishing.UI
@@ -29,24 +28,7 @@ namespace Fishing.UI
             UIManager.instance.gearMenuButton.GetComponent<Image>().sprite = inactiveTabBackground;
         }
 
-        void Update()
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                if (gameObject.activeSelf)
-                {
-                    ShowInventoryMenu();
-                }
-            }
-        }
-
-        public void InventoryMenuAction(InputAction.CallbackContext _context)
-        {
-            if (!_context.performed) return;
-            ShowInventoryMenu();
-        }
-
-        public void ShowInventoryMenu()
+        public void ToggleInventoryMenu()
         {
             UIManager.instance.mouseOverUI = null;
 
@@ -61,7 +43,7 @@ namespace Fishing.UI
             }
             else
             {
-                if (BucketMenu.instance.gameObject.activeSelf) BucketMenu.instance.ShowBucketMenu();
+                if (BucketMenu.instance.gameObject.activeSelf) BucketMenu.instance.ToggleBucketMenu();
                 menuPages[activeMenu].SetActive(true);
 
                 if (PlayerData.instance.hasSeenInventoryTut) return;

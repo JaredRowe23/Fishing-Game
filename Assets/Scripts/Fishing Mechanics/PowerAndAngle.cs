@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Fishing.IO;
-using UnityEngine.InputSystem;
 using Fishing.UI;
 
 namespace Fishing.FishingMechanics
@@ -41,10 +40,6 @@ namespace Fishing.FishingMechanics
         private void Awake()
         {
             rodManager = RodManager.instance;
-            Controls _controls = new Controls();
-            _controls.FishingLevelInputs.Enable();
-            _controls.FishingLevelInputs.SetPower.performed += StartAngling;
-            _controls.FishingLevelInputs.Cast.performed += Cast;
         }
 
         private void Start()
@@ -65,6 +60,8 @@ namespace Fishing.FishingMechanics
         }
         public void StartCharging(float _chargeFrequency, float _minStrength, float _maxStrength, float _maxAngle, float _angleFrequence)
         {
+            InputManager.onCastReel += StartAngling;
+
             transform.SetParent(UIManager.instance.rodCanvas.transform);
 
             AudioManager.instance.PlaySound("Power Audio");
@@ -87,6 +84,7 @@ namespace Fishing.FishingMechanics
 
             arrowRect.rotation = Quaternion.identity;
             angling = false;
+
 
             if (PlayerData.instance.hasSeenCastTut) return;
             TutorialSystem.instance.QueueTutorial("Release the left mouse button to set your power", true, 3f);
@@ -111,13 +109,16 @@ namespace Fishing.FishingMechanics
             AudioManager.instance.GetSource("Power Audio").pitch = charge;
         }
 
-        private void StartAngling(InputAction.CallbackContext _context)
+        private void StartAngling()
         {
-            if (!_context.performed) return;
+            InputManager.onCastReel -= StartAngling;
+            InputManager.onCastReel += Cast;
+
             if (!RodManager.instance.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Start Cast")) return;
             charge = Mathf.Lerp(powerSlider.minValue, powerSlider.maxValue, charge);
             angling = true;
             charging = false;
+
 
             if (PlayerData.instance.hasSeenCastTut) return;
             TutorialSystem.instance.QueueTutorial("Click the left mouse button once more to set your angle and cast.", true, 3f);
@@ -143,14 +144,14 @@ namespace Fishing.FishingMechanics
             AudioManager.instance.GetSource("Power Audio").pitch = Mathf.InverseLerp(0f, maxAngle, currentAngle) + AudioManager.instance.GetSound("Power Audio").pitch;
         }
 
-        private void Cast(InputAction.CallbackContext _context)
+        private void Cast()
         {
-            if (!_context.performed) return;
             if (!RodManager.instance.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Start Cast")) return;
             AudioManager.instance.StopPlaying("Power Audio");
             angling = false;
             transform.SetParent(UIManager.instance.transform);
             rodManager.equippedRod.Cast(currentAngle, charge);
+            InputManager.onCastReel -= Cast;
         }
     }
 

@@ -49,7 +49,7 @@ namespace Fishing.Inventory
             if (bucketList.Count >= maxItems)
             {
                 TooltipSystem.instance.NewTooltip(5f, "You've filled your bucket! Pick something to throw away to make room!");
-                BucketMenu.instance.ShowBucketMenu();
+                BucketMenu.instance.ToggleBucketMenu();
                 UIManager.instance.overflowItem.SetActive(true);
                 BucketMenuItem _overflowMenu = UIManager.instance.overflowItem.GetComponent<BucketMenuItem>();
 

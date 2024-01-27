@@ -45,7 +45,7 @@ namespace Fishing.UI
             AudioManager.instance.PlaySound("Throwaway Fish");
             UIManager.instance.itemInfoMenu.SetActive(false);
             BucketMenu.instance.RefreshMenu();
-            BucketMenu.instance.ShowBucketMenu();
+            BucketMenu.instance.ToggleBucketMenu();
         }
 
         public void ConvertToBait(FishData _itemReference, GameObject _modelReference, GameObject _menuItem)
@@ -71,7 +71,7 @@ namespace Fishing.UI
             AudioManager.instance.PlaySound("Throwaway Fish");
             UIManager.instance.itemInfoMenu.SetActive(false);
             BucketMenu.instance.RefreshMenu();
-            BucketMenu.instance.ShowBucketMenu();
+            BucketMenu.instance.ToggleBucketMenu();
         }
     }
 }

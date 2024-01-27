@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Fishing.IO;
 
 namespace Fishing.PlayerCamera
@@ -18,24 +17,23 @@ namespace Fishing.PlayerCamera
         public static CameraBehaviour instance;
         public Camera cam;
 
-        private Controls _controls;
-
         private CameraBehaviour() => instance = this;
 
         private void Awake()
         {
             cam = GetComponent<Camera>();
-            _controls = new Controls();
-            _controls.FishingLevelInputs.Enable();
-            _controls.FishingLevelInputs.CameraZoom.performed += CameraZoom;
+            InputManager.onZoomIn += CameraZoomIn;
+            InputManager.onZoomOut += CameraZoomOut;
         }
 
-        private void CameraZoom(InputAction.CallbackContext _context)
+        private void CameraZoomIn()
         {
-            if (!_context.performed) return;
-
-            float _zoomDelta = _context.ReadValue<float>();
-            cam.orthographicSize += _zoomDelta * zoomMagnitude;
+            cam.orthographicSize -= zoomMagnitude;
+            cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, minZoom, maxZoom);
+        }
+        private void CameraZoomOut()
+        {
+            cam.orthographicSize += zoomMagnitude;
             cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, minZoom, maxZoom);
         }
 
@@ -46,16 +44,6 @@ namespace Fishing.PlayerCamera
             if (_viewportPos.x < 0f || _viewportPos.x > 1f || _viewportPos.y < 0f || _viewportPos.y > 1f) return false;
 
             else return true;
-        }
-
-        private void OnEnable()
-        {
-            _controls.FishingLevelInputs.CameraZoom.performed += CameraZoom;
-        }
-
-        private void OnDisable()
-        {
-            _controls.FishingLevelInputs.CameraZoom.performed -= CameraZoom;
         }
     }
 }

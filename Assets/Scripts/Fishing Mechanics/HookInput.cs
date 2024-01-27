@@ -1,48 +1,53 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using Fishing.IO;
 
 namespace Fishing.FishingMechanics
 {
     public class HookInput : MonoBehaviour
     {
-        [SerializeField] private float moveSpeed = 500f;
+        [SerializeField] private float moveSpeed = 20f;
 
         private Rigidbody2D rb;
         private float direction = 0f;
-        private bool isMoving;
 
         private void Awake()
         {
             rb = GetComponent<Rigidbody2D>();
 
-            Controls _controls = new Controls();
-            _controls.FishingLevelInputs.Enable();
-            _controls.FishingLevelInputs.MoveHook.performed += MoveHook;
-            _controls.FishingLevelInputs.MoveHook.canceled += StopMovingHook;
+            InputManager.onMoveLeft += MoveLeft;
+            InputManager.onMoveRight += MoveRight;
+            InputManager.releaseMoveLeft += StopLeft;
+            InputManager.releaseMoveRight += StopRight;
         }
 
         private void Update()
         {
-            if (!isMoving) return;
+            Debug.Log(direction);
+            if (direction == 0) return;
             if (transform.position.y > 0f) return;
             rb.AddForce(new Vector2(direction * moveSpeed * Time.deltaTime, 0));
         }
 
-        public void MoveHook(InputAction.CallbackContext _context)
+        private void MoveLeft()
         {
-            if (!_context.performed) return;
-            direction = _context.ReadValue<float>();
-            isMoving = true;
+            direction = -moveSpeed;
         }
 
-        public void StopMovingHook(InputAction.CallbackContext _context)
+        private void MoveRight()
         {
-            if (!_context.canceled) return;
+            direction = moveSpeed;
+        }
+
+        private void StopLeft()
+        {
             direction = 0f;
-            isMoving = false;
+        }
+
+        private void StopRight()
+        {
+            direction = 0f;
         }
     }
 }

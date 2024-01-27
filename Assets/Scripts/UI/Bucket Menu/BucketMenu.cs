@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using Fishing.Inventory;
 using Fishing.IO;
-using UnityEngine.InputSystem;
 
 namespace Fishing.UI
 {
@@ -20,13 +19,7 @@ namespace Fishing.UI
 
         private BucketMenu() => instance = this;
 
-        public void BucketMenuAction(InputAction.CallbackContext _context)
-        {
-            if (!_context.performed) return;
-            ShowBucketMenu();
-        }
-
-        public void ShowBucketMenu()
+        public void ToggleBucketMenu()
         {
             if (UIManager.instance.overflowItem.activeSelf) return;
 
@@ -34,7 +27,7 @@ namespace Fishing.UI
 
             if (gameObject.activeSelf)
             {
-                if (InventoryMenu.instance.gameObject.activeSelf) InventoryMenu.instance.ShowInventoryMenu();
+                if (InventoryMenu.instance.gameObject.activeSelf) InventoryMenu.instance.ToggleInventoryMenu();
                 AudioManager.instance.PlaySound("Open Bucket");
                 InitializeMenu();
 
@@ -115,7 +108,7 @@ namespace Fishing.UI
             AudioManager.instance.PlaySound("Throwaway Fish");
             UIManager.instance.itemInfoMenu.SetActive(false);
             RefreshMenu();
-            if (!_isSelling) ShowBucketMenu();
+            if (!_isSelling) ToggleBucketMenu();
         }
 
         public void ConvertToBait(FishData _itemReference, GameObject _modelReference, GameObject _menuItem)

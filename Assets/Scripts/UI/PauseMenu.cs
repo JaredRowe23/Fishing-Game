@@ -26,24 +26,21 @@ namespace Fishing.UI
             DontDestroyOnLoad(gameObject);
 
             playerData = PlayerData.instance;
+
+            InputManager.onPauseMenu += ToggleMenu;
         }
 
-        void Update()
+        public void ToggleMenu()
         {
             if (SceneManager.GetActiveScene().handle == 2)
             {
                 if (BucketMenu.instance.gameObject.activeSelf) return;
                 if (InventoryMenu.instance.gameObject.activeSelf) return;
+
+                UIManager.instance.bucketMenuButton.gameObject.SetActive(!pauseMenu.activeSelf);
+                UIManager.instance.inventoryMenuButton.SetActive(!pauseMenu.activeSelf);
             }
 
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                ToggleMenu();
-            }
-        }
-
-        public void ToggleMenu()
-        {
             pauseMenu.SetActive(!pauseMenu.activeSelf);
 
             if (pauseMenu.activeSelf)
@@ -55,12 +52,6 @@ namespace Fishing.UI
             {
                 AudioManager.instance.PlaySound("Unpause");
                 Time.timeScale = 1f;
-            }
-
-            if (SceneManager.GetActiveScene().handle == 2)
-            {
-                UIManager.instance.bucketMenuButton.gameObject.SetActive(!pauseMenu.activeSelf);
-                UIManager.instance.inventoryMenuButton.SetActive(!pauseMenu.activeSelf);
             }
         }
 
@@ -74,6 +65,7 @@ namespace Fishing.UI
         {
             Time.timeScale = 1f;
             ToggleMenu();
+            InputManager.ClearListeners();
             SceneManager.LoadScene("World Map");
         }
 
