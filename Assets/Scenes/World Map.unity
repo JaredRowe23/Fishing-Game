@@ -216,19 +216,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8768fa652cf5b954a9c1d6d37342c78a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuOptions:
-  - {fileID: 1801694504}
-  - {fileID: 1004567876}
-  - {fileID: 601121974}
-  - {fileID: 303596483}
-  menuCoordinates:
-  - {x: 0, y: 0, z: 1}
-  - {x: 1, y: 1, z: 3}
-  - {x: 2, y: 2, z: 0}
-  - {x: 3, y: 3, z: 2}
-  isSubMenu: 0
-  _currentIndex: 0
-  _currentCoordinates: {x: 0, y: 0, z: 0}
 --- !u!1 &174573943
 GameObject:
   m_ObjectHideFlags: 0
@@ -1052,7 +1039,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   confirmationWindow: {fileID: 1308558596}
   travelText: {fileID: 1884762604}
-  mapNavi: {fileID: 63405700}
 --- !u!4 &685883620
 Transform:
   m_ObjectHideFlags: 0
@@ -1809,15 +1795,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8768fa652cf5b954a9c1d6d37342c78a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuOptions:
-  - {fileID: 204708387}
-  - {fileID: 1192716349}
-  menuCoordinates:
-  - {x: 0, y: 0, z: 0}
-  - {x: 1, y: 1, z: 0}
-  isSubMenu: 0
-  _currentIndex: 0
-  _currentCoordinates: {x: 0, y: 0, z: 0}
 --- !u!1 &1340499562
 GameObject:
   m_ObjectHideFlags: 0

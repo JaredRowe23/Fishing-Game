@@ -1,0 +1,11 @@
+player (lives in RV)
+help wanted board (gives general quests, handed in to NPCs)
+fisherman (live-in fishing shack, tutorial for game)
+fish store
+bait seller
+rod/upgrades store (new fishing rods and upgrades to it)
+gear store (bespoke items like the radar)
+mayor (gives permits to new fishing places after enough progression)
+decoration store (aesthetics for RV)
+music store (sells music disks for radio)
+cosmetics store (clothes, appearance, etc)
