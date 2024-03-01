@@ -49,40 +49,32 @@ namespace Fishing.FishingMechanics
 
         void Update()
         {
-            if (charging)
+            if (angling)
             {
-                Charge(); 
+                Angle(); 
             }
-            else if (angling)
+            else if (charging)
             {
-                Angle();
+                Charge();
             }
         }
-        public void StartCharging(float _chargeFrequency, float _minStrength, float _maxStrength, float _maxAngle, float _angleFrequence)
+        public void StartCharging()
         {
-            InputManager.onCastReel += StartAngling;
+            InputManager.onCastReel -= StartCharging;
+            InputManager.onCastReel += Cast;
 
-            transform.SetParent(UIManager.instance.rodCanvas.transform);
-
-            AudioManager.instance.PlaySound("Power Audio");
+            RodBehaviour equippedRod = rodManager.equippedRod;
 
             charge = 0f;
-            minStrength = _minStrength;
+            minStrength = equippedRod.scriptable.minCastStrength;
             powerSlider.minValue = minStrength;
 
-            maxStrength = _maxStrength;
+            maxStrength = equippedRod.scriptable.maxCastStrength;
             powerSlider.maxValue = maxStrength;
 
-            chargeFrequency = _chargeFrequency;
+            chargeFrequency = equippedRod.scriptable.chargeFrequency;
             targetCharge = 1f;
             charging = true;
-
-            currentAngle = 0f;
-            maxAngle = _maxAngle;
-            targetAngle = maxAngle;
-            angleFrequence = _angleFrequence;
-
-            arrowRect.rotation = Quaternion.identity;
             angling = false;
 
 
@@ -109,13 +101,26 @@ namespace Fishing.FishingMechanics
             AudioManager.instance.GetSource("Power Audio").pitch = charge;
         }
 
-        private void StartAngling()
+        public void StartAngling()
         {
-            InputManager.onCastReel -= StartAngling;
-            InputManager.onCastReel += Cast;
+            InputManager.onCastReel += StartCharging;
 
-            if (!RodManager.instance.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Start Cast")) return;
+            transform.SetParent(UIManager.instance.rodCanvas.transform);
+
+            AudioManager.instance.PlaySound("Power Audio");
+
+            //if (!RodManager.instance.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Start Cast")) return;
             charge = Mathf.Lerp(powerSlider.minValue, powerSlider.maxValue, charge);
+
+            RodBehaviour equippedRod = rodManager.equippedRod;
+
+            currentAngle = 0f;
+            maxAngle = equippedRod.scriptable.maxCastAngle;
+            targetAngle = maxAngle;
+            angleFrequence = equippedRod.scriptable.angleFrequency;
+
+            arrowRect.rotation = Quaternion.identity;
+
             angling = true;
             charging = false;
 
@@ -148,11 +153,16 @@ namespace Fishing.FishingMechanics
         {
             if (!RodManager.instance.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Start Cast")) return;
             AudioManager.instance.StopPlaying("Power Audio");
-            angling = false;
+            angling = charging = false;
             transform.SetParent(UIManager.instance.transform);
-            rodManager.equippedRod.Cast(currentAngle, charge);
+            rodManager.equippedRod.Cast(currentAngle, Mathf.Lerp(rodManager.equippedRod.scriptable.minCastStrength, rodManager.equippedRod.scriptable.maxCastStrength, charge));
             InputManager.onCastReel -= Cast;
         }
+
+        public bool GetCharging() => charging;
+        public bool GetAngling() => angling;
+        public float GetCharge() => charge;
+        public float GetAngle() => currentAngle;
     }
 
 }

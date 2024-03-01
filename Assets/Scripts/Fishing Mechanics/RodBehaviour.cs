@@ -123,8 +123,7 @@ namespace Fishing.FishingMechanics
             UIManager.instance.bucketMenuButton.gameObject.SetActive(false);
             UIManager.instance.inventoryMenuButton.SetActive(false);
             InputManager.onCastReel -= StartCast;
-            PowerAndAngle.instance.StartCharging(scriptable.chargeFrequency, scriptable.minCastStrength, scriptable.maxCastStrength,
-                scriptable.maxCastAngle, scriptable.angleFrequency);
+            PowerAndAngle.instance.StartAngling();
         }
 
         public void Cast(float _angle, float _strength)
