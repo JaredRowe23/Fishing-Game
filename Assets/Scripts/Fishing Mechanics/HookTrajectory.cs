@@ -36,15 +36,15 @@ namespace Fishing.FishingMechanics
 
         private void Update()
         {
-            if (!powerAngle.GetCharging() && !powerAngle.GetAngling())
+            equippedRod = RodManager.instance.equippedRod;
+
+            if ((!powerAngle.GetCharging() && !powerAngle.GetAngling()) || !equippedRod.GetHook().IsInStartCastPosition())
             {
                 trajectoryLineRenderer.enabled = false;
                 minTrajectoryLineRenderer.enabled = false;
                 maxTrajectoryLineRenderer.enabled = false;
                 return;
             }
-
-            equippedRod = RodManager.instance.equippedRod;
 
             minimumTrajectoryPoints = GetTrajectoryPoints(equippedRod.scriptable.minCastStrength);
             maximumTrajectoryPoints = GetTrajectoryPoints(equippedRod.scriptable.maxCastStrength);

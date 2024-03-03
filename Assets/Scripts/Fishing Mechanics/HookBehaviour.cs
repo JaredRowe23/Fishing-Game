@@ -168,6 +168,8 @@ namespace Fishing.FishingMechanics
             TutorialSystem.instance.QueueTutorial("Press B or click the bucket icon in the top-left corner to access your bucket");
             PlayerData.instance.hasSeenBucketTut = true;
         }
+
+        public bool IsInStartCastPosition() => ((Vector2)transform.position == _targetPos) && _rod.IsInStartingCastPosition();
     }
 
 }

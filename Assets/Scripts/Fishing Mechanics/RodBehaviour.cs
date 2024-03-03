@@ -156,6 +156,7 @@ namespace Fishing.FishingMechanics
         public HookBehaviour GetHook() => hook;
         public float GetLineLength() => scriptable.lineLength;
         public string GetDescription() => scriptable.description;
+        public bool IsInStartingCastPosition() => linePivotPoint.position == startCastAnimationPositions[3].position;
 
         private void OnDestroy() => hook.Despawn();
     }

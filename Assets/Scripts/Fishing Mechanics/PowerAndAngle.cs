@@ -9,14 +9,21 @@ namespace Fishing.FishingMechanics
 {
     public class PowerAndAngle : MonoBehaviour
     {
+        [Range(0f, 1.0f)]
+        [SerializeField] private float lockedInTransparency;
+
         [Header("Power Charge")]
         [SerializeField] private float chargeThreshold;
         [SerializeField] private Slider powerSlider;
+        [SerializeField] private Image powerImage;
+        [SerializeField] private Text powerText;
 
 
         [Header("Angle Arrow")]
         [SerializeField] private float angleThreshold;
         [SerializeField] private RectTransform arrowRect;
+        [SerializeField] private Image arrowImage;
+        [SerializeField] private Text arrowText;
 
         private bool charging;
         private float targetCharge;
@@ -51,7 +58,11 @@ namespace Fishing.FishingMechanics
         {
             if (angling)
             {
-                Angle(); 
+                if (rodManager.equippedRod.IsInStartingCastPosition() && rodManager.equippedRod.GetHook().IsInStartCastPosition())
+                {
+                    transform.SetParent(UIManager.instance.rodCanvas.transform);
+                    Angle();
+                }
             }
             else if (charging)
             {
@@ -77,6 +88,10 @@ namespace Fishing.FishingMechanics
             charging = true;
             angling = false;
 
+            powerImage.color = SetTransparency(powerImage.color, 1f);
+            powerText.color = SetTransparency(powerText.color, 1f);
+            arrowImage.color = SetTransparency(arrowImage.color, lockedInTransparency);
+            arrowText.color = SetTransparency(arrowText.color, lockedInTransparency);
 
             if (PlayerData.instance.hasSeenCastTut) return;
             TutorialSystem.instance.QueueTutorial("Release the left mouse button to set your power", true, 3f);
@@ -105,8 +120,6 @@ namespace Fishing.FishingMechanics
         {
             InputManager.onCastReel += StartCharging;
 
-            transform.SetParent(UIManager.instance.rodCanvas.transform);
-
             AudioManager.instance.PlaySound("Power Audio");
 
             //if (!RodManager.instance.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Start Cast")) return;
@@ -121,9 +134,13 @@ namespace Fishing.FishingMechanics
 
             arrowRect.rotation = Quaternion.identity;
 
+            arrowImage.color = SetTransparency(arrowImage.color, 1f);
+            arrowText.color = SetTransparency(arrowText.color, 1f);
+            powerImage.color = SetTransparency(powerImage.color, lockedInTransparency);
+            powerText.color = SetTransparency(powerText.color, lockedInTransparency);
+
             angling = true;
             charging = false;
-
 
             if (PlayerData.instance.hasSeenCastTut) return;
             TutorialSystem.instance.QueueTutorial("Click the left mouse button once more to set your angle and cast.", true, 3f);
@@ -157,6 +174,11 @@ namespace Fishing.FishingMechanics
             transform.SetParent(UIManager.instance.transform);
             rodManager.equippedRod.Cast(currentAngle, Mathf.Lerp(rodManager.equippedRod.scriptable.minCastStrength, rodManager.equippedRod.scriptable.maxCastStrength, charge));
             InputManager.onCastReel -= Cast;
+        }
+
+        private Color SetTransparency(Color _col, float _transparency)
+        {
+            return new Color(_col.r, _col.g, _col.b, _transparency);
         }
 
         public bool GetCharging() => charging;
