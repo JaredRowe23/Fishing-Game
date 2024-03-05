@@ -24,7 +24,6 @@ namespace Fishing.FishingMechanics
 
         private void Update()
         {
-            Debug.Log(direction);
             if (direction == 0) return;
             if (transform.position.y > 0f) return;
             rb.AddForce(new Vector2(direction * moveSpeed * Time.deltaTime, 0));

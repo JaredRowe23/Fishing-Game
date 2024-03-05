@@ -329,7 +329,7 @@ MonoBehaviour:
   hookedObject: {fileID: 0}
   linePivotPoint: {fileID: 1958218463701778770}
   hookPivotPoint: {fileID: 2138213653}
-  resetSpeed: 10
+  resetSpeed: 25
   hookHangHeight: 2.5
   drag: 0
   waterDrag: 5
@@ -835,6 +835,8 @@ MonoBehaviour:
   trajectoryMat: {fileID: 2100000, guid: 502f61ef44d40854d9e795e2c9658fa7, type: 2}
   minTrajectoryMat: {fileID: 2100000, guid: e8715ef17509b154fa94435a5257f174, type: 2}
   maxTrajectoryMat: {fileID: 2100000, guid: ce65f4c7de82e854e91e937ea79fb2b5, type: 2}
+  trajectoryCameraZoomMagnitude: 1.25
+  trajectoryLineWidthZoomModifier: 0.04
 --- !u!1 &4256313850299582019
 GameObject:
   m_ObjectHideFlags: 0

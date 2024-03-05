@@ -4,6 +4,7 @@ using UnityEngine;
 using Fishing.Fishables;
 using Fishing.IO;
 using Fishing.UI;
+using Fishing.PlayerCamera;
 
 namespace Fishing.FishingMechanics
 {
@@ -28,11 +29,13 @@ namespace Fishing.FishingMechanics
         [SerializeField] private List<Transform> reelingAnimationPositions;
 
         private RodManager rodManager;
+        private CameraBehaviour cam;
 
         private void Awake()
         {
             rodManager = RodManager.instance;
             anim = GetComponent<Animator>();
+            cam = CameraBehaviour.instance;
 
             InputManager.onCastReel += StartCast;
         }
@@ -84,6 +87,7 @@ namespace Fishing.FishingMechanics
                     anim.SetBool("isReeling", false);
                     playerAnim.SetBool("isReeling", false);
                     casted = false;
+                    cam.ReturnHome();
                     UIManager.instance.bucketMenuButton.gameObject.SetActive(true);
                     UIManager.instance.inventoryMenuButton.SetActive(true);
                     InputManager.onCastReel += StartCast;
@@ -132,6 +136,7 @@ namespace Fishing.FishingMechanics
             playerAnim.SetTrigger("cast");
             casted = true;
             hook.Cast(_angle, _strength);
+            cam.SetToPlayerZoom();
             InputManager.onCastReel += StartReeling;
             InputManager.releaseCastReel += StopReeling;
         }
@@ -158,7 +163,11 @@ namespace Fishing.FishingMechanics
         public string GetDescription() => scriptable.description;
         public bool IsInStartingCastPosition() => linePivotPoint.position == startCastAnimationPositions[3].position;
 
-        private void OnDestroy() => hook.Despawn();
+        private void OnDestroy()
+        {
+            hook.Despawn();
+            InputManager.onCastReel -= StartCast;
+        } 
     }
 
 }

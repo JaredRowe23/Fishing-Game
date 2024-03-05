@@ -90,11 +90,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb56096386d8af64d8d3c04b4ef63968, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followSpeed: 3
+  lockZoom: 0
+  lockPosition: 0
+  lockPlayerControls: 0
+  defaultPosition: {x: 0, y: 0}
+  desiredPosition: {x: 0, y: 0}
+  minFollowSpeed: 0.001
+  maxFollowSpeed: 0.05
   followThreshold: 0.1
+  zoomSpeed: 0.05
+  zoomThreshold: 0.01
   zoomMagnitude: 1
-  maxZoom: 25
-  minZoom: 1
+  maxPlayerZoom: 20
+  minPlayerZoom: 1
   cam: {fileID: 0}
 --- !u!1 &4342199777047498502
 GameObject:

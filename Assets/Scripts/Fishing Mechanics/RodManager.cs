@@ -17,7 +17,6 @@ namespace Fishing
         public List<Sprite> rodSprites;
 
         private PlayerData playerData;
-        private Camera playerCam;
 
         public static RodManager instance;
 
@@ -26,7 +25,6 @@ namespace Fishing
         private void Awake()
         {
             playerData = PlayerData.instance;
-            playerCam = Camera.main;
         }
 
         private void Start()
@@ -38,7 +36,6 @@ namespace Fishing
         {
             if (_rodName != "")
             {
-                playerCam.transform.parent = null;
                 if (equippedRod != null) DestroyImmediate(equippedRod.gameObject);
             }
             else

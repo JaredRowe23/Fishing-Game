@@ -6,6 +6,7 @@ using Fishing.Fishables;
 using Fishing.Inventory;
 using Fishing.UI;
 using Fishing.IO;
+using Fishing.PlayerCamera;
 
 namespace Fishing.FishingMechanics
 {
@@ -29,13 +30,10 @@ namespace Fishing.FishingMechanics
         private RodBehaviour _rod;
         private Rigidbody2D _rb;
 
-        private Camera playerCam;
-
         private LineRenderer lineRenderer;
 
         private void Awake()
         {
-            playerCam = Camera.main;
             lineRenderer = GetComponent<LineRenderer>();
         }
 
@@ -43,9 +41,6 @@ namespace Fishing.FishingMechanics
         {
             _rod = transform.parent.GetComponent<RodBehaviour>();
             _rb = this.GetComponent<Rigidbody2D>();
-
-            playerCam.transform.parent = transform;
-            playerCam.transform.position = new Vector3(transform.position.x, transform.position.y, playerCam.transform.position.z);
 
             lineRenderer.SetPosition(0, linePivotPoint.position);
         }
@@ -101,6 +96,8 @@ namespace Fishing.FishingMechanics
                 _rb.gravityScale = 1;
                 _rb.isKinematic = false;
             }
+
+            CameraBehaviour.instance.SetDesiredPosition(transform.position);
         }
 
         public void Despawn()
