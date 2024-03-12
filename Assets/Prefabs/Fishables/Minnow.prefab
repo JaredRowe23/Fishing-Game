@@ -110,6 +110,11 @@ MonoBehaviour:
   itemName: Minnow
   itemDescription: These guys don't like to be alone
   baseValue: 10
+  minigameStrength: 0
+  minigameMoveDistance: 750
+  minigameMoveDistanceVariance: 250
+  minigameMoveTime: 3
+  minigameMoveTimeVariance: 1
   weightMax: 30
   weightMin: 20
   lengthMax: 40

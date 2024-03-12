@@ -84,6 +84,7 @@ namespace Fishing.FishingMechanics
                             }
                         }
                     }
+                    ReelingMinigame.instance.EndMinigame();
                     anim.SetBool("isReeling", false);
                     playerAnim.SetBool("isReeling", false);
                     casted = false;
@@ -95,7 +96,7 @@ namespace Fishing.FishingMechanics
             }
         }
 
-        private void StartReeling()
+        public void StartReeling()
         {
             if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) return;
             if (!casted) return;
@@ -107,7 +108,7 @@ namespace Fishing.FishingMechanics
             }
         }
 
-        private void StopReeling()
+        public void StopReeling()
         {
             if (!anim.GetBool("isReeling")) return;
 
@@ -162,6 +163,11 @@ namespace Fishing.FishingMechanics
         public float GetLineLength() => scriptable.lineLength;
         public string GetDescription() => scriptable.description;
         public bool IsInStartingCastPosition() => linePivotPoint.position == startCastAnimationPositions[3].position;
+        public void ClearReelInputs()
+        {
+            InputManager.onCastReel -= StartReeling;
+            InputManager.releaseCastReel -= StopReeling;
+        }
 
         private void OnDestroy()
         {

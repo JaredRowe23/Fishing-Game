@@ -18,6 +18,10 @@ MonoBehaviour:
   prefab: {fileID: 1958218463193938487, guid: eb73e4b47a483ae478173c4a1ebfbe60, type: 3}
   cost: 0
   lineLength: 200
+  reelZoneWidth: 300
+  reelZoneForce: 30
+  reelZoneMaxVelocity: 15
+  reelZoneGravity: 15
   reelSpeed: 2000
   minCastStrength: 750
   maxCastStrength: 1500

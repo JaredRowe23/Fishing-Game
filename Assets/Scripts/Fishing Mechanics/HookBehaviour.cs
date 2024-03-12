@@ -145,6 +145,8 @@ namespace Fishing.FishingMechanics
             hookedObject = _fishable.gameObject;
             hookedObject.transform.position = transform.position;
 
+            ReelingMinigame.instance.InitiateMinigame(_fishable);
+
             if (PlayerData.instance.hasSeenFishTut) return;
             TutorialSystem.instance.QueueTutorial("You've hooked something! Reel it back in to catch it!");
             PlayerData.instance.hasSeenFishTut = true;

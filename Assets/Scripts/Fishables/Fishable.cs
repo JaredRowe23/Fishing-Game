@@ -16,6 +16,12 @@ namespace Fishing.Fishables
         [SerializeField] private float baseValue;
         private float actualValue;
 
+        [SerializeField] private float minigameStrength;
+        [SerializeField] private float minigameMoveDistance;
+        [SerializeField] private float minigameMoveDistanceVariance;
+        [SerializeField] private float minigameMoveTime;
+        [SerializeField] private float minigameMoveTimeVariance;
+
         [Header("Variation")]
         [SerializeField] private float weightMax;
         [SerializeField] private float weightMin;
@@ -99,6 +105,11 @@ namespace Fishing.Fishables
         public float GetMaxLength() => lengthMax;
 
         public float GetValue() => actualValue;
+        public float GetMinigameStrength() => minigameStrength;
+        public float GetMinigameMoveDistance() => minigameMoveDistance;
+        public float GetMinigameMoveDistanceVariance() => minigameMoveDistanceVariance;
+        public float GetMinigameMoveTime() => minigameMoveTime;
+        public float GetMinigameMoveTimeVariance() => minigameMoveTimeVariance;
     }
 
 }
