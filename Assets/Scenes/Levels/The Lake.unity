@@ -823,6 +823,7 @@ MonoBehaviour:
   reelZoneImageWidth: 60
   xAxisMax: 1124
   fishMoveModifier: 0.05
+  lineStressDecayRate: 5
 --- !u!1 &179422998
 GameObject:
   m_ObjectHideFlags: 0

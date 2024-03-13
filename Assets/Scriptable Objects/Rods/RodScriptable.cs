@@ -13,6 +13,7 @@ namespace Fishing.FishingMechanics
         public GameObject prefab;
         public float cost;
         public float lineLength;
+        public float lineStrength;
         public float reelZoneWidth;
         public float reelZoneForce;
         public float reelZoneMaxVelocity;

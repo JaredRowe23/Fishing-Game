@@ -26,6 +26,8 @@ namespace Fishing.FishingMechanics
         [Range(0f, 1.0f)]
         [SerializeField] private float fishMoveModifier = 0.5f;
 
+        [SerializeField] private float lineStressDecayRate = 1f;
+
         private Fishable fish;
         private RodScriptable rod;
 
@@ -35,11 +37,14 @@ namespace Fishing.FishingMechanics
         private float fishMoveDistance;
         private float fishMoveDistanceVariance;
 
-        private float rodLineStrength;
+        private float lineStrength;
+        private float lineStress;
+
         private float reelZoneWidth;
         private float reelZoneForce;
         private float reelZoneMaxVelocity;
         private float reelZoneGravity;
+        private bool isInReelZone;
 
         private float fishMoveCount;
         private float fishMovePosition;
@@ -78,11 +83,29 @@ namespace Fishing.FishingMechanics
             if (fishMoveCount <= 0f) SetNewFishPosition();
             MoveFishIcon();
 
-            if (isReeling) AddReelingForce();
-            else ApplyGravityToReel();
-            MoveReelZone();
+            isInReelZone = IsFishInReelZone();
 
-            if (IsFishInReelZone()) equippedRod.StartReeling();
+            if (isReeling)
+            {
+                AddReelingForce();
+                if (!isInReelZone) AddLineStress();
+                if (lineStress >= lineStrength)
+                {
+                    OnLineSnap();
+                    return;
+                }
+            }
+            else 
+            {
+                ApplyGravityToReel();
+                if (lineStress > 0f) lineStress -= lineStressDecayRate * Time.deltaTime;
+                if (lineStress < 0f) lineStress = 0f;
+            }
+
+            MoveReelZone();
+            reelingBarFill.color = GetStressColor();
+
+            if (isInReelZone) equippedRod.StartReeling();
             else equippedRod.StopReeling();
         }
 
@@ -98,9 +121,13 @@ namespace Fishing.FishingMechanics
             reelZoneVelocity = 0f;
 
             fishIcon.rectTransform.anchoredPosition = Vector2.zero;
-            SetNewFishPosition();
+            fishMovePosition = Random.Range(0f + fishIconOffsetX, xAxisMax - fishIconOffsetX);
+            fishMoveCount = fishMoveTime + Random.Range(-fishMoveTimeVariance, fishMoveTimeVariance);
 
             fishIconOffsetX = fishIcon.rectTransform.rect.width * 0.5f;
+
+            lineStress = 0f;
+            reelingBarFill.color = GetStressColor();
 
             equippedRod.ClearReelInputs();
             InputManager.onCastReel += StartReeling;
@@ -124,7 +151,7 @@ namespace Fishing.FishingMechanics
             equippedRod = rodManager.equippedRod;
             rod = equippedRod.scriptable;
 
-            rodLineStrength = rod.lineLength;
+            lineStrength = rod.lineStrength;
             reelZoneWidth = rod.reelZoneWidth;
             reelZoneForce = rod.reelZoneForce;
             reelZoneMaxVelocity = rod.reelZoneMaxVelocity;
@@ -146,7 +173,11 @@ namespace Fishing.FishingMechanics
 
         private void StartReeling() => isReeling = true;
         private void EndReeling() => isReeling = false;
-        private void AddReelingForce() => reelZoneVelocity = Mathf.Clamp(reelZoneVelocity + reelZoneForce * Time.deltaTime, 0f, reelZoneMaxVelocity);
+        private void AddReelingForce()
+        {
+            reelZoneVelocity = Mathf.Clamp(reelZoneVelocity + reelZoneForce * Time.deltaTime, 0f, reelZoneMaxVelocity);
+            AddLineStress();
+        }
         private void ApplyGravityToReel()
         {
             float _reelZonePos = reelZone.rectTransform.anchoredPosition.x;
@@ -170,6 +201,47 @@ namespace Fishing.FishingMechanics
             bool _isInZone = _fishIconPos >= _reelZoneXMin && _fishIconPos <= _reelZoneXMax;
 
             return _isInZone;
+        }
+
+        private void AddLineStress()
+        {
+            float _additionalStress = fishStrength - lineStrength;
+            if (_additionalStress > 0f) lineStress += _additionalStress * Time.deltaTime;
+        }
+
+        private Color GetStressColor()
+        {
+            if (lineStress >= lineStrength) return reelingBarFillColors[reelingBarFillColors.Count - 1];
+            else if (lineStress <= 0f) return reelingBarFillColors[0];
+
+            float _normalizedStress = Mathf.InverseLerp(0f, lineStrength, lineStress);
+
+            float _colorFactor = 1.0f / (reelingBarFillColors.Count - 1);
+
+            int _gradientStartIndex = Mathf.FloorToInt(_normalizedStress / _colorFactor);
+            float _gradientBlend = _normalizedStress % _colorFactor;
+            float _gradientValueNormalized = Mathf.InverseLerp(_normalizedStress - _gradientBlend, _normalizedStress - _gradientBlend + _colorFactor, _normalizedStress);
+
+            float _r = Mathf.Lerp(reelingBarFillColors[_gradientStartIndex].r, reelingBarFillColors[_gradientStartIndex + 1].r, _gradientValueNormalized);
+            float _g = Mathf.Lerp(reelingBarFillColors[_gradientStartIndex].g, reelingBarFillColors[_gradientStartIndex + 1].g, _gradientValueNormalized);
+            float _b = Mathf.Lerp(reelingBarFillColors[_gradientStartIndex].b, reelingBarFillColors[_gradientStartIndex + 1].b, _gradientValueNormalized);
+
+            Color _newColor = new Color(_r, _g, _b);
+
+            return _newColor;
+        }
+
+        private void OnLineSnap()
+        {
+            equippedRod.GetHook().DespawnHookedObject();
+            equippedRod.GetHook().hookedObject = null;
+            equippedRod.StopReeling();
+
+            InputManager.onCastReel -= StartReeling;
+            InputManager.releaseCastReel -= EndReeling;
+            equippedRod.OnReeledIn();
+
+            EndMinigame();
         }
 
         private void ShowMinigame(bool _show)
