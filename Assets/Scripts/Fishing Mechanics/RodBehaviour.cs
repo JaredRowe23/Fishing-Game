@@ -150,6 +150,7 @@ namespace Fishing.FishingMechanics
         public void ReelingLineAnchorPosition(int _index) => linePivotPoint.position = reelingAnimationPositions[_index].position;
 
         public HookBehaviour GetHook() => hook;
+        public Transform GetLinePivotPoint() => linePivotPoint;
         public float GetLineLength() => scriptable.lineLength;
         public string GetDescription() => scriptable.description;
         public bool IsInStartingCastPosition() => linePivotPoint.position == startCastAnimationPositions[3].position;

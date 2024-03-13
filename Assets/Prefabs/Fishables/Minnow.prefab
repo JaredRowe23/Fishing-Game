@@ -115,6 +115,11 @@ MonoBehaviour:
   minigameMoveDistanceVariance: 250
   minigameMoveTime: 3
   minigameMoveTimeVariance: 1
+  minigameSwimSpeed: 2
+  minigameSwimTime: 10
+  minigameSwimTimeVariance: 1
+  minigameRestTime: 5
+  minigameRestTimeVariance: 1
   weightMax: 30
   weightMin: 20
   lengthMax: 40

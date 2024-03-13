@@ -16,11 +16,19 @@ namespace Fishing.Fishables
         [SerializeField] private float baseValue;
         private float actualValue;
 
+        [Header("Minigame")]
         [SerializeField] private float minigameStrength;
         [SerializeField] private float minigameMoveDistance;
         [SerializeField] private float minigameMoveDistanceVariance;
         [SerializeField] private float minigameMoveTime;
         [SerializeField] private float minigameMoveTimeVariance;
+        [SerializeField] private float minigameSwimSpeed;
+        [SerializeField] private float minigameSwimTime;
+        [SerializeField] private float minigameSwimTimeVariance;
+        [SerializeField] private float minigameRestTime;
+        [SerializeField] private float minigameRestTimeVariance;
+
+        private float minigameDifficulty;
 
         [Header("Variation")]
         [SerializeField] private float weightMax;
@@ -50,6 +58,7 @@ namespace Fishing.Fishables
             float _lengthValueDelta = Mathf.InverseLerp(lengthMin, lengthMax, length) + 0.5f;
             float _valueDelta = (_weightValueDelta + _lengthValueDelta) * 0.5f;
             actualValue = baseValue * _valueDelta;
+            minigameDifficulty = _valueDelta;
         }
 
         public void RecalculateValue()
@@ -105,11 +114,17 @@ namespace Fishing.Fishables
         public float GetMaxLength() => lengthMax;
 
         public float GetValue() => actualValue;
+        public float GetMinigameDifficulty() => minigameDifficulty;
         public float GetMinigameStrength() => minigameStrength;
         public float GetMinigameMoveDistance() => minigameMoveDistance;
         public float GetMinigameMoveDistanceVariance() => minigameMoveDistanceVariance;
         public float GetMinigameMoveTime() => minigameMoveTime;
         public float GetMinigameMoveTimeVariance() => minigameMoveTimeVariance;
+        public float GetMinigameSwimSpeed() => minigameSwimSpeed;
+        public float GetMinigameSwimTime() => minigameSwimTime;
+        public float GetMinigameSwimTimeVariance() => minigameSwimTimeVariance;
+        public float GetMinigameRestTime() => minigameRestTime;
+        public float GetMinigameRestTimeVariance() => minigameRestTimeVariance;
     }
 
 }

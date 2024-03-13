@@ -13,6 +13,7 @@ namespace Fishing.FishingMechanics
         [SerializeField] private Image reelingBarFill;
         [SerializeField] private Image reelZone;
         [SerializeField] private Image fishIcon;
+        [SerializeField] private Image swimmingIcon;
 
         private List<Image> minigameImages;
 
@@ -32,6 +33,7 @@ namespace Fishing.FishingMechanics
         private RodScriptable rod;
 
         private float fishStrength;
+        private float fishDifficulty;
         private float fishMoveTime;
         private float fishMoveTimeVariance;
         private float fishMoveDistance;
@@ -46,6 +48,14 @@ namespace Fishing.FishingMechanics
         private float reelZoneGravity;
         private bool isInReelZone;
 
+        private bool isFishSwimming;
+        private float fishSwimSpeed;
+        private float fishSwimTime;
+        private float fishSwimTimeVariance;
+        private float fishRestTime;
+        private float fishRestTimeVariance;
+        private float fishSwimCount;
+        private float fishRestCount;
         private float fishMoveCount;
         private float fishMovePosition;
 
@@ -79,7 +89,30 @@ namespace Fishing.FishingMechanics
         {
             if (!isInMinigame) return;
 
-            fishMoveCount -= Time.deltaTime;
+            swimmingIcon.gameObject.SetActive(isFishSwimming);
+            if (isFishSwimming)
+            {
+                FishSwim();
+
+                fishMoveCount -= Time.deltaTime;
+                fishSwimCount -= Time.deltaTime;
+                if (fishSwimCount <= 0f)
+                {
+                    fishRestCount = fishRestTime + Random.Range(-fishRestTimeVariance, fishRestTimeVariance);
+                    isFishSwimming = false;
+                }
+            }
+            else
+            {
+                fishRestCount -= Time.deltaTime;
+                if (fishRestCount <= 0f)
+                {
+                    fishSwimCount = fishSwimTime + Random.Range(-fishSwimTimeVariance, fishSwimTimeVariance);
+                    SetNewFishPosition();
+                    isFishSwimming = true;
+                }
+            }
+
             if (fishMoveCount <= 0f) SetNewFishPosition();
             MoveFishIcon();
 
@@ -89,6 +122,7 @@ namespace Fishing.FishingMechanics
             {
                 AddReelingForce();
                 if (!isInReelZone) AddLineStress();
+                if (isFishSwimming) AddLineStress();
                 if (lineStress >= lineStrength)
                 {
                     OnLineSnap();
@@ -141,10 +175,16 @@ namespace Fishing.FishingMechanics
             fish = _fish;
 
             fishStrength = fish.GetMinigameStrength();
+            fishDifficulty = fish.GetMinigameDifficulty();
             fishMoveTime = fish.GetMinigameMoveTime();
             fishMoveTimeVariance = fish.GetMinigameMoveTimeVariance();
             fishMoveDistance = fish.GetMinigameMoveDistance();
             fishMoveDistanceVariance = fish.GetMinigameMoveDistanceVariance();
+            fishSwimSpeed = fish.GetMinigameSwimSpeed();
+            fishSwimTime = fish.GetMinigameSwimTime();
+            fishSwimTimeVariance = fish.GetMinigameSwimTimeVariance();
+            fishRestTime = fish.GetMinigameRestTime();
+            fishRestTimeVariance = fish.GetMinigameRestTimeVariance();
         }
         private void SetRodStats()
         {
@@ -205,8 +245,8 @@ namespace Fishing.FishingMechanics
 
         private void AddLineStress()
         {
-            float _additionalStress = fishStrength - lineStrength;
-            if (_additionalStress > 0f) lineStress += _additionalStress * Time.deltaTime;
+            float _stress = fishStrength * fishDifficulty - lineStrength;
+            if (_stress > 0f) lineStress += _stress * Time.deltaTime;
         }
 
         private Color GetStressColor()
@@ -229,6 +269,16 @@ namespace Fishing.FishingMechanics
             Color _newColor = new Color(_r, _g, _b);
 
             return _newColor;
+        }
+
+        private void FishSwim()
+        {
+            Vector2 _dir = Vector3.Normalize(fish.transform.position - equippedRod.GetLinePivotPoint().position);
+            float _rotRad = Mathf.Atan2(_dir.y, _dir.x);
+            float _rotAngle = _rotRad * (180 / Mathf.PI);
+            _rotAngle += 180f;
+            fish.transform.rotation = Quaternion.Euler(fish.transform.rotation.x, fish.transform.rotation.y, _rotAngle);
+            equippedRod.GetHook().transform.position = Vector2.MoveTowards(fish.transform.position, (Vector2)fish.transform.position + _dir * fishSwimSpeed, fishSwimSpeed * Time.deltaTime);
         }
 
         private void OnLineSnap()
