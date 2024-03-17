@@ -153,6 +153,7 @@ namespace Fishing.FishingMechanics
         public Transform GetLinePivotPoint() => linePivotPoint;
         public float GetLineLength() => scriptable.lineLength;
         public string GetDescription() => scriptable.description;
+        public float GetReeledInDistance() => reeledInDistance;
         public bool IsInStartingCastPosition() => linePivotPoint.position == startCastAnimationPositions[3].position;
         public void ClearReelInputs()
         {

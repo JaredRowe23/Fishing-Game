@@ -60,8 +60,8 @@ namespace Fishing.FishingMechanics
         public void InitializeMinigame()
         {
             lineStress = 0f;
-            reelingBarFill.color = GetStressColor();
             lineStrength = RodManager.instance.equippedRod.scriptable.lineStrength;
+            reelingBarFill.color = GetStressColor();
         }
 
         private void AddLineStress()
