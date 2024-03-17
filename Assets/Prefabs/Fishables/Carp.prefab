@@ -209,6 +209,16 @@ MonoBehaviour:
   itemName: Carp
   itemDescription: Just your normal basic fish guy here
   baseValue: 50
+  minigameStrength: 25
+  minigameMoveDistance: 500
+  minigameMoveDistanceVariance: 100
+  minigameMoveTime: 5
+  minigameMoveTimeVariance: 1
+  minigameSwimSpeed: 2.5
+  minigameSwimTime: 7.5
+  minigameSwimTimeVariance: 2.5
+  minigameRestTime: 7.5
+  minigameRestTimeVariance: 2.5
   weightMax: 14
   weightMin: 2
   lengthMax: 80

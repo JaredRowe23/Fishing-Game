@@ -246,6 +246,16 @@ MonoBehaviour:
   itemName: Water Lily Fruit
   itemDescription: The fruit that comes from water lilies.
   baseValue: 5
+  minigameStrength: 10
+  minigameMoveDistance: 250
+  minigameMoveDistanceVariance: 50
+  minigameMoveTime: 3
+  minigameMoveTimeVariance: 1
+  minigameSwimSpeed: 0
+  minigameSwimTime: 10
+  minigameSwimTimeVariance: 1
+  minigameRestTime: 5
+  minigameRestTimeVariance: 1
   weightMax: 1
   weightMin: 1
   lengthMax: 50

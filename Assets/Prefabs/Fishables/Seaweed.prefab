@@ -103,8 +103,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Seaweed
-  itemDescription: Just a rust tube with nothing in it
+  itemDescription: A salty tasty snack for fish, as well as for some people
   baseValue: 5
+  minigameStrength: 5
+  minigameMoveDistance: 400
+  minigameMoveDistanceVariance: 100
+  minigameMoveTime: 2.5
+  minigameMoveTimeVariance: 1
+  minigameSwimSpeed: 0
+  minigameSwimTime: 10
+  minigameSwimTimeVariance: 1
+  minigameRestTime: 5
+  minigameRestTimeVariance: 1
   weightMax: 1
   weightMin: 1
   lengthMax: 40

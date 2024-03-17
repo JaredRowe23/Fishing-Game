@@ -103,8 +103,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Boot
-  itemDescription: Just a rust tube with nothing in it
+  itemDescription: Someone must've lost this to the mud while taking a dip
   baseValue: 1
+  minigameStrength: 5
+  minigameMoveDistance: 100
+  minigameMoveDistanceVariance: 50
+  minigameMoveTime: 5
+  minigameMoveTimeVariance: 1
+  minigameSwimSpeed: 0
+  minigameSwimTime: 10
+  minigameSwimTimeVariance: 1
+  minigameRestTime: 5
+  minigameRestTimeVariance: 1
   weightMax: 1
   weightMin: 1
   lengthMax: 30

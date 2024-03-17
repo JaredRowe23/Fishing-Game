@@ -105,6 +105,16 @@ MonoBehaviour:
   itemName: Tin Can
   itemDescription: Just a rust tube with nothing in it
   baseValue: 0.5
+  minigameStrength: 5
+  minigameMoveDistance: 50
+  minigameMoveDistanceVariance: 0
+  minigameMoveTime: 5
+  minigameMoveTimeVariance: 1
+  minigameSwimSpeed: 0
+  minigameSwimTime: 10
+  minigameSwimTimeVariance: 1
+  minigameRestTime: 5
+  minigameRestTimeVariance: 1
   weightMax: 1
   weightMin: 1
   lengthMax: 25

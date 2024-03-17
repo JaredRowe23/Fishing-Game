@@ -295,6 +295,16 @@ MonoBehaviour:
   itemDescription: This apex predator must have been living at the bottom of the
     lake for centuries.
   baseValue: 1000
+  minigameStrength: 75
+  minigameMoveDistance: 1000
+  minigameMoveDistanceVariance: 500
+  minigameMoveTime: 1
+  minigameMoveTimeVariance: 0.9
+  minigameSwimSpeed: 15
+  minigameSwimTime: 25
+  minigameSwimTimeVariance: 5
+  minigameRestTime: 15
+  minigameRestTimeVariance: 2.5
   weightMax: 2500
   weightMin: 1500
   lengthMax: 1500

@@ -103,8 +103,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Driftwood
-  itemDescription: Just a rust tube with nothing in it
+  itemDescription: This might've once been something interesting. Or just a tree
+    branch...
   baseValue: 2
+  minigameStrength: 5
+  minigameMoveDistance: 250
+  minigameMoveDistanceVariance: 75
+  minigameMoveTime: 3
+  minigameMoveTimeVariance: 1
+  minigameSwimSpeed: 0
+  minigameSwimTime: 10
+  minigameSwimTimeVariance: 1
+  minigameRestTime: 5
+  minigameRestTimeVariance: 1
   weightMax: 1
   weightMin: 1
   lengthMax: 50

@@ -380,6 +380,16 @@ MonoBehaviour:
   itemDescription: It has a sort of lantern dangling from it's head, lighting up
     the nearby area with a form of bioluminescence.
   baseValue: 150
+  minigameStrength: 15
+  minigameMoveDistance: 750
+  minigameMoveDistanceVariance: 250
+  minigameMoveTime: 3
+  minigameMoveTimeVariance: 1
+  minigameSwimSpeed: 2
+  minigameSwimTime: 10
+  minigameSwimTimeVariance: 1
+  minigameRestTime: 5
+  minigameRestTimeVariance: 1
   weightMax: 50
   weightMin: 30
   lengthMax: 100

@@ -208,6 +208,16 @@ MonoBehaviour:
   itemName: Crab
   itemDescription: CrabRave.exe
   baseValue: 40
+  minigameStrength: 10
+  minigameMoveDistance: 250
+  minigameMoveDistanceVariance: 50
+  minigameMoveTime: 2
+  minigameMoveTimeVariance: 0.5
+  minigameSwimSpeed: 1
+  minigameSwimTime: 2.5
+  minigameSwimTimeVariance: 0.5
+  minigameRestTime: 2.5
+  minigameRestTimeVariance: 0.5
   weightMax: 5
   weightMin: 2
   lengthMax: 100

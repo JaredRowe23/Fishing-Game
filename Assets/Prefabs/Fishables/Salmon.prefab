@@ -207,8 +207,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemName: Salmon
-  itemDescription: Just your normal basic fish guy here
+  itemDescription: Swimming upstream every year makes these delicious fish very strong.
   baseValue: 75
+  minigameStrength: 40
+  minigameMoveDistance: 800
+  minigameMoveDistanceVariance: 400
+  minigameMoveTime: 2.5
+  minigameMoveTimeVariance: 1.5
+  minigameSwimSpeed: 3
+  minigameSwimTime: 15
+  minigameSwimTimeVariance: 2.5
+  minigameRestTime: 10
+  minigameRestTimeVariance: 1
   weightMax: 13.5
   weightMin: 5
   lengthMax: 180
