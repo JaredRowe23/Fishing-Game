@@ -8,7 +8,7 @@ namespace Fishing.UI
 {
     public class OverflowItem : MonoBehaviour
     {
-        [SerializeField] private BucketBehaviour bucket;
+        private BucketBehaviour bucket;
 
         private RodManager rodManager;
         public static OverflowItem instance;
@@ -19,6 +19,7 @@ namespace Fishing.UI
         private void Awake()
         {
             rodManager = RodManager.instance;
+            bucket = BucketBehaviour.instance;
         }
         public void ThrowAway(FishData _itemReference, GameObject _modelReference, GameObject _menuItem)
         {

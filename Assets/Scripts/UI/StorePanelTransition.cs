@@ -7,56 +7,59 @@ namespace Fishing.NPC
 {
     public class StorePanelTransition : MonoBehaviour
     {
-        [SerializeField] private float verticalOffset;
-        [SerializeField] private float transitionSeconds;
-        [SerializeField] private float transitionThreshold;
-        [SerializeField] private bool downwardsTransition;
+        private enum Direction { Up, Down };
+        [SerializeField] private Direction transitionDirection = Direction.Down;
+
+        [SerializeField] private float upOffset = 1080f;
+        [SerializeField] private float downOffset = 0f;
+        [SerializeField] private float transitionSeconds = 1f;
+        [SerializeField] private float transitionThreshold = 5f;
+
         private bool transitioning;
         private RectTransform panelRect;
+
 
         private void Awake()
         {
             panelRect = GetComponent<RectTransform>();
         }
 
-        public void HidePanel()
+        public void PanelUp()
         {
             if (transitioning) return;
             transitioning = true;
-            StartCoroutine(Co_Transition(verticalOffset));
+            transitionDirection = Direction.Up;
+            StartCoroutine(Co_Transition(upOffset));
         }
 
-        public void ShowPanel()
+        public void PanelDown()
         {
             if (transitioning) return;
             transitioning = true;
-            StartCoroutine(Co_Transition(0f));
+            transitionDirection = Direction.Down;
+            StartCoroutine(Co_Transition(downOffset));
         }
 
         private IEnumerator Co_Transition(float _targetPos)
         {
             int _transitionDir = 1;
-            if (_targetPos < panelRect.offsetMin.y) _transitionDir = -1;
-            if (downwardsTransition) _transitionDir *= -1;
+            if (transitionDirection == Direction.Down) _transitionDir = -1;
+
+            float _moveDistance = Mathf.Abs(panelRect.offsetMin.y - _targetPos);
 
             while (true)
             {
-                MoveRectOffset(_transitionDir * verticalOffset / transitionSeconds * Time.deltaTime);
-                if (Mathf.Abs(panelRect.offsetMin.y - _targetPos) <= transitionThreshold)
+                MoveRectOffset(_transitionDir * _moveDistance / transitionSeconds * Time.deltaTime);
+                if (transitionDirection == Direction.Down && panelRect.offsetMin.y <= _targetPos + transitionThreshold)
                 {
-                    SetRectOffset(_targetPos);
-                    transitioning = false;
+                    EndTransition(_targetPos);
                     break;
                 }
-                //Work on fixing overshooting issue
-                //else if (!downwardsTransition && panelRect.offsetMin.y < _targetPos * _transitionDir)
-                //{
-                //    Debug.Log("test too far: " + gameObject.name);
-                //}
-                //else if (downwardsTransition && panelRect.offsetMin.y > _targetPos * _transitionDir)
-                //{
-                //    Debug.Log("test too far: " + gameObject.name);
-                //}
+                else if (transitionDirection == Direction.Up && panelRect.offsetMin.y >= _targetPos - transitionThreshold)
+                {
+                    EndTransition(_targetPos);
+                    break;
+                }
 
                 yield return null;
             }
@@ -70,6 +73,12 @@ namespace Fishing.NPC
         {
             panelRect.offsetMin = new Vector2(panelRect.offsetMin.x, panelRect.offsetMin.y + _offset);
             panelRect.offsetMax = new Vector2(panelRect.offsetMax.x, panelRect.offsetMin.y + _offset);
+        }
+
+        private void EndTransition(float _endPosition)
+        {
+            SetRectOffset(_endPosition);
+            transitioning = false;
         }
     }
 }

@@ -65,6 +65,11 @@ namespace Fishing.FishingMechanics
                 _rb.velocity = Vector2.zero;
                 _targetPos = linePivotPoint.position - new Vector3(0, hookHangHeight, 0);
                 transform.position = Vector2.MoveTowards(transform.position, _targetPos, resetSpeed * Time.deltaTime);
+                if (Vector2.Distance(transform.position, _targetPos) == 0f && _rod.isResettingHook)
+                {
+                    _rod.AddCastInput();
+                    _rod.isResettingHook = false;
+                }
                 return;
             }
 
@@ -140,6 +145,7 @@ namespace Fishing.FishingMechanics
         public void SetHook(Fishable _fishable)
         {
             if (hookedObject != null) return;
+            if (_rod.isResettingHook) return;
 
             _fishable.OnHooked(transform);
             hookedObject = _fishable.gameObject;

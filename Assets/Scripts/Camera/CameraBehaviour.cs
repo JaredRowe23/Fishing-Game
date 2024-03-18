@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Fishing.IO;
+using Fishing.UI;
 
 namespace Fishing.PlayerCamera
 {
@@ -54,6 +55,7 @@ namespace Fishing.PlayerCamera
         private void Update()
         {
             lockPlayerControls = desiredZoom != playerZoom;
+            if (UIManager.instance.IsActiveUI()) lockPlayerControls = true;
             if (!lockZoom) HandleCameraZoom();
             if (!lockPosition) HandleCameraPosition();
         }

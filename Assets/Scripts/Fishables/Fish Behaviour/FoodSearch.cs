@@ -61,6 +61,7 @@ namespace Fishing.Fishables.Fish
             hunger.AddFood(_food);
 
             GetComponent<AudioSource>().Play();
+            Debug.Log(gameObject.name + " ate " + _food.name);
             _food.GetComponent<IEdible>().Despawn();
             desiredFood = null;
         }

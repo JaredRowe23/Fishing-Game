@@ -940,7 +940,7 @@ PrefabInstance:
       objectReference: {fileID: 2444290808429254045}
     - target: {fileID: 1046695107666289246, guid: 6b51cf764edbe704abb7f372e3e19c1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: ShowPanel
+      value: PanelDown
       objectReference: {fileID: 0}
     - target: {fileID: 1046695107666289246, guid: 6b51cf764edbe704abb7f372e3e19c1b, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
@@ -2238,10 +2238,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f8f90f1ffe5c2f41b912194499f54da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  verticalOffset: 1080
+  transitionDirection: 1
+  upOffset: 1080
+  downOffset: 0
   transitionSeconds: 1
   transitionThreshold: 5
-  downwardsTransition: 0
 --- !u!224 &2444290808429254035
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2459,7 +2460,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2444290808429254033}
         m_TargetAssemblyTypeName: Fishing.NPC.StorePanelTransition, Assembly-CSharp
-        m_MethodName: HidePanel
+        m_MethodName: PanelUp
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2471,7 +2472,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1501491500}
         m_TargetAssemblyTypeName: Fishing.NPC.StorePanelTransition, Assembly-CSharp
-        m_MethodName: ShowPanel
+        m_MethodName: PanelUp
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

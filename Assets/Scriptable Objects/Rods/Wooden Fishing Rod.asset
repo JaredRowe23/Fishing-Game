@@ -19,7 +19,7 @@ MonoBehaviour:
   cost: 0
   lineLength: 200
   lineStrength: 10
-  reelZoneWidth: 300
+  reelZoneWidth: 150
   reelZoneForce: 30
   reelZoneMaxVelocity: 15
   reelZoneGravity: 15

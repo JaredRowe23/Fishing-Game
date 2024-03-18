@@ -28,6 +28,8 @@ namespace Fishing.FishingMechanics
         [SerializeField] private List<Transform> castAnimationPositions;
         [SerializeField] private List<Transform> reelingAnimationPositions;
 
+        public bool isResettingHook = false;
+
         private RodManager rodManager;
         private CameraBehaviour cam;
 
@@ -139,9 +141,9 @@ namespace Fishing.FishingMechanics
             playerAnim.SetBool("isReeling", false);
             casted = false;
             cam.ReturnHome();
+            isResettingHook = true;
             UIManager.instance.bucketMenuButton.gameObject.SetActive(true);
             UIManager.instance.inventoryMenuButton.SetActive(true);
-            InputManager.onCastReel += StartCast;
         }
 
         public void IdleLineAnchorPosition(int _index) => linePivotPoint.position = idleAnimationPositions[_index].position;
@@ -165,6 +167,11 @@ namespace Fishing.FishingMechanics
         {
             InputManager.onCastReel += StartReeling;
             InputManager.releaseCastReel += StopReeling;
+        }
+
+        public void AddCastInput()
+        {
+            InputManager.onCastReel += StartCast;
         }
 
         private void OnDestroy()
