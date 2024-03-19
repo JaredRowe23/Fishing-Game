@@ -10,6 +10,8 @@ namespace Fishing.UI
         [SerializeField] private GameObject tutorialPrefab;
         [SerializeField] private Image filter;
         [SerializeField] private float fadedAlpha;
+        [Range(0f, 1f)]
+        [SerializeField] private float slowMotionSpeed = 0.1f;
         [SerializeField] private float transitionSpeed;
 
         public GameObject content;
@@ -54,7 +56,7 @@ namespace Fishing.UI
             gr.enabled = true;
             content.SetActive(true);
             filter.color = new Color(filter.color.r, filter.color.g, filter.color.b, Mathf.Lerp(filter.color.a, fadedAlpha, transitionSpeed * Time.deltaTime));
-            Time.timeScale = Mathf.Lerp(Time.timeScale, 1f - fadedAlpha, transitionSpeed * Time.deltaTime);
+            Time.timeScale = Mathf.Lerp(Time.timeScale, slowMotionSpeed, transitionSpeed * Time.deltaTime);
             return;
 
         }

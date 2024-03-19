@@ -153,9 +153,9 @@ namespace Fishing.FishingMechanics
 
             ReelingMinigame.instance.InitiateMinigame(_fishable);
 
-            if (PlayerData.instance.hasSeenFishTut) return;
-            TutorialSystem.instance.QueueTutorial("You've hooked something! Reel it back in to catch it!");
-            PlayerData.instance.hasSeenFishTut = true;
+            //if (PlayerData.instance.hasSeenFishTut) return;
+            //TutorialSystem.instance.QueueTutorial("You've hooked something! Reel it back in to catch it!");
+            //PlayerData.instance.hasSeenFishTut = true;
         }
 
         public void DespawnHookedObject()

@@ -471,5 +471,6 @@ MonoBehaviour:
   tutorialPrefab: {fileID: 9001733635542594512, guid: 9b73d5359539703458eed1ab67387b50, type: 3}
   filter: {fileID: 5160021499455366498}
   fadedAlpha: 0.75
+  slowMotionSpeed: 0.01
   transitionSpeed: 5
   content: {fileID: 4008680028363171572}

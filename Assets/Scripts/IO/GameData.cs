@@ -40,6 +40,7 @@ namespace Fishing.IO
         [Header("Tutorials")]
         public bool hasSeenCastTut;
         public bool hasSeenReelingTut;
+        public bool hasSeenReelingMinigameTut;
         public bool hasSeenBucketTut;
         public bool hasSeenBucketMenuTut;
         public bool hasSeenBaitTut;
@@ -79,6 +80,7 @@ namespace Fishing.IO
             hasSeenBucketMenuTut = _playerData.hasSeenBucketMenuTut;
             hasSeenBaitTut = _playerData.hasSeenBaitTut;
             hasSeenReelingTut = _playerData.hasSeenReelingTut;
+            hasSeenReelingMinigameTut = _playerData.hasSeenReelingMinigameTut;
             hasSeenInventoryTut = _playerData.hasSeenInventoryTut;
             hasSeenFishTut = _playerData.hasSeenFishTut;
             hasSeenNPCTut = _playerData.hasSeenNPCTut;

@@ -39,6 +39,7 @@ namespace Fishing.IO
         [Header("Tutorials")]
         public bool hasSeenCastTut;
         public bool hasSeenReelingTut;
+        public bool hasSeenReelingMinigameTut;
         public bool hasSeenBucketTut;
         public bool hasSeenBucketMenuTut;
         public bool hasSeenBaitTut;
@@ -109,6 +110,7 @@ namespace Fishing.IO
             hasSeenBucketMenuTut = _saveData.hasSeenBucketMenuTut;
             hasSeenBaitTut = _saveData.hasSeenBaitTut;
             hasSeenReelingTut = _saveData.hasSeenReelingTut;
+            hasSeenReelingMinigameTut = _saveData.hasSeenReelingMinigameTut;
             hasSeenInventoryTut = _saveData.hasSeenInventoryTut;
             hasSeenFishTut = _saveData.hasSeenFishTut;
             hasSeenNPCTut = _saveData.hasSeenNPCTut;
@@ -143,7 +145,7 @@ namespace Fishing.IO
             bait = new List<string>();
             baitCounts = new List<int>();
 
-            hasSeenCastTut = hasSeenBucketTut = hasSeenBucketMenuTut = hasSeenBaitTut = hasSeenReelingTut = hasSeenInventoryTut = hasSeenFishTut = hasSeenNPCTut = false;
+            hasSeenCastTut = hasSeenBucketTut = hasSeenBucketMenuTut = hasSeenBaitTut = hasSeenReelingTut = hasSeenReelingMinigameTut = hasSeenInventoryTut = hasSeenFishTut = hasSeenNPCTut = false;
         }
 
         public void AddRod(string _rod)
