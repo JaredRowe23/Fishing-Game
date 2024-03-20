@@ -25,6 +25,7 @@ namespace Fishing.FishingMechanics
         private float fishMoveDistance;
         private float fishMoveDistanceVariance;
 
+        private bool canSwim;
         private bool isFishSwimming;
         private float fishSwimSpeed;
         private float fishSwimTime;
@@ -54,6 +55,10 @@ namespace Fishing.FishingMechanics
 
             swimmingIcon.gameObject.SetActive(isFishSwimming);
 
+            MoveFishIcon();
+
+            if (!canSwim) return;
+
             if (isFishSwimming)
             {
                 FishSwim();
@@ -78,7 +83,6 @@ namespace Fishing.FishingMechanics
             }
 
             if (fishMoveCount <= 0f) SetNewFishPosition();
-            MoveFishIcon();
         }
 
         public void InitializeMinigame(Fishable _fish)
@@ -96,6 +100,8 @@ namespace Fishing.FishingMechanics
         {
             fish = _fish;
 
+            canSwim = _fish.GetComponent<IMovement>() != null;
+            Debug.Log(canSwim);
             fishStrength = fish.GetMinigameStrength();
             fishDifficulty = fish.GetMinigameDifficulty();
             fishMoveTime = fish.GetMinigameMoveTime();
@@ -132,7 +138,6 @@ namespace Fishing.FishingMechanics
             fish.transform.rotation = Quaternion.Euler(fish.transform.rotation.x, fish.transform.rotation.y, _rotAngle);
             _rod.GetHook().transform.position = Vector2.MoveTowards(fish.transform.position, (Vector2)fish.transform.position + _dir * fishSwimSpeed, fishSwimSpeed * Time.deltaTime);
         }
-
         public float GetFishStrength() => fishStrength;
         public float GetFishDifficulty() => fishDifficulty;
         public bool IsFishSwimming() => isFishSwimming;

@@ -74,6 +74,7 @@ namespace Fishing.Fishables
         public void OnHooked(Transform _hook)
         {
             isHooked = true;
+            FoodSearchManager.instance.RemoveFood(GetComponent<Edible>());
             if (transform.parent.GetComponent<SpawnZone>()) transform.parent.GetComponent<SpawnZone>().spawnList.Remove(gameObject);
             else if (transform.parent.GetComponent<PlantStalk>()) transform.parent.GetComponent<PlantStalk>().RemoveFruit(gameObject);
             transform.parent = _hook;
