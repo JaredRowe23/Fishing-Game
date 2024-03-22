@@ -113,6 +113,8 @@ namespace Fishing.Inventory
                 PlayerData.instance.bucketFishValue.Add(_newItem.itemValue);
             }
 
+            PlayerData.instance.UpdateFishRecordData(_newItem.itemName, _newItem.itemLength, _newItem.itemWeight);
+
             _item.GetComponent<IEdible>().Despawn();
         }
     }

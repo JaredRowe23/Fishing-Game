@@ -101,7 +101,6 @@ namespace Fishing.FishingMechanics
             fish = _fish;
 
             canSwim = _fish.GetComponent<IMovement>() != null;
-            Debug.Log(canSwim);
             fishStrength = fish.GetMinigameStrength();
             fishDifficulty = fish.GetMinigameDifficulty();
             fishMoveTime = fish.GetMinigameMoveTime();

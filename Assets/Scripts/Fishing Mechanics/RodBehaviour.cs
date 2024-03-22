@@ -92,6 +92,7 @@ namespace Fishing.FishingMechanics
             playerAnim.SetTrigger("startCast");
             UIManager.instance.bucketMenuButton.gameObject.SetActive(false);
             UIManager.instance.inventoryMenuButton.SetActive(false);
+            UIManager.instance.recordMenuButton.gameObject.SetActive(false);
             InputManager.onCastReel -= StartCast;
             PowerAndAngle.instance.StartAngling();
         }
@@ -144,6 +145,7 @@ namespace Fishing.FishingMechanics
             isResettingHook = true;
             UIManager.instance.bucketMenuButton.gameObject.SetActive(true);
             UIManager.instance.inventoryMenuButton.SetActive(true);
+            UIManager.instance.recordMenuButton.gameObject.SetActive(true);
         }
 
         public void IdleLineAnchorPosition(int _index) => linePivotPoint.position = idleAnimationPositions[_index].position;

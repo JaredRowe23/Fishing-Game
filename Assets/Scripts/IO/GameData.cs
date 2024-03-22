@@ -48,33 +48,59 @@ namespace Fishing.IO
         public bool hasSeenFishTut;
         public bool hasSeenNPCTut;
 
+        [Header("Records")]
+        public List<string> caughtFish;
+        public List<int> fishCatchAmounts;
+        public List<float> lengthRecords;
+        public List<float> weightRecords;
+
         public GameData(PlayerData _playerData)
+        {
+            SetFileData(_playerData);
+            SetFishInventoryData(_playerData);
+            SetFishingRodsData(_playerData);
+            SetGearData(_playerData);
+            SetBaitData(_playerData);
+            SetTutorialsData(_playerData);
+            SetFishableRecordsData(_playerData);
+        }
+
+        private void SetFileData(PlayerData _playerData)
         {
             playerName = _playerData.playerName;
             currentSceneName = _playerData.currentSceneName;
+            money = _playerData.money;
             dateTime = _playerData.dateTime;
             playtime = _playerData.playtime;
-
+        }
+        private void SetFishInventoryData(PlayerData _playerData)
+        {
             bucketFish = _playerData.bucketFish;
             bucketFishDescription = _playerData.bucketFishDescription;
             bucketFishWeight = _playerData.bucketFishWeight;
             bucketFishLength = _playerData.bucketFishLength;
             bucketFishValue = _playerData.bucketFishValue;
-
-            money = _playerData.money;
-
+        }
+        private void SetFishingRodsData(PlayerData _playerData)
+        {
             fishingRods = _playerData.fishingRods;
             equippedLines = _playerData.equippedLines;
             equippedHooks = _playerData.equippedHooks;
             equippedBaits = _playerData.equippedBaits;
             equippedRod = _playerData.equippedRod;
-
+        }
+        private void SetGearData(PlayerData _playerData)
+        {
             gear = _playerData.gear;
             equippedGear = _playerData.equippedGear;
-
+        }
+        private void SetBaitData(PlayerData _playerData)
+        {
             bait = _playerData.bait;
             baitCounts = _playerData.baitCounts;
-
+        }
+        private void SetTutorialsData(PlayerData _playerData)
+        {
             hasSeenCastTut = _playerData.hasSeenCastTut;
             hasSeenBucketTut = _playerData.hasSeenBucketTut;
             hasSeenBucketMenuTut = _playerData.hasSeenBucketMenuTut;
@@ -84,6 +110,13 @@ namespace Fishing.IO
             hasSeenInventoryTut = _playerData.hasSeenInventoryTut;
             hasSeenFishTut = _playerData.hasSeenFishTut;
             hasSeenNPCTut = _playerData.hasSeenNPCTut;
+        }
+        private void SetFishableRecordsData(PlayerData _playerData)
+        {
+            caughtFish = _playerData.caughtFish;
+            fishCatchAmounts = _playerData.fishCatchAmounts;
+            lengthRecords = _playerData.lengthRecords;
+            weightRecords = _playerData.weightRecords;
         }
     }
 

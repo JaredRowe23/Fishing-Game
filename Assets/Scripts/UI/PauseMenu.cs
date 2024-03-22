@@ -39,6 +39,7 @@ namespace Fishing.UI
 
                 UIManager.instance.bucketMenuButton.gameObject.SetActive(!pauseMenu.activeSelf);
                 UIManager.instance.inventoryMenuButton.SetActive(!pauseMenu.activeSelf);
+                UIManager.instance.recordMenuButton.gameObject.SetActive(!pauseMenu.activeSelf);
             }
 
             pauseMenu.SetActive(!pauseMenu.activeSelf);

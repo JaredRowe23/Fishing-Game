@@ -19,6 +19,7 @@ namespace Fishing
         public GameObject baitMenuButton;
         public GameObject gearMenuButton;
         public GameObject rodsMenu;
+        public Button recordMenuButton;
 
         [SerializeField] public List<GameObject> interuptableUI;
 

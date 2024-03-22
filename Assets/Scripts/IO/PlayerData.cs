@@ -47,6 +47,12 @@ namespace Fishing.IO
         public bool hasSeenFishTut;
         public bool hasSeenNPCTut;
 
+        [Header("Records")]
+        public List<string> caughtFish;
+        public List<int> fishCatchAmounts;
+        public List<float> lengthRecords;
+        public List<float> weightRecords;
+
         public string currentSceneName;
 
         public static PlayerData instance;
@@ -79,47 +85,22 @@ namespace Fishing.IO
 
         public void LoadPlayer(GameData _saveData)
         {
-            playerName = _saveData.playerName;
-            currentSceneName = _saveData.currentSceneName;
-            dateTime = _saveData.dateTime;
-            playtime = _saveData.playtime;
+            SetFileData(_saveData);
             sessionStartTime = System.DateTime.Now;
-
-            bucketFish = _saveData.bucketFish;
-            bucketFishDescription = _saveData.bucketFishDescription;
-            bucketFishWeight = _saveData.bucketFishWeight;
-            bucketFishLength = _saveData.bucketFishLength;
-            bucketFishValue = _saveData.bucketFishValue;
-
-            money = _saveData.money;
-
-            fishingRods = _saveData.fishingRods;
-            equippedLines = _saveData.equippedLines;
-            equippedHooks = _saveData.equippedHooks;
-            equippedBaits = _saveData.equippedBaits;
-            equippedRod = _saveData.equippedRod;
-
-            gear = _saveData.gear;
-            equippedGear = _saveData.equippedGear;
-
-            bait = _saveData.bait;
-            baitCounts = _saveData.baitCounts;
-
-            hasSeenCastTut = _saveData.hasSeenCastTut;
-            hasSeenBucketTut = _saveData.hasSeenBucketTut;
-            hasSeenBucketMenuTut = _saveData.hasSeenBucketMenuTut;
-            hasSeenBaitTut = _saveData.hasSeenBaitTut;
-            hasSeenReelingTut = _saveData.hasSeenReelingTut;
-            hasSeenReelingMinigameTut = _saveData.hasSeenReelingMinigameTut;
-            hasSeenInventoryTut = _saveData.hasSeenInventoryTut;
-            hasSeenFishTut = _saveData.hasSeenFishTut;
-            hasSeenNPCTut = _saveData.hasSeenNPCTut;
+            SetFishInventoryData(_saveData);
+            SetFishingRodsData(_saveData);
+            SetGearData(_saveData);
+            SetBaitData(_saveData);
+            SetTutorialsData(_saveData);
+            SetFishableRecordsData(_saveData);
+            SetFishableRecordsData(_saveData);
         }
 
         public void NewGame()
         {
             playerName = "";
             currentSceneName = "World Map";
+            money = 0;
             dateTime = System.DateTime.Now.ToString("G");
             sessionStartTime = System.DateTime.Now;
             playtime = System.TimeSpan.Zero.ToString();
@@ -129,8 +110,6 @@ namespace Fishing.IO
             bucketFishWeight = new List<float>();
             bucketFishLength = new List<float>();
             bucketFishValue = new List<float>();
-
-            money = 0;
 
             fishingRods = new List<string>();
             equippedBaits = new List<string>();
@@ -145,7 +124,12 @@ namespace Fishing.IO
             bait = new List<string>();
             baitCounts = new List<int>();
 
-            hasSeenCastTut = hasSeenBucketTut = hasSeenBucketMenuTut = hasSeenBaitTut = hasSeenReelingTut = hasSeenReelingMinigameTut = hasSeenInventoryTut = hasSeenFishTut = hasSeenNPCTut = false;
+            hasSeenCastTut = hasSeenReelingTut = hasSeenReelingMinigameTut = hasSeenBucketTut = hasSeenBucketMenuTut = hasSeenBaitTut = hasSeenInventoryTut = hasSeenFishTut = hasSeenNPCTut = false;
+
+            caughtFish = new List<string>();
+            fishCatchAmounts = new List<int>();
+            lengthRecords = new List<float>();
+            weightRecords = new List<float>();
         }
 
         public void AddRod(string _rod)
@@ -166,6 +150,81 @@ namespace Fishing.IO
             }
             PlayerData.instance.baitCounts.Insert(PlayerData.instance.bait.Count, 1);
             PlayerData.instance.bait.Add(_baitName);
+        }
+
+        private void SetFileData(GameData _playerData)
+        {
+            playerName = _playerData.playerName;
+            currentSceneName = _playerData.currentSceneName;
+            money = _playerData.money;
+            dateTime = _playerData.dateTime;
+            playtime = _playerData.playtime;
+        }
+        private void SetFishInventoryData(GameData _playerData)
+        {
+            bucketFish = _playerData.bucketFish;
+            bucketFishDescription = _playerData.bucketFishDescription;
+            bucketFishWeight = _playerData.bucketFishWeight;
+            bucketFishLength = _playerData.bucketFishLength;
+            bucketFishValue = _playerData.bucketFishValue;
+        }
+        private void SetFishingRodsData(GameData _playerData)
+        {
+            fishingRods = _playerData.fishingRods;
+            equippedLines = _playerData.equippedLines;
+            equippedHooks = _playerData.equippedHooks;
+            equippedBaits = _playerData.equippedBaits;
+            equippedRod = _playerData.equippedRod;
+        }
+        private void SetGearData(GameData _playerData)
+        {
+            gear = _playerData.gear;
+            equippedGear = _playerData.equippedGear;
+        }
+        private void SetBaitData(GameData _playerData)
+        {
+            bait = _playerData.bait;
+            baitCounts = _playerData.baitCounts;
+        }
+        private void SetTutorialsData(GameData _playerData)
+        {
+            hasSeenCastTut = _playerData.hasSeenCastTut;
+            hasSeenBucketTut = _playerData.hasSeenBucketTut;
+            hasSeenBucketMenuTut = _playerData.hasSeenBucketMenuTut;
+            hasSeenBaitTut = _playerData.hasSeenBaitTut;
+            hasSeenReelingTut = _playerData.hasSeenReelingTut;
+            hasSeenReelingMinigameTut = _playerData.hasSeenReelingMinigameTut;
+            hasSeenInventoryTut = _playerData.hasSeenInventoryTut;
+            hasSeenFishTut = _playerData.hasSeenFishTut;
+            hasSeenNPCTut = _playerData.hasSeenNPCTut;
+        }
+        private void SetFishableRecordsData(GameData _playerData)
+        {
+            caughtFish = _playerData.caughtFish;
+            fishCatchAmounts = _playerData.fishCatchAmounts;
+            lengthRecords = _playerData.lengthRecords;
+            weightRecords = _playerData.weightRecords;
+        }
+
+        public void UpdateFishRecordData(string _fishName, float _length, float _weight)
+        {
+            int i = 0;
+            foreach (string _name in caughtFish)
+            {
+                if (_name == _fishName)
+                {
+                    fishCatchAmounts[i]++;
+                    if (_length > lengthRecords[i]) lengthRecords[i] = _length;
+                    if (_weight > weightRecords[i]) weightRecords[i] = _weight;
+                    return;
+                }
+                i++;
+            }
+
+            caughtFish.Add(_fishName);
+            fishCatchAmounts.Add(1);
+            lengthRecords.Add(_length);
+            weightRecords.Add(_weight);
         }
     }
 }
