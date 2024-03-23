@@ -30,7 +30,7 @@ namespace Fishing.UI
                 slotDetails.gameObject.SetActive(true);
                 noSavesText.SetActive(false);
                 loadButton.interactable = true;
-                slotDetails.UpdateInfo(SaveManager.saveFiles[0].name, SaveManager.saveFiles[0].money, SaveManager.saveFiles[0].dateTime, SaveManager.saveFiles[0].playtime);
+                slotDetails.UpdateInfo(SaveManager.saveFiles[0].name, SaveManager.saveFiles[0].money, SaveManager.saveFiles[0].dateTime, SaveManager.saveFiles[0].playtime, SaveManager.saveFiles[0].fishTypesCaught);
             }
         }
     }

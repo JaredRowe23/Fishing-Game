@@ -13,13 +13,15 @@ namespace Fishing.IO
         public float money;
         public string dateTime;
         public string playtime;
+        public int fishTypesCaught;
 
-        public SaveFile(string _name, float _money, string _dateTime, string _playtime)
+        public SaveFile(string _name, float _money, string _dateTime, string _playtime, int _fishTypesCaught)
         {
             name = _name;
             money = _money;
             dateTime = _dateTime;
             playtime = _playtime;
+            fishTypesCaught = _fishTypesCaught;
         }
     }
 
@@ -66,7 +68,8 @@ namespace Fishing.IO
                 GameData _data = _formatter.Deserialize(_stream) as GameData;
                 _stream.Close();
 
-                SaveFile _saveFile = new SaveFile(_data.playerName, _data.money, _data.dateTime, _data.playtime);
+                SaveFile _saveFile = new SaveFile(_data.playerName, _data.money, _data.dateTime, _data.playtime, 0);
+                if (_data.caughtFish != null) _saveFile.fishTypesCaught = _data.caughtFish.Count;
                 saveFiles.Add(_saveFile);
             }
 

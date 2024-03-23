@@ -14,12 +14,13 @@ namespace Fishing.UI
         [SerializeField] private Text fishCaughtText;
         [SerializeField] private Text playTimeText;
 
-        public void UpdateInfo(string _saveName, float _money, string _saveTime, string _playtime)
+        public void UpdateInfo(string _saveName, float _money, string _saveTime, string _playtime, int _fishTypesCaught)
         {
             saveNameText.text = _saveName;
             moneyText.text = "$" + _money.ToString("F2");
             saveTimeDateText.text = _saveTime;
             playTimeText.text = _playtime;
+            fishCaughtText.text = _fishTypesCaught.ToString() + " / 11";
         }
     }
 }
