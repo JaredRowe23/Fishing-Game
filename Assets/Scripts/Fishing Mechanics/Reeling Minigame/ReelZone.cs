@@ -8,6 +8,8 @@ namespace Fishing.FishingMechanics
     public class ReelZone : MonoBehaviour
     {
         [SerializeField] private float reelZoneImageWidth;
+        [Range(0f, 1.0f)]
+        [SerializeField] private float notReelingTransparency = 0.5f;
 
         private Image img;
 
@@ -47,8 +49,17 @@ namespace Fishing.FishingMechanics
 
             isInReelZone = IsFishInReelZone();
 
-            if (isInReelZone) rodManager.equippedRod.StartReeling();
-            else rodManager.equippedRod.StopReeling();
+            if (isInReelZone)
+            {
+                img.color = new Color(img.color.r, img.color.g, img.color.b, 1f);
+                rodManager.equippedRod.StartReeling();
+            }
+            else
+            {
+                img.color = new Color(img.color.r, img.color.g, img.color.b, notReelingTransparency);
+                rodManager.equippedRod.StopReeling();
+            }
+           
         }
 
         public void InitializeMinigame()

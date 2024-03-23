@@ -177,21 +177,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8768fa652cf5b954a9c1d6d37342c78a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuOptions:
-  - {fileID: 1636996129}
-  - {fileID: 1767395444}
-  - {fileID: 1164323944}
-  - {fileID: 1222941408}
-  - {fileID: 604319596}
-  menuCoordinates:
-  - {x: 0, y: 0, z: 0}
-  - {x: 1, y: 0, z: 1}
-  - {x: 2, y: 0, z: 2}
-  - {x: 3, y: 0, z: 3}
-  - {x: 4, y: 0, z: 4}
-  isSubMenu: 0
-  _currentIndex: 0
-  _currentCoordinates: {x: 0, y: 0, z: 0}
 --- !u!1 &13765395
 GameObject:
   m_ObjectHideFlags: 0
@@ -675,17 +660,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8768fa652cf5b954a9c1d6d37342c78a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuOptions:
-  - {fileID: 502867052}
-  - {fileID: 1298741187}
-  - {fileID: 484464987}
-  menuCoordinates:
-  - {x: 0, y: 0, z: 0}
-  - {x: 1, y: 0, z: 1}
-  - {x: 2, y: 0, z: 2}
-  isSubMenu: 1
-  _currentIndex: 0
-  _currentCoordinates: {x: 0, y: 0, z: 0}
 --- !u!1 &145340770
 GameObject:
   m_ObjectHideFlags: 0
@@ -2690,15 +2664,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8768fa652cf5b954a9c1d6d37342c78a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuOptions:
-  - {fileID: 1379518334}
-  - {fileID: 1778113062}
-  menuCoordinates:
-  - {x: 0, y: 0, z: 0}
-  - {x: 1, y: 0, z: 1}
-  isSubMenu: 1
-  _currentIndex: 0
-  _currentCoordinates: {x: 0, y: 0, z: 0}
 --- !u!1 &499268651
 GameObject:
   m_ObjectHideFlags: 0
@@ -3717,27 +3682,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8768fa652cf5b954a9c1d6d37342c78a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuOptions:
-  - {fileID: 1715741427}
-  - {fileID: 145340772}
-  - {fileID: 1449106085}
-  - {fileID: 1635748231}
-  - {fileID: 89547803}
-  - {fileID: 1321683154}
-  - {fileID: 2053726306}
-  - {fileID: 480479219}
-  menuCoordinates:
-  - {x: 0, y: 0, z: 0}
-  - {x: 1, y: 0, z: 1}
-  - {x: 2, y: 0, z: 2}
-  - {x: 3, y: 0, z: 3}
-  - {x: 4, y: 0, z: 4}
-  - {x: 5, y: 1, z: 4}
-  - {x: 6, y: 2, z: 4}
-  - {x: 7, y: 3, z: 4}
-  isSubMenu: 1
-  _currentIndex: 0
-  _currentCoordinates: {x: 0, y: 0, z: 0}
 --- !u!1 &623093883
 GameObject:
   m_ObjectHideFlags: 0
@@ -4059,13 +4003,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8768fa652cf5b954a9c1d6d37342c78a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuOptions:
-  - {fileID: 734737442}
-  menuCoordinates:
-  - {x: 0, y: 0, z: 0}
-  isSubMenu: 1
-  _currentIndex: 0
-  _currentCoordinates: {x: 0, y: 0, z: 0}
 --- !u!1 &692614372
 GameObject:
   m_ObjectHideFlags: 0
@@ -7891,15 +7828,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8768fa652cf5b954a9c1d6d37342c78a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuOptions:
-  - {fileID: 443805020}
-  - {fileID: 466991090}
-  menuCoordinates:
-  - {x: 0, y: 0, z: 0}
-  - {x: 1, y: 0, z: 1}
-  isSubMenu: 1
-  _currentIndex: 0
-  _currentCoordinates: {x: 0, y: 0, z: 0}
 --- !u!1 &1327812757
 GameObject:
   m_ObjectHideFlags: 0
@@ -12010,13 +11938,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8768fa652cf5b954a9c1d6d37342c78a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuOptions:
-  - {fileID: 1313176477}
-  menuCoordinates:
-  - {x: 0, y: 0, z: 0}
-  isSubMenu: 1
-  _currentIndex: 0
-  _currentCoordinates: {x: 0, y: 0, z: 0}
 --- !u!1 &2089144330
 GameObject:
   m_ObjectHideFlags: 0

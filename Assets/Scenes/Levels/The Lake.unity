@@ -4641,6 +4641,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reelZoneImageWidth: 60
+  notReelingTransparency: 0.5
 --- !u!1 &1332357676
 GameObject:
   m_ObjectHideFlags: 0
