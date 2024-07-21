@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fishing.FishingMechanics;
+using Fishing.Util;
 
 namespace Fishing.Fishables.Fish
 {
@@ -15,11 +16,11 @@ namespace Fishing.Fishables.Fish
 
         private int moveDirection;
         private float directionChangeCount;
-        private PolygonCollider2D floorCol;
+        private PolygonCollider2D[] floorColliders;
 
         private void Awake()
         {
-            floorCol = FindObjectOfType<PolygonCollider2D>();
+            floorColliders = GameObject.Find("Grid").GetComponentsInChildren<PolygonCollider2D>();
         }
 
         private void Start()
@@ -33,9 +34,10 @@ namespace Fishing.Fishables.Fish
         {
             if (GetComponent<Fishable>().isHooked) return;
 
+            ClosestPointInfo _closestFloorPoint = Utilities.ClosestPointFromColliders(transform.position, floorColliders);
 
             directionChangeCount -= Time.deltaTime;
-            if (Vector2.Distance(transform.position, floorCol.ClosestPoint(transform.parent.position)) > maxRangeFromHome)
+            if (Vector2.Distance(transform.position, Utilities.ClosestPointFromColliders(transform.parent.position, floorColliders).position) > maxRangeFromHome)
             {
                 moveDirection = Mathf.CeilToInt(Mathf.Clamp01(transform.parent.position.x - transform.position.x));
             }
@@ -46,15 +48,14 @@ namespace Fishing.Fishables.Fish
             }
             if (moveDirection == 0) moveDirection = -1;
 
-            Vector2 _closestFloorPoint = floorCol.ClosestPoint(transform.position);
             Vector3 _surfacingCheck = transform.position - (transform.right * obstacleAvoidanceDistance);
-            float _rotationToFloor = Vector2.Angle(Vector2.up, (Vector2)transform.position - _closestFloorPoint);
+            float _rotationToFloor = Vector2.Angle(Vector2.up, (Vector2)transform.position - _closestFloorPoint.position);
             float _trueRotation = (360 - transform.rotation.eulerAngles.z) % 360;
-            float _distToFloor = Vector2.Distance(transform.position, floorCol.ClosestPoint(transform.position));
+            float _distToFloor = Vector2.Distance(transform.position, _closestFloorPoint.position);
 
             transform.Rotate(-Vector3.forward, _rotationToFloor - _trueRotation);
             transform.Translate(transform.right * moveSpeed * moveDirection * Time.deltaTime);
-            transform.position = _closestFloorPoint + (Vector2)(Vector3.Normalize((Vector2)transform.position - _closestFloorPoint) * groundOffset);
+            transform.position = _closestFloorPoint.position + (Vector2)(Vector3.Normalize((Vector2)transform.position - _closestFloorPoint.position) * groundOffset);
 
             //if (_surfacingCheck.y >= 0)
             //{

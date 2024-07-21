@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fishing.Util;
 
 namespace Fishing
 {
@@ -15,11 +16,11 @@ namespace Fishing
         [SerializeField] private float scaleVariance;
 
         public List<GameObject> spawnList;
-        private PolygonCollider2D floorCol;
+        private PolygonCollider2D[] floorColliders;
 
         private void Awake()
         {
-            floorCol = FindObjectOfType<PolygonCollider2D>();
+            floorColliders = GameObject.Find("Grid").GetComponentsInChildren<PolygonCollider2D>();
             spawnList = new List<GameObject>();
         }
 
@@ -36,7 +37,7 @@ namespace Fishing
             int i = 0;
             Vector2 _rand;
             Vector2 _randWorldPosition;
-            Vector2 newPosition;
+            ClosestPointInfo _closestRandomPositionInfo;
             while (true)
             {
                 if (i > spawnAttempts)
@@ -48,15 +49,15 @@ namespace Fishing
                 i++;
 
                 _randWorldPosition = new Vector2(_rand.x + transform.position.x, _rand.y + transform.position.y);
-                newPosition = floorCol.ClosestPoint(_randWorldPosition);
-                if (floorCol.OverlapPoint(newPosition)) continue;
-                if (newPosition.y >= 0f) continue;
+                _closestRandomPositionInfo = Utilities.ClosestPointFromColliders(_randWorldPosition, floorColliders);
+                if (_closestRandomPositionInfo.collider.OverlapPoint(_closestRandomPositionInfo.position)) continue;
+                if (_closestRandomPositionInfo.position.y >= 0f) continue;
 
                 break;
             }
-            GameObject newObject = Instantiate(prefab, newPosition - (positionOffset * scale), Quaternion.identity, this.transform);
+            GameObject newObject = Instantiate(prefab, _closestRandomPositionInfo.position - (positionOffset * scale), Quaternion.identity, this.transform);
             newObject.transform.localScale = Vector3.one * (scale + Random.Range(-scaleVariance, scaleVariance));
-            float _rotationToFloor = Vector2.SignedAngle(Vector2.up, _randWorldPosition - floorCol.ClosestPoint(_randWorldPosition));
+            float _rotationToFloor = Vector2.SignedAngle(Vector2.up, _randWorldPosition - _closestRandomPositionInfo.position);
             newObject.transform.Rotate(new Vector3(0, 0, _rotationToFloor));
             spawnList.Add(newObject);
         }

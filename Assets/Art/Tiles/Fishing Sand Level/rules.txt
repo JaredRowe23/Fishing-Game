@@ -1,0 +1,4 @@
+Rules/layer 1 rules.tmx
+Rules/layer 2 rules.tmx
+Rules/layer 3 rules.tmx
+Rules/dock layer rules.tmx

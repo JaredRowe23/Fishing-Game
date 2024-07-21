@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fishing.Util;
+using System.Linq;
 
 namespace Fishing.Fishables.Fish
 {
@@ -28,14 +30,14 @@ namespace Fishing.Fishables.Fish
 
         private FoodSearch foodSearch;
         private SpawnZone spawn;
-        private PolygonCollider2D floorCol;
+        private PolygonCollider2D[] floorColliders;
         private float maxHomeDistance;
 
         private void Awake()
         {
             foodSearch = GetComponent<FoodSearch>();
             spawn = transform.parent.GetComponent<SpawnZone>();
-            floorCol = FindObjectOfType<PolygonCollider2D>();
+            floorColliders = GameObject.Find("Grid").GetComponentsInChildren<PolygonCollider2D>();
         }
 
         private void Start()
@@ -49,8 +51,8 @@ namespace Fishing.Fishables.Fish
 
 
             Vector2 _surfacingCheck = transform.position - (transform.right * obstacleAvoidanceDistance);
-            Vector2 _closestFloorPoint = floorCol.ClosestPoint(transform.position);
-            float _distToFloor = Vector2.Distance(transform.position, _closestFloorPoint);
+            ClosestPointInfo _closestPointInfo = Utilities.ClosestPointFromColliders(transform.position, floorColliders);
+            float _distToFloor = Vector2.Distance(transform.position, _closestPointInfo.position);
             float _trueRotation = (360 - transform.rotation.eulerAngles.z + 270) % 360;
 
             if (_surfacingCheck.y >= 0)
@@ -67,7 +69,7 @@ namespace Fishing.Fishables.Fish
 
             else if (_distToFloor < obstacleAvoidanceDistance)
             {
-                float _rotationToFloor = Vector2.Angle(Vector2.up, (Vector2)transform.position - _closestFloorPoint);
+                float _rotationToFloor = Vector2.Angle(Vector2.up, (Vector2)transform.position - _closestPointInfo.position);
                 if (_rotationToFloor - _trueRotation > 0)
                 {
                     rotationDir = obstacleAvoidanceDirWeight;
