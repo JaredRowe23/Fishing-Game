@@ -3,7 +3,7 @@ guid: 89cea88e96dd40f4a9ee912084e08b2f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -74,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -86,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -98,6 +103,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -110,6 +116,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -122,6 +129,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -134,6 +142,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -146,6 +155,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -156,7 +166,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 96
+        y: 352
         width: 32
         height: 32
       alignment: 9
@@ -177,7 +187,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 96
+        y: 352
         width: 32
         height: 32
       alignment: 9
@@ -198,7 +208,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 96
+        y: 352
         width: 32
         height: 32
       alignment: 9
@@ -219,7 +229,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 96
-        y: 96
+        y: 352
         width: 32
         height: 32
       alignment: 9
@@ -240,7 +250,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
-        y: 96
+        y: 352
         width: 32
         height: 32
       alignment: 9
@@ -261,7 +271,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 160
-        y: 96
+        y: 352
         width: 32
         height: 32
       alignment: 9
@@ -281,8 +291,8 @@ TextureImporter:
       name: Town Tileset_6
       rect:
         serializedVersion: 2
-        x: 192
-        y: 96
+        x: 64
+        y: 320
         width: 32
         height: 32
       alignment: 9
@@ -302,8 +312,8 @@ TextureImporter:
       name: Town Tileset_7
       rect:
         serializedVersion: 2
-        x: 224
-        y: 96
+        x: 96
+        y: 320
         width: 32
         height: 32
       alignment: 9
@@ -323,8 +333,8 @@ TextureImporter:
       name: Town Tileset_8
       rect:
         serializedVersion: 2
-        x: 256
-        y: 96
+        x: 128
+        y: 320
         width: 32
         height: 32
       alignment: 9
@@ -344,8 +354,8 @@ TextureImporter:
       name: Town Tileset_9
       rect:
         serializedVersion: 2
-        x: 288
-        y: 96
+        x: 160
+        y: 320
         width: 32
         height: 32
       alignment: 9
@@ -365,8 +375,8 @@ TextureImporter:
       name: Town Tileset_10
       rect:
         serializedVersion: 2
-        x: 320
-        y: 96
+        x: 0
+        y: 288
         width: 32
         height: 32
       alignment: 9
@@ -386,8 +396,8 @@ TextureImporter:
       name: Town Tileset_11
       rect:
         serializedVersion: 2
-        x: 352
-        y: 96
+        x: 32
+        y: 288
         width: 32
         height: 32
       alignment: 9
@@ -407,8 +417,8 @@ TextureImporter:
       name: Town Tileset_12
       rect:
         serializedVersion: 2
-        x: 0
-        y: 64
+        x: 64
+        y: 288
         width: 32
         height: 32
       alignment: 9
@@ -428,8 +438,8 @@ TextureImporter:
       name: Town Tileset_13
       rect:
         serializedVersion: 2
-        x: 32
-        y: 64
+        x: 96
+        y: 288
         width: 32
         height: 32
       alignment: 9
@@ -449,8 +459,8 @@ TextureImporter:
       name: Town Tileset_14
       rect:
         serializedVersion: 2
-        x: 64
-        y: 64
+        x: 128
+        y: 288
         width: 32
         height: 32
       alignment: 9
@@ -470,8 +480,8 @@ TextureImporter:
       name: Town Tileset_15
       rect:
         serializedVersion: 2
-        x: 96
-        y: 64
+        x: 0
+        y: 256
         width: 32
         height: 32
       alignment: 9
@@ -491,8 +501,8 @@ TextureImporter:
       name: Town Tileset_16
       rect:
         serializedVersion: 2
-        x: 128
-        y: 64
+        x: 32
+        y: 256
         width: 32
         height: 32
       alignment: 9
@@ -512,8 +522,8 @@ TextureImporter:
       name: Town Tileset_17
       rect:
         serializedVersion: 2
-        x: 160
-        y: 64
+        x: 64
+        y: 256
         width: 32
         height: 32
       alignment: 9
@@ -533,8 +543,8 @@ TextureImporter:
       name: Town Tileset_18
       rect:
         serializedVersion: 2
-        x: 256
-        y: 64
+        x: 96
+        y: 256
         width: 32
         height: 32
       alignment: 9
@@ -554,8 +564,8 @@ TextureImporter:
       name: Town Tileset_19
       rect:
         serializedVersion: 2
-        x: 288
-        y: 64
+        x: 128
+        y: 256
         width: 32
         height: 32
       alignment: 9
@@ -575,8 +585,8 @@ TextureImporter:
       name: Town Tileset_20
       rect:
         serializedVersion: 2
-        x: 320
-        y: 64
+        x: 160
+        y: 256
         width: 32
         height: 32
       alignment: 9
@@ -596,8 +606,8 @@ TextureImporter:
       name: Town Tileset_21
       rect:
         serializedVersion: 2
-        x: 352
-        y: 64
+        x: 0
+        y: 224
         width: 32
         height: 32
       alignment: 9
@@ -617,8 +627,8 @@ TextureImporter:
       name: Town Tileset_22
       rect:
         serializedVersion: 2
-        x: 0
-        y: 32
+        x: 32
+        y: 224
         width: 32
         height: 32
       alignment: 9
@@ -638,8 +648,8 @@ TextureImporter:
       name: Town Tileset_23
       rect:
         serializedVersion: 2
-        x: 32
-        y: 32
+        x: 64
+        y: 224
         width: 32
         height: 32
       alignment: 9
@@ -659,8 +669,8 @@ TextureImporter:
       name: Town Tileset_24
       rect:
         serializedVersion: 2
-        x: 64
-        y: 32
+        x: 96
+        y: 224
         width: 32
         height: 32
       alignment: 9
@@ -680,8 +690,8 @@ TextureImporter:
       name: Town Tileset_25
       rect:
         serializedVersion: 2
-        x: 96
-        y: 32
+        x: 128
+        y: 224
         width: 32
         height: 32
       alignment: 9
@@ -701,8 +711,8 @@ TextureImporter:
       name: Town Tileset_26
       rect:
         serializedVersion: 2
-        x: 128
-        y: 32
+        x: 160
+        y: 224
         width: 32
         height: 32
       alignment: 9
@@ -722,8 +732,8 @@ TextureImporter:
       name: Town Tileset_27
       rect:
         serializedVersion: 2
-        x: 160
-        y: 32
+        x: 192
+        y: 224
         width: 32
         height: 32
       alignment: 9
@@ -743,8 +753,8 @@ TextureImporter:
       name: Town Tileset_28
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
+        x: 64
+        y: 192
         width: 32
         height: 32
       alignment: 9
@@ -764,8 +774,8 @@ TextureImporter:
       name: Town Tileset_29
       rect:
         serializedVersion: 2
-        x: 32
-        y: 0
+        x: 96
+        y: 192
         width: 32
         height: 32
       alignment: 9
@@ -785,8 +795,8 @@ TextureImporter:
       name: Town Tileset_30
       rect:
         serializedVersion: 2
-        x: 64
-        y: 0
+        x: 128
+        y: 192
         width: 32
         height: 32
       alignment: 9
@@ -806,8 +816,8 @@ TextureImporter:
       name: Town Tileset_31
       rect:
         serializedVersion: 2
-        x: 96
-        y: 0
+        x: 160
+        y: 192
         width: 32
         height: 32
       alignment: 9
@@ -827,8 +837,8 @@ TextureImporter:
       name: Town Tileset_32
       rect:
         serializedVersion: 2
-        x: 128
-        y: 0
+        x: 0
+        y: 96
         width: 32
         height: 32
       alignment: 9
@@ -848,8 +858,8 @@ TextureImporter:
       name: Town Tileset_33
       rect:
         serializedVersion: 2
-        x: 160
-        y: 0
+        x: 32
+        y: 96
         width: 32
         height: 32
       alignment: 9
@@ -865,6 +875,216 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: Town Tileset_34
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 96
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f070994ae3eff084b9c397920e089229
+      internalID: -326020166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Town Tileset_35
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 96
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05fc03a479531ae468761e47a1192b83
+      internalID: -670618717
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Town Tileset_36
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 64
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 890d7aca9e1532d46b327a86818085f7
+      internalID: -440088905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Town Tileset_37
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 64
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6093e90dddfb9c24d8de49589edd2524
+      internalID: 1213635547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Town Tileset_38
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a19dd023d3d7d8249a10b63d099d30ef
+      internalID: -1984383342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Town Tileset_39
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1fc2ef2e55a9a945813260e2cb2a5bd
+      internalID: 390324132
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Town Tileset_40
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 32
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5397ee80aa18abf4bab4530613aa17ed
+      internalID: 1720316245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Town Tileset_41
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7fa27006a01203646bc70246ffe697c3
+      internalID: 1133697664
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Town Tileset_42
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d7bb6bff30297224ab5b652310b0d1dd
+      internalID: 171750025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Town Tileset_43
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 9
+      pivot: {x: 0.5, y: 0.25}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfc4b9399b4d10144abab96934926c44
+      internalID: 378567201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -874,45 +1094,56 @@ TextureImporter:
     indices: 
     edges: []
     weights: []
-    secondaryTextures: []
+    secondaryTextures:
+    - texture: {fileID: 2800000, guid: 082153da3aaba164096174759bd64c27, type: 3}
+      name: _NormalMap
     nameFileIdTable:
-      Town Tileset_16: 860867283
-      Town Tileset_5: 1874559657
-      Town Tileset_15: -458641338
-      Town Tileset_18: 102392840
-      Town Tileset_9: 1497751211
-      Town Tileset_30: -1549879923
-      Town Tileset_25: -856313227
-      Town Tileset_33: -660720623
+      Town Tileset_0: -2048364059
       Town Tileset_1: -332578853
-      Town Tileset_4: 1532250217
-      Town Tileset_19: 483997872
-      Town Tileset_31: 31757912
-      Town Tileset_32: -1190247301
       Town Tileset_10: 1698852269
+      Town Tileset_11: -1211071293
+      Town Tileset_12: 708804271
+      Town Tileset_13: 675987596
+      Town Tileset_14: 1145170839
+      Town Tileset_15: -458641338
+      Town Tileset_16: 860867283
+      Town Tileset_17: 601301428
+      Town Tileset_18: 102392840
+      Town Tileset_19: 483997872
+      Town Tileset_2: 55357714
+      Town Tileset_20: 1494204926
       Town Tileset_21: -1912726824
       Town Tileset_22: -176531955
-      Town Tileset_27: 507532695
-      Town Tileset_24: -1367761211
       Town Tileset_23: -1456012279
-      Town Tileset_14: 1145170839
-      Town Tileset_2: 55357714
-      Town Tileset_8: 629827100
-      Town Tileset_12: 708804271
-      Town Tileset_29: 1957296413
-      Town Tileset_13: 675987596
-      Town Tileset_17: 601301428
-      Town Tileset_11: -1211071293
-      Town Tileset_6: 1913640442
-      Town Tileset_20: 1494204926
-      Town Tileset_3: -1987235695
+      Town Tileset_24: -1367761211
+      Town Tileset_25: -856313227
       Town Tileset_26: -1868683611
+      Town Tileset_27: 507532695
       Town Tileset_28: -785168537
-      Town Tileset_0: -2048364059
+      Town Tileset_29: 1957296413
+      Town Tileset_3: -1987235695
+      Town Tileset_30: -1549879923
+      Town Tileset_31: 31757912
+      Town Tileset_32: -1190247301
+      Town Tileset_33: -660720623
+      Town Tileset_34: -326020166
+      Town Tileset_35: -670618717
+      Town Tileset_36: -440088905
+      Town Tileset_37: 1213635547
+      Town Tileset_38: -1984383342
+      Town Tileset_39: 390324132
+      Town Tileset_4: 1532250217
+      Town Tileset_40: 1720316245
+      Town Tileset_41: 1133697664
+      Town Tileset_42: 171750025
+      Town Tileset_43: 378567201
+      Town Tileset_5: 1874559657
+      Town Tileset_6: 1913640442
       Town Tileset_7: 749914246
-  spritePackingTag: 
+      Town Tileset_8: 629827100
+      Town Tileset_9: 1497751211
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
