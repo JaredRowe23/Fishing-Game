@@ -103,7 +103,7 @@ namespace Fishing.FishingMechanics
             playerAnim.SetTrigger("cast");
             casted = true;
             hook.Cast(_angle, _strength);
-            cam.SetToPlayerZoom();
+            cam.EnablePlayerControls();
             InputManager.onCastReel += StartReeling;
             InputManager.releaseCastReel += StopReeling;
         }
