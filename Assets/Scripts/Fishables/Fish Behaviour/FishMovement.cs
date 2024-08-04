@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fishing.Util;
-using System.Linq;
 
 namespace Fishing.Fishables.Fish
 {
@@ -10,12 +9,9 @@ namespace Fishing.Fishables.Fish
     [RequireComponent(typeof(FoodSearch))]
     public class FishMovement : MonoBehaviour
     {
-        public GameObject activePredator;
-
-        public Vector2 targetPos;
-        public float swimSpeed;
-        public float rotationSpeed;
-        public float obstacleAvoidanceDistance;
+        [SerializeField] private float swimSpeed;
+        [SerializeField] private float rotationSpeed;
+        [SerializeField] private float obstacleAvoidanceDistance;
 
         public float targetPosDirWeight = 1f;
         public float obstacleAvoidanceDirWeight = 1f;
@@ -23,11 +19,13 @@ namespace Fishing.Fishables.Fish
         [SerializeField] private float baseMaxHomeDistance;
         [SerializeField] private float maxHomeDistanceVariation;
 
-        [Range(-1, 1)]
-        public float targetPosDir = 0;
-        [Range(-1, 1)]
-        public float rotationDir = 0;
+        private SpriteRenderer[] flippableSprites;
 
+        [HideInInspector] public Vector2 targetPos;
+        [HideInInspector] [Range(-1, 1)] public float targetPosDir = 0;
+        [HideInInspector] [Range(-1, 1)] public float rotationDir = 0;
+
+        [HideInInspector] public GameObject activePredator;
         private FoodSearch foodSearch;
         private SpawnZone spawn;
         private PolygonCollider2D[] floorColliders;
@@ -38,6 +36,7 @@ namespace Fishing.Fishables.Fish
             foodSearch = GetComponent<FoodSearch>();
             spawn = transform.parent.GetComponent<SpawnZone>();
             floorColliders = GameObject.Find("Grid").GetComponentsInChildren<PolygonCollider2D>();
+            flippableSprites = GetSpriteRenderers();
         }
 
         private void Start()
@@ -49,64 +48,7 @@ namespace Fishing.Fishables.Fish
         {
             if (GetComponent<Fishable>().isHooked) return;
 
-
-            Vector2 _surfacingCheck = transform.position - (transform.right * obstacleAvoidanceDistance);
-            ClosestPointInfo _closestPointInfo = Utilities.ClosestPointFromColliders(transform.position, floorColliders);
-            float _distToFloor = Vector2.Distance(transform.position, _closestPointInfo.position);
-            float _trueRotation = (360 - transform.rotation.eulerAngles.z + 270) % 360;
-
-            if (_surfacingCheck.y >= 0)
-            {
-                if (_trueRotation <= 180 && _trueRotation > 0)
-                {
-                    rotationDir = obstacleAvoidanceDirWeight;
-                }
-                else
-                {
-                    rotationDir = -obstacleAvoidanceDirWeight;
-                }
-            }
-
-            else if (_distToFloor < obstacleAvoidanceDistance)
-            {
-                float _rotationToFloor = Vector2.Angle(Vector2.up, (Vector2)transform.position - _closestPointInfo.position);
-                if (_rotationToFloor - _trueRotation > 0)
-                {
-                    rotationDir = obstacleAvoidanceDirWeight;
-                }
-                else
-                {
-                    rotationDir = -obstacleAvoidanceDirWeight;
-                }
-            }
-
-            else if (activePredator != null)
-            {
-                float _rotationToPredator = Vector2.Angle(Vector2.up, (Vector2)transform.position - (Vector2)activePredator.transform.position);
-                if (_rotationToPredator - _trueRotation > 0)
-                {
-                    rotationDir = obstacleAvoidanceDirWeight;
-                }
-                else
-                {
-                    rotationDir = -obstacleAvoidanceDirWeight;
-                }
-            }
-
-            else if (Vector2.Distance(transform.position, spawn.transform.position) >= maxHomeDistance)
-            {
-                targetPos = spawn.transform.position;
-                TurnToTarget();
-            }
-
-            else if (foodSearch.desiredFood != null)
-            {
-                targetPos = foodSearch.desiredFood.transform.position;
-                TurnToTarget();
-            } 
-
-            else GetComponent<IMovement>().Movement();
-
+            DecideMovementDirection();
             Move();
             FlipSprite();
 
@@ -115,55 +57,73 @@ namespace Fishing.Fishables.Fish
             if (activePredator.GetComponent<FoodSearch>().desiredFood == null) activePredator = null;
         }
 
+        private void DecideMovementDirection()
+        {
+            Vector2 _surfacingCheck = transform.position + (transform.up * obstacleAvoidanceDistance);
+            ClosestPointInfo _closestPointInfo = Utilities.ClosestPointFromColliders(transform.position, floorColliders);
+            float _distToFloor = Vector2.Distance(transform.position, _closestPointInfo.position);
+
+            if (_surfacingCheck.y >= 0) AvoidSurface();
+
+            else if (_distToFloor < obstacleAvoidanceDistance) AvoidFloor(_closestPointInfo.position);
+
+            else if (activePredator != null) AvoidPredator();
+
+            else if (Vector2.Distance(transform.position, spawn.transform.position) >= maxHomeDistance)
+            {
+                targetPos = spawn.transform.position;
+                CalculateTurnDirection();
+            }
+
+            else if (foodSearch.desiredFood != null)
+            {
+                targetPos = foodSearch.desiredFood.transform.position;
+                CalculateTurnDirection();
+            }
+
+            else GetComponent<IMovement>().Movement();
+        }
+
+        private void AvoidSurface() => rotationDir = transform.rotation.eulerAngles.z > 0 ? obstacleAvoidanceDirWeight : -obstacleAvoidanceDirWeight;
+
+        private void AvoidFloor(Vector2 _closestFloorPosition) => rotationDir = Utilities.DirectionFromTransformToTarget(transform, (Vector2)transform.position + ((Vector2)transform.position) - _closestFloorPosition);
+
+        private void AvoidPredator() => rotationDir = Utilities.DirectionFromTransformToTarget(transform, (Vector2)transform.position + ((Vector2)transform.position) - (Vector2)activePredator.transform.position);
+
+        public void CalculateTurnDirection()
+        {
+            targetPosDir = Utilities.DirectionFromTransformToTarget(transform, targetPos);
+
+            rotationDir = Mathf.Clamp(targetPosDir * targetPosDirWeight, -1, 1);
+        }
 
         private void Move()
         {
-            transform.Rotate(0f, 0f, -rotationSpeed * rotationDir * Time.deltaTime);
-            transform.position = Vector2.MoveTowards(transform.position, -transform.right + transform.position, swimSpeed * Time.deltaTime);
-        }
-
-        public void TurnToTarget()
-        {
-            float _calculatedDir;
-            float _trueRotation = (360 - transform.rotation.eulerAngles.z + 270) % 360;
-
-            float _angleToTargetPos = (360 - SignedToUnsignedAngle(Vector2.SignedAngle(-Vector2.up, (Vector2)transform.position - targetPos)));
-            float _targetPosAngleDelta = Mathf.DeltaAngle(_trueRotation, _angleToTargetPos);
-            targetPosDir = _targetPosAngleDelta < 180 && _targetPosAngleDelta > 0 ? 1 : -1;
-
-            _calculatedDir = targetPosDir * targetPosDirWeight;
-
-            rotationDir = Mathf.Clamp(_calculatedDir, -1, 1);
-        }
-
-        private float SignedToUnsignedAngle(float _angle)
-        {
-            if (_angle < 0) _angle += 360f;
-            return _angle % 360;
+            transform.Rotate(0f, 0f, rotationSpeed * rotationDir * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, transform.up + transform.position, swimSpeed * Time.deltaTime);
         }
 
         private void FlipSprite()
         {
-            if ((360 - transform.rotation.eulerAngles.z + 270) % 360 < 180)
+            if (Utilities.UnsignedToSignedAngle(transform.rotation.eulerAngles.z) < 0) for (int i = 0; i < flippableSprites.Length; i++) flippableSprites[i].flipY = true;
+            else for (int i = 0; i < flippableSprites.Length; i++) flippableSprites[i].flipY = false;
+        }
+
+        private SpriteRenderer[] GetSpriteRenderers()
+        {
+            SpriteRenderer[] _sprites = transform.GetComponentsInChildren<SpriteRenderer>();
+            int _minimapSpriteIndex = 0;
+            for (int i = 0; i < _sprites.Length; i++)
             {
-                foreach (Transform child in transform)
-                {
-                    if (child.GetComponent<SpriteRenderer>() != null && child.gameObject.layer != LayerMask.NameToLayer("Minimap"))
-                    {
-                        child.GetComponent<SpriteRenderer>().flipY = true;
-                    }
-                }
+                if (_sprites[i].gameObject.layer == LayerMask.NameToLayer("Minimap")) _minimapSpriteIndex = i;
             }
-            else
+
+            for (int i = _minimapSpriteIndex + 1; i < _sprites.Length; i++)
             {
-                foreach (Transform child in transform)
-                {
-                    if (child.GetComponent<SpriteRenderer>() != null && child.gameObject.layer != LayerMask.NameToLayer("Minimap"))
-                    {
-                        child.GetComponent<SpriteRenderer>().flipY = false;
-                    }
-                }
+                _sprites[i - 1] = _sprites[i];
             }
+            System.Array.Resize(ref _sprites, _sprites.Length - 1);
+            return _sprites;
         }
 
         private void OnDrawGizmosSelected()

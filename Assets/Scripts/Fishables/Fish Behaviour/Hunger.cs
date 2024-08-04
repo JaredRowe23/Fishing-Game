@@ -11,7 +11,7 @@ namespace Fishing.Fishables.Fish
         [SerializeField] private float decayRate = 0.1f;
         [SerializeField] private float foodStart = 50;
         [SerializeField] private float foodStartVariance = 10;
-        public float currentFood;
+        [HideInInspector] public float currentFood;
 
         private Fishable fishable;
         private FoodSearch foodSearch;
@@ -35,18 +35,25 @@ namespace Fishing.Fishables.Fish
         {
             if (fishable.isHooked) return;
 
-            if (foodSearch.desiredFood)
-            {
-                if (Vector2.Distance(transform.position, foodSearch.desiredFood.transform.position) <= foodSearch.eatDistance) foodSearch.Eat();
-            }
             currentFood -= Time.deltaTime * decayRate;
-            if (currentFood <= 0) edible.Despawn();
-            else if (currentFood <= hungerStart)
+            if (currentFood <= 0) Starve();
+            else HandleHunger();
+        }
+
+        private void Starve()
+        {
+            edible.Despawn();
+        }
+
+        private void HandleHunger()
+        {
+            if (currentFood <= hungerStart)
             {
                 if (!foodSearchManager.fish.Contains(foodSearch)) foodSearchManager.AddFish(foodSearch);
             }
             else if (foodSearchManager.fish.Contains(foodSearch)) foodSearchManager.RemoveFish(foodSearch);
         }
+
         public void AddFood(GameObject _food)
         {
             Fishable _foodFishable = _food.GetComponent<Fishable>();

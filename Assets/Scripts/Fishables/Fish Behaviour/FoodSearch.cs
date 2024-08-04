@@ -9,14 +9,14 @@ namespace Fishing.Fishables.Fish
     [RequireComponent(typeof(Hunger))]
     public class FoodSearch : MonoBehaviour
     {
-        public float eatDistance;
+        [SerializeField] private float eatDistance;
         [SerializeField] private float sightAngle;
         [SerializeField] private float sightDistance;
         [SerializeField] private float sightDensity;
         [SerializeField] private float smellRadius;
         [SerializeField] private float chaseDistance;
         [SerializeField] private Edible.FoodTypes[] desiredFoodTypes;
-        public GameObject desiredFood;
+        [HideInInspector] public GameObject desiredFood;
 
         private Fishable fishable;
         private Hunger hunger;
@@ -33,37 +33,46 @@ namespace Fishing.Fishables.Fish
             BaitManager.instance.AddFish(this);
         }
 
+        private void Update()
+        {
+            if (fishable.isHooked) return;
+            if (desiredFood == null) return;
+            if (Vector2.Distance(transform.position, desiredFood.transform.position) > eatDistance) return;
+            Eat();
+        }
 
         public void Eat()
         {
-            GameObject _food = desiredFood;
+            HandleHookedItem();
 
-            if (_food.GetComponent<HookBehaviour>())
+            hunger.AddFood(desiredFood);
+            GetComponent<AudioSource>().Play();
+            Debug.Log(gameObject.name + " ate " + desiredFood.name);
+            desiredFood.GetComponent<IEdible>().Despawn();
+            desiredFood = null;
+        }
+
+        private void HandleHookedItem()
+        {
+            if (desiredFood.GetComponent<HookBehaviour>())
             {
-                _food.GetComponent<HookBehaviour>().SetHook(fishable);
+                desiredFood.GetComponent<HookBehaviour>().SetHook(fishable);
                 return;
             }
 
-            if (_food.GetComponent<Fishable>())
+            if (desiredFood.GetComponent<Fishable>())
             {
-                if (_food.GetComponent<Fishable>().isHooked)
+                if (desiredFood.GetComponent<Fishable>().isHooked)
                 {
                     fishable.SetThisToHooked();
                     return;
                 }
             }
-            if (_food.GetComponent<BaitBehaviour>())
+            if (desiredFood.GetComponent<BaitBehaviour>())
             {
                 fishable.SetThisToHooked();
                 return;
             }
-
-            hunger.AddFood(_food);
-
-            GetComponent<AudioSource>().Play();
-            Debug.Log(gameObject.name + " ate " + _food.name);
-            _food.GetComponent<IEdible>().Despawn();
-            desiredFood = null;
         }
 
         private void OnDrawGizmosSelected()

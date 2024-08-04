@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Fishing.FishingMechanics;
+using Fishing.Util;
 
 namespace Fishing.Fishables.Fish
 {
@@ -19,12 +20,12 @@ namespace Fishing.Fishables.Fish
         private float holdCount;
 
         private FishMovement movement;
-        private PolygonCollider2D floorCol;
+        private PolygonCollider2D[] floorColliders;
 
         private void Awake()
         {
             movement = GetComponent<FishMovement>();
-            floorCol = FindObjectOfType<PolygonCollider2D>();
+            floorColliders = GameObject.Find("Grid").GetComponentsInChildren<PolygonCollider2D>();
         }
 
         private void Start()
@@ -40,24 +41,26 @@ namespace Fishing.Fishables.Fish
                 GenerateWanderPosition();
                 return;
             }
-            movement.TurnToTarget();
+            movement.CalculateTurnDirection();
 
             holdCount -= Time.deltaTime;
             if (holdCount > 0) return;
 
             GenerateWanderPosition();
-
-            holdCount = holdTime;
         }
 
         private void GenerateWanderPosition()
         {
-            Vector2 _rand = Random.insideUnitCircle * movement.GetMaxHomeDistance();
             int i = 0;
             while (true)
             {
-                if (i >= generateWanderPositionPasses) break;
+                if (i >= generateWanderPositionPasses)
+                {
+                    movement.targetPos = transform.parent.position;
+                    break;
+                }
 
+                Vector2 _rand = Random.insideUnitCircle * movement.GetMaxHomeDistance();
                 bool _aboveWater = _rand.y + transform.position.y >= 0f;
                 float _distanceFromHome = Vector2.Distance(new Vector2(_rand.x + transform.position.x, _rand.y + transform.position.y), transform.parent.position);
                 i++;
@@ -68,7 +71,10 @@ namespace Fishing.Fishables.Fish
                 break;
             }
 
-            if (floorCol.OverlapPoint(movement.targetPos)) movement.targetPos = floorCol.ClosestPoint(transform.position);
+            ClosestPointInfo _closestPointInfo = Utilities.ClosestPointFromColliders(movement.targetPos, floorColliders);
+            if (_closestPointInfo.collider.OverlapPoint(movement.targetPos)) movement.targetPos = _closestPointInfo.collider.ClosestPoint(transform.position);
+
+            holdCount = holdTime;
         }
 
         public void Despawn()
@@ -76,11 +82,6 @@ namespace Fishing.Fishables.Fish
             FoodSearchManager.instance.RemoveFish(GetComponent<FoodSearch>());
             BaitManager.instance.RemoveFish(GetComponent<FoodSearch>());
             GetComponent<Edible>().Despawn();
-        }
-        private float SignedToUnsignedAngle(float _angle)
-        {
-            if (_angle < 0) _angle += 360f;
-            return _angle % 360;
         }
     }
 }

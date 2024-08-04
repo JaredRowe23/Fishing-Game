@@ -11,7 +11,7 @@ namespace Fishing.Fishables.Fish
         [SerializeField] private float growthCheckFrequency = 15;
         [SerializeField] private float growthVariance = 0.25f;
         [SerializeField] private float growthFoodCost = 25;
-        [SerializeField] private float growthCheckCount;
+        private float growthCheckCount;
 
         private Fishable fishable;
         private Hunger hunger;
@@ -27,7 +27,11 @@ namespace Fishing.Fishables.Fish
         void Update()
         {
             if (fishable.isHooked) return;
+            HandleGrowth();
+        }
 
+        private void HandleGrowth()
+        {
             growthCheckCount -= Time.deltaTime;
             if (growthCheckCount <= 0)
             {
@@ -35,6 +39,7 @@ namespace Fishing.Fishables.Fish
                 growthCheckCount = growthCheckFrequency;
             }
         }
+
         private void Grow()
         {
             fishable.SetLength(Mathf.Lerp(fishable.GetLength(), fishable.GetMaxLength(), 0.5f + Random.Range(-growthVariance, growthVariance)));
