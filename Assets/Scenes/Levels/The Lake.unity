@@ -2438,10 +2438,9 @@ MonoBehaviour:
   radius: 40
   spawnMax: 100
   spawnAttempts: 10
-  positionOffset: {x: 0, y: -0.4}
+  spawnHeightFromFloor: 0.4
   scale: 5
   scaleVariance: 1
-  spawnList: []
 --- !u!1 &615742269
 GameObject:
   m_ObjectHideFlags: 0
@@ -3239,10 +3238,9 @@ MonoBehaviour:
   radius: 25
   spawnMax: 50
   spawnAttempts: 10
-  positionOffset: {x: 0, y: -0.4}
+  spawnHeightFromFloor: 0.4
   scale: 5
   scaleVariance: 1
-  spawnList: []
 --- !u!1 &798432310
 GameObject:
   m_ObjectHideFlags: 0
@@ -4833,10 +4831,9 @@ MonoBehaviour:
   radius: 75
   spawnMax: 150
   spawnAttempts: 10
-  positionOffset: {x: 0, y: -0.4}
+  spawnHeightFromFloor: 0.4
   scale: 5
   scaleVariance: 1
-  spawnList: []
 --- !u!1 &1384266165
 GameObject:
   m_ObjectHideFlags: 0
@@ -6511,10 +6508,9 @@ MonoBehaviour:
   radius: 25
   spawnMax: 15
   spawnAttempts: 10
-  positionOffset: {x: 0, y: -0.4}
+  spawnHeightFromFloor: 0.4
   scale: 5
   scaleVariance: 1
-  spawnList: []
 --- !u!1 &1999359926
 GameObject:
   m_ObjectHideFlags: 0
@@ -6647,10 +6643,9 @@ MonoBehaviour:
   radius: 30
   spawnMax: 100
   spawnAttempts: 10
-  positionOffset: {x: 0, y: -0.4}
+  spawnHeightFromFloor: 0.4
   scale: 5
   scaleVariance: 1
-  spawnList: []
 --- !u!1 &2066548816
 GameObject:
   m_ObjectHideFlags: 0

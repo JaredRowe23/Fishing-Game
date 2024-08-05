@@ -44,7 +44,7 @@ namespace Fishing.Fishables.Fish
         {
             fishable.SetLength(Mathf.Lerp(fishable.GetLength(), fishable.GetMaxLength(), 0.5f + Random.Range(-growthVariance, growthVariance)));
             fishable.SetWeight(Mathf.Lerp(fishable.GetWeight(), fishable.GetMaxWeight(), 0.5f + Random.Range(-growthVariance, growthVariance)));
-            fishable.RecalculateValue();
+            fishable.AdjustValueAndDifficulty();
             hunger.currentFood -= growthFoodCost;
         }
     }

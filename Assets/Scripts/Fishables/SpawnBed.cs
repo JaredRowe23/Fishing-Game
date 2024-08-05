@@ -11,11 +11,11 @@ namespace Fishing
         [SerializeField] private float radius;
         [SerializeField] private int spawnMax;
         [SerializeField] private int spawnAttempts;
-        [SerializeField] private Vector2 positionOffset;
+        [SerializeField] private float spawnHeightFromFloor;
         [SerializeField] private float scale;
         [SerializeField] private float scaleVariance;
 
-        public List<GameObject> spawnList;
+        private List<GameObject> spawnList;
         private PolygonCollider2D[] floorColliders;
 
         private void Awake()
@@ -26,40 +26,40 @@ namespace Fishing
 
         private void Start()
         {
-            while (spawnList.Count < spawnMax)
-            {
-                Spawn();
-            }
+            for (int i = 0; i < spawnMax; i++) Spawn();
         }
 
         public void Spawn()
         {
+
+            SpawnFloorInfo _spawnInfo = GenerateSpawnPositionInfo();
+
+            GameObject _newObject = Instantiate(prefab, _spawnInfo.surfacePosition, Quaternion.Euler(_spawnInfo.rotationFromFloor), this.transform);
+            _newObject.transform.position += _newObject.transform.up * (spawnHeightFromFloor * scale);
+            _newObject.transform.localScale = Vector3.one * (scale + Random.Range(-scaleVariance, scaleVariance));
+            spawnList.Add(_newObject);
+        }
+
+        private SpawnFloorInfo GenerateSpawnPositionInfo()
+        {
             int i = 0;
-            Vector2 _rand;
-            Vector2 _randWorldPosition;
-            ClosestPointInfo _closestRandomPositionInfo;
+            Vector2 _randomCirclePosition;
+            Vector2 _randomWorldPosition;
+
             while (true)
             {
-                if (i > spawnAttempts)
-                {
-                    return;
-                }
+                _randomCirclePosition = Random.insideUnitCircle * radius;
+                _randomWorldPosition = (Vector2)transform.position + _randomCirclePosition;
 
-                _rand = Random.insideUnitCircle * radius;
+                if (i > spawnAttempts) return new SpawnFloorInfo(_randomWorldPosition, floorColliders);
                 i++;
 
-                _randWorldPosition = new Vector2(_rand.x + transform.position.x, _rand.y + transform.position.y);
-                _closestRandomPositionInfo = Utilities.ClosestPointFromColliders(_randWorldPosition, floorColliders);
-                if (_closestRandomPositionInfo.collider.OverlapPoint(_closestRandomPositionInfo.position)) continue;
-                if (_closestRandomPositionInfo.position.y >= 0f) continue;
+                ClosestPointInfo _closestPointInfo = Utilities.ClosestPointFromColliders(_randomWorldPosition, floorColliders);
+                if (_closestPointInfo.collider.OverlapPoint(_randomWorldPosition)) continue;
+                if (_closestPointInfo.position.y >= 0f) continue;
 
-                break;
+                return new SpawnFloorInfo(_randomWorldPosition, floorColliders);
             }
-            GameObject newObject = Instantiate(prefab, _closestRandomPositionInfo.position - (positionOffset * scale), Quaternion.identity, this.transform);
-            newObject.transform.localScale = Vector3.one * (scale + Random.Range(-scaleVariance, scaleVariance));
-            float _rotationToFloor = Vector2.SignedAngle(Vector2.up, _randWorldPosition - _closestRandomPositionInfo.position);
-            newObject.transform.Rotate(new Vector3(0, 0, _rotationToFloor));
-            spawnList.Add(newObject);
         }
 
         public void RemoveFromList(GameObject _go) => spawnList.Remove(_go);
@@ -68,6 +68,18 @@ namespace Fishing
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawWireSphere(transform.position, radius);
+        }
+    }
+
+    public struct SpawnFloorInfo
+    {
+        public Vector2 surfacePosition;
+        public Vector3 rotationFromFloor;
+
+        public SpawnFloorInfo(Vector2 _position, PolygonCollider2D[] _colliders)
+        {
+            surfacePosition = Utilities.ClosestPointFromColliders(_position, _colliders).position;
+            rotationFromFloor = new Vector3(0, 0, Vector2.Angle(Vector2.up, _position - surfacePosition));
         }
     }
 }

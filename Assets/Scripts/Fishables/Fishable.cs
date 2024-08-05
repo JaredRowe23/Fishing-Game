@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fishing.FishingMechanics;
 using Fishing.Fishables.Fish;
+using Fishing.Util;
 
 namespace Fishing.Fishables
 {
@@ -47,26 +48,24 @@ namespace Fishing.Fishables
         private void Start()
         {
             isHooked = false;
-            weight = Mathf.Round(Random.Range(weightMin, weightMax) * 100f) / 100f;
-            length = Mathf.Round(Random.Range(lengthMin, lengthMax) * 100f) / 100f;
-            Transform parent = transform.parent;
-            transform.parent = null;
-            transform.localScale = Vector2.one * length / 100f;
-            transform.parent = parent;
-
-            float _weightValueDelta = Mathf.InverseLerp(weightMin, weightMax, weight) + 0.5f;
-            float _lengthValueDelta = Mathf.InverseLerp(lengthMin, lengthMax, length) + 0.5f;
-            float _valueDelta = (_weightValueDelta + _lengthValueDelta) * 0.5f;
-            actualValue = baseValue * _valueDelta;
-            minigameDifficulty = _valueDelta;
+            SetWeightAndLength();
+            AdjustValueAndDifficulty();
         }
 
-        public void RecalculateValue()
+        private void SetWeightAndLength()
+        {
+            weight = Mathf.Round(Random.Range(weightMin, weightMax) * 100f) / 100f;
+            length = Mathf.Round(Random.Range(lengthMin, lengthMax) * 100f) / 100f;
+            transform.localScale = Utilities.SetGlobalScale(transform, length / 100f);
+        }
+
+        public void AdjustValueAndDifficulty()
         {
             float _weightValueDelta = Mathf.InverseLerp(weightMin, weightMax, weight) + 0.5f;
             float _lengthValueDelta = Mathf.InverseLerp(lengthMin, lengthMax, length) + 0.5f;
             float _valueDelta = (_weightValueDelta + _lengthValueDelta) * 0.5f;
             actualValue = baseValue * _valueDelta;
+            minigameDifficulty = _valueDelta;
         }
 
         public void DisableMinimapIndicator() => minimapIndicator.SetActive(false);
@@ -94,14 +93,10 @@ namespace Fishing.Fishables
         }
 
         public string GetName() => itemName;
-
         public string GetDescription() => itemDescription;
-
-        public void SetWeight(float _weight) => weight = _weight;
         public float GetWeight() => weight;
-        public float GetMinWeight() => weightMin;
-        public float GetMaxWeight() => weightMax;
-
+        public void SetWeight(float _weight) => weight = _weight;
+        public float GetLength() => length;
         public void SetLength(float _length)
         {
             length = _length;
@@ -110,11 +105,13 @@ namespace Fishing.Fishables
             transform.localScale = Vector2.one * length / 100f;
             transform.parent = parent;
         }
-        public float GetLength() => length;
+        public float GetValue() => actualValue;
+
+        public float GetMinWeight() => weightMin;
+        public float GetMaxWeight() => weightMax;
         public float GetMinLength() => lengthMin;
         public float GetMaxLength() => lengthMax;
 
-        public float GetValue() => actualValue;
         public float GetMinigameDifficulty() => minigameDifficulty;
         public float GetMinigameStrength() => minigameStrength;
         public float GetMinigameMoveDistance() => minigameMoveDistance;
@@ -126,6 +123,6 @@ namespace Fishing.Fishables
         public float GetMinigameSwimTimeVariance() => minigameSwimTimeVariance;
         public float GetMinigameRestTime() => minigameRestTime;
         public float GetMinigameRestTimeVariance() => minigameRestTimeVariance;
-    }
 
+    }
 }

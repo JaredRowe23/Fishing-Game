@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fishing.PlayerCamera;
 using Fishing.Fishables.Fish;
+using Fishing.Util;
 
 namespace Fishing.Fishables
 {
@@ -16,17 +17,17 @@ namespace Fishing.Fishables
         [SerializeField] private float rotationSpeed;
         [SerializeField] private float rotationVariance;
         [SerializeField] private float maximumDistance;
-        [SerializeField] private float stuckDespawnTime = 10f;
+        [SerializeField] private float groundedDespawnTime = 10f;
 
         private Fishable fishableItem;
         private Edible edible;
         private CameraBehaviour cam;
         private SpawnZone spawn;
-        private PolygonCollider2D floorCol;
+        private PolygonCollider2D[] floorColliders;
 
 
-        private float stuckCount;
-        private bool isStuck;
+        private float groundedCount;
+        private bool isGrounded;
 
         private void Awake()
         {
@@ -34,7 +35,7 @@ namespace Fishing.Fishables
             fishableItem = GetComponent<Fishable>();
             cam = CameraBehaviour.instance;
             spawn = transform.parent.GetComponent<SpawnZone>();
-            floorCol = FindObjectOfType<PolygonCollider2D>();
+            floorColliders = GameObject.Find("Grid").GetComponentsInChildren<PolygonCollider2D>();
 
             sinkSpeed += Random.Range(-1, 1) * speedVariance;
             rotationSpeed += Random.Range(-1, 1) * rotationVariance;
@@ -42,56 +43,59 @@ namespace Fishing.Fishables
             _defaultDirection += Random.Range(-1, 1) * directionVariance;
             float _directionInRadians = _defaultDirection * Mathf.Deg2Rad;
             sinkDirection = new Vector2(Mathf.Cos(_directionInRadians), Mathf.Sin(_directionInRadians));
-            stuckCount = stuckDespawnTime;
+            groundedCount = groundedDespawnTime;
         }
 
         private void Update()
         {
             if (fishableItem.isHooked) return;
 
-            if (!isStuck)
+            if (!isGrounded)
             {
-                if (floorCol.OverlapPoint(transform.position))
-                {
-                    transform.position = floorCol.ClosestPoint(transform.position);
-                    isStuck = true;
-                    return;
-                }
+                Float();
+                DespawnFarObjects();
+            }
+            else HandleGroundedOrSurfaced();
+        }
 
-                transform.Translate(sinkSpeed * Time.deltaTime * sinkDirection, Space.World);
-                if (transform.position.y > 0)
-                {
-                    transform.Translate(Vector3.down * transform.position.y, Space.World);
+        private void Float()
+        {
+            transform.Translate(sinkSpeed * Time.deltaTime * sinkDirection.normalized, Space.World);
 
-                    stuckCount -= Time.deltaTime;
+            CheckIfGrounded();
 
-                    if (cam.IsInFrame(transform.position)) return;
+            if (transform.position.y > 0)
+            {
+                transform.Translate(Vector3.down * transform.position.y, Space.World);
 
-                    if (stuckCount <= 0)
-                    {
-                        Despawn();
-                        return;
-                    }
-                }
-                transform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
-
-                if (Vector3.Distance(transform.position, transform.parent.transform.position) < maximumDistance) return;
-                if (cam.IsInFrame(transform.position)) return;
-
-                Despawn();
+                HandleGroundedOrSurfaced();
             }
 
-            else
-            {
-                stuckCount -= Time.deltaTime;
+            transform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
+        }
 
-                if (cam.IsInFrame(transform.position)) return;
+        private void CheckIfGrounded()
+        {
+            ClosestPointInfo _closestPointInfo = Utilities.ClosestPointFromColliders(transform.position, floorColliders);
+            if (!_closestPointInfo.collider.OverlapPoint(transform.position)) return;
 
-                if (stuckCount <= 0)
-                {
-                    Despawn();
-                }
-            }
+            transform.position = _closestPointInfo.position;
+            isGrounded = true;
+        }
+
+        private void HandleGroundedOrSurfaced()
+        {
+            groundedCount -= Time.deltaTime;
+            if (cam.IsInFrame(transform.position)) return;
+            if (groundedCount <= 0) Despawn();
+        }
+
+        private void DespawnFarObjects()
+        {
+            if (Vector3.Distance(transform.position, transform.parent.transform.position) < maximumDistance) return;
+            if (cam.IsInFrame(transform.position)) return;
+
+            Despawn();
         }
 
         public void Despawn()

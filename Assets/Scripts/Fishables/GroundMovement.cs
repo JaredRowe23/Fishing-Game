@@ -17,6 +17,8 @@ namespace Fishing.Fishables.Fish
         private int moveDirection;
         private float directionChangeCount;
         private PolygonCollider2D[] floorColliders;
+        private Vector2 closestFloorPoint;
+        private Vector2 spawnerNearestFloorPosition;
 
         private void Awake()
         {
@@ -27,35 +29,18 @@ namespace Fishing.Fishables.Fish
         {
             moveDirection = 1;
             directionChangeCount = directionChangeTime;
+            spawnerNearestFloorPosition = Utilities.ClosestPointFromColliders(transform.parent.position, floorColliders).position;
         }
 
-        // Update is called once per frame
         void Update()
         {
             if (GetComponent<Fishable>().isHooked) return;
 
-            ClosestPointInfo _closestFloorPoint = Utilities.ClosestPointFromColliders(transform.position, floorColliders);
+            DetermineMovementDirection();
+            Move();
 
-            directionChangeCount -= Time.deltaTime;
-            if (Vector2.Distance(transform.position, Utilities.ClosestPointFromColliders(transform.parent.position, floorColliders).position) > maxRangeFromHome)
-            {
-                moveDirection = Mathf.CeilToInt(Mathf.Clamp01(transform.parent.position.x - transform.position.x));
-            }
-            else if (directionChangeCount <= 0)
-            {
-                moveDirection = Random.Range(0, 2);
-                directionChangeCount = directionChangeTime;
-            }
-            if (moveDirection == 0) moveDirection = -1;
-
-            Vector3 _surfacingCheck = transform.position - (transform.right * obstacleAvoidanceDistance);
-            float _rotationToFloor = Vector2.Angle(Vector2.up, (Vector2)transform.position - _closestFloorPoint.position);
-            float _trueRotation = (360 - transform.rotation.eulerAngles.z) % 360;
-            float _distToFloor = Vector2.Distance(transform.position, _closestFloorPoint.position);
-
-            transform.Rotate(-Vector3.forward, _rotationToFloor - _trueRotation);
-            transform.Translate(transform.right * moveSpeed * moveDirection * Time.deltaTime);
-            transform.position = _closestFloorPoint.position + (Vector2)(Vector3.Normalize((Vector2)transform.position - _closestFloorPoint.position) * groundOffset);
+            //Vector3 _surfacingCheck = transform.position - (transform.right * obstacleAvoidanceDistance);
+            //float _distToFloor = Vector2.Distance(transform.position, closestFloorPoint);
 
             //if (_surfacingCheck.y >= 0)
             //{
@@ -81,6 +66,32 @@ namespace Fishing.Fishables.Fish
             //    }
             //}
         }
+
+        private void DetermineMovementDirection()
+        {
+            directionChangeCount -= Time.deltaTime;
+            if (Vector2.Distance(transform.position, spawnerNearestFloorPosition) > maxRangeFromHome)
+            {
+                moveDirection = transform.parent.position.x - transform.position.x >= 0 ? 1 : -1;
+            }
+            else if (directionChangeCount <= 0)
+            {
+                moveDirection = Random.Range(0, 2) == 1 ? 1 : -1;
+                directionChangeCount = directionChangeTime;
+            }
+        }
+
+        private void Move()
+        {
+            closestFloorPoint = Utilities.ClosestPointFromColliders(transform.position, floorColliders).position;
+
+            transform.Translate(transform.right * moveSpeed * moveDirection * Time.deltaTime);
+            transform.position = closestFloorPoint + (Vector2)(Vector3.Normalize((Vector2)transform.position - closestFloorPoint) * groundOffset);
+
+            float _angleFromFloor = Vector2.Angle(Vector2.up, (Vector2)transform.position - closestFloorPoint);
+            transform.rotation = Quaternion.Euler(0, 0, _angleFromFloor);
+        }
+
         public void Despawn()
         {
             FoodSearchManager.instance.RemoveFish(GetComponent<FoodSearch>());

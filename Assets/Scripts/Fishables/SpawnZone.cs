@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Fishing.PlayerCamera;
+using Fishing.Util;
 
 namespace Fishing
 {
@@ -19,21 +20,18 @@ namespace Fishing
         public GameObject testObject;
 
         private CameraBehaviour playerCam;
-        private PolygonCollider2D floorCol;
+        private PolygonCollider2D[] floorColliders;
 
         private void Awake()
         {
             spawnTimer = new WaitForSeconds(spawnTimeSpacing);
             playerCam = CameraBehaviour.instance;
-            floorCol = FindObjectOfType<PolygonCollider2D>();
+            floorColliders = GameObject.Find("Grid").GetComponentsInChildren<PolygonCollider2D>();
         }
 
         private void Start()
         {
-            while (spawnList.Count < spawnMax)
-            {
-                Spawn();
-            }
+            for (int i = 0; i < spawnMax; i++) Spawn();
             StartCoroutine(Co_Spawn());
         }
 
@@ -41,10 +39,7 @@ namespace Fishing
         {
             while (true)
             {
-                if (spawnList.Count < spawnMax && continueSpawning)
-                {
-                    Spawn();
-                }
+                if (spawnList.Count < spawnMax && continueSpawning) Spawn();
 
                 yield return spawnTimer;
             }
@@ -52,31 +47,32 @@ namespace Fishing
 
         public void Spawn()
         {
-            int i = 0;
-            Vector2 _rand;
-            while (true)
-            {
-                if (i > spawnAttempts)
-                {
-                    return;
-                }
-
-                _rand = Random.insideUnitCircle * radius;
-                i++;
-
-                if (_rand.y + transform.position.y >= 0f) continue;
-
-                if (playerCam.IsInFrame(new Vector2(_rand.x + transform.position.x, _rand.y + transform.position.y))) continue;
-
-                if (floorCol.OverlapPoint(new Vector2(_rand.x + transform.position.x, _rand.y + transform.position.y))) continue;
-
-                break;
-            }
-
-            Vector2 spawnPos = new Vector2(_rand.x + transform.position.x, _rand.y + transform.position.y);
-            GameObject newFish = Instantiate(prefab, spawnPos, Quaternion.identity, this.transform);
+            Vector2 spawnPos = GenerateSpawnPosition();
+            GameObject newFish = Instantiate(prefab, spawnPos, Quaternion.identity, transform);
             spawnList.Add(newFish);
         }
+
+        private Vector2 GenerateSpawnPosition()
+        {
+            int i = 0;
+            Vector2 _randomCircle;
+            Vector2 _randomWorldPosition;
+            while (true)
+            {
+                _randomCircle = Random.insideUnitCircle * radius;
+                _randomWorldPosition = (Vector2)transform.position + _randomCircle;
+
+                if (i > spawnAttempts) return _randomCircle;
+                i++;
+
+                if (_randomCircle.y + transform.position.y >= 0f) continue;
+                if (playerCam.IsInFrame(new Vector2(_randomCircle.x + transform.position.x, _randomCircle.y + transform.position.y))) continue;
+                if (Utilities.ClosestPointFromColliders(_randomWorldPosition, floorColliders).collider.OverlapPoint(_randomWorldPosition)) continue;
+
+                return _randomWorldPosition;
+            }
+        }
+
         public void RemoveFromList(GameObject _go) => spawnList.Remove(_go);
 
         private void OnDrawGizmosSelected()
