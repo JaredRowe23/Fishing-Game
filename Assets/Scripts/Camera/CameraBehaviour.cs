@@ -59,7 +59,7 @@ namespace Fishing.PlayerCamera
 
         private void Update()
         {
-            if (UIManager.instance.IsActiveUI()) lockPlayerControls = true;
+            lockPlayerControls = UIManager.instance.IsActiveUI();
             desiredZoom = lockPlayerControls ? tempZoom : playerZoom;
             if (!lockZoom) HandleCameraZoom();
             if (!lockPosition) HandleCameraPosition();

@@ -31,7 +31,7 @@ namespace Fishing.UI
 
                 if (RodManager.instance.equippedRod.equippedBait != null)
                 {
-                    PlayerData.instance.AddBait(RodManager.instance.equippedRod.equippedBait.scriptable.baitName);
+                    PlayerData.instance.AddBait(RodManager.instance.equippedRod.equippedBait.GetScriptable().baitName);
                     RodManager.instance.equippedRod.equippedBait.Despawn();
                 }
 
@@ -53,7 +53,7 @@ namespace Fishing.UI
             {
                 if (RodManager.instance.equippedRod.equippedBait == null) continue;
 
-                PlayerData.instance.AddBait(RodManager.instance.equippedRod.equippedBait.scriptable.baitName);
+                PlayerData.instance.AddBait(RodManager.instance.equippedRod.equippedBait.GetScriptable().baitName);
                 RodManager.instance.equippedRod.equippedBait.Despawn();
 
                 for (int j = 0; j < PlayerData.instance.fishingRods.Count; j++)

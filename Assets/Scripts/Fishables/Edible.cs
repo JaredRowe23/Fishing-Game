@@ -11,7 +11,7 @@ namespace Fishing.Fishables.Fish
         [SerializeField] private FoodTypes foodType;
 
         private FoodSearch foodSearch;
-        private ISpawn spawn;
+        [SerializeField] private ISpawn spawn;
 
         private void Awake()
         {
@@ -25,16 +25,19 @@ namespace Fishing.Fishables.Fish
 
         public void Despawn()
         {
-            if (foodSearch != null)
-            {
-                if (foodSearch.desiredFood != null)
-                {
-                    if (foodSearch.desiredFood.GetComponent<FishMovement>()) foodSearch.desiredFood.GetComponent<FishMovement>().activePredator = null;
-                }
-            }
+            RemovePredatorFromPrey();
             spawn.RemoveFromList(gameObject);
             FoodSearchManager.instance.RemoveFood(GetComponent<Edible>());
             DestroyImmediate(gameObject);
+        }
+
+        private void RemovePredatorFromPrey()
+        {
+            if (foodSearch == null) return;
+            if (foodSearch.desiredFood == null) return;
+            if (!foodSearch.desiredFood.GetComponent<FishMovement>()) return;
+
+            foodSearch.desiredFood.GetComponent<FishMovement>().activePredator = null;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Fishing.Fishables
         [SerializeField] private GameObject fruitPrefab;
         [SerializeField] private List<Transform> fruitPoints;
 
-        private GameObject[] fruits;
+        [SerializeField] private GameObject[] fruits;
         private float spawnCount;
         private CameraBehaviour playerCam;
 
@@ -49,6 +49,7 @@ namespace Fishing.Fishables
 
         public void RemoveFruit(GameObject _fruit)
         {
+            Debug.Log(System.Array.IndexOf(fruits, _fruit));
             fruits[System.Array.IndexOf(fruits, _fruit)] = null;
         }
     }

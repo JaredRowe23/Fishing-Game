@@ -27,7 +27,7 @@ namespace Fishing.FishingMechanics
             for (int i = 0; i < fish.Count; i++)
             {
                 FoodSearch _search = fish[i].GetComponent<FoodSearch>();
-                _baitDataArray[i] = new BaitData(bait.transform.position, bait.scriptable.areaOfEffect, bait.scriptable.GetFoodTypes(), fish[i].transform.position, fish[i].GetComponent<Edible>().GetFoodType());
+                _baitDataArray[i] = new BaitData(bait.transform.position, bait.GetScriptable().areaOfEffect, bait.GetScriptable().GetFoodTypes(), fish[i].transform.position, fish[i].GetComponent<Edible>().GetFoodType());
 
             }
 

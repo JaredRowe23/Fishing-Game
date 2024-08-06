@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Fishing.Util;
 
-namespace Fishing.FishingMechanics
+namespace Fishing.FishingMechanics.Minigame
 {
     public class ReelZone : MonoBehaviour
     {
         [SerializeField] private float reelZoneImageWidth;
+        [Range(0f, 1.0f)]
+        [SerializeField] private float reelingTransparency = 1f;
         [Range(0f, 1.0f)]
         [SerializeField] private float notReelingTransparency = 0.5f;
 
@@ -19,8 +22,6 @@ namespace Fishing.FishingMechanics
         private float reelZoneGravity;
 
         private float reelZoneVelocity;
-
-        private bool isInReelZone;
 
         private ReelingMinigame minigame;
         private MinigameFish minigameFish;
@@ -46,19 +47,7 @@ namespace Fishing.FishingMechanics
             else ApplyGravityToReel();
 
             MoveReelZone();
-
-            isInReelZone = IsFishInReelZone();
-
-            if (isInReelZone)
-            {
-                img.color = new Color(img.color.r, img.color.g, img.color.b, 1f);
-                rodManager.equippedRod.StartReeling();
-            }
-            else
-            {
-                img.color = new Color(img.color.r, img.color.g, img.color.b, notReelingTransparency);
-                rodManager.equippedRod.StopReeling();
-            }
+            HandleReelZone();
            
         }
 
@@ -74,6 +63,20 @@ namespace Fishing.FishingMechanics
             img.rectTransform.sizeDelta = new Vector2(reelZoneImageWidth + reelZoneWidth, 0f);
             img.rectTransform.anchoredPosition = Vector2.zero;
             reelZoneVelocity = 0f;
+        }
+
+        private void HandleReelZone()
+        {
+            if (IsFishInReelZone())
+            {
+                img.color = Utilities.SetTransparency(img.color, reelingTransparency);
+                rodManager.equippedRod.StartReeling();
+            }
+            else
+            {
+                img.color = Utilities.SetTransparency(img.color, notReelingTransparency);
+                rodManager.equippedRod.StopReeling();
+            }
         }
 
         private void MoveReelZone()

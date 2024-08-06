@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Fishing.Fishables;
 
-namespace Fishing.FishingMechanics
+namespace Fishing.FishingMechanics.Minigame
 {
     public class DistanceBar : MonoBehaviour
     {

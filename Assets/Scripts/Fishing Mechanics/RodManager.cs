@@ -61,14 +61,14 @@ namespace Fishing
         {
             for (int i = 0; i < PlayerData.instance.fishingRods.Count; i++)
             {
-                if (PlayerData.instance.fishingRods[i] != equippedRod.scriptable.rodName) continue;
-                if (PlayerData.instance.equippedBaits[i] == "") return;
+                if (playerData.fishingRods[i] != equippedRod.scriptable.rodName) continue;
+                if (playerData.equippedBaits[i] == "") return;
 
-                BaitBehaviour _newBait = Instantiate(ItemLookupTable.instance.StringToBait(PlayerData.instance.equippedBaits[i]).prefab, equippedRod.GetHook().transform).GetComponent<BaitBehaviour>();
+                BaitBehaviour _newBait = Instantiate(ItemLookupTable.instance.StringToBait(playerData.equippedBaits[i]).prefab, equippedRod.GetHook().transform).GetComponent<BaitBehaviour>();
                 equippedRod.equippedBait = _newBait;
                 equippedRod.GetHook().hookedObject = _newBait.gameObject;
-                _newBait.transform.localPosition = _newBait.anchorPoint;
-                _newBait.transform.localRotation = Quaternion.Euler(_newBait.anchorRotation);
+                _newBait.transform.localPosition = _newBait.GetAnchorPoint();
+                _newBait.transform.localRotation = Quaternion.Euler(_newBait.GetAnchorRotation());
                 BaitManager.instance.bait = _newBait;
             }
         }

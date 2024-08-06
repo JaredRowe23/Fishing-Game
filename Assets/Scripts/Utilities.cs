@@ -8,6 +8,50 @@ namespace Fishing.Util
     public static class Utilities
     {
         /// <summary>
+        /// Oscillates a value between two other values and returns an OscillateInfo object that contains the new value and what the new target direction should be.
+        /// </summary>
+        /// <param name="_minValue">Minimum value to lerp</param>
+        /// <param name="_maxValue">Maximum value to lerp</param>
+        /// <param name="_currentValue">Current value to lerp</param>
+        /// <param name="_oscillationSpeed">Speed to lerp, in leu of having Time.deltaTime or frequency set in the inspector</param>
+        /// <param name="_target">Current target value to oscillate towards</param>
+        /// <returns>OscillateInfo</returns>
+        public static OscillateInfo OscillateFloat(float _minValue, float _maxValue, float _currentValue, float _oscillationSpeed, float _target)
+        {
+            float _valueDelta = Mathf.Lerp(_minValue, _maxValue, _oscillationSpeed) - _minValue;
+            _currentValue = _target == _maxValue ? _currentValue + _valueDelta : _currentValue - _valueDelta;
+
+            if (_target == _maxValue && _currentValue >= _maxValue)
+            {
+                _currentValue = _maxValue;
+                _target = _minValue;
+            }
+            else if (_target == _minValue && _currentValue <= _minValue)
+            {
+                _currentValue = _minValue;
+                _target = _maxValue;
+            }
+
+            OscillateInfo _info = new OscillateInfo(_currentValue, _target);
+            return _info;
+        }
+        /// <summary>
+        /// Returns given color with it's transparency set to a given value.
+        /// </summary>
+        /// <param name="_color"></param>
+        /// <param name="_transparency"></param>
+        /// <returns>Color</returns>
+        public static Color SetTransparency(Color _color, float _transparency) => new Color(_color.r, _color.g, _color.b, _transparency);
+
+        /// <summary>
+        /// Converts angle to a directional vector.
+        /// </summary>
+        /// <param name="_angle"></param>
+        /// <returns>Vector2 direction</returns>
+        public static Vector2 AngleToVector(float _angle) => new Vector2(Mathf.Sin(_angle * Mathf.Deg2Rad), Mathf.Cos(_angle * Mathf.Deg2Rad));
+
+
+        /// <summary>
         /// Gives the direction a transform would have to rotate to face towards a target, in the form of an int. Meant to be multiplied with rotation needs.
         /// </summary>
         /// <param name="_transform">Transform to be rotated</param>
@@ -89,6 +133,18 @@ namespace Fishing.Util
             position = _position;
             distance = _distance;
             collider = _collider;
+        }
+    }
+
+    public struct OscillateInfo
+    {
+        public float value;
+        public float newTarget;
+
+        public OscillateInfo(float _value, float _newTarget)
+        {
+            value = _value;
+            newTarget = _newTarget;
         }
     }
 }

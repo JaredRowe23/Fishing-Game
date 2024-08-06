@@ -29,24 +29,10 @@ namespace Fishing.FishingMechanics
             rb.AddForce(new Vector2(direction * moveSpeed * Time.deltaTime, 0));
         }
 
-        private void MoveLeft()
-        {
-            direction = -moveSpeed;
-        }
+        private void MoveLeft() => direction = -moveSpeed;
+        private void MoveRight() => direction = moveSpeed;
 
-        private void MoveRight()
-        {
-            direction = moveSpeed;
-        }
-
-        private void StopLeft()
-        {
-            direction = 0f;
-        }
-
-        private void StopRight()
-        {
-            direction = 0f;
-        }
+        private void StopLeft() => direction = 0f;
+        private void StopRight() => direction = 0f;
     }
 }

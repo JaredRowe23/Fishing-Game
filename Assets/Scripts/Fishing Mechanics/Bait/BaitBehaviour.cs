@@ -8,9 +8,9 @@ namespace Fishing.Fishables
 {
     public class BaitBehaviour : MonoBehaviour, IEdible
     {
-        public BaitScriptable scriptable;
-        public Vector3 anchorPoint;
-        public Vector3 anchorRotation;
+        [SerializeField] private BaitScriptable scriptable;
+        [SerializeField] private Vector3 anchorPoint;
+        [SerializeField] private Vector3 anchorRotation;
 
         private void Start()
         {
@@ -40,5 +40,9 @@ namespace Fishing.Fishables
 
             colSearch.desiredFood = gameObject;
         }
+
+        public BaitScriptable GetScriptable() => scriptable;
+        public Vector3 GetAnchorPoint() => anchorPoint;
+        public Vector3 GetAnchorRotation() => anchorRotation;
     }
 }

@@ -43,7 +43,7 @@ namespace Fishing.UI
             rodName.text = _rod.scriptable.rodName;
             rodDescription.text = _rod.scriptable.description;
 
-            if (_rod.equippedBait != null) baitButton.UpdateButton(_rod.equippedBait.scriptable.baitName, _rod.equippedBait.scriptable.inventorySprite);
+            if (_rod.equippedBait != null) baitButton.UpdateButton(_rod.equippedBait.GetScriptable().baitName, _rod.equippedBait.GetScriptable().inventorySprite);
             else baitButton.UpdateButton("No Bait", null);
 
             UpdateBaitOptions();

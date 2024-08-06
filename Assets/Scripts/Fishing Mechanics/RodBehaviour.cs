@@ -5,6 +5,7 @@ using Fishing.Fishables;
 using Fishing.IO;
 using Fishing.UI;
 using Fishing.PlayerCamera;
+using Fishing.FishingMechanics.Minigame;
 
 namespace Fishing.FishingMechanics
 {
@@ -48,7 +49,7 @@ namespace Fishing.FishingMechanics
             playerAnim = rodManager.GetComponent<Animator>();
 
             if (PlayerData.instance.hasSeenCastTut) return;
-            TutorialSystem.instance.QueueTutorial("Hold the left mouse button to begin casting.");
+            ShowCastingTutorial();
         }
 
         void Update()
@@ -57,8 +58,15 @@ namespace Fishing.FishingMechanics
             {
                 AudioManager.instance.PlaySound("Reel", true);
                 hook.Reel(scriptable.reelSpeed);
-                if (Vector2.Distance(hook.transform.position, hook.GetHookAnchorPoint().position) <= reeledInDistance) OnReeledIn();
+
+                Vector2 _waterSurfaceUnderRodPosition = new Vector2(hook.GetHookAnchorPoint().position.x, 0f);
+                if (Vector2.Distance(hook.transform.position, _waterSurfaceUnderRodPosition) <= reeledInDistance) OnReeledIn();
             }
+        }
+
+        private void ShowCastingTutorial()
+        {
+            TutorialSystem.instance.QueueTutorial("Hold the left mouse button to begin casting.");
         }
 
         public void StartReeling()
@@ -78,6 +86,7 @@ namespace Fishing.FishingMechanics
             if (!anim.GetBool("isReeling")) return;
 
             AudioManager.instance.StopPlaying("Reel");
+
             anim.SetBool("isReeling", false);
             playerAnim.SetBool("isReeling", false);
         }
@@ -90,62 +99,85 @@ namespace Fishing.FishingMechanics
 
             anim.SetTrigger("startCast");
             playerAnim.SetTrigger("startCast");
-            UIManager.instance.bucketMenuButton.gameObject.SetActive(false);
-            UIManager.instance.inventoryMenuButton.SetActive(false);
-            UIManager.instance.recordMenuButton.gameObject.SetActive(false);
+
+            SetIdleButtonsActive(false);
+
             InputManager.onCastReel -= StartCast;
+
             PowerAndAngle.instance.StartAngling();
         }
 
         public void Cast(float _angle, float _strength)
         {
+            hook.Cast(_angle, _strength);
+
             anim.SetTrigger("cast");
             playerAnim.SetTrigger("cast");
-            casted = true;
-            hook.Cast(_angle, _strength);
+
             cam.EnablePlayerControls();
             InputManager.onCastReel += StartReeling;
             InputManager.releaseCastReel += StopReeling;
+
+            casted = true;
         }
 
         public void OnReeledIn()
         {
-            AudioManager.instance.StopPlaying("Reel");
-            if (hook.hookedObject != null)
-            {
-                if (hook.hookedObject.GetComponent<BaitBehaviour>() == null)
-                {
-                    hook.AddToBucket();
-                    for (int i = 0; i < PlayerData.instance.fishingRods.Count; i++)
-                    {
-                        if (PlayerData.instance.fishingRods[i] != scriptable.rodName) continue;
-                        if (PlayerData.instance.equippedBaits[i] == "") break;
+            AddCatch();
 
-                        if (PlayerData.instance.baitCounts[i] <= 0)
-                        {
-                            TooltipSystem.instance.NewTooltip(3, "Out of bait: " + PlayerData.instance.equippedBaits[i]);
-                            PlayerData.instance.equippedBaits[i] = "";
-                            PlayerData.instance.bait.RemoveAt(i);
-                            PlayerData.instance.baitCounts.RemoveAt(i);
-                        }
-                        else
-                        {
-                            PlayerData.instance.baitCounts[i]--;
-                            rodManager.SpawnBait();
-                        }
-                        break;
-                    }
-                }
-            }
             ReelingMinigame.instance.EndMinigame();
+
+            AudioManager.instance.StopPlaying("Reel");
+
             anim.SetBool("isReeling", false);
             playerAnim.SetBool("isReeling", false);
-            casted = false;
+
             cam.ReturnHome();
+
+            SetIdleButtonsActive(true);
+
+            casted = false;
             isResettingHook = true;
-            UIManager.instance.bucketMenuButton.gameObject.SetActive(true);
-            UIManager.instance.inventoryMenuButton.SetActive(true);
-            UIManager.instance.recordMenuButton.gameObject.SetActive(true);
+        }
+
+        private void SetIdleButtonsActive(bool _active)
+        {
+            UIManager.instance.bucketMenuButton.gameObject.SetActive(_active);
+            UIManager.instance.inventoryMenuButton.SetActive(_active);
+            UIManager.instance.recordMenuButton.gameObject.SetActive(_active);
+        }
+
+        private void AddCatch()
+        {
+            if (hook.hookedObject == null) return;
+            if (hook.hookedObject.GetComponent<BaitBehaviour>()) return;
+
+            hook.AddToBucket();
+
+            ReEquipBait();
+        }
+
+        private void ReEquipBait()
+        {
+            for (int i = 0; i < PlayerData.instance.fishingRods.Count; i++)
+            {
+                if (PlayerData.instance.fishingRods[i] != scriptable.rodName) continue;
+                if (PlayerData.instance.equippedBaits[i] == "") return;
+
+                if (PlayerData.instance.baitCounts[i] <= 0)
+                {
+                    TooltipSystem.instance.NewTooltip(3, "Out of bait: " + PlayerData.instance.equippedBaits[i]);
+                    PlayerData.instance.equippedBaits[i] = "";
+                    PlayerData.instance.bait.RemoveAt(i);
+                    PlayerData.instance.baitCounts.RemoveAt(i);
+                }
+                else
+                {
+                    PlayerData.instance.baitCounts[i]--;
+                    rodManager.SpawnBait();
+                }
+                return;
+            }
         }
 
         public void IdleLineAnchorPosition(int _index) => linePivotPoint.position = idleAnimationPositions[_index].position;

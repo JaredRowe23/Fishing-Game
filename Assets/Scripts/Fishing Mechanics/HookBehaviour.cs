@@ -7,12 +7,13 @@ using Fishing.Inventory;
 using Fishing.UI;
 using Fishing.IO;
 using Fishing.PlayerCamera;
+using Fishing.FishingMechanics.Minigame;
 
 namespace Fishing.FishingMechanics
 {
     public class HookBehaviour : MonoBehaviour, IEdible
     {
-        public GameObject hookedObject;
+        [HideInInspector] public GameObject hookedObject;
 
         [SerializeField] private Transform linePivotPoint;
         [SerializeField] private Transform hookPivotPoint;
@@ -22,13 +23,13 @@ namespace Fishing.FishingMechanics
         [Header("Water Physics")]
         [SerializeField] private float drag;
         [SerializeField] private float waterDrag;
-        [SerializeField] private float lineRotationAngle = -5f;
 
-        public bool playedSplash;
+        private bool playedSplash;
 
-        private Vector2 _targetPos;
-        private RodBehaviour _rod;
-        private Rigidbody2D _rb;
+        private Vector2 targetPos;
+        private RodBehaviour rod;
+        private Rigidbody2D rb;
+        private CameraBehaviour cam;
 
         private LineRenderer lineRenderer;
 
@@ -39,70 +40,62 @@ namespace Fishing.FishingMechanics
 
         private void Start()
         {
-            _rod = transform.parent.GetComponent<RodBehaviour>();
-            _rb = this.GetComponent<Rigidbody2D>();
+            rod = transform.parent.GetComponent<RodBehaviour>();
+            rb = GetComponent<Rigidbody2D>();
+            cam = CameraBehaviour.instance;
 
             lineRenderer.SetPosition(0, linePivotPoint.position);
         }
 
         void Update()
         {
-            lineRenderer.SetPosition(0, linePivotPoint.position);
-            lineRenderer.SetPosition(1, hookPivotPoint.position);
+            SetLineRendererPositions();
 
-            if (transform.position.y <= 0f)
-            {
-                OnSubmerged();
-            }
-            else
-            {
-                OnSurfaced();
-            }
+            if (transform.position.y <= 0f) OnSubmerged();
+            else OnSurfaced();
 
-            if (!_rod.casted)
+            if (!rod.casted)
             {
-                _rb.isKinematic = true;
-                _rb.velocity = Vector2.zero;
-                _targetPos = linePivotPoint.position - new Vector3(0, hookHangHeight, 0);
-                transform.position = Vector2.MoveTowards(transform.position, _targetPos, resetSpeed * Time.deltaTime);
-                if (Vector2.Distance(transform.position, _targetPos) == 0f && _rod.isResettingHook)
-                {
-                    _rod.AddCastInput();
-                    _rod.isResettingHook = false;
-                }
+                HandleNotCasted();
                 return;
             }
 
             HandlePhysics();
         }
 
+        private void SetLineRendererPositions()
+        {
+            lineRenderer.SetPosition(0, linePivotPoint.position);
+            lineRenderer.SetPosition(1, hookPivotPoint.position);
+        }
+
+        private void HandleNotCasted()
+        {
+            rb.isKinematic = true;
+            rb.velocity = Vector2.zero;
+            targetPos = linePivotPoint.position - new Vector3(0, hookHangHeight, 0);
+            transform.position = Vector2.MoveTowards(transform.position, targetPos, resetSpeed * Time.deltaTime);
+            if (Vector2.Distance(transform.position, targetPos) == 0f && rod.isResettingHook)
+            {
+                rod.AddCastInput();
+                rod.isResettingHook = false;
+            }
+        }
+
         private void HandlePhysics()
         {
-            if (Vector2.Distance(transform.position, linePivotPoint.position) >= _rod.GetLineLength())
+            float _distanceFromPivot = Vector2.Distance(transform.position, linePivotPoint.position);
+            if (_distanceFromPivot >= rod.GetLineLength())
             {
-                if (transform.position.y < 0f)
-                {
-                    _rb.gravityScale = 0;
-                    _rb.isKinematic = false;
-                    if (transform.position.x - linePivotPoint.position.x >= 0f)
-                    {
-                        transform.RotateAround(linePivotPoint.position, Vector3.forward, lineRotationAngle * Time.deltaTime);
-                        transform.rotation = Quaternion.identity;
-                    }
-                }
-
-                else
-                {
-                    _rb.velocity = new Vector2(0f, _rb.velocity.y);
-                }
+                transform.position += (linePivotPoint.position - transform.position).normalized * (_distanceFromPivot - rod.GetLineLength());
             }
             else
             {
-                _rb.gravityScale = 1;
-                _rb.isKinematic = false;
+                rb.gravityScale = 1;
+                rb.isKinematic = false;
             }
 
-            CameraBehaviour.instance.SetDesiredPosition(transform.position);
+            cam.SetDesiredPosition(transform.position);
         }
 
         public void Despawn()
@@ -118,44 +111,45 @@ namespace Fishing.FishingMechanics
                 AudioManager.instance.PlaySound("Hook Splash");
                 playedSplash = true;
             }
-            _rb.drag = waterDrag;
+            rb.drag = waterDrag;
 
-            if (PlayerData.instance.hasSeenReelingTut) return;
+            if (!PlayerData.instance.hasSeenReelingTut) ShowReelingTutorial();
+        }
+
+        private void ShowReelingTutorial()
+        {
             TutorialSystem.instance.QueueTutorial("Hold the left mouse button to begin reeling.");
             TutorialSystem.instance.QueueTutorial("Use A and D or the arrow keys to move the hook left and right slightly");
             PlayerData.instance.hasSeenReelingTut = true;
         }
+
         private void OnSurfaced()
         {
-            _rb.drag = drag;
+            rb.drag = drag;
             playedSplash = false;
         }
 
         public void Cast(float _angle, float _force)
         {
-            _rb.isKinematic = false;
+            rb.isKinematic = false;
             Quaternion rot = Quaternion.AngleAxis(_angle, Vector3.forward);
-            _rb.AddForce(rot * Vector2.right * _force);
+            rb.AddForce(rot * Vector2.right * _force);
         }
 
-        public void Reel(float _force) => _rb.AddForce(_force * Time.deltaTime * Vector3.Normalize(linePivotPoint.position - transform.position));
+        public void Reel(float _force) => rb.AddForce(_force * Time.deltaTime * Vector3.Normalize(linePivotPoint.position - transform.position));
 
         public Transform GetHookAnchorPoint() => linePivotPoint;
 
         public void SetHook(Fishable _fishable)
         {
             if (hookedObject != null) return;
-            if (_rod.isResettingHook) return;
+            if (rod.isResettingHook) return;
 
             _fishable.OnHooked(transform);
             hookedObject = _fishable.gameObject;
             hookedObject.transform.position = transform.position;
 
             ReelingMinigame.instance.InitiateMinigame(_fishable);
-
-            //if (PlayerData.instance.hasSeenFishTut) return;
-            //TutorialSystem.instance.QueueTutorial("You've hooked something! Reel it back in to catch it!");
-            //PlayerData.instance.hasSeenFishTut = true;
         }
 
         public void DespawnHookedObject()
@@ -174,7 +168,7 @@ namespace Fishing.FishingMechanics
             PlayerData.instance.hasSeenBucketTut = true;
         }
 
-        public bool IsInStartCastPosition() => ((Vector2)transform.position == _targetPos) && _rod.IsInStartingCastPosition();
+        public bool IsInStartCastPosition() => ((Vector2)transform.position == targetPos) && rod.IsInStartingCastPosition();
     }
 
 }

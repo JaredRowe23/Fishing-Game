@@ -16,7 +16,6 @@ namespace Fishing.Fishables
         }
         public void Despawn()
         {
-            stalk.RemoveFruit(gameObject);
             FoodSearchManager.instance.RemoveFood(GetComponent<Edible>());
             DestroyImmediate(gameObject);
         }

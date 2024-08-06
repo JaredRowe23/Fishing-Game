@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fishing.Util;
 
 namespace Fishing.PlayerCamera
 {
@@ -19,7 +20,7 @@ namespace Fishing.PlayerCamera
         void Update()
         {
             if (-transform.position.y < minDepth) return;
-            sprite.color = new Color(sprite.color.r, sprite.color.g, sprite.color.g, Mathf.InverseLerp(minDepth, maxDepth, (-transform.position.y)) * maxAlpha);
+            sprite.color = Utilities.SetTransparency(sprite.color, Mathf.InverseLerp(minDepth, maxDepth, -transform.position.y) * maxAlpha);
         }
 
         private void OnDrawGizmosSelected()

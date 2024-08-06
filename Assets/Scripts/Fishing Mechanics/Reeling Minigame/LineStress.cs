@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Fishing.FishingMechanics
+namespace Fishing.FishingMechanics.Minigame
 {
     public class LineStress : MonoBehaviour
     {
@@ -80,14 +80,9 @@ namespace Fishing.FishingMechanics
             float _colorFactor = 1.0f / (reelingBarFillColors.Count - 1);
 
             int _gradientStartIndex = Mathf.FloorToInt(_normalizedStress / _colorFactor);
-            float _gradientBlend = _normalizedStress % _colorFactor;
-            float _gradientValueNormalized = Mathf.InverseLerp(_normalizedStress - _gradientBlend, _normalizedStress - _gradientBlend + _colorFactor, _normalizedStress);
+            float _gradientValueNormalized = Mathf.InverseLerp(_colorFactor * _gradientStartIndex, _colorFactor * (_gradientStartIndex + 1), _normalizedStress);
 
-            float _r = Mathf.Lerp(reelingBarFillColors[_gradientStartIndex].r, reelingBarFillColors[_gradientStartIndex + 1].r, _gradientValueNormalized);
-            float _g = Mathf.Lerp(reelingBarFillColors[_gradientStartIndex].g, reelingBarFillColors[_gradientStartIndex + 1].g, _gradientValueNormalized);
-            float _b = Mathf.Lerp(reelingBarFillColors[_gradientStartIndex].b, reelingBarFillColors[_gradientStartIndex + 1].b, _gradientValueNormalized);
-
-            Color _newColor = new Color(_r, _g, _b);
+            Color _newColor = Color.Lerp(reelingBarFillColors[_gradientStartIndex], reelingBarFillColors[_gradientStartIndex + 1], _gradientValueNormalized);
 
             return _newColor;
         }

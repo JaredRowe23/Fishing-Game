@@ -62,7 +62,11 @@ namespace Fishing
                 _randomCircle = Random.insideUnitCircle * radius;
                 _randomWorldPosition = (Vector2)transform.position + _randomCircle;
 
-                if (i > spawnAttempts) return _randomCircle;
+                if (i > spawnAttempts)
+                {
+                    if (_randomWorldPosition.y > 0) _randomWorldPosition.y = 0;
+                    return _randomWorldPosition;
+                }
                 i++;
 
                 if (_randomCircle.y + transform.position.y >= 0f) continue;

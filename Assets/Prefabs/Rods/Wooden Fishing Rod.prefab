@@ -189,7 +189,7 @@ MonoBehaviour:
   equippedBait: {fileID: 0}
   linePivotPoint: {fileID: 1958218463701778770}
   casted: 0
-  reeledInDistance: 20
+  reeledInDistance: 10
   hook: {fileID: 1958218464476562891}
   playerAnim: {fileID: 0}
   idleAnimationPositions:
@@ -356,12 +356,10 @@ MonoBehaviour:
   hookedObject: {fileID: 0}
   linePivotPoint: {fileID: 1958218463701778770}
   hookPivotPoint: {fileID: 2138213653}
-  resetSpeed: 25
+  resetSpeed: 20
   hookHangHeight: 2.5
   drag: 0
   waterDrag: 5
-  lineRotationAngle: -1
-  playedSplash: 0
 --- !u!212 &5497299263962119491
 SpriteRenderer:
   m_ObjectHideFlags: 0

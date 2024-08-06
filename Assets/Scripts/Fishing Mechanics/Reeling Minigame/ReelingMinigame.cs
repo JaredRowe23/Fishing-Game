@@ -6,7 +6,7 @@ using Fishing.IO;
 using UnityEngine.UI;
 using Fishing.UI;
 
-namespace Fishing.FishingMechanics
+namespace Fishing.FishingMechanics.Minigame
 {
     public class ReelingMinigame : MonoBehaviour
     {
@@ -18,7 +18,6 @@ namespace Fishing.FishingMechanics
         [SerializeField] private Text fishNameText;
         [SerializeField] private Text fishStrengthText;
 
-
         private LineStress stressBar;
         private ReelZone reelZone;
         private MinigameFish fishIcon;
@@ -29,6 +28,7 @@ namespace Fishing.FishingMechanics
         private bool isInMinigame = false;
 
         private RodBehaviour equippedRod;
+        private Fishable fish;
 
         public static ReelingMinigame instance;
 
@@ -53,30 +53,49 @@ namespace Fishing.FishingMechanics
             ShowMinigame(true);
 
             equippedRod = RodManager.instance.equippedRod;
+            fish = _fish;
 
-            fishIcon.InitializeMinigame(_fish);
+            InitializeMinigameScripts();
+
+            PopulateUIText();
+
+            SetInputs();
+
+            isInMinigame = true;
+
+            if (!PlayerData.instance.hasSeenReelingMinigameTut) HandleTutorial();
+        }
+
+        private void InitializeMinigameScripts()
+        {
+            fishIcon.InitializeMinigame(fish);
             reelZone.InitializeMinigame();
             stressBar.InitializeMinigame();
-            distanceBar.InitializeMinigame(_fish);
+            distanceBar.InitializeMinigame(fish);
+        }
 
+        private void PopulateUIText()
+        {
             lineStrengthText.text = "Line STR - " + equippedRod.scriptable.lineStrength.ToString();
-            fishNameText.text = _fish.GetName();
-            fishStrengthText.text = "Diff - x" + _fish.GetMinigameDifficulty().ToString("F2");
+            fishNameText.text = fish.GetName();
+            fishStrengthText.text = "Diff - x" + fish.GetMinigameDifficulty().ToString("F2");
+        }
 
+        private void SetInputs()
+        {
             isReeling = false;
             equippedRod.ClearReelInputs();
             InputManager.onCastReel += StartReeling;
             InputManager.releaseCastReel += EndReeling;
+        }
 
-            isInMinigame = true;
-
-            if (PlayerData.instance.hasSeenReelingMinigameTut) return;
-            TutorialSystem.instance.QueueTutorial("When something gets caught on your hook, this initiates the reeling minigame.");
-            TutorialSystem.instance.QueueTutorial("Your goal is to move the green \"reeling zone\" with the Left Mouse Button to cover the fish icon with it, which will start reeling it in.");
-            TutorialSystem.instance.QueueTutorial("Be careful, because your line can only handle so much stress and eventually will snap, losing the fish and resetting you back to casting again. Pay attention to the color of the background!");
-            TutorialSystem.instance.QueueTutorial("Reeling will cause some amount of stress, but not as much when the fish is in the reeling zone. The amount of stress is based on the difference between your line's strength, and the strength of the fish.");
-            TutorialSystem.instance.QueueTutorial("The fish will try and swim away (shown by the splash icon around it) before entering a rest period. While it's swimming, it'll move further away, and reeling while it's swimming will induce more stress than normal.");
-            TutorialSystem.instance.QueueTutorial("If you find a fish too hard to reel in, you may have to either upgrade your line, fishing rod, or try going after a smaller sized fish. Be patient to reel while the fish is resting, and good luck!");
+        private void HandleTutorial()
+        {
+            TutorialSystem.instance.QueueTutorial("When you hook something, the reeling minigame starts. Move the green \"reeling zone\" with the Left Mouse Button to cover the fish icon to start reeling it in.");
+            TutorialSystem.instance.QueueTutorial("Your line can snap under too much stress, so pay attention to the bar's color!");
+            TutorialSystem.instance.QueueTutorial("Reeling will cause some stress, but not as much when the fish is in the reeling zone. Stronger lines can handle stronger fish.");
+            TutorialSystem.instance.QueueTutorial("The fish will try and swim away (splash icon) before entering a rest period. Reeling while it's swimming will induce more stress.");
+            TutorialSystem.instance.QueueTutorial("If you find a fish too difficult, upgrade your line, fishing rod, or try going after a smaller sized fish. Reel while the fish is resting, and good luck!");
             PlayerData.instance.hasSeenReelingMinigameTut = true;
         }
 
@@ -96,6 +115,7 @@ namespace Fishing.FishingMechanics
             EndMinigame();
         }
 
+
         private void ShowMinigame(bool _show)
         {
             reelingBarOutline.SetActive(_show);
@@ -113,6 +133,7 @@ namespace Fishing.FishingMechanics
             isInMinigame = false;
             ShowMinigame(false);
         }
+
 
         public bool IsReeling() => isReeling;
         public bool IsInMinigame() => isInMinigame;

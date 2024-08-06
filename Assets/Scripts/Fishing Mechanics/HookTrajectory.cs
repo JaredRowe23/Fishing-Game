@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Fishing.PlayerCamera;
+using Fishing.Util;
 
 namespace Fishing.FishingMechanics
 {
@@ -50,45 +51,48 @@ namespace Fishing.FishingMechanics
         {
             equippedRod = RodManager.instance.equippedRod;
 
-            if ((!powerAngle.GetCharging() && !powerAngle.GetAngling()) || !equippedRod.GetHook().IsInStartCastPosition())
+            if (equippedRod.casted || !equippedRod.GetHook().IsInStartCastPosition())
             {
-                trajectoryLineRenderer.enabled = false;
-                minTrajectoryLineRenderer.enabled = false;
-                maxTrajectoryLineRenderer.enabled = false;
+                HideLineRenderers();
                 return;
             }
 
+            if (powerAngle.IsAngling()) GenerateAnglingTrajectories();
+            else GeneratePowerTrajectories();
+        }
+
+        private void HideLineRenderers()
+        {
+            trajectoryLineRenderer.enabled = false;
+            minTrajectoryLineRenderer.enabled = false;
+            maxTrajectoryLineRenderer.enabled = false;
+        }
+
+        private void GenerateAnglingTrajectories()
+        {
             minimumTrajectoryPoints = GetTrajectoryPoints(equippedRod.scriptable.minCastStrength, powerAngle.GetAngle());
             maximumTrajectoryPoints = GetTrajectoryPoints(equippedRod.scriptable.maxCastStrength, powerAngle.GetAngle());
 
             PlotTrajectory(minimumTrajectoryPoints, minTrajectoryLineRenderer);
             PlotTrajectory(maximumTrajectoryPoints, maxTrajectoryLineRenderer);
 
-            if (!powerAngle.GetCharging()) HandleCamera(equippedRod.scriptable.maxCastAngle);
-            else
-            {
-                trajectoryPoints = GetTrajectoryPoints(Mathf.Lerp(equippedRod.scriptable.minCastStrength, equippedRod.scriptable.maxCastStrength, powerAngle.GetCharge()), powerAngle.GetAngle());
-                PlotTrajectory(trajectoryPoints, trajectoryLineRenderer);
+            HandleCamera(equippedRod.scriptable.maxCastAngle);
+        }
 
-                HandleCamera(powerAngle.GetAngle());
-            }
+        private void GeneratePowerTrajectories()
+        {
+            trajectoryPoints = GetTrajectoryPoints(powerAngle.GetCharge(), powerAngle.GetAngle());
+            PlotTrajectory(trajectoryPoints, trajectoryLineRenderer);
 
-
+            HandleCamera(powerAngle.GetAngle());
         }
 
         private void PlotTrajectory(List<Vector2> _points, LineRenderer _lineRenderer)
         {
             _lineRenderer.enabled = true;
-
             _lineRenderer.positionCount = _points.Count;
-
-            for (int i = 0; i < _points.Count; i++)
-            {
-                _lineRenderer.SetPosition(i, _points[i]);
-            }
-
-            float width = _lineRenderer.startWidth;
-            _lineRenderer.material.mainTextureScale = new Vector2(1f / width, 1.0f);
+            for (int i = 0; i < _points.Count; i++) _lineRenderer.SetPosition(i, _points[i]);
+            _lineRenderer.material.mainTextureScale = new Vector2(1f / _lineRenderer.startWidth, 1.0f);
         }
 
         private List<Vector2> GetTrajectoryPoints(float _force, float _castAngle)
@@ -96,10 +100,10 @@ namespace Fishing.FishingMechanics
             trajectoryPoints = new List<Vector2>();
 
             Vector2 _launchPos = transform.parent.position;
-            float _mass = equippedRod.GetHook().GetComponent<Rigidbody2D>().mass;
             float _angle = 90f - _castAngle;
-            Vector2 _directionVector = new Vector2(Mathf.Sin(_angle * Mathf.Deg2Rad), Mathf.Cos(_angle * Mathf.Deg2Rad));
+            Vector2 _directionVector = Utilities.AngleToVector(_angle);
 
+            float _mass = equippedRod.GetHook().GetComponent<Rigidbody2D>().mass;
             float _vel = _force / _mass * Time.fixedDeltaTime;
 
             for (int i = 0; i < trajectoryMaxSteps; i++)
@@ -118,16 +122,16 @@ namespace Fishing.FishingMechanics
         public void HandleCamera(float _angle)
         {
             List<Vector2> _trajectoryPoints = GetTrajectoryPoints(equippedRod.scriptable.maxCastStrength, _angle);
-            float _newX = _trajectoryPoints[_trajectoryPoints.Count - 1].x;
-            float _newY = _trajectoryPoints[Mathf.FloorToInt((_trajectoryPoints.Count - 1) * 0.5f)].y * 0.5f;
-            _newX = Mathf.Lerp(_trajectoryPoints[0].x, _newX, 0.5f);
-            Vector2 _newPos = new Vector2(_newX, _newY);
-            cam.SetDesiredPosition(_newPos);
 
             Vector2 _closestPoint = _trajectoryPoints[0];
             Vector2 _furthestPoint = _trajectoryPoints[_trajectoryPoints.Count - 1];
-            float _distance = Mathf.Abs(_closestPoint.x - _furthestPoint.x);
+
+            Vector2 _newPos = (_closestPoint + _furthestPoint) * 0.5f;
+            cam.SetDesiredPosition(_newPos);
+
+            float _distance = _furthestPoint.x - _closestPoint.x;
             float _zoom = cam.ViewDistanceToCameraZoom(_distance) * trajectoryCameraZoomMagnitude;
+
             cam.DisablePlayerControls();
             cam.SetTempZoom(_zoom);
             AdjustWidthToCameraZoom(_zoom);

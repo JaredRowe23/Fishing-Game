@@ -53,6 +53,7 @@ namespace Fishing.Fishables
             if (!isGrounded)
             {
                 Float();
+                if (transform.position.y > 0) HandleGroundedOrSurfaced();
                 DespawnFarObjects();
             }
             else HandleGroundedOrSurfaced();
@@ -64,12 +65,7 @@ namespace Fishing.Fishables
 
             CheckIfGrounded();
 
-            if (transform.position.y > 0)
-            {
-                transform.Translate(Vector3.down * transform.position.y, Space.World);
-
-                HandleGroundedOrSurfaced();
-            }
+            if (transform.position.y > 0) transform.Translate(Vector3.down * transform.position.y, Space.World);
 
             transform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
         }
