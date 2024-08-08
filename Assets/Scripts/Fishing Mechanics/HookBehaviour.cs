@@ -113,14 +113,14 @@ namespace Fishing.FishingMechanics
             }
             rb.drag = waterDrag;
 
-            if (!PlayerData.instance.hasSeenReelingTut) ShowReelingTutorial();
+            if (!PlayerData.instance.hasSeenTutorialData.reelingTutorial) ShowReelingTutorial();
         }
 
         private void ShowReelingTutorial()
         {
             TutorialSystem.instance.QueueTutorial("Hold the left mouse button to begin reeling.");
             TutorialSystem.instance.QueueTutorial("Use A and D or the arrow keys to move the hook left and right slightly");
-            PlayerData.instance.hasSeenReelingTut = true;
+            PlayerData.instance.hasSeenTutorialData.reelingTutorial = true;
         }
 
         private void OnSurfaced()
@@ -163,9 +163,9 @@ namespace Fishing.FishingMechanics
 
             BucketBehaviour.instance.AddToBucket(hookedObject.GetComponent<Fishable>());
 
-            if (PlayerData.instance.hasSeenBucketTut) return;
+            if (PlayerData.instance.hasSeenTutorialData.bucketTutorial) return;
             TutorialSystem.instance.QueueTutorial("Press B or click the bucket icon in the top-left corner to access your bucket");
-            PlayerData.instance.hasSeenBucketTut = true;
+            PlayerData.instance.hasSeenTutorialData.bucketTutorial = true;
         }
 
         public bool IsInStartCastPosition() => ((Vector2)transform.position == targetPos) && rod.IsInStartingCastPosition();

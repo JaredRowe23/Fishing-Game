@@ -31,9 +31,9 @@ namespace Fishing.UI
                 AudioManager.instance.PlaySound("Open Bucket");
                 InitializeMenu();
 
-                if (PlayerData.instance.hasSeenBucketMenuTut) return;
+                if (PlayerData.instance.hasSeenTutorialData.bucketMenuTutorial) return;
                 TutorialSystem.instance.QueueTutorial("Here you can view each fish or item you've caught. Click on each one to view more details, throw it away, or turn it into bait!");
-                PlayerData.instance.hasSeenBucketMenuTut = true;
+                PlayerData.instance.hasSeenTutorialData.bucketMenuTutorial = true;
             }
             else
             {
@@ -81,24 +81,20 @@ namespace Fishing.UI
         public void ThrowAway(FishData _itemReference, GameObject _modelReference, GameObject _menuItem, bool _isSelling)
         {
 
-            for (int i = 0; i < PlayerData.instance.bucketFish.Count; i++)
+            for (int i = 0; i < PlayerData.instance.bucketItemSaveData.Count; i++)
             {
-                if (PlayerData.instance.bucketFish[i] != _itemReference.itemName) continue;
-                if (PlayerData.instance.bucketFishDescription[i] != _itemReference.itemDescription) continue;
-                if (PlayerData.instance.bucketFishLength[i] != _itemReference.itemLength) continue;
-                if (PlayerData.instance.bucketFishWeight[i] != _itemReference.itemWeight) continue;
-                if (PlayerData.instance.bucketFishValue[i] != _itemReference.itemValue) continue;
+                if (PlayerData.instance.bucketItemSaveData[i].itemName != _itemReference.itemName) continue;
+                if (PlayerData.instance.bucketItemSaveData[i].description != _itemReference.itemDescription) continue;
+                if (PlayerData.instance.bucketItemSaveData[i].length != _itemReference.itemLength) continue;
+                if (PlayerData.instance.bucketItemSaveData[i].weight != _itemReference.itemWeight) continue;
+                if (PlayerData.instance.bucketItemSaveData[i].value != _itemReference.itemValue) continue;
 
                 if (_isSelling)
                 {
-                    PlayerData.instance.money += PlayerData.instance.bucketFishValue[i];
+                    PlayerData.instance.saveFileData.money += PlayerData.instance.bucketItemSaveData[i].value;
                 }
 
-                PlayerData.instance.bucketFish.Remove(PlayerData.instance.bucketFish[i]);
-                PlayerData.instance.bucketFishDescription.Remove(PlayerData.instance.bucketFishDescription[i]);
-                PlayerData.instance.bucketFishLength.Remove(PlayerData.instance.bucketFishLength[i]);
-                PlayerData.instance.bucketFishWeight.Remove(PlayerData.instance.bucketFishWeight[i]);
-                PlayerData.instance.bucketFishValue.Remove(PlayerData.instance.bucketFishValue[i]);
+                PlayerData.instance.bucketItemSaveData.Remove(PlayerData.instance.bucketItemSaveData[i]);
             }
 
             bucket.bucketList.Remove(_itemReference);
@@ -113,19 +109,15 @@ namespace Fishing.UI
 
         public void ConvertToBait(FishData _itemReference, GameObject _modelReference, GameObject _menuItem)
         {
-            for (int i = 0; i < PlayerData.instance.bucketFish.Count; i++)
+            for (int i = 0; i < PlayerData.instance.bucketItemSaveData.Count; i++)
             {
-                if (PlayerData.instance.bucketFish[i] != _itemReference.itemName) continue;
-                if (PlayerData.instance.bucketFishDescription[i] != _itemReference.itemDescription) continue;
-                if (PlayerData.instance.bucketFishLength[i] != _itemReference.itemLength) continue;
-                if (PlayerData.instance.bucketFishWeight[i] != _itemReference.itemWeight) continue;
-                if (PlayerData.instance.bucketFishValue[i] != _itemReference.itemValue) continue;
+                if (PlayerData.instance.bucketItemSaveData[i].itemName != _itemReference.itemName) continue;
+                if (PlayerData.instance.bucketItemSaveData[i].description != _itemReference.itemDescription) continue;
+                if (PlayerData.instance.bucketItemSaveData[i].length != _itemReference.itemLength) continue;
+                if (PlayerData.instance.bucketItemSaveData[i].weight != _itemReference.itemWeight) continue;
+                if (PlayerData.instance.bucketItemSaveData[i].value != _itemReference.itemValue) continue;
 
-                PlayerData.instance.bucketFish.Remove(PlayerData.instance.bucketFish[i]);
-                PlayerData.instance.bucketFishDescription.Remove(PlayerData.instance.bucketFishDescription[i]);
-                PlayerData.instance.bucketFishLength.Remove(PlayerData.instance.bucketFishLength[i]);
-                PlayerData.instance.bucketFishWeight.Remove(PlayerData.instance.bucketFishWeight[i]);
-                PlayerData.instance.bucketFishValue.Remove(PlayerData.instance.bucketFishValue[i]);
+                PlayerData.instance.bucketItemSaveData.Remove(PlayerData.instance.bucketItemSaveData[i]);
             }
 
             PlayerData.instance.AddBait(_itemReference.itemName);
@@ -138,9 +130,9 @@ namespace Fishing.UI
             UIManager.instance.itemInfoMenu.SetActive(false);
             RefreshMenu();
 
-            if (PlayerData.instance.hasSeenBaitTut) return;
+            if (PlayerData.instance.hasSeenTutorialData.baitTutorial) return;
             TutorialSystem.instance.QueueTutorial("Bait can help you catch fish that aren't interested in just your hook as is. Close the bucket menu and open the inventory menu (I) to equip it!");
-            PlayerData.instance.hasSeenBaitTut = true;
+            PlayerData.instance.hasSeenTutorialData.baitTutorial = true;
         }
     }
 }

@@ -26,16 +26,12 @@ namespace Fishing.UI
                 Destroy(_child.gameObject);
             }
 
-            int i = 0;
-            if (PlayerData.instance.bait.Count == 0) return; 
-            foreach (string _bait in PlayerData.instance.bait)
+            for (int i = 0; i < PlayerData.instance.baitSaveData.Count; i++)
             {
                 BaitInventorySlot _newSlot = Instantiate(slotPrefab, content.transform).GetComponent<BaitInventorySlot>();
-                _newSlot.baitScriptable = ItemLookupTable.instance.StringToBait(_bait);
+                _newSlot.baitScriptable = ItemLookupTable.instance.StringToBait(PlayerData.instance.baitSaveData[i].baitName);
                 _newSlot.UpdateSlot();
-                _newSlot.countText.text = "x" + PlayerData.instance.baitCounts[i].ToString();
-
-                i++;
+                _newSlot.countText.text = "x" + PlayerData.instance.baitSaveData[i].amount.ToString();
             }
         }
     }

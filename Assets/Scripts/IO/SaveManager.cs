@@ -68,8 +68,8 @@ namespace Fishing.IO
                 GameData _data = _formatter.Deserialize(_stream) as GameData;
                 _stream.Close();
 
-                SaveFile _saveFile = new SaveFile(_data.playerName, _data.money, _data.dateTime, _data.playtime, 0);
-                if (_data.caughtFish != null) _saveFile.fishTypesCaught = _data.caughtFish.Count;
+                SaveFile _saveFile = new SaveFile(_data.saveFileData.playerName, _data.saveFileData.money, _data.saveFileData.dateTime, _data.saveFileData.playtime, 0);
+                if (_data.recordSaveData != null) _saveFile.fishTypesCaught = _data.recordSaveData.Count;
                 saveFiles.Add(_saveFile);
             }
 
@@ -80,46 +80,39 @@ namespace Fishing.IO
         {
             List<SaveFile> _sortedFiles = new List<SaveFile>();
 
-            foreach (SaveFile _saveFile in _unorganizedFiles)
+            for (int i = 0; i < _unorganizedFiles.Count; i++)
             {
                 if (_sortedFiles.Count == 0)
                 {
-                    _sortedFiles.Add(_saveFile);
+                    _sortedFiles.Add(_unorganizedFiles[i]);
                     continue;
                 }
 
-                System.DateTime _saveFileDateTime = System.DateTime.Parse(_saveFile.dateTime);
-                int i = 0;
+                System.DateTime _saveFileDateTime = System.DateTime.Parse(_unorganizedFiles[i].dateTime);
 
-                foreach (SaveFile _sortedFile in _sortedFiles)
+                for (int j = 0; j < _sortedFiles.Count; j++)
                 {
-                    System.DateTime _sortedFileDateTime = System.DateTime.Parse(_sortedFile.dateTime);
+                    System.DateTime _sortedFileDateTime = System.DateTime.Parse(_sortedFiles[j].dateTime);
                     int _dateTimeComparison = System.DateTime.Compare(_saveFileDateTime, _sortedFileDateTime);
 
                     if (_dateTimeComparison > 0)
                     {
-                        _sortedFiles.Insert(i, _saveFile);
+                        _sortedFiles.Insert(j, _unorganizedFiles[i]);
                         break;
                     }
 
                     else if (_dateTimeComparison == 0)
                     {
-                        _sortedFiles.Add(_saveFile);
+                        _sortedFiles.Add(_unorganizedFiles[i]);
                         continue;
                     }
 
                     else if (_dateTimeComparison < 0)
                     {
-                        if (i == _sortedFiles.Count - 1)
-                        {
-                            _sortedFiles.Add(_saveFile);
-                            break;
-                        }
-                        else
-                        {
-                            i++;
-                            continue;
-                        }
+                        if (j != _sortedFiles.Count - 1) continue;
+
+                        _sortedFiles.Add(_unorganizedFiles[i]);
+                        break;
                     }
                 }
             }

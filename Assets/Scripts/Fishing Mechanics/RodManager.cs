@@ -29,7 +29,7 @@ namespace Fishing
 
         private void Start()
         {
-            EquipRod(PlayerData.instance.equippedRod, false);
+            EquipRod(PlayerData.instance.equippedRod.rodName, false);
         }
 
         public void EquipRod(string _rodName, bool _playSound)
@@ -50,27 +50,31 @@ namespace Fishing
                 equippedRod = Instantiate(_prefab).GetComponent<RodBehaviour>();
             }
 
+            for (int i = 0; i < playerData.fishingRodSaveData.Count; i++)
+            {
+                if (playerData.fishingRodSaveData[i].rodName != _rodName) continue;
+                playerData.equippedRod = playerData.fishingRodSaveData[i];
+            }
+
             TooltipSystem.instance.NewTooltip(5f, "Equipped the " + _rodName);
-            playerData.equippedRod = _rodName;
             rodsMenu.UpdateEquippedRod();
             if (_playSound) AudioManager.instance.PlaySound("Equip Rod");
+
             SpawnBait();
         }
 
         public void SpawnBait()
         {
-            for (int i = 0; i < PlayerData.instance.fishingRods.Count; i++)
-            {
-                if (playerData.fishingRods[i] != equippedRod.scriptable.rodName) continue;
-                if (playerData.equippedBaits[i] == "") return;
+            if (playerData.equippedRod.equippedBait == null) return;
+            if (playerData.equippedRod.equippedBait.baitName == null) return;
+            if (playerData.equippedRod.equippedBait.baitName == "") return;
 
-                BaitBehaviour _newBait = Instantiate(ItemLookupTable.instance.StringToBait(playerData.equippedBaits[i]).prefab, equippedRod.GetHook().transform).GetComponent<BaitBehaviour>();
-                equippedRod.equippedBait = _newBait;
-                equippedRod.GetHook().hookedObject = _newBait.gameObject;
-                _newBait.transform.localPosition = _newBait.GetAnchorPoint();
-                _newBait.transform.localRotation = Quaternion.Euler(_newBait.GetAnchorRotation());
-                BaitManager.instance.bait = _newBait;
-            }
+            BaitBehaviour _newBait = Instantiate(ItemLookupTable.instance.StringToBait(playerData.equippedRod.equippedBait.baitName).prefab, equippedRod.GetHook().transform).GetComponent<BaitBehaviour>();
+            equippedRod.equippedBait = _newBait;
+            equippedRod.GetHook().hookedObject = _newBait.gameObject;
+            _newBait.transform.localPosition = _newBait.GetAnchorPoint();
+            _newBait.transform.localRotation = Quaternion.Euler(_newBait.GetAnchorRotation());
+            BaitManager.instance.bait = _newBait;
         }
     }
 

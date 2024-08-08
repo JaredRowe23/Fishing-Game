@@ -51,14 +51,14 @@ namespace Fishing.UI
         public void BuyBait()
         {
             float _cost = float.Parse(costText.text.Remove(0, 1));
-            if (PlayerData.instance.money < _cost)
+            if (PlayerData.instance.saveFileData.money < _cost)
             {
                 TooltipSystem.instance.NewTooltip(5f, "You don't have enough money to buy this bait");
                 return;
             }
 
             TooltipSystem.instance.NewTooltip(5f, "You bought the " + nameText.text + " for $" + _cost);
-            PlayerData.instance.money -= _cost;
+            PlayerData.instance.saveFileData.money -= _cost;
             PlayerData.instance.AddBait(nameText.text);
             BaitStoreMenu.instance.RefreshStore();
             gameObject.SetActive(false);

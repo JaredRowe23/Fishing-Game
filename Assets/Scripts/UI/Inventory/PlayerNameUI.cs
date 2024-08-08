@@ -14,7 +14,7 @@ namespace Fishing
         // Update is called once per frame
         void Update()
         {
-            playerNameText.text = PlayerData.instance.playerName;
+            playerNameText.text = PlayerData.instance.saveFileData.playerName;
         }
     }
 }

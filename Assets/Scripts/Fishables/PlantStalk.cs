@@ -49,7 +49,6 @@ namespace Fishing.Fishables
 
         public void RemoveFruit(GameObject _fruit)
         {
-            Debug.Log(System.Array.IndexOf(fruits, _fruit));
             fruits[System.Array.IndexOf(fruits, _fruit)] = null;
         }
     }

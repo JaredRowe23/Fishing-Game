@@ -18,7 +18,7 @@ namespace Fishing.UI
         public void StartNewGame()
         {
             PlayerData.instance.NewGame();
-            PlayerData.instance.playerName = nameInput.text;
+            PlayerData.instance.saveFileData.playerName = nameInput.text;
             SceneManager.LoadScene("World Map");
         }
     }

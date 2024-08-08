@@ -15,6 +15,15 @@ namespace Fishing.UI
         public BaitScriptable baitScriptable;
         public GameObject prefab;
 
+        private PlayerData playerData;
+        private RodManager rodManager;
+
+        private void Awake()
+        {
+            playerData = PlayerData.instance;
+            rodManager = RodManager.instance;
+        }
+
         public void UpdateSlot()
         {
             title.text = baitScriptable.baitName;
@@ -24,46 +33,42 @@ namespace Fishing.UI
 
         public void EquipBait()
         {
-            for(int i = 0; i < PlayerData.instance.bait.Count; i++)
+            DespawnBaitIfEquipped();
+
+            for (int i = 0; i < playerData.baitSaveData.Count; i++)
             {
-                if (PlayerData.instance.baitCounts[i] == 0) continue;
-                if (PlayerData.instance.bait[i] != baitScriptable.baitName) continue;
+                if (playerData.baitSaveData[i].baitName != baitScriptable.baitName) continue;
 
-                if (RodManager.instance.equippedRod.equippedBait != null)
-                {
-                    PlayerData.instance.AddBait(RodManager.instance.equippedRod.equippedBait.GetScriptable().baitName);
-                    RodManager.instance.equippedRod.equippedBait.Despawn();
-                }
-
-                for (int j = 0; j < PlayerData.instance.fishingRods.Count; j++)
-                {
-                    if (PlayerData.instance.fishingRods[j] != RodManager.instance.equippedRod.scriptable.rodName) continue;
-                    PlayerData.instance.equippedBaits[j] = baitScriptable.baitName;
-                }
-
-                RodManager.instance.SpawnBait();
-                PlayerData.instance.baitCounts[i]--;
-                RodInfoMenu.instance.UpdateRodInfo(RodManager.instance.equippedRod);
+                playerData.equippedRod.equippedBait = playerData.baitSaveData[i];
             }
+
+            rodManager.SpawnBait();
+            playerData.equippedRod.equippedBait.amount--;
+
+            RodInfoMenu.instance.UpdateRodInfo(rodManager.equippedRod);
+        }
+
+        private void DespawnBaitIfEquipped()
+        {
+            if (playerData.equippedRod.equippedBait == null) return;
+            if (playerData.equippedRod.equippedBait.baitName == null) return;
+            if (playerData.equippedRod.equippedBait.baitName == "") return;
+
+            playerData.equippedRod.equippedBait.amount++;
+            rodManager.equippedRod.equippedBait.Despawn();
         }
 
         public void UnequipBait()
         {
-            for (int i = 0; i < PlayerData.instance.bait.Count; i++)
-            {
-                if (RodManager.instance.equippedRod.equippedBait == null) continue;
+            if (playerData.equippedRod.equippedBait == null) return;
+            if (playerData.equippedRod.equippedBait.baitName == null) return;
 
-                PlayerData.instance.AddBait(RodManager.instance.equippedRod.equippedBait.GetScriptable().baitName);
-                RodManager.instance.equippedRod.equippedBait.Despawn();
+            playerData.equippedRod.equippedBait.amount++;
+            rodManager.equippedRod.equippedBait.Despawn();
 
-                for (int j = 0; j < PlayerData.instance.fishingRods.Count; j++)
-                {
-                    if (PlayerData.instance.fishingRods[j] != RodManager.instance.equippedRod.scriptable.rodName) continue;
-                    PlayerData.instance.equippedBaits[j] = "";
-                }
+            playerData.equippedRod.equippedBait = null;
 
-                RodInfoMenu.instance.UpdateRodInfo(RodManager.instance.equippedRod);
-            }
+            RodInfoMenu.instance.UpdateRodInfo(RodManager.instance.equippedRod);
         }
     }
 }

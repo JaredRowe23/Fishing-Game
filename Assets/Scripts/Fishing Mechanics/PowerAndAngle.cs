@@ -86,7 +86,7 @@ namespace Fishing.FishingMechanics
             isCharging = true;
             isAngling = false;
 
-            if (PlayerData.instance.hasSeenCastTut) return;
+            if (PlayerData.instance.hasSeenTutorialData.castTutorial) return;
             TutorialSystem.instance.QueueTutorial("Release the left mouse button to set your power", true, 3f);
         }
 
@@ -122,9 +122,9 @@ namespace Fishing.FishingMechanics
             isAngling = true;
             isCharging = false;
 
-            if (PlayerData.instance.hasSeenCastTut) return;
+            if (PlayerData.instance.hasSeenTutorialData.castTutorial) return;
             TutorialSystem.instance.QueueTutorial("Click the left mouse button once more to set your angle and cast.", true, 3f);
-            PlayerData.instance.hasSeenCastTut = true;
+            PlayerData.instance.hasSeenTutorialData.castTutorial = true;
         }
 
         private void Angle()

@@ -41,30 +41,23 @@ namespace Fishing.UI
             {
                 Destroy(_child.gameObject);
             }
-            int i = 0;
-            foreach (string _rod in playerData.fishingRods)
+
+            for (int i = 0; i < playerData.fishingRodSaveData.Count; i++)
             {
                 RodInventorySlot _newSlot = Instantiate(slotPrefab, content.transform).GetComponent<RodInventorySlot>();
 
-                _newSlot.title.text = _rod;
+                _newSlot.title.text = playerData.fishingRodSaveData[i].rodName;
 
-                int j = 0;
-                List<GameObject> _rodPrefabs = rodManager.rodPrefabs;
-                List<Sprite> _rodSprites = rodManager.rodSprites;
-                foreach (GameObject _prefab in _rodPrefabs)
+                for (int j = 0; j < rodManager.rodPrefabs.Count; j++)
                 {
-                    if (_prefab.name == _rod)
-                    {
-                        _newSlot.itemReference = _prefab;
-                        _newSlot.sprite.sprite = _rodSprites[j];
-                        break;
-                    }
-                    j++;
+                    if (rodManager.rodPrefabs[i].name != playerData.fishingRodSaveData[i].rodName) continue;
+
+                    _newSlot.itemReference = rodManager.rodPrefabs[i];
+                    _newSlot.sprite.sprite = rodManager.rodSprites[i];
+                    break;
                 }
 
                 UpdateEquippedRod();
-
-                i++;
             }
         }
 
@@ -73,7 +66,7 @@ namespace Fishing.UI
             foreach (Transform _slot in content.transform)
             {
                 RodInventorySlot _invSlot = _slot.GetComponent<RodInventorySlot>();
-                if (_invSlot.itemReference.name == playerData.equippedRod)
+                if (_invSlot.itemReference.name == playerData.equippedRod.rodName)
                 {
                     _invSlot.equippedCheck.SetActive(true);
                 }

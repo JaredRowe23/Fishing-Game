@@ -37,6 +37,8 @@ namespace Fishing.PlayerCamera
         private float playerZoom;
         private float tempZoom;
 
+        private bool activeUILastFrame;
+
         public static CameraBehaviour instance;
         [HideInInspector]
         public Camera cam;
@@ -52,17 +54,22 @@ namespace Fishing.PlayerCamera
 
         private void Start()
         {
-            lockZoom = lockPosition = lockPlayerControls = false;
+            lockZoom = lockPosition = lockPlayerControls = activeUILastFrame = false;
             playerZoom = desiredZoom = tempZoom = cam.orthographicSize;
             desiredPosition = defaultPosition = cam.transform.position;
         }
 
         private void Update()
         {
-            lockPlayerControls = UIManager.instance.IsActiveUI();
+            if (UIManager.instance.IsActiveUI()) lockPlayerControls = true;
+
+            else if (activeUILastFrame) lockPlayerControls = false; // not a great solution, potentially replace with subscription to a "close active ui" subscription to turn off control lock
+
             desiredZoom = lockPlayerControls ? tempZoom : playerZoom;
             if (!lockZoom) HandleCameraZoom();
             if (!lockPosition) HandleCameraPosition();
+
+            activeUILastFrame = UIManager.instance.IsActiveUI();
         }
 
         private void HandleCameraZoom()
@@ -94,12 +101,12 @@ namespace Fishing.PlayerCamera
         private void CameraZoomIn()
         {
             if (lockPlayerControls) return;
-            playerZoom = desiredZoom = Mathf.Clamp(playerZoom - zoomMagnitude, minPlayerZoom, maxPlayerZoom);
+            playerZoom = Mathf.Clamp(playerZoom - zoomMagnitude, minPlayerZoom, maxPlayerZoom);
         }
         private void CameraZoomOut()
         {
             if (lockPlayerControls) return;
-            playerZoom = desiredZoom = Mathf.Clamp(playerZoom + zoomMagnitude, minPlayerZoom, maxPlayerZoom);
+            playerZoom = Mathf.Clamp(playerZoom + zoomMagnitude, minPlayerZoom, maxPlayerZoom);
         }
 
         public void ReturnHome() => desiredPosition = defaultPosition;

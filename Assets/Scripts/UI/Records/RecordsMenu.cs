@@ -39,11 +39,11 @@ namespace Fishing.UI
             foreach (RecordsListing _listing in listings)
             {
                 _listing.UpdateListing("", 0, 0f, 0f);
-                for (int i = 0; i < PlayerData.instance.caughtFish.Count; i++)
+                for (int i = 0; i < PlayerData.instance.recordSaveData.Count; i++)
                 {
-                    if (PlayerData.instance.caughtFish[i] != _listing.GetFishableName()) continue;
+                    if (PlayerData.instance.recordSaveData[i].itemName != _listing.GetFishableName()) continue;
 
-                    _listing.UpdateListing(PlayerData.instance.caughtFish[i], PlayerData.instance.fishCatchAmounts[i], PlayerData.instance.lengthRecords[i], PlayerData.instance.weightRecords[i]);
+                    _listing.UpdateListing(PlayerData.instance.recordSaveData[i].itemName, PlayerData.instance.recordSaveData[i].amountCaught, PlayerData.instance.recordSaveData[i].lengthRecord, PlayerData.instance.recordSaveData[i].weightRecord);
                     break;
                 }
             }

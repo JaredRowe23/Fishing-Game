@@ -48,7 +48,7 @@ namespace Fishing.FishingMechanics
             casted = false;
             playerAnim = rodManager.GetComponent<Animator>();
 
-            if (PlayerData.instance.hasSeenCastTut) return;
+            if (PlayerData.instance.hasSeenTutorialData.castTutorial) return;
             ShowCastingTutorial();
         }
 
@@ -159,24 +159,26 @@ namespace Fishing.FishingMechanics
 
         private void ReEquipBait()
         {
-            for (int i = 0; i < PlayerData.instance.fishingRods.Count; i++)
-            {
-                if (PlayerData.instance.fishingRods[i] != scriptable.rodName) continue;
-                if (PlayerData.instance.equippedBaits[i] == "") return;
+            if (PlayerData.instance.equippedRod.equippedBait == null) return;
+            if (PlayerData.instance.equippedRod.equippedBait.baitName == null) return;
 
-                if (PlayerData.instance.baitCounts[i] <= 0)
+            if (PlayerData.instance.equippedRod.equippedBait.amount <= 0)
+            {
+                TooltipSystem.instance.NewTooltip(3, "Out of bait: " + PlayerData.instance.equippedRod.equippedBait.baitName);
+
+                for (int i = 0; i < PlayerData.instance.baitSaveData.Count; i++)
                 {
-                    TooltipSystem.instance.NewTooltip(3, "Out of bait: " + PlayerData.instance.equippedBaits[i]);
-                    PlayerData.instance.equippedBaits[i] = "";
-                    PlayerData.instance.bait.RemoveAt(i);
-                    PlayerData.instance.baitCounts.RemoveAt(i);
+                    if (PlayerData.instance.baitSaveData[i].baitName != PlayerData.instance.equippedRod.equippedBait.baitName) continue;
+
+                    PlayerData.instance.baitSaveData.RemoveAt(i);
+                    break;
                 }
-                else
-                {
-                    PlayerData.instance.baitCounts[i]--;
-                    rodManager.SpawnBait();
-                }
-                return;
+                PlayerData.instance.equippedRod.equippedBait = null;
+            }
+            else
+            {
+                PlayerData.instance.equippedRod.equippedBait.amount--;
+                rodManager.SpawnBait();
             }
         }
 

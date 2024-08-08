@@ -61,7 +61,7 @@ namespace Fishing.UI
         public void LoadGame(int _saveSlot)
         {
             SaveManager.LoadGame(Application.persistentDataPath + "/" + SaveManager.saveFiles[_saveSlot].name + ".fish");
-            SceneManager.LoadScene(PlayerData.instance.currentSceneName);
+            SceneManager.LoadScene(PlayerData.instance.saveFileData.currentSceneName);
         }
 
         public void Continue()

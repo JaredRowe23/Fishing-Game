@@ -39,7 +39,7 @@ namespace Fishing.Gear
         private Camera radarCamera;
         private Dropdown fishDropdown;
         private LineRenderer line;
-        private Vector3 rayDirection;
+        private Vector2 rayDirection;
 
         private HookBehaviour hook;
 
@@ -63,12 +63,22 @@ namespace Fishing.Gear
 
         private void Update()
         {
+            CenterCamera();
+
+            rayDirection = Quaternion.Euler(0, 0, -360f * Time.deltaTime / scanFrequency) * rayDirection;
+            CheckForScannableObjects();
+
+            SetLinePositions(radarCamera.transform.position, rayDirection * scanRange);
+        }
+
+        private void CenterCamera()
+        {
             hook = RodManager.instance.equippedRod.GetHook();
             radarCamera.transform.position = hook.transform.position;
+        }
 
-            rayDirection = Quaternion.Euler(0, 0, -360 * Time.deltaTime / scanFrequency) * rayDirection;
-
-            Ray2D _ray = new Ray2D(radarCamera.transform.position, rayDirection * scanRange);
+        private void CheckForScannableObjects()
+        {
             RaycastHit2D[] _hits = Physics2D.RaycastAll(radarCamera.transform.position, rayDirection, scanRange);
             foreach (RaycastHit2D _hit in _hits)
             {
@@ -76,11 +86,13 @@ namespace Fishing.Gear
                 if (_hit.collider.gameObject.GetComponent<Fishable>().GetName() != fishDropdown.options[fishDropdown.value].text) continue;
 
                 _hit.collider.gameObject.GetComponent<Fishable>().minimapIndicator.GetComponent<RadarScanObject>().Scan();
-
             }
+        }
 
-            line.SetPosition(0, radarCamera.transform.position);
-            line.SetPosition(1, _ray.GetPoint(scanRange));
+        private void SetLinePositions(Vector2 _fromPos, Vector2 _toPos)
+        {
+            line.SetPosition(0, _fromPos);
+            line.SetPosition(1, _toPos);
         }
 
         public void IncreaseZoom()

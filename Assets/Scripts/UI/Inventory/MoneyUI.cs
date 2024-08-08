@@ -13,8 +13,8 @@ namespace Fishing
 
         void Update()
         {
-            moneyText.text = "$" + PlayerData.instance.money.ToString("F2");
-            if (moneyText.text.Substring(moneyText.text.Length - 2, 2) == "00") moneyText.text = "$" + PlayerData.instance.money.ToString();
+            moneyText.text = "$" + PlayerData.instance.saveFileData.money.ToString("F2");
+            if (moneyText.text.Substring(moneyText.text.Length - 2, 2) == "00") moneyText.text = "$" + PlayerData.instance.saveFileData.money.ToString();
         }
     }
 }

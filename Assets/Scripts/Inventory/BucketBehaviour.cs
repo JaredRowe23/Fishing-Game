@@ -13,30 +13,44 @@ namespace Fishing.Inventory
         [SerializeField] public List<FishData> bucketList = new List<FishData>();
         public int maxItems;
 
+        private PlayerData playerData;
+
         public static BucketBehaviour instance;
 
         private void Awake() => instance = this;
 
         private void Start()
         {
-            int i = 0;
-            foreach(string _fish in PlayerData.instance.bucketFish)
-            {
-                FishData _newItem = new FishData();
-                _newItem.itemName = PlayerData.instance.bucketFish[i];
-                _newItem.itemDescription = PlayerData.instance.bucketFishDescription[i];
-                _newItem.itemWeight = PlayerData.instance.bucketFishWeight[i];
-                _newItem.itemLength = PlayerData.instance.bucketFishLength[i];
-                _newItem.itemValue = PlayerData.instance.bucketFishValue[i];
-                bucketList.Add(_newItem);
-                i++;
-            }
+            playerData = PlayerData.instance;
+
+            for (int i = 0; i < playerData.bucketItemSaveData.Count; i++) bucketList.Add(FishDataFromPlayerData(i));
         }
 
         public void AddToBucket(Fishable _item)
         {
             AudioManager.instance.PlaySound("Catch Fish");
 
+            FishData _fishableData = FishDataFromFishable(_item);
+
+            if (bucketList.Count >= maxItems)
+            {
+                OnBucketOverflow(_fishableData);
+                return;
+            }
+
+            AudioManager.instance.PlaySound("Add To Bucket");
+            TooltipSystem.instance.NewTooltip(5f, "You caught a " + _fishableData.itemName + " worth $" + _fishableData.itemValue.ToString("F2"));
+
+            _item.DisableMinimapIndicator();
+            bucketList.Add(_fishableData);
+
+            UpdatePlayerData(_fishableData);
+
+            _item.GetComponent<IEdible>().Despawn();
+        }
+
+        private FishData FishDataFromFishable(Fishable _item)
+        {
             FishData _newItem = new FishData();
             {
                 _newItem.itemName = _item.GetName();
@@ -46,76 +60,46 @@ namespace Fishing.Inventory
                 _newItem.itemValue = _item.GetValue();
             }
 
-            if (bucketList.Count >= maxItems)
-            {
-                TooltipSystem.instance.NewTooltip(5f, "You've filled your bucket! Pick something to throw away to make room!");
-                BucketMenu.instance.ToggleBucketMenu();
-                UIManager.instance.overflowItem.SetActive(true);
-                BucketMenuItem _overflowMenu = UIManager.instance.overflowItem.GetComponent<BucketMenuItem>();
+            return _newItem;
+        }
 
-                _overflowMenu.UpdateName(_item.GetName());
-                _overflowMenu.UpdateLength(_newItem.itemLength);
-                _overflowMenu.UpdateWeight(_newItem.itemWeight);
-                _overflowMenu.UpdateValue(_newItem.itemValue);
-                _overflowMenu.UpdateReference(_newItem);
+        private FishData FishDataFromPlayerData(int _playerDataIndex)
+        {
+            FishData _newItem = new FishData();
+            _newItem.itemName = playerData.bucketItemSaveData[_playerDataIndex].itemName;
+            _newItem.itemDescription = playerData.bucketItemSaveData[_playerDataIndex].description;
+            _newItem.itemWeight = playerData.bucketItemSaveData[_playerDataIndex].weight;
+            _newItem.itemLength = playerData.bucketItemSaveData[_playerDataIndex].length;
+            _newItem.itemValue = playerData.bucketItemSaveData[_playerDataIndex].value;
 
-                return;
-            }
+            return _newItem;
+        }
 
-            AudioManager.instance.PlaySound("Add To Bucket");
-            TooltipSystem.instance.NewTooltip(5f, "You caught a " + _newItem.itemName + " worth $" + _newItem.itemValue.ToString("F2"));
+        private void OnBucketOverflow(FishData _fishableData)
+        {
+            TooltipSystem.instance.NewTooltip(5f, "You've filled your bucket! Pick something to throw away to make room!");
+            BucketMenu.instance.ToggleBucketMenu();
+            UIManager.instance.overflowItem.SetActive(true);
+            BucketMenuItem _overflowMenu = UIManager.instance.overflowItem.GetComponent<BucketMenuItem>();
 
-            _item.DisableMinimapIndicator();
-            bucketList.Add(_newItem);
-            bool _emptySpace = false;
-            for(int i = 0; i < PlayerData.instance.bucketFish.Count; i++)
-            {
-                if (PlayerData.instance.bucketFish[i] != null)
-                {
-                    i++;
-                    continue;
-                }
-                if (PlayerData.instance.bucketFishDescription[i] != null)
-                {
-                    i++;
-                    continue;
-                }
-                if (PlayerData.instance.bucketFishWeight[i] != 0)
-                {
-                    i++;
-                    continue;
-                }
-                if (PlayerData.instance.bucketFishLength[i] != 0)
-                {
-                    i++;
-                    continue;
-                }
-                if (PlayerData.instance.bucketFishValue[i] != 0)
-                {
-                    i++;
-                    continue;
-                }
+            _overflowMenu.UpdateName(_fishableData.itemName);
+            _overflowMenu.UpdateLength(_fishableData.itemLength);
+            _overflowMenu.UpdateWeight(_fishableData.itemWeight);
+            _overflowMenu.UpdateValue(_fishableData.itemValue);
+            _overflowMenu.UpdateReference(_fishableData);
+        }
 
-                PlayerData.instance.bucketFish[i] = _newItem.itemName;
-                PlayerData.instance.bucketFishDescription[i] = _newItem.itemDescription;
-                PlayerData.instance.bucketFishWeight[i] = _newItem.itemWeight;
-                PlayerData.instance.bucketFishLength[i] = _newItem.itemLength;
-                PlayerData.instance.bucketFishValue[i] = _newItem.itemValue;
-                _emptySpace = true;
-            }
+        private void UpdatePlayerData(FishData _fishableData)
+        {
+            PopulateNewPlayerData(_fishableData);
 
-            if (!_emptySpace)
-            {
-                PlayerData.instance.bucketFish.Add(_newItem.itemName);
-                PlayerData.instance.bucketFishDescription.Add(_newItem.itemDescription);
-                PlayerData.instance.bucketFishWeight.Add(_newItem.itemWeight);
-                PlayerData.instance.bucketFishLength.Add(_newItem.itemLength);
-                PlayerData.instance.bucketFishValue.Add(_newItem.itemValue);
-            }
+            playerData.UpdateFishRecordData(_fishableData.itemName, _fishableData.itemLength, _fishableData.itemWeight);
+        }
 
-            PlayerData.instance.UpdateFishRecordData(_newItem.itemName, _newItem.itemLength, _newItem.itemWeight);
-
-            _item.GetComponent<IEdible>().Despawn();
+        private void PopulateNewPlayerData(FishData _fishableData)
+        {
+            BucketItemSaveData _newItem = new BucketItemSaveData(_fishableData.itemName, _fishableData.itemDescription, _fishableData.itemWeight, _fishableData.itemLength, _fishableData.itemValue);
+            playerData.bucketItemSaveData.Add(_newItem);
         }
     }
 
