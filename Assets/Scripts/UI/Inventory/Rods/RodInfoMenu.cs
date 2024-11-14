@@ -17,13 +17,13 @@ namespace Fishing.UI
         [SerializeField] private RodAttachmentButton hookButton;
         [SerializeField] private RodAttachmentButton lineButton;
 
-        [SerializeField] private GameObject baitsContent;
-        [SerializeField] private GameObject hooksContent;
-        [SerializeField] private GameObject linesContent;
+        [SerializeField] private ScrollRect baitsScrollRect;
+        [SerializeField] private ScrollRect hooksScrollRect;
+        [SerializeField] private ScrollRect linesScrollRect;
 
-        [SerializeField] private GameObject baitAttachmentSlot;
-        [SerializeField] private GameObject hookAttachmentSlot;
-        [SerializeField] private GameObject lineAttachmentSlot;
+        [SerializeField] private GameObject baitOptionPrefab;
+        [SerializeField] private GameObject hookOptionPrefab;
+        [SerializeField] private GameObject lineOptionPrefab;
 
         private RodBehaviour reference;
 
@@ -43,8 +43,12 @@ namespace Fishing.UI
             rodName.text = _rod.scriptable.rodName;
             rodDescription.text = _rod.scriptable.description;
 
-            if (_rod.equippedBait != null) baitButton.UpdateButton(_rod.equippedBait.GetScriptable().baitName, _rod.equippedBait.GetScriptable().inventorySprite);
-            else baitButton.UpdateButton("No Bait", null);
+            if (_rod.equippedBait != null) {
+                baitButton.UpdateButton(_rod.equippedBait.GetScriptable().baitName, _rod.equippedBait.GetScriptable().inventorySprite);
+            }
+            else {
+                baitButton.UpdateButton("No Bait", null);
+            }
 
             UpdateBaitOptions();
             UpdateHookOptions();
@@ -53,21 +57,23 @@ namespace Fishing.UI
 
         public void UpdateBaitOptions()
         {
-            foreach(Transform _child in baitsContent.transform)
-            {
-                if (_child.GetComponent<BaitAttachmentSlot>().baitScriptable == null) continue;
-                if (_child.GetComponent<BaitAttachmentSlot>())
-                {
-                    Destroy(_child.gameObject);
-                }
-            }
+            DestroyBaitOptions();
+            GenerateBaitOptions();
+        }
 
-            for (int i = 0; i < PlayerData.instance.baitSaveData.Count; i++)
-            {
-                BaitAttachmentSlot _newSlot = Instantiate(baitAttachmentSlot, baitsContent.transform).GetComponent<BaitAttachmentSlot>();
-                _newSlot.baitScriptable = ItemLookupTable.instance.StringToBait(PlayerData.instance.baitSaveData[i].baitName);
+        private void DestroyBaitOptions() {
+            BaitAttachmentSlot[] _baitOptions = baitsScrollRect.content.transform.GetComponentsInChildren<BaitAttachmentSlot>();
+            for (int i = 0; i < _baitOptions.Length; i++) {
+                if (_baitOptions[i].baitScriptable == null) continue;
+                Destroy(_baitOptions[i].gameObject);
+            }
+        }
+
+        private void GenerateBaitOptions() {
+            for (int i = 0; i < PlayerData.instance.baitSaveData.Count; i++) {
+                BaitAttachmentSlot _newSlot = Instantiate(baitOptionPrefab, baitsScrollRect.content.transform).GetComponent<BaitAttachmentSlot>();
+                _newSlot.baitSaveData = PlayerData.instance.baitSaveData[i];
                 _newSlot.UpdateSlot();
-                _newSlot.countText.text = "x" + PlayerData.instance.baitSaveData[i].amount.ToString();
             }
         }
 
@@ -80,11 +86,11 @@ namespace Fishing.UI
 
         }
 
-        public void HideButtonScrollViews()
+        public void HideAttachmentScrollRects()
         {
-            baitButton.SetScrollView(false);
-            hookButton.SetScrollView(false);
-            lineButton.SetScrollView(false);
+            baitButton.HideScrollRect();
+            hookButton.HideScrollRect();
+            lineButton.HideScrollRect();
         }
     }
 

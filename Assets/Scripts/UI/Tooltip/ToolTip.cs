@@ -13,17 +13,14 @@ namespace Fishing.UI
 
         private float lifetimeCount;
 
-        private void Update()
-        {
+        private void Update() {
             lifetimeCount -= Time.deltaTime;
-            if (lifetimeCount <= 0f)
-            {
+            if (lifetimeCount <= 0f) {
                 Destroy(gameObject);
             }
         }
 
-        public void InitializeToolTip(float _lifetime, string _tipText)
-        {
+        public void InitializeToolTip(float _lifetime, string _tipText) {
             lifetime = _lifetime;
             lifetimeCount = lifetime;
             tipText.text = _tipText;

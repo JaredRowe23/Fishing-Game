@@ -4,12 +4,16 @@ using UnityEngine;
 
 namespace Fishing.UI
 {
-    public class GearMenu : MonoBehaviour
+    public class GearMenu : MonoBehaviour, IInventoryTab
     {
-        public void ShowRodMenu()
-        {
-            gameObject.SetActive(!gameObject.activeSelf);
-            InventoryMenu.instance.UpdateActiveMenu(2);
+        public void ShowGearMenu() {
+            InventoryMenu.instance.UpdateActiveMenu(gameObject);
+        }
+
+        public void ShowTab() {
+        }
+
+        public void HideTab() {
         }
     }
 

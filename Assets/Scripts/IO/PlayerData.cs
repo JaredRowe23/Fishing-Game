@@ -27,6 +27,10 @@ namespace Fishing.IO
         [Header("Records")]
         public List<RecordSaveData> recordSaveData;
 
+        public delegate void OnMoneyUpdated();
+        public static event OnMoneyUpdated onMoneyUpdated;
+        private float previousMoney;
+
         public static PlayerData instance;
 
         private void Awake()
@@ -39,6 +43,16 @@ namespace Fishing.IO
 
             instance = this;
             DontDestroyOnLoad(gameObject);
+
+            previousMoney = saveFileData.money;
+        }
+
+        public void Update() {
+
+            if (previousMoney != saveFileData.money) {
+                onMoneyUpdated?.Invoke();
+                previousMoney = saveFileData.money;
+            }
         }
 
         public void SavePlayer()
@@ -94,20 +108,20 @@ namespace Fishing.IO
             baitSaveData.Add(new BaitSaveData(_baitName, 1));
         }
 
-        public void UpdateFishRecordData(string _fishName, float _length, float _weight)
+        public void UpdateFishRecordData(BucketItemSaveData _data)
         {
             for (int i = 0; i < recordSaveData.Count; i++)
             {
-                if (_fishName != recordSaveData[i].itemName) continue;
+                if (_data.itemName != recordSaveData[i].itemName) continue;
 
                 recordSaveData[i].amountCaught++;
-                if (recordSaveData[i].lengthRecord < _length) recordSaveData[i].lengthRecord = _length;
-                if (recordSaveData[i].weightRecord < _length) recordSaveData[i].weightRecord = _weight;
+                if (recordSaveData[i].lengthRecord < _data.length) recordSaveData[i].lengthRecord = _data.length;
+                if (recordSaveData[i].weightRecord < _data.weight) recordSaveData[i].weightRecord = _data.weight;
 
                 return;
             }
 
-            recordSaveData.Add(new RecordSaveData(_fishName, 1, _length, _weight));
+            recordSaveData.Add(new RecordSaveData(_data.itemName, 1, _data.length, _data.weight));
         }
     }
 }

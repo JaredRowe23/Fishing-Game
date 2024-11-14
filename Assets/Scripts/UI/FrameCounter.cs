@@ -13,19 +13,17 @@ namespace Fishing.UI
         private Text text;
 
         private void Awake() => text = GetComponent<Text>();
-        private void Start()
-        {
+        private void Start() {
             frameUpdateDeltaTime = 0;
             frameCount = framesPerUpdate;
         }
 
-        private void Update()
-        {
+        private void Update() {
             frameCount--;
             frameUpdateDeltaTime += Time.deltaTime;
             if (frameCount <= 0)
             {
-                text.text = "FPS: " + (Mathf.Round(1 / (frameUpdateDeltaTime / framesPerUpdate) * 100) / 100).ToString("F2");
+                text.text = $"FPS: {(Mathf.Round(1 / (frameUpdateDeltaTime / framesPerUpdate) * 100) / 100).ToString("0.00")}";
                 frameCount = framesPerUpdate;
                 frameUpdateDeltaTime = 0;
             }

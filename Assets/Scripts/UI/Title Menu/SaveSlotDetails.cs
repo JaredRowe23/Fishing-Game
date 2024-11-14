@@ -1,3 +1,4 @@
+using Fishing.IO;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,13 +15,13 @@ namespace Fishing.UI
         [SerializeField] private Text fishCaughtText;
         [SerializeField] private Text playTimeText;
 
-        public void UpdateInfo(string _saveName, float _money, string _saveTime, string _playtime, int _fishTypesCaught)
+        public void UpdateInfo(SaveFile _saveFile)
         {
-            saveNameText.text = _saveName;
-            moneyText.text = "$" + _money.ToString("F2");
-            saveTimeDateText.text = _saveTime;
-            playTimeText.text = _playtime;
-            fishCaughtText.text = _fishTypesCaught.ToString() + " / 11";
+            saveNameText.text = _saveFile.name;
+            moneyText.text = _saveFile.money.ToString("C");
+            saveTimeDateText.text = _saveFile.dateTime;
+            playTimeText.text = _saveFile.playtime;
+            fishCaughtText.text = $"{_saveFile.fishTypesCaught} / 11";
         }
     }
 }

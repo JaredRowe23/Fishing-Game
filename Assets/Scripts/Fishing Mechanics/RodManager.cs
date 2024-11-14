@@ -57,7 +57,7 @@ namespace Fishing
             }
 
             TooltipSystem.instance.NewTooltip(5f, "Equipped the " + _rodName);
-            rodsMenu.UpdateEquippedRod();
+            rodsMenu.UpdateEquippedCheckmark();
             if (_playSound) AudioManager.instance.PlaySound("Equip Rod");
 
             SpawnBait();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Fishing.Inventory;
+using Fishing.IO;
 
 namespace Fishing.UI
 {
@@ -12,17 +13,16 @@ namespace Fishing.UI
         [SerializeField] private Text itemWeight;
         [SerializeField] private Text itemLength;
         [SerializeField] private Text itemValue;
-        private FishData itemReference;
+        [HideInInspector] public BucketItemSaveData itemReference;
 
-        public void UpdateName(string _name) => itemName.text = _name;
-
-        public void UpdateWeight(float _weight) => itemWeight.text = _weight.ToString() + " kg";
-
-        public void UpdateLength(float _length) => itemLength.text = _length.ToString() + " cm";
-
-        public void UpdateValue(float _value) => itemValue.text = "$" + _value.ToString("F2");
-
-        public void UpdateReference(FishData _reference) => itemReference = _reference;
+        public void UpdateInfo(BucketItemSaveData _item)
+        {
+            itemReference = _item;
+            itemName.text = _item.itemName;
+            itemWeight.text = _item.weight.ToString("F2") + " kg";
+            itemLength.text = _item.length.ToString("F2") + " cm";
+            itemValue.text = "$" + _item.value.ToString("F2");
+        }
 
         public void OpenInfoMenu()
         {
@@ -30,7 +30,7 @@ namespace Fishing.UI
             {
                 UIManager.instance.itemInfoMenu.SetActive(true);
             }
-            UIManager.instance.itemInfoMenu.GetComponent<ItemInfoMenu>().UpdateMenu(itemName.text, itemValue.text, itemWeight.text, itemLength.text, itemReference.itemDescription, itemReference, gameObject);
+            UIManager.instance.itemInfoMenu.GetComponent<ItemInfoMenu>().UpdateMenu(itemReference, gameObject);
         }
     }
 

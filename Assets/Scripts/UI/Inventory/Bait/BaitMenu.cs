@@ -2,36 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Fishing.IO;
+using UnityEngine.UI;
 
 namespace Fishing.UI
 {
-    public class BaitMenu : MonoBehaviour
+    public class BaitMenu : MonoBehaviour, IInventoryTab
     {
         [SerializeField] private GameObject slotPrefab;
-        [SerializeField] private GameObject content;
+        [SerializeField] private ScrollRect listingsScrollRect;
 
-        public void ShowBaitMenu(bool _active)
-        {
-            this.gameObject.SetActive(_active);
-            InventoryMenu.instance.UpdateActiveMenu(1);
+        public void ShowBaitMenu() {
+            InventoryMenu.instance.UpdateActiveMenu(gameObject);
+        }
+
+        public void ShowTab() {
+            DestroySlots();
             GenerateSlots();
+        }
 
-            if (!_active) BaitInfoMenu.instance.gameObject.SetActive(false);
+        public void HideTab() {
+            BaitInfoMenu.instance.gameObject.SetActive(false);
         }
 
         public void GenerateSlots()
         {
-            foreach (Transform _child in content.transform)
-            {
-                Destroy(_child.gameObject);
-            }
-
             for (int i = 0; i < PlayerData.instance.baitSaveData.Count; i++)
             {
-                BaitInventorySlot _newSlot = Instantiate(slotPrefab, content.transform).GetComponent<BaitInventorySlot>();
-                _newSlot.baitScriptable = ItemLookupTable.instance.StringToBait(PlayerData.instance.baitSaveData[i].baitName);
+                BaitInventorySlot _newSlot = Instantiate(slotPrefab, listingsScrollRect.content.transform).GetComponent<BaitInventorySlot>();
+                _newSlot.baitSaveData = PlayerData.instance.baitSaveData[i];
                 _newSlot.UpdateSlot();
-                _newSlot.countText.text = "x" + PlayerData.instance.baitSaveData[i].amount.ToString();
+            }
+        }
+
+        private void DestroySlots() {
+            foreach (Transform _child in listingsScrollRect.content.transform) {
+                Destroy(_child.gameObject);
             }
         }
     }

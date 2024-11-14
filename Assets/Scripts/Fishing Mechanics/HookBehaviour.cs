@@ -13,7 +13,7 @@ namespace Fishing.FishingMechanics
 {
     public class HookBehaviour : MonoBehaviour, IEdible
     {
-        [HideInInspector] public GameObject hookedObject;
+        public GameObject hookedObject;
 
         [SerializeField] private Transform linePivotPoint;
         [SerializeField] private Transform hookPivotPoint;
@@ -155,17 +155,6 @@ namespace Fishing.FishingMechanics
         public void DespawnHookedObject()
         {
             if (hookedObject != null) hookedObject.GetComponent<IEdible>().Despawn();
-        }
-
-        public void AddToBucket()
-        {
-            if (hookedObject == null) return;
-
-            BucketBehaviour.instance.AddToBucket(hookedObject.GetComponent<Fishable>());
-
-            if (PlayerData.instance.hasSeenTutorialData.bucketTutorial) return;
-            TutorialSystem.instance.QueueTutorial("Press B or click the bucket icon in the top-left corner to access your bucket");
-            PlayerData.instance.hasSeenTutorialData.bucketTutorial = true;
         }
 
         public bool IsInStartCastPosition() => ((Vector2)transform.position == targetPos) && rod.IsInStartingCastPosition();

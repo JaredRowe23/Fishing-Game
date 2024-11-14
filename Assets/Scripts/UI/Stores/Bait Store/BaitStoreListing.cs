@@ -33,22 +33,22 @@ namespace Fishing.UI
         public void UpdateInfo(BaitScriptable _bait)
         {
             referenceScriptable = _bait;
-            nameText.text = _bait.baitName;
-            costText.text = "$" + _bait.cost.ToString();
-            if (_bait.GetFoodTypesAsString() != null) attractsText.text = "Attracts: x" + _bait.GetFoodTypesAsString().Count.ToString();
-            effectsText.text = "Effects: x" + _bait.effects.Count.ToString();
-            baitSprite.sprite = _bait.inventorySprite;
+
+            nameText.text = referenceScriptable.baitName;
+            costText.text = referenceScriptable.cost.ToString("C");
+            if (referenceScriptable.GetFoodTypesAsString() != null) attractsText.text = $"Attracts: x{_bait.GetFoodTypesAsString().Count}";
+            effectsText.text = $"Effects: x{referenceScriptable.effects.Count}";
+            baitSprite.sprite = referenceScriptable.inventorySprite;
         }
 
-        public void UpdateColor(ItemStatus status)
-        {
-            if (status == ItemStatus.Available)
-            {
-                overlayColor.color = availableColor;
-            }
-            else if (status == ItemStatus.Restricted)
-            {
-                overlayColor.color = restrictedColor;
+        public void UpdateColor(ItemStatus status) {
+            switch (status) {
+                case ItemStatus.Available:
+                    overlayColor.color = availableColor;
+                    break;
+                case ItemStatus.Restricted:
+                    overlayColor.color = restrictedColor;
+                    break;
             }
         }
         public void UpdateInfoPanel()

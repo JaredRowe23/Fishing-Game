@@ -5,7 +5,7 @@ using Fishing.IO;
 
 namespace Fishing.UI
 {
-    public class RodsMenu : MonoBehaviour
+    public class RodsMenu : MonoBehaviour, IInventoryTab
     {
         [SerializeField] private GameObject slotPrefab;
         [SerializeField] private GameObject content;
@@ -27,52 +27,58 @@ namespace Fishing.UI
 
         private void Start() => GenerateSlots();
 
-        public void ShowRodMenu(bool _active)
-        {
-            gameObject.SetActive(_active);
-            InventoryMenu.instance.UpdateActiveMenu(0);
+        public void ShowRodMenu() {
+            InventoryMenu.instance.UpdateActiveMenu(gameObject);
+        }
+
+        public void ShowTab() {
+            DestroySlots();
             GenerateSlots();
-            if (!gameObject.activeSelf) rodInfoMenu.HideButtonScrollViews();
+        }
+
+        public void HideTab() {
+            rodInfoMenu.HideAttachmentScrollRects();
         }
 
         public void GenerateSlots()
         {
-            foreach (Transform _child in content.transform)
-            {
-                Destroy(_child.gameObject);
-            }
-
             for (int i = 0; i < playerData.fishingRodSaveData.Count; i++)
             {
                 RodInventorySlot _newSlot = Instantiate(slotPrefab, content.transform).GetComponent<RodInventorySlot>();
 
-                _newSlot.title.text = playerData.fishingRodSaveData[i].rodName;
+                _newSlot.Title.text = playerData.fishingRodSaveData[i].rodName;
 
                 for (int j = 0; j < rodManager.rodPrefabs.Count; j++)
                 {
                     if (rodManager.rodPrefabs[i].name != playerData.fishingRodSaveData[i].rodName) continue;
 
                     _newSlot.itemReference = rodManager.rodPrefabs[i];
-                    _newSlot.sprite.sprite = rodManager.rodSprites[i];
+                    _newSlot.Sprite.sprite = rodManager.rodSprites[i];
                     break;
                 }
 
-                UpdateEquippedRod();
+                UpdateEquippedCheckmark();
             }
         }
 
-        public void UpdateEquippedRod()
+        private void DestroySlots() {
+            foreach (Transform _child in content.transform) {
+                Destroy(_child.gameObject);
+            }
+        }
+
+        public void UpdateEquippedCheckmark()
         {
             foreach (Transform _slot in content.transform)
             {
                 RodInventorySlot _invSlot = _slot.GetComponent<RodInventorySlot>();
                 if (_invSlot.itemReference.name == playerData.equippedRod.rodName)
                 {
-                    _invSlot.equippedCheck.SetActive(true);
+                    _invSlot.EquippedCheck.SetActive(true);
                 }
                 else
                 {
-                    _invSlot.equippedCheck.SetActive(false);
+                    _invSlot.EquippedCheck.SetActive(false);
                 }
             }
         }

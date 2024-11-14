@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Fishing.Inventory;
+using Fishing.IO;
+using Fishing.Fishables;
 
 namespace Fishing.UI
 {
@@ -19,61 +21,98 @@ namespace Fishing.UI
         [SerializeField] private List<string> modelNames;
         private GameObject currentModel;
 
-        private FishData itemReference;
+        private BucketItemSaveData itemReference;
         private GameObject menuListingReference;
 
-        public void UpdateMenu(string _name, string _value, string _weight, string _length, string _description, FishData _reference, GameObject _menuListing)
+        private PlayerData playerData;
+        private UIManager manager;
+        private BucketBehaviour bucket;
+        private BucketMenu bucketMenu;
+        private TooltipSystem tooltipSystem;
+        private RodManager rodManager;
+
+        private void Awake()
         {
-            itemName.text = _name;
-            itemValue.text = _value;
-            itemWeight.text = _weight;
-            itemLength.text = _length;
-            itemDescription.text = _description;
-            menuListingReference = _menuListing;
+            playerData = PlayerData.instance;
+            manager = UIManager.instance;
+            bucketMenu = BucketMenu.instance;
+            tooltipSystem = TooltipSystem.instance;
+            rodManager = RodManager.instance;
+            bucket = BucketBehaviour.instance;
+        }
+
+        public void UpdateMenu(BucketItemSaveData _reference, GameObject _menuListing)
+        {
             itemReference = _reference;
-            GenerateModel(_name);
+            itemName.text = _reference.itemName;
+            itemValue.text = _reference.value.ToString();
+            itemWeight.text = _reference.weight.ToString();
+            itemLength.text = _reference.length.ToString();
+            itemDescription.text = _reference.description;
+
+            menuListingReference = _menuListing;
+            GenerateModel(_reference.itemName);
+
             ItemViewerCamera.instance.UpdateCurrentItem(currentModel);
         }
 
-        public void ThrowAway(bool _isSelling)
+        public void ThrowAwayItem()
         {
-            if (UIManager.instance.overflowItem != null)
-            {
-                if (UIManager.instance.overflowItem.activeSelf)
-                {
-                    OverflowItem.instance.ThrowAway(itemReference, currentModel, menuListingReference);
-                    gameObject.SetActive(false);
-                    return;
-                }
-            }
+            tooltipSystem.NewTooltip(5f, "Threw away the " + itemReference.itemName + " worth $" + itemReference.value.ToString("F2"));
+            if (manager.overflowItem.activeSelf) HandleOverflowItem();
+            RemoveItem();
+        }
 
-            TooltipSystem.instance.NewTooltip(5f, "Threw away the " + itemReference.itemName + " worth $" + itemReference.itemValue.ToString("F2"));
-            BucketMenu.instance.ThrowAway(itemReference, currentModel, menuListingReference, _isSelling);
-            gameObject.SetActive(false);
+        public void SellItem()
+        {
+            playerData.saveFileData.money += itemReference.value;
+            tooltipSystem.NewTooltip(5f, "Sold the " + itemReference.itemName + " for $" + itemReference.value.ToString("F2"));
+            RemoveItem();
         }
 
         public void ConvertToBait()
         {
-            if (UIManager.instance.overflowItem != null)
-            {
-                if (UIManager.instance.overflowItem.activeSelf)
-                {
-                    OverflowItem.instance.ConvertToBait(itemReference, currentModel, menuListingReference);
-                    gameObject.SetActive(false);
-                    return;
-                }
-            }
-            TooltipSystem.instance.NewTooltip(5f, "Converted the " + itemReference.itemName + " into bait");
-            BucketMenu.instance.ConvertToBait(itemReference, currentModel, menuListingReference);
+            playerData.AddBait(itemReference.itemName);
+            if (manager.overflowItem.activeSelf) HandleOverflowItem();
+            tooltipSystem.NewTooltip(5f, "Converted the " + itemReference.itemName + " into bait");
+            if (!playerData.hasSeenTutorialData.baitTutorial) ShowBaitTutorial();
+            RemoveItem();
+        }
+
+        private void RemoveItem()
+        {
+            RemoveAllObjects();
+
+            AudioManager.instance.PlaySound("Throwaway Fish");
+
+            manager.itemInfoMenu.SetActive(false);
+            bucketMenu.RefreshMenu();
             gameObject.SetActive(false);
         }
 
-        public string GetItemName()
+        private void RemoveAllObjects()
         {
-            return itemName.text;
+            bucket.bucketList.Remove(itemReference);
+            if (menuListingReference != manager.overflowItem) Destroy(menuListingReference);
+            if (currentModel != null) Destroy(currentModel);
         }
 
-        public GameObject GenerateModel(string _itemName)
+        public void HandleOverflowItem()
+        {
+            if (menuListingReference != manager.overflowItem) bucket.AddToBucket(rodManager.equippedRod.GetHook().hookedObject.GetComponent<Fishable>());
+
+            rodManager.equippedRod.GetHook().DespawnHookedObject();
+            manager.overflowItem.SetActive(false);
+            bucketMenu.ToggleBucketMenu();
+        }
+
+        private void ShowBaitTutorial()
+        {
+            TutorialSystem.instance.QueueTutorial("Bait can help you catch fish that aren't interested in just your hook as is. Close the bucket menu and open the inventory menu (I) to equip it!");
+            playerData.hasSeenTutorialData.baitTutorial = true;
+        }
+
+        public GameObject GenerateModel(string _itemName) // to be removed when switching model viewer to sprite viewer
         {
             if (currentModel != null) Destroy(currentModel);
 

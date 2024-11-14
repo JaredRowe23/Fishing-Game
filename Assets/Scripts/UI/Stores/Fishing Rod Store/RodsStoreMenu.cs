@@ -10,7 +10,7 @@ namespace Fishing.UI
     public class RodsStoreMenu : MonoBehaviour
     {
         [SerializeField] private GameObject rodListingPrefab;
-        [SerializeField] private GameObject content;
+        [SerializeField] private ScrollRect rodListings;
 
         public static RodsStoreMenu instance;
 
@@ -18,12 +18,9 @@ namespace Fishing.UI
 
         public void DestroyListings()
         {
-            foreach (Transform _child in content.transform)
-            {
-                if (_child.GetComponent<RodStoreListing>())
-                {
-                    Destroy(_child.gameObject);
-                }
+            RodStoreListing[] _listings = rodListings.content.transform.GetComponentsInChildren<RodStoreListing>();
+            for (int i = 0; i < _listings.Length; i++) {
+                Destroy(_listings[i].gameObject);
             }
         }
 
@@ -31,7 +28,7 @@ namespace Fishing.UI
         {
             foreach (RodScriptable _rod in ItemLookupTable.instance.rodScriptables)
             {
-                RodStoreListing _listing = Instantiate(rodListingPrefab, content.transform).GetComponent<RodStoreListing>();
+                RodStoreListing _listing = Instantiate(rodListingPrefab, rodListings.content.transform).GetComponent<RodStoreListing>();
                 _listing.UpdateInfo(_rod);
 
                 _listing.UpdateColor(RodStoreListing.ItemStatus.Available);

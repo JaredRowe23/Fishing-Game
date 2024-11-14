@@ -15,12 +15,12 @@ namespace Fishing.UI
         public Color restrictedColor;
         public Color purchasedColor;
 
-        public RodScriptable referenceScriptable;
-
         [SerializeField] private Image overlayColor;
         [SerializeField] private Text nameText;
         [SerializeField] private Text costText;
         [SerializeField] private Image rodSprite;
+
+        private RodScriptable referenceScriptable;
 
         private RodStoreInfo infoPanel;
 
@@ -33,23 +33,22 @@ namespace Fishing.UI
         {
             referenceScriptable = _rod;
             nameText.text = _rod.rodName;
-            costText.text = "$" + _rod.cost.ToString();
+            costText.text = _rod.cost.ToString("C");
             rodSprite.sprite = _rod.inventorySprite;
         }
 
         public void UpdateColor(ItemStatus status)
         {
-            if (status == ItemStatus.Available)
-            {
-                overlayColor.color = availableColor;
-            }
-            else if (status == ItemStatus.Restricted)
-            {
-                overlayColor.color = restrictedColor;
-            }
-            else if (status == ItemStatus.Purchased)
-            {
-                overlayColor.color = purchasedColor;
+            switch (status) {
+                case ItemStatus.Available:
+                    overlayColor.color = availableColor;
+                    break;
+                case ItemStatus.Restricted:
+                    overlayColor.color = restrictedColor;
+                    break;
+                case ItemStatus.Purchased:
+                    overlayColor.color = purchasedColor;
+                    break;
             }
         }
         public void UpdateInfoPanel()

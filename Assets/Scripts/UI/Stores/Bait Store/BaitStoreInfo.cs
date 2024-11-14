@@ -15,50 +15,48 @@ namespace Fishing.UI
         [SerializeField] private Text attractsText;
         [SerializeField] private List<BaitEffectsListing> effects;
 
+        private BaitScriptable currentBait;
+
         public static BaitStoreInfo instance;
 
         private BaitStoreInfo() => instance = this;
 
         public void UpdateInfo(BaitScriptable _bait)
         {
-            nameText.text = _bait.baitName;
-            descriptionText.text = _bait.description;
-            costText.text = "$" + _bait.cost.ToString();
+            currentBait = _bait;
+
+            nameText.text = currentBait.baitName;
+            descriptionText.text = currentBait.description;
+            costText.text = currentBait.cost.ToString("C");
+
             attractsText.text = "";
-
-            if (_bait.GetFoodTypesAsString() != null)
-            {
-                foreach (string _str in _bait.GetFoodTypesAsString())
-                {
-                    attractsText.text += _str + ", ";
+            List<string> _foodTypes = currentBait.GetFoodTypesAsString();
+            for (int i = 0; i < _foodTypes.Count; i++) {
+                attractsText.text += _foodTypes[i];
+                if (i == _foodTypes.Count - 1) {
+                    attractsText.text += ".";
                 }
-                attractsText.text = attractsText.text.Substring(0, attractsText.text.Length - 2);
-                attractsText.text += '.';
+                else {
+                    attractsText.text += ", ";
+                }
             }
 
-            foreach (BaitEffectsListing _effectListing in effects)
-            {
-                _effectListing.UpdateEffect("", null);
-                _effectListing.gameObject.SetActive(false);
+            for (int i = 0; i < effects.Count; i++) {
+                effects[i].DisableListing();
             }
-            for (int i = 0; i < _bait.effects.Count; i++)
-            {
-                effects[i].UpdateEffect(_bait.effects[i], _bait.effectsSprites[i]);
-                effects[i].gameObject.SetActive(true);
+            for (int i = 0; i < currentBait.effects.Count; i++) {
+                effects[i].UpdateEffect(currentBait.effects[i], currentBait.effectsSprites[i]);
             }
         }
 
-        public void BuyBait()
-        {
-            float _cost = float.Parse(costText.text.Remove(0, 1));
-            if (PlayerData.instance.saveFileData.money < _cost)
-            {
+        public void BuyBait() {
+            if (PlayerData.instance.saveFileData.money < currentBait.cost) {
                 TooltipSystem.instance.NewTooltip(5f, "You don't have enough money to buy this bait");
                 return;
             }
 
-            TooltipSystem.instance.NewTooltip(5f, "You bought the " + nameText.text + " for $" + _cost);
-            PlayerData.instance.saveFileData.money -= _cost;
+            TooltipSystem.instance.NewTooltip(5f, $"You bought the {nameText.text} for {currentBait.cost.ToString("C")}");
+            PlayerData.instance.saveFileData.money -= currentBait.cost;
             PlayerData.instance.AddBait(nameText.text);
             BaitStoreMenu.instance.RefreshStore();
             gameObject.SetActive(false);

@@ -6,14 +6,10 @@ using Fishing.IO;
 
 namespace Fishing
 {
-    public class PlayerNameUI : MonoBehaviour
-    {
-
+    public class PlayerNameUI : MonoBehaviour {
         [SerializeField] private Text playerNameText;
 
-        // Update is called once per frame
-        void Update()
-        {
+        void Update() {
             playerNameText.text = PlayerData.instance.saveFileData.playerName;
         }
     }

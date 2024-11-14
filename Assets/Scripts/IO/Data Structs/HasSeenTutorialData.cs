@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Fishing.IO
 {
     [System.Serializable]
-    public struct HasSeenTutorialData
+    public class HasSeenTutorialData
     {
         public bool castTutorial;
         public bool reelingTutorial;

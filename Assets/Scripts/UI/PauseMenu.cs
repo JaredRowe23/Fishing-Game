@@ -36,42 +36,46 @@ namespace Fishing.UI
             {
                 if (BucketMenu.instance.gameObject.activeSelf) return;
                 if (InventoryMenu.instance.gameObject.activeSelf) return;
-
-                UIManager.instance.bucketMenuButton.gameObject.SetActive(!pauseMenu.activeSelf);
-                UIManager.instance.inventoryMenuButton.SetActive(!pauseMenu.activeSelf);
-                UIManager.instance.recordMenuButton.gameObject.SetActive(!pauseMenu.activeSelf);
             }
 
-            pauseMenu.SetActive(!pauseMenu.activeSelf);
-
-            if (pauseMenu.activeSelf)
-            {
-                AudioManager.instance.PlaySound("Pause");
-                Time.timeScale = 0f;
+            if (pauseMenu.activeSelf) {
+                UnpauseGame();
             }
-            else
-            {
-                AudioManager.instance.PlaySound("Unpause");
-                Time.timeScale = 1f;
+            else {
+                PauseGame();
             }
         }
 
-        public void SaveGame()
-        {
+        private void PauseGame() {
+            pauseMenu.SetActive(true);
+            if (SceneManager.GetActiveScene().handle == 2) {
+                UIManager.instance.HideHUDButtons();
+            }
+            AudioManager.instance.PlaySound("Pause");
+            Time.timeScale = 0f;
+        }
+
+        private void UnpauseGame() {
+            pauseMenu.SetActive(false);
+            if (SceneManager.GetActiveScene().handle == 2) {
+                UIManager.instance.ShowHUDButtons();
+            }
+            AudioManager.instance.PlaySound("Unpause");
+            Time.timeScale = 1f;
+        }
+
+        public void SaveGame() {
             playerData.SavePlayer();
             ToggleMenu();
         }
 
-        public void OpenMap()
-        {
-            Time.timeScale = 1f;
-            ToggleMenu();
+        public void OpenMap() {
+            UnpauseGame();
             InputManager.ClearListeners();
             SceneManager.LoadScene("World Map");
         }
 
-        public void ExitToTitle()
-        {
+        public void ExitToTitle() {
             Time.timeScale = 1f;
             SceneManager.LoadScene("Title Screen");
             Destroy(gameObject);

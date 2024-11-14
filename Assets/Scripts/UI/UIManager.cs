@@ -8,18 +8,18 @@ namespace Fishing
 {
     public class UIManager : MonoBehaviour
     {
-        public Button bucketMenuButton;
+        [SerializeField] private Button bucketMenuButton;
         public GameObject mouseOverUI;
         public GameObject itemInfoMenu;
         public GameObject overflowItem;
         public GameObject itemViewer;
         public Canvas rodCanvas;
-        public GameObject inventoryMenuButton;
+        [SerializeField] private GameObject inventoryMenuButton;
         public GameObject rodMenuButton;
         public GameObject baitMenuButton;
         public GameObject gearMenuButton;
         public GameObject rodsMenu;
-        public Button recordMenuButton;
+        [SerializeField] private Button recordMenuButton;
 
         [SerializeField] public List<GameObject> interuptableUI;
 
@@ -27,12 +27,9 @@ namespace Fishing
 
         private UIManager() => instance = this;
 
-        public bool IsActiveUI()
-        {
-            foreach (GameObject _ui in interuptableUI)
-            {
-                if (_ui.activeSelf)
-                {
+        public bool IsActiveUI() {
+            foreach (GameObject _ui in interuptableUI) {
+                if (_ui.activeSelf) {
                     return true;
                 }
             }
@@ -40,6 +37,17 @@ namespace Fishing
             if (PauseMenu.instance.pauseMenu.gameObject.activeSelf) return true;
 
             return false;
+        }
+
+        public void ShowHUDButtons() {
+            bucketMenuButton.gameObject.SetActive(true);
+            inventoryMenuButton.SetActive(true);
+            recordMenuButton.gameObject.SetActive(true);
+        }
+        public void HideHUDButtons() {
+            bucketMenuButton.gameObject.SetActive(false);
+            inventoryMenuButton.SetActive(false);
+            recordMenuButton.gameObject.SetActive(false);
         }
     }
 

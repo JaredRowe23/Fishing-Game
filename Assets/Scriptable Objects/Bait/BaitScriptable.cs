@@ -25,7 +25,6 @@ namespace Fishing.FishingMechanics
             {
                 _types.Add(_type.ToString());
             }
-            if (_types.Count == 0) return null;
             return _types;
         }
 

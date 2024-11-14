@@ -8,9 +8,12 @@ namespace Fishing.UI
 {
     public class RodInventorySlot : MonoBehaviour
     {
-        public Text title;
-        public Image sprite;
-        public GameObject equippedCheck;
+        [SerializeField] private Text title;
+        public Text Title { get { return title; } private set { } }
+        [SerializeField] private Image sprite;
+        public Image Sprite { get { return sprite; } private set { } }
+        [SerializeField] private GameObject equippedCheck;
+        public GameObject EquippedCheck { get { return equippedCheck; } private set { } }
         public GameObject itemReference;
 
         private RodManager rodManager;
@@ -22,7 +25,9 @@ namespace Fishing.UI
 
         public void UpdateInfoMenu()
         {
-            RodInfoMenu.instance.gameObject.SetActive(true);
+            if (!RodInfoMenu.instance.gameObject.activeSelf) {
+                RodInfoMenu.instance.gameObject.SetActive(true);
+            }
             RodInfoMenu.instance.UpdateRodInfo(rodManager.equippedRod.GetComponent<RodBehaviour>());
         }
 

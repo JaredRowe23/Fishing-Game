@@ -19,34 +19,37 @@ namespace Fishing.UI
         [SerializeField] private Text strengthFrequencyText;
         [SerializeField] private Text angleFrequencyText;
 
+        private RodScriptable currentRodScriptable;
+
         public static RodStoreInfo instance;
 
         private RodStoreInfo() => instance = this;
 
         public void UpdateInfo(RodScriptable _rod)
         {
-            nameText.text = _rod.rodName;
-            descriptionText.text = _rod.description;
-            costText.text = "$" + _rod.cost.ToString();
-            reelSpeedText.text = _rod.reelSpeed.ToString();
-            castStrengthText.text = _rod.minCastStrength + "/" + _rod.maxCastStrength;
-            castAngleText.text = _rod.maxCastAngle.ToString();
-            lineLengthText.text = _rod.lineLength.ToString();
-            strengthFrequencyText.text = _rod.chargeFrequency.ToString();
-            angleFrequencyText.text = _rod.angleFrequency.ToString();
+            currentRodScriptable = _rod;
+
+            nameText.text = currentRodScriptable.rodName;
+            descriptionText.text = currentRodScriptable.description;
+            costText.text = currentRodScriptable.cost.ToString("C");
+            reelSpeedText.text = currentRodScriptable.reelSpeed.ToString();
+            castStrengthText.text = $"{currentRodScriptable.minCastStrength} / {currentRodScriptable.maxCastStrength}";
+            castAngleText.text = currentRodScriptable.maxCastAngle.ToString();
+            lineLengthText.text = currentRodScriptable.lineLength.ToString();
+            strengthFrequencyText.text = currentRodScriptable.chargeFrequency.ToString();
+            angleFrequencyText.text = currentRodScriptable.angleFrequency.ToString();
         }
 
         public void BuyRod()
         {
-            float _cost = float.Parse(costText.text.Remove(0, 1));
-            if (PlayerData.instance.saveFileData.money < _cost)
+            if (PlayerData.instance.saveFileData.money < currentRodScriptable.cost)
             {
                 TooltipSystem.instance.NewTooltip(5f, "You don't have enough money to buy this fishing rod");
                 return;
             }
 
-            TooltipSystem.instance.NewTooltip(5f, "You bought the " + nameText.text + " for $" + _cost);
-            PlayerData.instance.saveFileData.money -= _cost;
+            TooltipSystem.instance.NewTooltip(5f, $"You bought the {nameText.text} for {currentRodScriptable.cost.ToString("C")}");
+            PlayerData.instance.saveFileData.money -= currentRodScriptable.cost;
             PlayerData.instance.fishingRodSaveData.Add(new FishingRodSaveData(nameText.text, "", "", null));
             RodsStoreMenu.instance.RefreshStore();
             gameObject.SetActive(false);

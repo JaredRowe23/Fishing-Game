@@ -1,3 +1,4 @@
+using Fishing.Util;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,8 @@ namespace Fishing.UI
         [SerializeField] private float slowMotionSpeed = 0.1f;
         [SerializeField] private float transitionSpeed;
 
-        public GameObject content;
+        [SerializeField] private ScrollRect tutorialListings;
+        public ScrollRect TutorialListings { get { return tutorialListings; } private set { } }
 
         public Queue<GameObject> tutorialQueue;
 
@@ -22,10 +24,8 @@ namespace Fishing.UI
 
         public static TutorialSystem instance;
 
-        private void Awake()
-        {
-            if (instance != null)
-            {
+        private void Awake() {
+            if (instance != null) {
                 Destroy(gameObject);
                 return;
             }
@@ -37,32 +37,44 @@ namespace Fishing.UI
             tutorialQueue = new Queue<GameObject>();
         }
 
-        private void Update()
-        {
-            if (content.transform.childCount == 0)
-            {
-                gr.enabled = false;
-                content.SetActive(false);
-                filter.color = new Color(filter.color.r, filter.color.g, filter.color.b, Mathf.Lerp(filter.color.a, 0f, transitionSpeed * Time.deltaTime));
-                if (!PauseMenu.instance.pauseMenu.activeSelf) Time.timeScale = Mathf.Lerp(Time.timeScale, 1f, transitionSpeed * Time.deltaTime);
+        private void Update() {
+            if (tutorialListings.content.transform.childCount == 0) {
+                HideTutorials();
+            }
+            else {
+                ShowTutorials();
+            }
+        }
 
-                if (tutorialQueue.Count == 0) return;
+        private void ShowTutorials() {
+            gr.enabled = true;
+            tutorialListings.content.gameObject.SetActive(true);
+            filter.color = Utilities.SetTransparency(filter.color, Mathf.Lerp(filter.color.a, fadedAlpha, transitionSpeed * Time.deltaTime));
+            filter.color = new Color(filter.color.r, filter.color.g, filter.color.b, Mathf.Lerp(filter.color.a, fadedAlpha, transitionSpeed * Time.deltaTime));
+            Time.timeScale = Mathf.Lerp(Time.timeScale, slowMotionSpeed, transitionSpeed * Time.deltaTime);
+        }
 
-                tutorialQueue.Peek().transform.SetParent(content.transform);
-                tutorialQueue.Peek().SetActive(true);
+        private void HideTutorials() {
+            gr.enabled = false;
+            tutorialListings.content.gameObject.SetActive(false);
+            filter.color = Utilities.SetTransparency(filter.color, Mathf.Lerp(filter.color.a, 0f, transitionSpeed * Time.deltaTime));
+            if (PauseMenu.instance == null || !PauseMenu.instance.pauseMenu.activeSelf) {
+                Time.timeScale = Mathf.Lerp(Time.timeScale, 1f, transitionSpeed * Time.deltaTime);
+            }
+
+            if (tutorialQueue.Count == 0) {
                 return;
             }
 
-            gr.enabled = true;
-            content.SetActive(true);
-            filter.color = new Color(filter.color.r, filter.color.g, filter.color.b, Mathf.Lerp(filter.color.a, fadedAlpha, transitionSpeed * Time.deltaTime));
-            Time.timeScale = Mathf.Lerp(Time.timeScale, slowMotionSpeed, transitionSpeed * Time.deltaTime);
-            return;
-
+            ShowNextTutorial();
         }
 
-        public void QueueTutorial(string _tutorialText, bool _hasLifetime = false, float _lifetime = 0f)
-        {
+        private void ShowNextTutorial() {
+            tutorialQueue.Peek().transform.SetParent(tutorialListings.content.transform);
+            tutorialQueue.Peek().SetActive(true);
+        }
+
+        public void QueueTutorial(string _tutorialText, bool _hasLifetime = false, float _lifetime = 0f) {
             GameObject _newTutorial = Instantiate(tutorialPrefab);
             _newTutorial.GetComponent<Tutorial>().InitializeTutorial(_tutorialText, _hasLifetime, _lifetime);
             _newTutorial.SetActive(false);

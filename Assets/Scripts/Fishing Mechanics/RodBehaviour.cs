@@ -6,6 +6,7 @@ using Fishing.IO;
 using Fishing.UI;
 using Fishing.PlayerCamera;
 using Fishing.FishingMechanics.Minigame;
+using Fishing.Inventory;
 
 namespace Fishing.FishingMechanics
 {
@@ -33,12 +34,14 @@ namespace Fishing.FishingMechanics
 
         private RodManager rodManager;
         private CameraBehaviour cam;
+        private BucketBehaviour bucket;
 
         private void Awake()
         {
             rodManager = RodManager.instance;
             anim = GetComponent<Animator>();
             cam = CameraBehaviour.instance;
+            bucket = BucketBehaviour.instance;
 
             InputManager.onCastReel += StartCast;
         }
@@ -94,13 +97,13 @@ namespace Fishing.FishingMechanics
         private void StartCast()
         {
             if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) return;
-            if (UIManager.instance.mouseOverUI || UIManager.instance.IsActiveUI() || TutorialSystem.instance.content.activeSelf) return;
+            if (UIManager.instance.mouseOverUI || UIManager.instance.IsActiveUI() || TutorialSystem.instance.TutorialListings.content.gameObject.activeSelf) return;
             if (casted) return;
 
             anim.SetTrigger("startCast");
             playerAnim.SetTrigger("startCast");
 
-            SetIdleButtonsActive(false);
+            UIManager.instance.HideHUDButtons();
 
             InputManager.onCastReel -= StartCast;
 
@@ -134,17 +137,10 @@ namespace Fishing.FishingMechanics
 
             cam.ReturnHome();
 
-            SetIdleButtonsActive(true);
+            UIManager.instance.ShowHUDButtons();
 
             casted = false;
             isResettingHook = true;
-        }
-
-        private void SetIdleButtonsActive(bool _active)
-        {
-            UIManager.instance.bucketMenuButton.gameObject.SetActive(_active);
-            UIManager.instance.inventoryMenuButton.SetActive(_active);
-            UIManager.instance.recordMenuButton.gameObject.SetActive(_active);
         }
 
         private void AddCatch()
@@ -152,12 +148,10 @@ namespace Fishing.FishingMechanics
             if (hook.hookedObject == null) return;
             if (hook.hookedObject.GetComponent<BaitBehaviour>()) return;
 
-            hook.AddToBucket();
-
-            ReEquipBait();
+            bucket.AddToBucket(rodManager.equippedRod.GetHook().hookedObject.GetComponent<Fishable>());
         }
 
-        private void ReEquipBait()
+        public void ReEquipBait()
         {
             if (PlayerData.instance.equippedRod.equippedBait == null) return;
             if (PlayerData.instance.equippedRod.equippedBait.baitName == null) return;

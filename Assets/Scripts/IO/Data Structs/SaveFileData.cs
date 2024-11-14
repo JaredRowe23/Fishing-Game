@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Fishing.IO
 {
     [System.Serializable]
-    public struct SaveFileData
+    public class SaveFileData
     {
         public string playerName;
         public string currentSceneName;

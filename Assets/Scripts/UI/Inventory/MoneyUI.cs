@@ -6,15 +6,20 @@ using Fishing.IO;
 
 namespace Fishing
 {
-    public class MoneyUI : MonoBehaviour
-    {
-
+    public class MoneyUI : MonoBehaviour {
         [SerializeField] private Text moneyText;
 
-        void Update()
-        {
-            moneyText.text = "$" + PlayerData.instance.saveFileData.money.ToString("F2");
-            if (moneyText.text.Substring(moneyText.text.Length - 2, 2) == "00") moneyText.text = "$" + PlayerData.instance.saveFileData.money.ToString();
+        private void Awake(){
+            UpdateMoneyText();
+            PlayerData.onMoneyUpdated += UpdateMoneyText;
+        }
+
+        private void OnDestroy() {
+            PlayerData.onMoneyUpdated -= UpdateMoneyText;
+        }
+
+        public void UpdateMoneyText() {
+            moneyText.text = PlayerData.instance.saveFileData.money.ToString("C");
         }
     }
 }

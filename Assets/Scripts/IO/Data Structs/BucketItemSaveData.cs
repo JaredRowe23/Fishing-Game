@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Fishing.IO
 {
     [System.Serializable]
-    public struct BucketItemSaveData
+    public class BucketItemSaveData
     {
         public string itemName;
         public string description;
@@ -20,6 +20,16 @@ namespace Fishing.IO
             weight = _weight;
             length = _length;
             value = _value;
+        }
+
+        public bool CompareTo(BucketItemSaveData _other)
+        {
+            return _other != null && 
+                itemName == _other.itemName && 
+                description == _other.description && 
+                weight == _other.weight && 
+                length == _other.length && 
+                value == _other.value;
         }
     }
 }

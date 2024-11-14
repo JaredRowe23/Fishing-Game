@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Fishing.UI;
-//using UnityEngine.InputSystem;
 using Fishing.IO;
 
 namespace Fishing.WorldMap
@@ -13,27 +12,15 @@ namespace Fishing.WorldMap
     {
         [SerializeField] private GameObject confirmationWindow;
         [SerializeField] private Text travelText;
-        //[SerializeField] private MenuNavigation mapNavi;
         private string potentialSceneName;
 
-        //private Controls _controls;
-
-        private void Awake()
-        {
-            //_controls = new Controls();
-        }
-
-        public void ShowConfirmationWindow(string _potentialSceneName)
-        {
+        public void ShowConfirmationWindow(string _potentialSceneName) {
             potentialSceneName = _potentialSceneName;
-            travelText.text = "Travel to " + potentialSceneName + "?";
-            //mapNavi.enabled = false;
+            travelText.text = $"Travel to {potentialSceneName}?";
             confirmationWindow.SetActive(true);
         }
-        public void HideConfirmationWindow()
-        {
+        public void HideConfirmationWindow() {
             confirmationWindow.SetActive(false);
-            //mapNavi.enabled = true;
         }
 
         public void Travel() => SceneManager.LoadScene(potentialSceneName);

@@ -131,7 +131,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4555489}
-  - component: {fileID: 4555490}
   m_Layer: 5
   m_Name: Main Menu
   m_TagString: Untagged
@@ -163,18 +162,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &4555490
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4555488}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8768fa652cf5b954a9c1d6d37342c78a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &13765395
 GameObject:
   m_ObjectHideFlags: 0
@@ -651,7 +638,6 @@ GameObject:
   m_Component:
   - component: {fileID: 135824418}
   - component: {fileID: 135824419}
-  - component: {fileID: 135824420}
   m_Layer: 5
   m_Name: New Game Menu
   m_TagString: Untagged
@@ -695,18 +681,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nameInput: {fileID: 502867052}
---- !u!114 &135824420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 135824417}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8768fa652cf5b954a9c1d6d37342c78a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &145340770
 GameObject:
   m_ObjectHideFlags: 0
@@ -966,7 +940,6 @@ GameObject:
   - component: {fileID: 195827289}
   - component: {fileID: 195827288}
   - component: {fileID: 195827290}
-  - component: {fileID: 195827287}
   m_Layer: 5
   m_Name: Binding
   m_TagString: Untagged
@@ -995,19 +968,6 @@ RectTransform:
   m_AnchoredPosition: {x: 399.5, y: -50}
   m_SizeDelta: {x: 799, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &195827287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 195827285}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a8e08ca3bf3b694ebac5fe39144ff7a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  actionName: Select
 --- !u!114 &195827288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1090,7 +1050,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 195827287}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: Fishing.IO.ControlRemap, Assembly-CSharp
         m_MethodName: StartRemap
         m_Mode: 1
@@ -2630,7 +2590,6 @@ GameObject:
   m_Component:
   - component: {fileID: 485725011}
   - component: {fileID: 485725012}
-  - component: {fileID: 485725013}
   m_Layer: 5
   m_Name: Continue Menu
   m_TagString: Untagged
@@ -2677,18 +2636,6 @@ MonoBehaviour:
   slotDetails: {fileID: 551903221}
   loadButton: {fileID: 1379518334}
   noSavesText: {fileID: 1672405564}
---- !u!114 &485725013
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 485725010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8768fa652cf5b954a9c1d6d37342c78a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &499268651
 GameObject:
   m_ObjectHideFlags: 0
@@ -3648,7 +3595,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 617703835}
-  - component: {fileID: 617703836}
   m_Layer: 5
   m_Name: Keybinds
   m_TagString: Untagged
@@ -3684,18 +3630,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &617703836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 617703834}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8768fa652cf5b954a9c1d6d37342c78a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &623093883
 GameObject:
   m_ObjectHideFlags: 0
@@ -3952,7 +3886,6 @@ GameObject:
   m_Component:
   - component: {fileID: 661728668}
   - component: {fileID: 661728669}
-  - component: {fileID: 661728670}
   m_Layer: 5
   m_Name: Load Menu
   m_TagString: Untagged
@@ -3996,23 +3929,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   saveFileListingPrefab: {fileID: 393120557549966864, guid: 767864bdf7d529141b248783801a87b9, type: 3}
-  contentParent: {fileID: 1328481861}
+  saveFileListings: {fileID: 1864945445}
   loadButton: {fileID: 517747688}
   deleteButton: {fileID: 370741233}
   slotDetails: {fileID: 779795171}
   selectedSlotIndex: 0
---- !u!114 &661728670
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 661728667}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8768fa652cf5b954a9c1d6d37342c78a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &692614372
 GameObject:
   m_ObjectHideFlags: 0
@@ -7756,7 +7677,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1326670447}
-  - component: {fileID: 1326670448}
   m_Layer: 5
   m_Name: Quit Menu
   m_TagString: Untagged
@@ -7786,18 +7706,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1326670448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1326670446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8768fa652cf5b954a9c1d6d37342c78a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1327812757
 GameObject:
   m_ObjectHideFlags: 0
@@ -11847,7 +11755,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2062499826}
-  - component: {fileID: 2062499827}
   m_Layer: 5
   m_Name: Settings
   m_TagString: Untagged
@@ -11879,18 +11786,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0.000030517578}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2062499827
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2062499825}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8768fa652cf5b954a9c1d6d37342c78a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2089144330
 GameObject:
   m_ObjectHideFlags: 0
@@ -12272,6 +12167,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6404902397406429037, guid: 25a37ef0581f81b42991f9408dfebd4a, type: 3}
+      propertyPath: baitSaveData.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6404902397406429037, guid: 25a37ef0581f81b42991f9408dfebd4a, type: 3}
       propertyPath: equippedGear.Array.size
       value: 5
       objectReference: {fileID: 0}
@@ -12286,6 +12185,18 @@ PrefabInstance:
     - target: {fileID: 6404902397406429037, guid: 25a37ef0581f81b42991f9408dfebd4a, type: 3}
       propertyPath: equippedLines.Array.size
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6404902397406429037, guid: 25a37ef0581f81b42991f9408dfebd4a, type: 3}
+      propertyPath: recordSaveData.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6404902397406429037, guid: 25a37ef0581f81b42991f9408dfebd4a, type: 3}
+      propertyPath: bucketItemSaveData.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6404902397406429037, guid: 25a37ef0581f81b42991f9408dfebd4a, type: 3}
+      propertyPath: fishingRodSaveData.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6404902397406429039, guid: 25a37ef0581f81b42991f9408dfebd4a, type: 3}
       propertyPath: m_RootOrder

@@ -16,22 +16,28 @@ namespace Fishing.UI
 
         private ContinueMenu() => instance = this;
 
-        public void LoadContinueSlotDetails()
-        {
+        public void LoadContinueSlotDetails() {
             SaveManager.LoadSaveSlots();
-            if (SaveManager.saveFiles.Count == 0)
-            {
-                slotDetails.gameObject.SetActive(false);
-                noSavesText.SetActive(true);
-                loadButton.interactable = false;
+            if (SaveManager.saveFiles.Count == 0) {
+                DisplayNoSaves();
             }
-            else
-            {
-                slotDetails.gameObject.SetActive(true);
-                noSavesText.SetActive(false);
-                loadButton.interactable = true;
-                slotDetails.UpdateInfo(SaveManager.saveFiles[0].name, SaveManager.saveFiles[0].money, SaveManager.saveFiles[0].dateTime, SaveManager.saveFiles[0].playtime, SaveManager.saveFiles[0].fishTypesCaught);
+            else {
+                DisplaySave();
             }
+        }
+
+        private void DisplayNoSaves() {
+            slotDetails.gameObject.SetActive(false);
+            noSavesText.SetActive(true);
+            loadButton.interactable = false;
+        }
+
+        private void DisplaySave() {
+            slotDetails.gameObject.SetActive(true);
+            noSavesText.SetActive(false);
+            loadButton.interactable = true;
+
+            slotDetails.UpdateInfo(SaveManager.saveFiles[0]);
         }
     }
 }

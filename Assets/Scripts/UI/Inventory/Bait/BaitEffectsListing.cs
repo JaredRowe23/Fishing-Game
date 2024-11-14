@@ -10,13 +10,19 @@ namespace Fishing.UI
         [SerializeField] private Text effectName;
         [SerializeField] private Image effectSprite;
 
+        public void DisableListing() {
+            effectName.text = "";
+            effectSprite.sprite = null;
+            gameObject.SetActive(false);
+        }
+
         public void UpdateEffect(string _effectName, Sprite _effectSprite)
         {
-            if (_effectName == "")
-            {
-                effectName.text = "";
-                effectSprite.sprite = null;
+            if (string.IsNullOrEmpty(_effectName) || _effectSprite == null) {
+                DisableListing();
+                return;
             }
+            gameObject.SetActive(true);
             effectName.text = _effectName;
             effectSprite.sprite = _effectSprite;
         }

@@ -12,19 +12,16 @@ namespace Fishing.UI
         [SerializeField] private Text saveTimeDateText;
         private int saveIndex;
 
-        public void SetInfo(string _saveName, string _saveDate, int _saveIndex)
-        {
+        public void SetInfo(string _saveName, string _saveDate, int _saveIndex) {
             saveNameText.text = _saveName;
             saveTimeDateText.text = _saveDate;
             saveIndex = _saveIndex;
         }
 
-        public void ShowData()
-        {
+        public void ShowData() {
             LoadMenu.instance.slotDetails.gameObject.SetActive(true);
-            LoadMenu.instance.slotDetails.UpdateInfo(SaveManager.saveFiles[saveIndex].name, SaveManager.saveFiles[saveIndex].money, SaveManager.saveFiles[saveIndex].dateTime, SaveManager.saveFiles[saveIndex].playtime, SaveManager.saveFiles[saveIndex].fishTypesCaught);
+            LoadMenu.instance.slotDetails.UpdateInfo(SaveManager.saveFiles[saveIndex]);
             LoadMenu.instance.selectedSlotIndex = saveIndex;
-            LoadMenu.instance.EnableDetailButtons();
         }
     }
 }

@@ -11,23 +11,20 @@ namespace Fishing.UI
         private bool hasLifetime;
         private float lifetime;
 
-        private void Update()
-        {
+        private void Update() {
             if (!hasLifetime) return;
             lifetime -= Time.deltaTime * (1 / Time.timeScale);
             if (lifetime > 0f) return;
             DestroyTutorial();
         }
 
-        public void InitializeTutorial(string _tutorialText, bool _hasLifetime, float _lifetime)
-        {
+        public void InitializeTutorial(string _tutorialText, bool _hasLifetime, float _lifetime) {
             tutorialText.text = _tutorialText;
             hasLifetime = _hasLifetime;
             lifetime = _lifetime;
         }
 
-        public void DestroyTutorial()
-        {
+        public void DestroyTutorial() {
             TutorialSystem.instance.tutorialQueue.Dequeue();
             Destroy(gameObject);
         }

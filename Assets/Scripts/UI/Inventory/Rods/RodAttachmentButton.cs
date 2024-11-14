@@ -7,7 +7,7 @@ namespace Fishing.UI
 {
     public class RodAttachmentButton : MonoBehaviour
     {
-        [SerializeField] private ScrollRect scrollView;
+        [SerializeField] private ScrollRect scrollRect;
         [SerializeField] private Text baitName;
         [SerializeField] private Image baitSprite;
 
@@ -17,8 +17,20 @@ namespace Fishing.UI
             baitSprite.sprite = _sprite;
         }
 
-        public void ToggleScrollView() => scrollView.gameObject.SetActive(!scrollView.gameObject.activeSelf);
-        public void SetScrollView(bool _setActive) => scrollView.gameObject.SetActive(_setActive);
+        public void ToggleScrollRect() {
+            if (scrollRect.gameObject.activeSelf) {
+                HideScrollRect();
+            }
+            else {
+                ShowScrollRect();
+            }
+        }
+        public void ShowScrollRect() {
+            scrollRect.gameObject.SetActive(true);
+        }
+        public void HideScrollRect() {
+            scrollRect.gameObject.SetActive(false);
+        }
     }
 
 }

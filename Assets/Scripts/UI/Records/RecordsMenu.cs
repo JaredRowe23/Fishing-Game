@@ -23,52 +23,62 @@ namespace Fishing.UI
 
         public void ToggleRecordsMenu()
         {
-            gameObject.SetActive(!gameObject.activeSelf);
-            if (gameObject.activeSelf) UpdateRecords();
-            else recordInfoPanel.SetActive(false);
+            if (gameObject.activeSelf) {
+                HideRecordsMenu();
+            }
+            else {
+                ShowRecordsMenu();
+            }
+        }
 
-            UIManager.instance.bucketMenuButton.gameObject.SetActive(!gameObject.activeSelf);
-            UIManager.instance.inventoryMenuButton.SetActive(!gameObject.activeSelf);
-            UIManager.instance.recordMenuButton.gameObject.SetActive(!gameObject.activeSelf);
-
+        private void ShowRecordsMenu() {
+            gameObject.SetActive(true);
+            UIManager.instance.HideHUDButtons();
             UIManager.instance.mouseOverUI = null;
+            UpdateRecords();
+        }
+        private void HideRecordsMenu() {
+            gameObject.SetActive(false);
+            UIManager.instance.mouseOverUI = null;
+            UIManager.instance.ShowHUDButtons();
+            recordInfoPanel.SetActive(false);
         }
 
         private void UpdateRecords()
         {
-            foreach (RecordsListing _listing in listings)
-            {
-                _listing.UpdateListing("", 0, 0f, 0f);
-                for (int i = 0; i < PlayerData.instance.recordSaveData.Count; i++)
-                {
-                    if (PlayerData.instance.recordSaveData[i].itemName != _listing.GetFishableName()) continue;
+            for (int i = 0; i < listings.Count; i++) {
+                listings[i].ResetListing();
+                for (int j = 0; j < PlayerData.instance.recordSaveData.Count; j++) {
+                    RecordSaveData _recordSaveData = PlayerData.instance.recordSaveData[j];
+                    if (_recordSaveData.itemName != listings[i].FishableName) continue;
+                    if (_recordSaveData.amountCaught == 0) continue;
 
-                    _listing.UpdateListing(PlayerData.instance.recordSaveData[i].itemName, PlayerData.instance.recordSaveData[i].amountCaught, PlayerData.instance.recordSaveData[i].lengthRecord, PlayerData.instance.recordSaveData[i].weightRecord);
+                    listings[i].UpdateListing(_recordSaveData);
                     break;
                 }
             }
         }
 
-        public void ShowRecordInfoPanel(string _name, int _catchAmount, float _length, float _weight, Sprite _sprite)
+        public void ShowRecordInfoPanel(RecordSaveData _recordData, Sprite _sprite)
         {
             recordInfoPanel.SetActive(true);
 
             recordInfoImage.sprite = _sprite;
 
-            if (_name == "")
+            if (_recordData.amountCaught == 0)
             {
                 recordInfoName.text = "???";
                 recordCatchAmount.text = "0";
-                recordInfoLength.text = "Catch this fish to track \n your record length";
-                recordInfoWeight.text = "Catch this fish to track \n your record weight";
+                recordInfoLength.text = "Catch this fish to track your record length.";
+                recordInfoWeight.text = "Catch this fish to track your record weight.";
                 recordInfoImage.color = Color.black;
             }
             else
             {
-                recordInfoName.text = _name;
-                recordCatchAmount.text = "Caught: " + _catchAmount.ToString();
-                recordInfoLength.text = "Length Record: \n" + _length.ToString() + "cm";
-                recordInfoWeight.text = "Weight Record: \n" + _weight.ToString() + "kg";
+                recordInfoName.text = _recordData.itemName;
+                recordCatchAmount.text = $"Caught: {_recordData.amountCaught}";
+                recordInfoLength.text = $"Length Record: \n{_recordData.lengthRecord}cm";
+                recordInfoWeight.text = $"Weight Record: \n{_recordData.weightRecord}kg";
                 recordInfoImage.color = Color.white;
             }
         }

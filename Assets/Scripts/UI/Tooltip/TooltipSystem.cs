@@ -9,14 +9,12 @@ namespace Fishing.UI
     {
         [SerializeField] private GameObject tooltipPrefab;
 
-        public GameObject content;
+        public ScrollRect tooltipListings;
 
         public static TooltipSystem instance;
 
-        private void Awake()
-        {
-            if (instance != null)
-            {
+        private void Awake() {
+            if (instance != null) {
                 Destroy(gameObject);
                 return;
             }
@@ -25,9 +23,8 @@ namespace Fishing.UI
             DontDestroyOnLoad(gameObject);
         }
 
-        public void NewTooltip(float _lifetime, string _tooltipText)
-        {
-            ToolTip _newToolTip = Instantiate(tooltipPrefab, content.transform).GetComponent<ToolTip>();
+        public void NewTooltip(float _lifetime, string _tooltipText) {
+            ToolTip _newToolTip = Instantiate(tooltipPrefab, tooltipListings.content.transform).GetComponent<ToolTip>();
 
             _newToolTip.InitializeToolTip(_lifetime, _tooltipText);
         }
