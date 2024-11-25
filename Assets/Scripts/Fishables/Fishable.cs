@@ -4,6 +4,7 @@ using UnityEngine;
 using Fishing.FishingMechanics;
 using Fishing.Fishables.Fish;
 using Fishing.Util;
+using System;
 
 namespace Fishing.Fishables
 {
@@ -41,6 +42,22 @@ namespace Fishing.Fishables
 
         public bool isHooked;
 
+        private int[] _gridSquare;
+        public int[] GridSquare { get => _gridSquare; set { _gridSquare = value; } }
+        private int _range = 1;
+        public int Range { get => _range; private set { _range = value; } }
+        private List<Fishable> _fishWithinRange;
+        public List<Fishable> FishWithinRange {
+            get {
+                _fishWithinRange.RemoveAll(item => item == null); // TODO: Remove after source of null references is resolved
+                return _fishWithinRange;
+            }
+            private set {
+                value.RemoveAll(item => item == null);
+                _fishWithinRange = value; 
+            } 
+        }
+
         private RodManager rodManager;
 
         private void Awake() => rodManager = RodManager.instance;
@@ -48,14 +65,22 @@ namespace Fishing.Fishables
         private void Start()
         {
             isHooked = false;
+            GridSquare = new int[] { 0, 0 };
+            FishWithinRange = new List<Fishable>();
             SetWeightAndLength();
             AdjustValueAndDifficulty();
         }
 
+        private void Update() {
+            FishableGrid.instance.RemoveFromGridSquares(this);
+            FishableGrid.instance.SortFishableIntoGridSquare(this);
+            FishWithinRange = FishableGrid.instance.GetFishablesWithinRange(GridSquare[0], GridSquare[1], Range);
+        }
+
         private void SetWeightAndLength()
         {
-            weight = Mathf.Round(Random.Range(weightMin, weightMax) * 100f) / 100f;
-            length = Mathf.Round(Random.Range(lengthMin, lengthMax) * 100f) / 100f;
+            weight = Mathf.Round(UnityEngine.Random.Range(weightMin, weightMax) * 100f) / 100f;
+            length = Mathf.Round(UnityEngine.Random.Range(lengthMin, lengthMax) * 100f) / 100f;
             transform.localScale = Utilities.SetGlobalScale(transform, length / 100f);
         }
 
@@ -124,5 +149,15 @@ namespace Fishing.Fishables
         public float GetMinigameRestTime() => minigameRestTime;
         public float GetMinigameRestTimeVariance() => minigameRestTimeVariance;
 
+        private void OnDrawGizmosSelected() {
+            Gizmos.color = Color.cyan;
+            for (int i = 0; i < FishWithinRange.Count; i++) {
+                Gizmos.DrawLine(transform.position, FishWithinRange[i].transform.position);
+            }
+        }
+
+        private void OnDestroy() {
+            FishableGrid.instance.RemoveFromGridSquares(GetComponent<Fishable>());
+        }
     }
 }
