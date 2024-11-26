@@ -102,25 +102,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10928d4e47012d4cb92bf3ed5f54ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Boot
-  itemDescription: Someone must've lost this to the mud while taking a dip
-  baseValue: 1
-  minigameStrength: 5
-  minigameMoveDistance: 100
-  minigameMoveDistanceVariance: 50
-  minigameMoveTime: 5
-  minigameMoveTimeVariance: 1
-  minigameSwimSpeed: 0
-  minigameSwimTime: 10
-  minigameSwimTimeVariance: 1
-  minigameRestTime: 5
-  minigameRestTimeVariance: 1
-  weightMax: 1
-  weightMin: 1
-  lengthMax: 30
-  lengthMin: 25
-  minimapIndicator: {fileID: 5875787623742116828}
-  isHooked: 0
+  _itemName: Boot
+  _itemDescription: Someone must've lost this while taking a dip.
+  _baseValue: 2.5
+  _weightMax: 1
+  _weightMin: 1
+  _lengthMax: 0.25
+  _lengthMin: 0.25
+  _minimapIndicator: {fileID: 0}
 --- !u!114 &211761124399546874
 MonoBehaviour:
   m_ObjectHideFlags: 0

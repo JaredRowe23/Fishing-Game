@@ -370,6 +370,7 @@ GameObject:
   - component: {fileID: -6890081191903633112}
   - component: {fileID: 7472043319420965868}
   - component: {fileID: 2937739648500301840}
+  - component: {fileID: 2749402187859673463}
   m_Layer: 0
   m_Name: Anglerfish
   m_TagString: Hookable Object
@@ -408,26 +409,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10928d4e47012d4cb92bf3ed5f54ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Anglerfish
-  itemDescription: It has a sort of lantern dangling from it's head, lighting up
-    the nearby area with a form of bioluminescence.
-  baseValue: 150
-  minigameStrength: 15
-  minigameMoveDistance: 750
-  minigameMoveDistanceVariance: 250
-  minigameMoveTime: 3
-  minigameMoveTimeVariance: 1
-  minigameSwimSpeed: 2
-  minigameSwimTime: 10
-  minigameSwimTimeVariance: 1
-  minigameRestTime: 5
-  minigameRestTimeVariance: 1
-  weightMax: 50
-  weightMin: 30
-  lengthMax: 100
-  lengthMin: 50
-  minimapIndicator: {fileID: 2737784646829355076}
-  isHooked: 0
+  _itemName: Anglerfish
+  _itemDescription: These fish evolved bioluminescence to survive in deep dark waters
+  _baseValue: 100
+  _weightMax: 10
+  _weightMin: 5
+  _lengthMax: 0.75
+  _lengthMin: 0.5
+  _minimapIndicator: {fileID: 0}
 --- !u!114 &8640827718760218480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -701,3 +690,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   optimizationDistance: 75
+--- !u!114 &2749402187859673463
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8313649653780738666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 556b0a1ee4938b34f91f3aae4a66dfb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _minigameStrength: 0
+  _minigameMoveDistance: 0
+  _minigameMoveDistanceVariance: 0
+  _minigameMoveTime: 0
+  _minigameMoveTimeVariance: 0
+  _minigameSwimSpeed: 0
+  _minigameSwimTime: 0
+  _minigameSwimTimeVariance: 0
+  _minigameRestTime: 0
+  _minigameRestTimeVariance: 0

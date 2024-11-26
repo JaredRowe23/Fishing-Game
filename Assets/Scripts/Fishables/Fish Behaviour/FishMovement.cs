@@ -46,7 +46,7 @@ namespace Fishing.Fishables.Fish
 
         private void Update()
         {
-            if (GetComponent<Fishable>().isHooked) return;
+            if (GetComponent<Fishable>().IsHooked) return;
 
             DecideMovementDirection();
             Move();
@@ -128,7 +128,7 @@ namespace Fishing.Fishables.Fish
 
         private void OnDrawGizmosSelected()
         {
-            if (!GetComponent<Fishable>().isHooked)
+            if (!GetComponent<Fishable>().IsHooked)
             {
                 Gizmos.color = Color.cyan;
                 Gizmos.DrawWireSphere(spawn.transform.position, maxHomeDistance);

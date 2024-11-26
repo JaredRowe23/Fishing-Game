@@ -81,19 +81,20 @@ namespace Fishing.FishingMechanics.Minigame
         private void SetFishStats(Fishable _fish)
         {
             fish = _fish;
+            MinigameStats stats = fish.GetComponent<MinigameStats>();
 
             canSwim = fish.GetComponent<IMovement>() != null;
-            fishStrength = fish.GetMinigameStrength();
-            fishDifficulty = fish.GetMinigameDifficulty();
-            fishMoveTime = fish.GetMinigameMoveTime();
-            fishMoveTimeVariance = fish.GetMinigameMoveTimeVariance();
-            fishMoveDistance = fish.GetMinigameMoveDistance();
-            fishMoveDistanceVariance = fish.GetMinigameMoveDistanceVariance();
-            fishSwimSpeed = fish.GetMinigameSwimSpeed();
-            fishSwimTime = fish.GetMinigameSwimTime();
-            fishSwimTimeVariance = fish.GetMinigameSwimTimeVariance();
-            fishRestTime = fish.GetMinigameRestTime();
-            fishRestTimeVariance = fish.GetMinigameRestTimeVariance();
+            fishStrength = stats.MinigameStrength;
+            fishDifficulty = stats.MinigameDifficulty;
+            fishMoveTime = stats.MinigameMoveTime;
+            fishMoveTimeVariance = stats.MinigameMoveTimeVariance;
+            fishMoveDistance = stats.MinigameMoveDistance;
+            fishMoveDistanceVariance = stats.MinigameMoveDistanceVariance;
+            fishSwimSpeed = stats.MinigameSwimSpeed;
+            fishSwimTime = stats.MinigameSwimTime;
+            fishSwimTimeVariance = stats.MinigameSwimTimeVariance;
+            fishRestTime = stats.MinigameRestTime;
+            fishRestTimeVariance = stats.MinigameRestTimeVariance;
         }
 
         private void SetNewFishPosition()
@@ -139,7 +140,7 @@ namespace Fishing.FishingMechanics.Minigame
             Vector2 _dir = Vector3.Normalize(fish.transform.position - rodManager.equippedRod.GetLinePivotPoint().position);
             float _rotationAngle = Vector2.Angle(Vector2.up, _dir);
             fish.transform.rotation = Quaternion.Euler(0, 0, _rotationAngle);
-            rodManager.equippedRod.GetHook().transform.position += (Vector3)_dir * fishSwimSpeed * Time.deltaTime;
+            rodManager.equippedRod.GetHook().transform.position += fishSwimSpeed * Time.deltaTime * (Vector3)_dir;
         }
 
         public float GetFishStrength() => fishStrength;

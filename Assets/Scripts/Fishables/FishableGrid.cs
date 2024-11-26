@@ -230,7 +230,7 @@ namespace Fishing.Fishables
                     for (int i = 0; i < gridSquare.GridFishables.Count; i++) {
                         Vector2 fishablePosition = gridSquare.GridFishables[i].transform.position;
                         Vector2 gridSquarePosition = new Vector2(_gridSquareSize * x + GridSquareHalfSize, -GridHeight + (_gridSquareSize * y) + GridSquareHalfSize);
-                        gridSquarePosition = gridSquarePosition + (Vector2)transform.position;
+                        gridSquarePosition += (Vector2)transform.position;
 
                         Gizmos.DrawLine(fishablePosition, gridSquarePosition);
                         Gizmos.DrawSphere(gridSquarePosition, _gridSquareSize * 0.025f);

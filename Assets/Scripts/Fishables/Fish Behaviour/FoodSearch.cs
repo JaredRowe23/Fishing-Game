@@ -39,7 +39,7 @@ namespace Fishing.Fishables.Fish
         }
 
         private void FixedUpdate() {
-            if (_fishable.isHooked) return;
+            if (_fishable.IsHooked) return;
             DetermineDesiredFood();
             if (DesiredFood == null) return;
             if (Vector2.Distance(transform.position, DesiredFood.transform.position) >= (transform.localScale.x * 0.5f) + (DesiredFood.transform.localScale.x * 0.5f)) return;
@@ -62,12 +62,12 @@ namespace Fishing.Fishables.Fish
             }
 
             if (DesiredFood.TryGetComponent<Fishable>(out Fishable hookedFishable)) {
-                if (hookedFishable.isHooked) {
+                if (hookedFishable.IsHooked) {
                     _fishable.SetThisToHooked();
                     return;
                 }
             }
-            if (DesiredFood.TryGetComponent<BaitBehaviour>(out BaitBehaviour bait)) {
+            if (DesiredFood.TryGetComponent<BaitBehaviour>(out _)) {
                 _fishable.SetThisToHooked();
                 return;
             }
@@ -80,7 +80,7 @@ namespace Fishing.Fishables.Fish
                 if (edible == _edible) {
                     continue;
                 }
-                if (edible.GetComponent<Fishable>().isHooked) {
+                if (edible.GetComponent<Fishable>().IsHooked) {
                     continue;
                 }
                 if (edible.transform.position.y >= 0) {

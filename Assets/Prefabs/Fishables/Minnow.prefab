@@ -139,25 +139,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10928d4e47012d4cb92bf3ed5f54ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Minnow
-  itemDescription: These guys don't like to be alone
-  baseValue: 10
-  minigameStrength: 15
-  minigameMoveDistance: 750
-  minigameMoveDistanceVariance: 250
-  minigameMoveTime: 3
-  minigameMoveTimeVariance: 1
-  minigameSwimSpeed: 2
-  minigameSwimTime: 10
-  minigameSwimTimeVariance: 1
-  minigameRestTime: 5
-  minigameRestTimeVariance: 1
-  weightMax: 30
-  weightMin: 20
-  lengthMax: 40
-  lengthMin: 20
-  minimapIndicator: {fileID: 7054204082299250615}
-  isHooked: 0
+  _itemName: Minnow
+  _itemDescription: Just a lil guy.
+  _baseValue: 15
+  _weightMax: 0.25
+  _weightMin: 0.75
+  _lengthMax: 0.25
+  _lengthMin: 0.1
+  _minimapIndicator: {fileID: 0}
 --- !u!114 &8547438444008429820
 MonoBehaviour:
   m_ObjectHideFlags: 0

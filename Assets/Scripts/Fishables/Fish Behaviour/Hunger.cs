@@ -14,13 +14,11 @@ namespace Fishing.Fishables.Fish
         [HideInInspector] public float currentFood;
 
         private Fishable fishable;
-        private FoodSearch foodSearch;
         private IEdible edible;
 
         private void Awake()
         {
             fishable = GetComponent<Fishable>();
-            foodSearch = GetComponent<FoodSearch>();
             edible = GetComponent<IEdible>();
         }
 
@@ -31,7 +29,7 @@ namespace Fishing.Fishables.Fish
 
         void Update()
         {
-            if (fishable.isHooked) return;
+            if (fishable.IsHooked) return;
 
             currentFood -= Time.deltaTime * decayRate;
             if (currentFood <= 0) Starve();
@@ -56,8 +54,8 @@ namespace Fishing.Fishables.Fish
         public void AddFood(GameObject _food)
         {
             Fishable _foodFishable = _food.GetComponent<Fishable>();
-            float _lengthScalar = Mathf.InverseLerp(_foodFishable.GetMinLength(), _foodFishable.GetMaxLength(), _foodFishable.GetLength());
-            float _weightScalar = Mathf.InverseLerp(_foodFishable.GetMinWeight(), _foodFishable.GetMaxWeight(), _foodFishable.GetWeight());
+            float _lengthScalar = Mathf.InverseLerp(_foodFishable.LengthMin, _foodFishable.LengthMax, _foodFishable.Length);
+            float _weightScalar = Mathf.InverseLerp(_foodFishable.WeightMin, _foodFishable.WeightMax, _foodFishable.Weight);
             if (_lengthScalar == 0) _lengthScalar = 0.5f;
             if (_weightScalar == 0) _weightScalar = 0.5f;
             currentFood += _food.GetComponent<Edible>().baseFoodAmount * (_lengthScalar * 2) * (_weightScalar * 2);

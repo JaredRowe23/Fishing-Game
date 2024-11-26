@@ -26,7 +26,7 @@ namespace Fishing.Fishables.Fish
 
         void Update()
         {
-            if (fishable.isHooked) return;
+            if (fishable.IsHooked) return;
             HandleGrowth();
         }
 
@@ -42,9 +42,8 @@ namespace Fishing.Fishables.Fish
 
         private void Grow()
         {
-            fishable.SetLength(Mathf.Lerp(fishable.GetLength(), fishable.GetMaxLength(), 0.5f + Random.Range(-growthVariance, growthVariance)));
-            fishable.SetWeight(Mathf.Lerp(fishable.GetWeight(), fishable.GetMaxWeight(), 0.5f + Random.Range(-growthVariance, growthVariance)));
-            fishable.AdjustValueAndDifficulty();
+            fishable.Length = Mathf.Lerp(fishable.Length, fishable.LengthMax, 0.5f + Random.Range(-growthVariance, growthVariance));
+            fishable.Weight = Mathf.Lerp(fishable.Weight, fishable.WeightMax, 0.5f + Random.Range(-growthVariance, growthVariance));
             hunger.currentFood -= growthFoodCost;
         }
     }

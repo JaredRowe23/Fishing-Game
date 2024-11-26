@@ -83,9 +83,9 @@ namespace Fishing.Gear
             foreach (RaycastHit2D _hit in _hits)
             {
                 if (!_hit.collider.gameObject.GetComponent<Fishable>()) continue;
-                if (_hit.collider.gameObject.GetComponent<Fishable>().GetName() != fishDropdown.options[fishDropdown.value].text) continue;
+                if (_hit.collider.gameObject.GetComponent<Fishable>().ItemName != fishDropdown.options[fishDropdown.value].text) continue;
 
-                _hit.collider.gameObject.GetComponent<Fishable>().minimapIndicator.GetComponent<RadarScanObject>().Scan();
+                _hit.collider.gameObject.GetComponent<Fishable>().MinimapIndicator.GetComponent<RadarScanObject>().Scan();
             }
         }
 

@@ -238,25 +238,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10928d4e47012d4cb92bf3ed5f54ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Salmon
-  itemDescription: Swimming upstream every year makes these delicious fish very strong.
-  baseValue: 75
-  minigameStrength: 40
-  minigameMoveDistance: 800
-  minigameMoveDistanceVariance: 400
-  minigameMoveTime: 2.5
-  minigameMoveTimeVariance: 1.5
-  minigameSwimSpeed: 3
-  minigameSwimTime: 15
-  minigameSwimTimeVariance: 2.5
-  minigameRestTime: 10
-  minigameRestTimeVariance: 1
-  weightMax: 13.5
-  weightMin: 5
-  lengthMax: 180
-  lengthMin: 50
-  minimapIndicator: {fileID: 2737784646829355076}
-  isHooked: 0
+  _itemName: Salmon
+  _itemDescription: Many cultures love the meat coming off of these guys.
+  _baseValue: 75
+  _weightMax: 15
+  _weightMin: 10
+  _lengthMax: 1.5
+  _lengthMin: 1
+  _minimapIndicator: {fileID: 0}
 --- !u!114 &-5582888590848471281
 MonoBehaviour:
   m_ObjectHideFlags: 0

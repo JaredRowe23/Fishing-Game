@@ -10,7 +10,7 @@ namespace Fishing.Inventory
 {
     public class BucketBehaviour : MonoBehaviour
     {
-        [SerializeField] public List<BucketItemSaveData> bucketList = new List<BucketItemSaveData>();
+        public List<BucketItemSaveData> bucketList;
         public int maxItems;
 
         private PlayerData playerData;
@@ -31,7 +31,7 @@ namespace Fishing.Inventory
         {
             AudioManager.instance.PlaySound("Catch Fish");
 
-            BucketItemSaveData _bucketItemData = new BucketItemSaveData(_item.GetName(), _item.GetDescription(), _item.GetWeight(), _item.GetLength(), _item.GetValue());
+            BucketItemSaveData _bucketItemData = new BucketItemSaveData(_item.ItemName, _item.ItemDescription, _item.Weight, _item.Length, _item.Value);
 
             if (bucketList.Count >= maxItems)
             {

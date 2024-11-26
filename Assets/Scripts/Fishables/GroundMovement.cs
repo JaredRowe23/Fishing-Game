@@ -34,7 +34,7 @@ namespace Fishing.Fishables.Fish
 
         void Update()
         {
-            if (GetComponent<Fishable>().isHooked) return;
+            if (GetComponent<Fishable>().IsHooked) return;
 
             DetermineMovementDirection();
             Move();

@@ -20,7 +20,6 @@ namespace Fishing.Fishables
         [SerializeField] private float groundedDespawnTime = 10f;
 
         private Fishable fishableItem;
-        private Edible edible;
         private CameraBehaviour cam;
         private SpawnZone spawn;
         private PolygonCollider2D[] floorColliders;
@@ -31,7 +30,6 @@ namespace Fishing.Fishables
 
         private void Awake()
         {
-            edible = GetComponent<Edible>();
             fishableItem = GetComponent<Fishable>();
             cam = CameraBehaviour.instance;
             spawn = transform.parent.GetComponent<SpawnZone>();
@@ -48,7 +46,7 @@ namespace Fishing.Fishables
 
         private void Update()
         {
-            if (fishableItem.isHooked) return;
+            if (fishableItem.IsHooked) return;
 
             if (!isGrounded)
             {

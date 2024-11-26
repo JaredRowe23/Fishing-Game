@@ -102,25 +102,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10928d4e47012d4cb92bf3ed5f54ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Tin Can
-  itemDescription: Just a rust tube with nothing in it
-  baseValue: 0.5
-  minigameStrength: 5
-  minigameMoveDistance: 50
-  minigameMoveDistanceVariance: 0
-  minigameMoveTime: 5
-  minigameMoveTimeVariance: 1
-  minigameSwimSpeed: 0
-  minigameSwimTime: 10
-  minigameSwimTimeVariance: 1
-  minigameRestTime: 5
-  minigameRestTimeVariance: 1
-  weightMax: 1
-  weightMin: 1
-  lengthMax: 25
-  lengthMin: 20
-  minimapIndicator: {fileID: 5875787623742116828}
-  isHooked: 0
+  _itemName: Tin Can
+  _itemDescription: Scraps from someone's meal.
+  _baseValue: 1
+  _weightMax: 0.25
+  _weightMin: 0.25
+  _lengthMax: 0.1
+  _lengthMin: 0.1
+  _minimapIndicator: {fileID: 0}
 --- !u!114 &211761124399546874
 MonoBehaviour:
   m_ObjectHideFlags: 0

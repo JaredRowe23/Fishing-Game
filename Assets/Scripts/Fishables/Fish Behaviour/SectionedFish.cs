@@ -56,7 +56,7 @@ namespace Fishing.Fishables.Fish
             {
                 sections[i].transform.position = sections[i - 1].transform.position + (previousFrameSectionPositions[i] - sections[i - 1].transform.position).normalized * sectionSpacing;
                 sections[i].transform.rotation = Quaternion.Euler(0f, 0f, Vector2.SignedAngle(Vector2.up, (Vector2)sections[i - 1].transform.position - (Vector2)sections[i].transform.position));
-                if (!fishable.isHooked)
+                if (!fishable.IsHooked)
                 {
                     sections[i].transform.localScale = Utilities.SetGlobalScale(sections[i].transform, transform.localScale.x * sectionScale);
                 }

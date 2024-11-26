@@ -205,25 +205,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10928d4e47012d4cb92bf3ed5f54ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Crab
-  itemDescription: CrabRave.exe
-  baseValue: 40
-  minigameStrength: 10
-  minigameMoveDistance: 250
-  minigameMoveDistanceVariance: 50
-  minigameMoveTime: 2
-  minigameMoveTimeVariance: 0.5
-  minigameSwimSpeed: 1
-  minigameSwimTime: 2.5
-  minigameSwimTimeVariance: 0.5
-  minigameRestTime: 2.5
-  minigameRestTimeVariance: 0.5
-  weightMax: 5
-  weightMin: 2
-  lengthMax: 100
-  lengthMin: 40
-  minimapIndicator: {fileID: 421450750147793265}
-  isHooked: 0
+  _itemName: Crab
+  _itemDescription: CrabRave.mp4
+  _baseValue: 30
+  _weightMax: 2
+  _weightMin: 1
+  _lengthMax: 0.5
+  _lengthMin: 0.2
+  _minimapIndicator: {fileID: 0}
 --- !u!114 &7790340061797397940
 MonoBehaviour:
   m_ObjectHideFlags: 0

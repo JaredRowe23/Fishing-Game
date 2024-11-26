@@ -77,8 +77,8 @@ namespace Fishing.FishingMechanics.Minigame
         private void PopulateUIText()
         {
             lineStrengthText.text = "Line STR - " + equippedRod.scriptable.lineStrength.ToString();
-            fishNameText.text = fish.GetName();
-            fishStrengthText.text = "Diff - x" + fish.GetMinigameDifficulty().ToString("F2");
+            fishNameText.text = fish.ItemName;
+            fishStrengthText.text = "Diff - x" + fish.GetComponent<MinigameStats>().MinigameDifficulty.ToString("F2");
         }
 
         private void SetInputs()

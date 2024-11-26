@@ -238,25 +238,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10928d4e47012d4cb92bf3ed5f54ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemName: Carp
-  itemDescription: Just your normal basic fish guy here
-  baseValue: 50
-  minigameStrength: 25
-  minigameMoveDistance: 500
-  minigameMoveDistanceVariance: 100
-  minigameMoveTime: 5
-  minigameMoveTimeVariance: 1
-  minigameSwimSpeed: 2.5
-  minigameSwimTime: 7.5
-  minigameSwimTimeVariance: 2.5
-  minigameRestTime: 7.5
-  minigameRestTimeVariance: 2.5
-  weightMax: 14
-  weightMin: 2
-  lengthMax: 80
-  lengthMin: 40
-  minimapIndicator: {fileID: 2737784646829355076}
-  isHooked: 0
+  _itemName: Carp
+  _itemDescription: Oddly enough, these love trash. Truely the dumpsters of the ocean.
+  _baseValue: 50
+  _weightMax: 2
+  _weightMin: 1.5
+  _lengthMax: 1
+  _lengthMin: 0.75
+  _minimapIndicator: {fileID: 0}
 --- !u!114 &-5582888590848471281
 MonoBehaviour:
   m_ObjectHideFlags: 0
