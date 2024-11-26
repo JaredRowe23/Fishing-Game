@@ -20,15 +20,25 @@ namespace Fishing.Fishables
         private List<Fishable> _gridFishables;
         public List<Fishable> GridFishables { 
             get {
-                _gridFishables.RemoveAll(item => item == null); // TODO: Remove after source of null references is resolved
+                //_gridFishables.RemoveAll(item => item == null); // TODO: Remove after source of null references is resolved
                 return _gridFishables; 
             } 
             private set { } }
+
+        private List<Edible> _gridEdibles;
+        public List<Edible> GridEdibles {
+            get {
+                //_gridEdibles.RemoveAll(item => item == null);
+                return _gridEdibles;
+            }
+            set { }
+        }
 
 		public GridSquare(int _xPos, int _yPos) {
             _gridX = _xPos;
             _gridY = _yPos;
             _gridFishables = new List<Fishable>();
+            _gridEdibles = new List<Edible>();
 		}
 	}
 }

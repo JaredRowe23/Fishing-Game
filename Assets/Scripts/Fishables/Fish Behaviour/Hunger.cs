@@ -16,7 +16,6 @@ namespace Fishing.Fishables.Fish
         private Fishable fishable;
         private FoodSearch foodSearch;
         private IEdible edible;
-        private FoodSearchManager foodSearchManager;
 
         private void Awake()
         {
@@ -27,7 +26,6 @@ namespace Fishing.Fishables.Fish
 
         void Start()
         {
-            foodSearchManager = FoodSearchManager.instance;
             currentFood = foodStart + Random.Range(-foodStartVariance, foodStartVariance);
         }
 
@@ -47,11 +45,12 @@ namespace Fishing.Fishables.Fish
 
         private void HandleHunger()
         {
-            if (currentFood <= hungerStart)
-            {
-                if (!foodSearchManager.fish.Contains(foodSearch)) foodSearchManager.AddFish(foodSearch);
+            if (currentFood <= hungerStart) {
+                // TODO: Start searching
             }
-            else if (foodSearchManager.fish.Contains(foodSearch)) foodSearchManager.RemoveFish(foodSearch);
+            else {
+                // TODO: Stop searching
+            }
         }
 
         public void AddFood(GameObject _food)

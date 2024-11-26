@@ -11,12 +11,13 @@ namespace Fishing.Fishables
         [SerializeField, Min(1)] private int _columns = 16;
         [SerializeField, Min(1)] private int _rows = 16;
         [SerializeField, Min(0.1f)] private float _gridSquareSize = 1f;
+        public float GridSquareSize { get => _gridSquareSize; private set { } }
         private float GridWidth => _columns * _gridSquareSize;
         private float GridHeight => _rows * _gridSquareSize;
         private float GridSquareHalfSize => _gridSquareSize * 0.5f;
 
-        [Header("Grid Data")]
-        [SerializeField] private GridSquare[][] _gridSquares;
+        private GridSquare[][] _gridSquares;
+        public GridSquare[][] GridSquares { get => _gridSquares; private set { } }
 
         [Header("Gizmos")]
         [SerializeField] private Color _gridColor;
@@ -37,6 +38,14 @@ namespace Fishing.Fishables
             GenerateGridSquares();
         }
 
+        private void FixedUpdate() {
+            for (int x = 0; x < _columns; x++) {
+                for (int y = 0; y < _rows; y++) {
+                    AssessGridSquareOutOfBoundsFish(_gridSquares[x][y]);
+                }
+            }
+        }
+
         private void GenerateGridSquares() {
             _gridSquares = new GridSquare[_columns][];
             for (int x = 0; x < _columns; x++) {
@@ -48,19 +57,30 @@ namespace Fishing.Fishables
             }
         }
 
-        public void SortFishableIntoGridSquare(Fishable _fishable) {
-            int[] _gridCoord = Vector2ToGrid(_fishable.transform.position);
-            _gridSquares[_gridCoord[0]][_gridCoord[1]].GridFishables.Add(_fishable);
-            _fishable.GridSquare = _gridCoord;
+        public void SortFishableIntoGridSquare(Fishable fishable) {
+            int[] gridCoord = Vector2ToGrid(fishable.transform.position);
+            GridSquare gridSquare = _gridSquares[gridCoord[0]][gridCoord[1]];
+            gridSquare.GridFishables.Add(fishable);
+            if (fishable.TryGetComponent(out Edible edible)) {
+                gridSquare.GridEdibles.Add(edible);
+            }
+            fishable.GridSquare = gridCoord;
         }
-
-        public void RemoveFromGridSquares(Fishable _fishable) {
+        // TODO: Return after removing first instance, as there should only ever be one instance in the whole grid
+        public void RemoveFromGridSquares(Fishable fishable) {
             for (int x = 0; x < _columns; x++) {
                 for (int y = 0; y < _rows; y++) {
-                    if (!_gridSquares[x][y].GridFishables.Contains(_fishable)) {
+                    if (!_gridSquares[x][y].GridFishables.Contains(fishable)) {
                         continue;
                     }
-                    _gridSquares[x][y].GridFishables.Remove(_fishable);
+                    _gridSquares[x][y].GridFishables.Remove(fishable);
+
+                    if (fishable.TryGetComponent(out Edible edible)) {
+                        if (!_gridSquares[x][y].GridEdibles.Contains(edible)) {
+                            continue;
+                        }
+                        _gridSquares[x][y].GridEdibles.Remove(edible);
+                    }
                 }
             }
         }
@@ -81,10 +101,10 @@ namespace Fishing.Fishables
             return grid;
         }
 
-        public List<Fishable> GetFishablesWithinRange(int originSquareX, int originSquareY, int range) {
+        public List<Fishable> GetNearbyFishables(int originSquareX, int originSquareY, int range) {
             Debug.Assert(originSquareX >= 0 && originSquareY >= 0, $"Attempting to get fishables form outside of grid ({originSquareX},{originSquareY})");
 
-            List<Fishable> _foundFishables = new List<Fishable>();
+            List<Fishable> fishables = new List<Fishable>();
             for (int x = originSquareX - range; x <= originSquareX + range; x++) {
                 if (x >= _gridSquares.Length || x < 0) {
                     continue;
@@ -96,12 +116,83 @@ namespace Fishing.Fishables
                     }
 
                     for (int i = 0; i < _gridSquares[x][y].GridFishables.Count; i++) {
-                        _foundFishables.Add(_gridSquares[x][y].GridFishables[i]);
+                        fishables.Add(_gridSquares[x][y].GridFishables[i]);
+                    }
+                }
+            }
+            return fishables;
+        }
+
+        public List<Edible> GetNearbyEdibles(int originSquareX, int originSquareY, int range) {
+            Debug.Assert(originSquareX >= 0 && originSquareY >= 0, $"Attempting to get fishables form outside of grid ({originSquareX},{originSquareY})");
+
+            List<Edible> edible = new List<Edible>();
+            for (int x = originSquareX - range; x <= originSquareX + range; x++) {
+                if (x >= _gridSquares.Length || x < 0) {
+                    continue;
+                }
+
+                for (int y = originSquareY - range; y <= originSquareY + range; y++) {
+                    if (y >= _gridSquares[x].Length || y < 0) {
+                        continue;
+                    }
+
+                    for (int i = 0; i < _gridSquares[x][y].GridFishables.Count; i++) {
+                        edible.Add(_gridSquares[x][y].GridEdibles[i]);
+                    }
+                }
+            }
+            return edible;
+        }
+
+        /*public IList<T> GetComponentsWithinNearbyFishables<T>(int originSquareX, int originSquareY, int range) {
+            Debug.Assert(originSquareX >= 0 && originSquareY >= 0, $"Attempting to get fishables form outside of grid ({originSquareX},{originSquareY})");
+
+            List<T> _foundComponents = new List<T>();
+            for (int x = originSquareX - range; x <= originSquareX + range; x++) {
+                if (x >= _gridSquares.Length || x < 0) {
+                    continue;
+                }
+
+                for (int y = originSquareY - range; y <= originSquareY + range; y++) {
+                    if (y >= _gridSquares[x].Length || y < 0) {
+                        continue;
+                    }
+
+                    for (int i = 0; i < _gridSquares[x][y].GridFishables.Count; i++) {
+                        if (_gridSquares[x][y].GridFishables[i].TryGetComponent<T>(out T component)) {
+                            _foundComponents.Add(_gridSquares[x][y].GridFishables[i].GetComponent<T>());
+                        }
                     }
                 }
             }
 
-            return _foundFishables;
+            return _foundComponents;
+        }*/
+
+        private void AssessGridSquareOutOfBoundsFish(GridSquare gridSquare) {
+            if (gridSquare.GridFishables.Count == 0) {
+                return;
+            }
+
+            float xMin = transform.position.x + (GridSquareSize * gridSquare.GridX);
+            float xMax = transform.position.x + (GridSquareSize * gridSquare.GridX) + GridSquareSize;
+            float yMin = (transform.position.y - GridHeight) + (GridSquareSize * gridSquare.GridY);
+            float yMax = (transform.position.y - GridHeight) + (GridSquareSize * gridSquare.GridY) + GridSquareSize;
+
+            List<Fishable> fishablesList = new List<Fishable>(gridSquare.GridFishables);
+            foreach (Fishable fishable in fishablesList) {
+                Vector2 fishablePos = fishable.transform.position;
+                if (fishablePos.x >= xMin && fishablePos.x <= xMax && fishablePos.y >= yMin && fishablePos.y <= yMax) {
+                    continue;
+                }
+
+                gridSquare.GridFishables.Remove(fishable);
+                if (fishable.TryGetComponent(out Edible edible)) {
+                    gridSquare.GridEdibles.Remove(edible);
+                }
+                SortFishableIntoGridSquare(fishable);
+            }
         }
 
         private void OnDrawGizmosSelected() {

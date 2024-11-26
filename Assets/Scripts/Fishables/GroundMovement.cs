@@ -94,7 +94,6 @@ namespace Fishing.Fishables.Fish
 
         public void Despawn()
         {
-            FoodSearchManager.instance.RemoveFish(GetComponent<FoodSearch>());
             BaitManager.instance.RemoveFish(GetComponent<FoodSearch>());
             GetComponent<Edible>().Despawn();
         }

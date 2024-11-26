@@ -249,7 +249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseFoodAmount: 5
-  foodType: 9
+  _foodType: 4096
 --- !u!114 &1952756216818593957
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,7 +10,7 @@ using Fishing.Inventory;
 
 namespace Fishing.FishingMechanics
 {
-    [RequireComponent(typeof(RodScriptable))]
+    //[RequireComponent(typeof(RodScriptable))]
     public class RodBehaviour : MonoBehaviour
     {
         public Sprite inventorySprite;

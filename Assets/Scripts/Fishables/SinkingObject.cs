@@ -97,7 +97,6 @@ namespace Fishing.Fishables
         public void Despawn()
         {
             spawn.spawnList.Remove(gameObject);
-            FoodSearchManager.instance.RemoveFood(edible);
             DestroyImmediate(gameObject);
         }
     }

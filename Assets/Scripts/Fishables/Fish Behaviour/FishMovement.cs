@@ -54,7 +54,7 @@ namespace Fishing.Fishables.Fish
 
             if (!activePredator) return;
             if (!activePredator.GetComponent<FoodSearch>()) return;
-            if (activePredator.GetComponent<FoodSearch>().desiredFood == null) activePredator = null;
+            if (activePredator.GetComponent<FoodSearch>().DesiredFood == null) activePredator = null;
         }
 
         private void DecideMovementDirection()
@@ -75,9 +75,9 @@ namespace Fishing.Fishables.Fish
                 CalculateTurnDirection();
             }
 
-            else if (foodSearch.desiredFood != null)
+            else if (foodSearch.DesiredFood != null)
             {
-                targetPos = foodSearch.desiredFood.transform.position;
+                targetPos = foodSearch.DesiredFood.transform.position;
                 CalculateTurnDirection();
             }
 

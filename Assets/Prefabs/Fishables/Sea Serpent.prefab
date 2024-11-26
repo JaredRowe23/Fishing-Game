@@ -356,7 +356,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseFoodAmount: 750
-  foodType: 11
+  _foodType: 512
 --- !u!114 &7006070457836360306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -369,14 +369,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d187c2bd7d8fc4f9e701b32517bcd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eatDistance: 4
-  sightAngle: 30
-  sightDistance: 75
-  sightDensity: 10
-  smellRadius: 15
-  chaseDistance: 10
-  desiredFoodTypes: 010000000300000004000000080000000a0000000b000000
-  desiredFood: {fileID: 0}
+  _eatDistance: 0.5
+  _sightAngle: 30
+  _sightDistance: 50
+  _smellRadius: 10
+  _desiredFoodTypes: 353
 --- !u!114 &711715533592342275
 MonoBehaviour:
   m_ObjectHideFlags: 0

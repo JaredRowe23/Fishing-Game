@@ -46,15 +46,13 @@ namespace Fishing.Fishables
         public int[] GridSquare { get => _gridSquare; set { _gridSquare = value; } }
         private int _range = 1;
         public int Range { get => _range; private set { _range = value; } }
-        private List<Fishable> _fishWithinRange;
-        public List<Fishable> FishWithinRange {
+        private List<Fishable> _fishablesWithinRange;
+        public List<Fishable> FishablesWithinRange {
             get {
-                _fishWithinRange.RemoveAll(item => item == null); // TODO: Remove after source of null references is resolved
-                return _fishWithinRange;
+                return _fishablesWithinRange;
             }
             private set {
-                value.RemoveAll(item => item == null);
-                _fishWithinRange = value; 
+                _fishablesWithinRange = value; 
             } 
         }
 
@@ -66,15 +64,14 @@ namespace Fishing.Fishables
         {
             isHooked = false;
             GridSquare = new int[] { 0, 0 };
-            FishWithinRange = new List<Fishable>();
+            FishablesWithinRange = new List<Fishable>();
             SetWeightAndLength();
             AdjustValueAndDifficulty();
+            FishableGrid.instance.SortFishableIntoGridSquare(this);
         }
 
-        private void Update() {
-            FishableGrid.instance.RemoveFromGridSquares(this);
-            FishableGrid.instance.SortFishableIntoGridSquare(this);
-            FishWithinRange = FishableGrid.instance.GetFishablesWithinRange(GridSquare[0], GridSquare[1], Range);
+        private void FixedUpdate() {
+            FishablesWithinRange = FishableGrid.instance.GetNearbyFishables(GridSquare[0], GridSquare[1], Range);
         }
 
         private void SetWeightAndLength()
@@ -98,7 +95,6 @@ namespace Fishing.Fishables
         public void OnHooked(Transform _hook)
         {
             isHooked = true;
-            FoodSearchManager.instance.RemoveFood(GetComponent<Edible>());
             if (transform.parent.GetComponent<SpawnZone>()) transform.parent.GetComponent<SpawnZone>().spawnList.Remove(gameObject);
             else if (transform.parent.GetComponent<PlantStalk>()) transform.parent.GetComponent<PlantStalk>().RemoveFruit(gameObject);
             transform.parent = _hook;
@@ -106,7 +102,7 @@ namespace Fishing.Fishables
         public void SetThisToHooked()
         {
             GetComponent<AudioSource>().Play();
-            if (GetComponent<FoodSearch>()) GetComponent<FoodSearch>().desiredFood.GetComponent<IEdible>().Despawn();
+            if (GetComponent<FoodSearch>()) GetComponent<FoodSearch>().DesiredFood.GetComponent<IEdible>().Despawn();
             rodManager.equippedRod.GetHook().hookedObject = null;
             rodManager.equippedRod.GetHook().SetHook(this);
         }
@@ -151,8 +147,8 @@ namespace Fishing.Fishables
 
         private void OnDrawGizmosSelected() {
             Gizmos.color = Color.cyan;
-            for (int i = 0; i < FishWithinRange.Count; i++) {
-                Gizmos.DrawLine(transform.position, FishWithinRange[i].transform.position);
+            for (int i = 0; i < FishablesWithinRange.Count; i++) {
+                Gizmos.DrawLine(transform.position, FishablesWithinRange[i].transform.position);
             }
         }
 

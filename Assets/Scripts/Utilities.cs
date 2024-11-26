@@ -119,7 +119,12 @@ namespace Fishing.Util
 
             return _closestPoint;
         }
-
+        public static bool IsWithinAngleOfDirection(Vector2 sourcePosition, Vector2 targetPosition, Vector2 direction, float angle) {
+            float _dot = Vector2.Dot(direction, Vector3.Normalize(targetPosition - sourcePosition));
+            float _angle = Mathf.Acos(_dot) * 180 * 0.3183098861928886f;
+            if (_angle < angle) return true;
+            return false;
+        }
     }
 
     public struct ClosestPointInfo

@@ -24,8 +24,6 @@ namespace Fishing.Fishables
         }
         public void Despawn()
         {
-            FoodSearchManager.instance.RemoveFish(GetComponent<FoodSearch>());
-            FoodSearchManager.instance.RemoveFood(GetComponent<Edible>());
             BaitManager.instance.RemoveFish(GetComponent<FoodSearch>());
             DestroyImmediate(gameObject);
         }
@@ -36,9 +34,9 @@ namespace Fishing.Fishables
 
             FoodSearch colSearch = collision.GetComponent<FoodSearch>();
 
-            if (!colSearch.DesiredTypesToInts().Contains(GetComponent<Edible>().GetFoodType())) return;
+            if (!colSearch.DesiredFoodTypes.HasFlag(GetComponent<Edible>().FoodType)) return;
 
-            colSearch.desiredFood = gameObject;
+            colSearch.DesiredFood = gameObject;
         }
 
         public BaitScriptable GetScriptable() => scriptable;

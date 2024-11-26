@@ -428,9 +428,6 @@ MonoBehaviour:
   lengthMin: 50
   minimapIndicator: {fileID: 2737784646829355076}
   isHooked: 0
-  gridSquare: 
-  range: 1
-  fishWithinRange: []
 --- !u!114 &8640827718760218480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -460,7 +457,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseFoodAmount: 30
-  foodType: 10
+  _foodType: 1
 --- !u!114 &7006070457836360306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -468,19 +465,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8313649653780738666}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b1d187c2bd7d8fc4f9e701b32517bcd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eatDistance: 0.4
-  sightAngle: 45
-  sightDistance: 15
-  sightDensity: 10
-  smellRadius: 2.5
-  chaseDistance: 10
-  desiredFoodTypes: 01000000030000000400000008000000
-  desiredFood: {fileID: 0}
+  _eatDistance: 0.5
+  _sightAngle: 30
+  _sightDistance: 10
+  _smellRadius: 2.5
+  _desiredFoodTypes: 4608
 --- !u!114 &7142783276189959130
 MonoBehaviour:
   m_ObjectHideFlags: 0

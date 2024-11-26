@@ -13,7 +13,6 @@ namespace Fishing.Fishables
 
         private Fishable fishable;
         private FoodSearch foodSearch;
-        private FoodSearchManager foodManager;
         private Edible edible;
         private FishMovement fishMovement;
         private GroundMovement groundMovement;
@@ -39,7 +38,6 @@ namespace Fishing.Fishables
 
         void Start()
         {
-            foodManager = FoodSearchManager.instance;
             cam = CameraBehaviour.instance;
         }
 
@@ -59,8 +57,6 @@ namespace Fishing.Fishables
         {
             if (foodSearch)
             {
-                foodManager.RemoveFish(foodSearch);
-                foodManager.RemoveFood(edible);
                 hunger.enabled = false;
                 growth.enabled = false;
             }
@@ -69,7 +65,7 @@ namespace Fishing.Fishables
                 fishMovement.enabled = false;
                 if (fishMovement.activePredator != null)
                 {
-                    fishMovement.activePredator.GetComponent<FoodSearch>().desiredFood = null;
+                    fishMovement.activePredator.GetComponent<FoodSearch>().DesiredFood = null;
                     fishMovement.activePredator = null;
                 }
                 if (movement is MonoBehaviour mono)
@@ -93,8 +89,6 @@ namespace Fishing.Fishables
             {
                 hunger.enabled = true;
                 growth.enabled = true;
-                if (!foodManager.fish.Contains(foodSearch)) foodManager.AddFish(foodSearch);
-                if (!foodManager.edibleItems.Contains(edible)) foodManager.AddFood(edible);
             }
             if (fishMovement)
             {

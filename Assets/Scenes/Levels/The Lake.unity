@@ -5659,7 +5659,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2084702444}
-  - component: {fileID: 2084702445}
   m_Layer: 0
   m_Name: Spawn Zones
   m_TagString: Untagged
@@ -5693,21 +5692,6 @@ Transform:
   - {fileID: 1404601215}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2084702445
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2084702443}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6e3f0577e0c4df44a972369fd9c0155, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fish: []
-  edibleItems: []
-  innerloopBatchCount: 64
 --- !u!1 &2117075683
 GameObject:
   m_ObjectHideFlags: 0

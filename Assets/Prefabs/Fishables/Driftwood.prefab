@@ -155,7 +155,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseFoodAmount: 1
-  foodType: 7
+  _foodType: 16
 --- !u!61 &4266904595221770158
 BoxCollider2D:
   m_ObjectHideFlags: 0

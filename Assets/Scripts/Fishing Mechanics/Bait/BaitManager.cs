@@ -43,7 +43,7 @@ namespace Fishing.FishingMechanics
             {
                 if (_baitDataArray[i].isBaited)
                 {
-                    fish[i].desiredFood = bait.gameObject;
+                    fish[i].DesiredFood = bait.gameObject;
                     continue;
                 }
             }

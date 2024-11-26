@@ -101,7 +101,6 @@ namespace Fishing.FishingMechanics
         public void Despawn()
         {
             DespawnHookedObject();
-            FoodSearchManager.instance.RemoveFood(GetComponent<Edible>());
         }
 
         private void OnSubmerged()
