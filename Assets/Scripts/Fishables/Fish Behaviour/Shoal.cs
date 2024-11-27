@@ -9,84 +9,125 @@ namespace Fishing.Fishables.Fish
     [RequireComponent(typeof(FishMovement))]
     public class Shoal : MonoBehaviour, IMovement, IEdible
     {
+        [SerializeField] private float _separationDirWeight = 1f;
+        public float SeparationDirWeight { get => _separationDirWeight; set => _separationDirWeight = value; }
 
-        public float separationDirWeight = 1f;
-        public float cohesionDirWeight = 1f;
-        public float alignmentDirWeight = 1f;
+        [SerializeField] private float _cohesionDirWeight = 1f;
+        public float CohesionDirWeight { get => _cohesionDirWeight; set => _cohesionDirWeight = value; }
 
-        [HideInInspector] [Range(-1, 1)] public float separationDir = 0;
-        [HideInInspector] [Range(-1, 1)] public float cohesionDir = 0;
+        [SerializeField] private float _alignmentDirWeight = 1f;
+        public float AlignmentDirWeight { get => _alignmentDirWeight; set => _alignmentDirWeight = value; }
 
-        [HideInInspector] [Range(-1, 1)] public float alignmentDir = 0;
+        [Range(-1, 1)] private float _separationDir = 0;
+        public float SeparationDir { get => _separationDir; set => _separationDir = value; }
 
-        private SpawnZone spawn;
+        [Range(-1, 1)] private float _cohesionDir = 0;
+        public float CohesionDir { get => _cohesionDir; set => _cohesionDir = value; }
 
-        private FishMovement movement;
-        private FishSchoolBehaviour school;
-        private FishSchoolManager manager;
+        [Range(-1, 1)] private float _alignmentDir = 0;
+        public float AlignmentDir { get => _alignmentDir; set => _alignmentDir = value; }
+
+        private SpawnZone _spawn;
+
+        private FishMovement _movement;
+        private FishSchoolBehaviour _school;
+
 
         private void Awake()
         {
-            movement = GetComponent<FishMovement>();
-            spawn = transform.parent.GetComponent<SpawnZone>();
-            school = spawn.GetComponent<FishSchoolBehaviour>();
-            manager = spawn.GetComponent<FishSchoolManager>();
+            _movement = GetComponent<FishMovement>();
+            _spawn = transform.parent.GetComponent<SpawnZone>();
+            _school = _spawn.GetComponent<FishSchoolBehaviour>();
 
-            school.fish.Add(GetComponent<Fishable>());
-            manager.AddShoal(this);
+            _school.Shoals.Add(this);
         }
 
         public void Movement()
         {
-            movement.targetPos = spawn.testObject.transform.position;
+            CalculateAvoidance();
+            _movement.targetPos = _spawn.testObject.transform.position;
 
-            float _angleToTargetPos = Vector2.SignedAngle(Vector3.up, movement.targetPos - (Vector2)transform.position);
+            float _angleToTargetPos = Vector2.SignedAngle(Vector3.up, _movement.targetPos - (Vector2)transform.position);
             float _targetPosAngleDelta = Mathf.DeltaAngle(transform.rotation.eulerAngles.z, _angleToTargetPos);
-            movement.targetPosDir = Utilities.DirectionFromTransformToTarget(transform, movement.targetPos);
+            _movement.targetPosDir = Utilities.DirectionFromTransformToTarget(transform, _movement.targetPos);
 
-            float _angleToSchoolCenter = Vector2.SignedAngle(Vector3.up, school.schoolCenter - (Vector2)transform.position);
+            float _angleToSchoolCenter = Vector2.SignedAngle(Vector3.up, _school.SchoolCenter - (Vector2)transform.position);
             float _schoolCenterAngleDelta = Mathf.DeltaAngle(transform.rotation.eulerAngles.z, _angleToSchoolCenter);
-            cohesionDir = Utilities.DirectionFromTransformToTarget(transform, school.schoolCenter);
+            CohesionDir = Utilities.DirectionFromTransformToTarget(transform, _school.SchoolCenter);
 
-            float _alignmentAngleDelta = Mathf.DeltaAngle(transform.rotation.eulerAngles.z, school.averageAngle);
-            alignmentDir = _alignmentAngleDelta == 0 ? 0 : (_alignmentAngleDelta > 0 ? 1 : -1);
+            float _alignmentAngleDelta = Mathf.DeltaAngle(transform.rotation.eulerAngles.z, _school.AverageAngle);
+            AlignmentDir = _alignmentAngleDelta == 0 ? 0 : (_alignmentAngleDelta > 0 ? 1 : -1);
 
-            alignmentDir = WeighDirection(alignmentDir, _alignmentAngleDelta);
-            movement.targetPosDir = WeighDirection(movement.targetPosDir, _targetPosAngleDelta) * Mathf.InverseLerp(0, movement.GetMaxHomeDistance(), Mathf.Clamp(Vector3.Distance(transform.position, movement.targetPos), 0, movement.GetMaxHomeDistance()));
-            cohesionDir = WeighDirection(cohesionDir, _schoolCenterAngleDelta) * Mathf.InverseLerp(0, movement.GetMaxHomeDistance(), Mathf.Clamp(Vector3.Distance(transform.position, school.schoolCenter), 0, movement.GetMaxHomeDistance()));
-            float _calculatedDir = (alignmentDir * alignmentDirWeight + cohesionDir * cohesionDirWeight + separationDir * separationDirWeight + movement.targetPosDir * movement.targetPosDirWeight) / 4f;
+            AlignmentDir = WeighDirection(AlignmentDir, _alignmentAngleDelta);
+            _movement.targetPosDir = WeighDirection(_movement.targetPosDir, _targetPosAngleDelta) * Mathf.InverseLerp(0, _movement.GetMaxHomeDistance(), Mathf.Clamp(Vector3.Distance(transform.position, _movement.targetPos), 0, _movement.GetMaxHomeDistance()));
+            CohesionDir = WeighDirection(CohesionDir, _schoolCenterAngleDelta) * Mathf.InverseLerp(0, _movement.GetMaxHomeDistance(), Mathf.Clamp(Vector3.Distance(transform.position, _school.SchoolCenter), 0, _movement.GetMaxHomeDistance()));
+            float _calculatedDir = (AlignmentDir * AlignmentDirWeight + CohesionDir * CohesionDirWeight + SeparationDir * SeparationDirWeight + _movement.targetPosDir * _movement.targetPosDirWeight) / 4f;
 
-            movement.rotationDir = Mathf.Clamp(_calculatedDir, -1, 1);
+            _movement.rotationDir = Mathf.Clamp(_calculatedDir, -1, 1);
         }
 
         public void Despawn()
         {
             BaitManager.instance.RemoveFish(GetComponent<FoodSearch>());
-            manager.RemoveShoal(this);
-            school.fish.Remove(GetComponent<Fishable>());
+            _school.Shoals.Remove(this);
             GetComponent<Edible>().Despawn();
+        }
+
+        private void CalculateAvoidance() {
+            Shoal closestShoal = null;
+            float closestShoalDistance = 0;
+            float angleToShoal = 0;
+
+            foreach (Shoal shoal in _school.Shoals) {
+                if (shoal == this) {
+                    continue;
+                }
+
+                float shoalDistance = Vector2.Distance(transform.position, shoal.transform.position);
+                if (shoalDistance > _school.SeparationMaxDistance) {
+                    continue;
+                }
+
+                angleToShoal = Vector2.SignedAngle(transform.up, transform.position - shoal.transform.position);
+                if (Mathf.Abs(angleToShoal) > _school.SeparationAngle && shoalDistance > _school.SeparationMaxCloseDistance) {
+                    continue;
+                }
+
+                if (closestShoal == null) {
+                    closestShoal = shoal;
+                    closestShoalDistance = shoalDistance;
+                    continue;
+                }
+
+                if (closestShoalDistance < shoalDistance) {
+                    continue;
+                }
+
+                closestShoal = shoal;
+                closestShoalDistance = shoalDistance;
+            }
+
+            float desiredAngle = angleToShoal <= 0 ? -1 : 1;
+            desiredAngle *= 1 - Mathf.InverseLerp(0, _school.SeparationMaxDistance, Mathf.Clamp(closestShoalDistance, 0, _school.SeparationMaxDistance));
+            SeparationDir = desiredAngle == 0 ? 0 : desiredAngle;
         }
 
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawRay(transform.position, new Vector3(Mathf.Sin((school.averageAngle) * Mathf.Deg2Rad), Mathf.Cos((school.averageAngle) * Mathf.Deg2Rad), 0f));
+            Gizmos.DrawRay(transform.position, Quaternion.Euler(0f, 0f, _school.AverageAngle) * Vector3.up);
 
             Gizmos.color = Color.black;
-            Gizmos.DrawRay(transform.position, school.schoolCenter - (Vector2)transform.position);
+            Gizmos.DrawRay(transform.position, _school.SchoolCenter - (Vector2)transform.position);
 
             Gizmos.color = Color.yellow;
-            Gizmos.DrawRay(transform.position, Quaternion.Euler(0f, 0f, school.separationAngle) * -transform.right * school.separationMaxDistance);
-            Gizmos.DrawRay(transform.position, Quaternion.Euler(0f, 0f, -school.separationAngle) * -transform.right * school.separationMaxDistance);
+            Gizmos.DrawRay(transform.position, Quaternion.Euler(0f, 0f, _school.SeparationAngle) * transform.up * _school.SeparationMaxDistance);
+            Gizmos.DrawRay(transform.position, Quaternion.Euler(0f, 0f, -_school.SeparationAngle) * transform.up * _school.SeparationMaxDistance);
 
             Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, school.separationMaxCloseDistance);
+            Gizmos.DrawWireSphere(transform.position, _school.SeparationMaxCloseDistance);
         }
-        private float SignedToUnsignedAngle(float _angle)
-        {
-            if (_angle < 0) _angle += 360f;
-            return _angle % 360;
-        }
+
         private float WeighDirection(float _dir, float _angle)
         {
             Vector3 _angleVector = new Vector3(Mathf.Cos((_angle - 90f) * Mathf.Deg2Rad), Mathf.Sin(-(_angle - 90f) * Mathf.Deg2Rad), 0f);

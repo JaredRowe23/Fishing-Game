@@ -65,14 +65,11 @@ namespace Fishing.Fishables
         private bool _isHooked;
         public bool IsHooked { get => _isHooked; set => _isHooked = value; }
 
-        private int[] _gridSquare;
+        private int[] _gridSquare = {0, 0};
         public int[] GridSquare { get => _gridSquare; set { _gridSquare = value; } }
 
         private int _range = 1;
         public int Range { get => _range; private set { _range = value; } }
-
-        private List<Fishable> _fishablesWithinRange;
-        public List<Fishable> FishablesWithinRange { get => _fishablesWithinRange; private set { _fishablesWithinRange = value; } }
 
         private RodManager _rodManager;
 
@@ -80,14 +77,8 @@ namespace Fishing.Fishables
 
         private void Start() {
             IsHooked = false;
-            GridSquare = new int[] { 0, 0 };
-            FishablesWithinRange = new List<Fishable>();
             SetWeightAndLength();
             FishableGrid.instance.SortFishableIntoGridSquare(this);
-        }
-
-        private void FixedUpdate() {
-            FishablesWithinRange = FishableGrid.instance.GetNearbyFishables(GridSquare[0], GridSquare[1], Range);
         }
 
         private void SetWeightAndLength() {
@@ -116,13 +107,6 @@ namespace Fishing.Fishables
         private void OnTriggerEnter2D(Collider2D _other) {
             if (!_other.GetComponent<HookBehaviour>()) return;
             _other.GetComponent<HookBehaviour>().SetHook(this);
-        }
-
-        private void OnDrawGizmosSelected() {
-            Gizmos.color = Color.cyan;
-            for (int i = 0; i < FishablesWithinRange.Count; i++) {
-                Gizmos.DrawLine(transform.position, FishablesWithinRange[i].transform.position);
-            }
         }
 
         private void OnDestroy() {

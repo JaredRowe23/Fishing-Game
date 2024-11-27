@@ -246,12 +246,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 607f95fe04642b04995280c64558d300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  separationDirWeight: 11
-  cohesionDirWeight: 9
-  alignmentDirWeight: 1
-  separationDir: 0
-  cohesionDir: 0
-  alignmentDir: 0
+  _separationDirWeight: 11
+  _cohesionDirWeight: 9
+  _alignmentDirWeight: 1
 --- !u!82 &7240242511635904219
 AudioSource:
   m_ObjectHideFlags: 0

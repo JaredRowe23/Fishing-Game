@@ -1811,7 +1811,6 @@ GameObject:
   - component: {fileID: 602535914}
   - component: {fileID: 602535915}
   - component: {fileID: 602535917}
-  - component: {fileID: 602535916}
   m_Layer: 0
   m_Name: Minnow Spawn Zone
   m_TagString: Untagged
@@ -1855,20 +1854,6 @@ MonoBehaviour:
   spawnTimeSpacing: 15
   spawnAttempts: 10
   testObject: {fileID: 13079165}
---- !u!114 &602535916
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 602535913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3688a57bb03ab7d4a82dde61863b7417, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shoals: []
-  innerloopBatchCount: 64
 --- !u!114 &602535917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1881,14 +1866,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffeba698911aa0846b25d8c0f7d285a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  separationMaxDistance: 2
-  separationMaxCloseDistance: 0.25
-  separationAngle: 20
-  alignment: 1
-  cohesion: 1
-  fish: []
-  averageAngle: 0
-  schoolCenter: {x: 0, y: 0}
+  _separationMaxDistance: 2
+  _separationMaxCloseDistance: 0.25
+  _separationAngle: 20
+  _shoals: []
+  _averageAngle: 0
+  _schoolCenter: {x: 0, y: 0}
 --- !u!1 &607191311
 GameObject:
   m_ObjectHideFlags: 0
@@ -3862,7 +3845,6 @@ GameObject:
   - component: {fileID: 1348043844}
   - component: {fileID: 1348043847}
   - component: {fileID: 1348043846}
-  - component: {fileID: 1348043845}
   m_Layer: 0
   m_Name: Minnow Spawn Zone (1)
   m_TagString: Untagged
@@ -3886,20 +3868,6 @@ Transform:
   - {fileID: 1952554191}
   m_Father: {fileID: 620436426}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1348043845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1348043843}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3688a57bb03ab7d4a82dde61863b7417, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shoals: []
-  innerloopBatchCount: 64
 --- !u!114 &1348043846
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3912,14 +3880,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffeba698911aa0846b25d8c0f7d285a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  separationMaxDistance: 2
-  separationMaxCloseDistance: 0.25
-  separationAngle: 20
-  alignment: 1
-  cohesion: 1
-  fish: []
-  averageAngle: 0
-  schoolCenter: {x: 0, y: 0}
+  _separationMaxDistance: 2
+  _separationMaxCloseDistance: 0.25
+  _separationAngle: 20
+  _shoals: []
+  _averageAngle: 0
+  _schoolCenter: {x: 0, y: 0}
 --- !u!114 &1348043847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4260,7 +4226,6 @@ GameObject:
   - component: {fileID: 1513562065}
   - component: {fileID: 1513562068}
   - component: {fileID: 1513562067}
-  - component: {fileID: 1513562066}
   m_Layer: 0
   m_Name: Minnow Spawn Zone (3)
   m_TagString: Untagged
@@ -4284,20 +4249,6 @@ Transform:
   - {fileID: 851013381}
   m_Father: {fileID: 620436426}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1513562066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1513562064}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3688a57bb03ab7d4a82dde61863b7417, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shoals: []
-  innerloopBatchCount: 64
 --- !u!114 &1513562067
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4310,14 +4261,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffeba698911aa0846b25d8c0f7d285a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  separationMaxDistance: 2
-  separationMaxCloseDistance: 0.25
-  separationAngle: 20
-  alignment: 1
-  cohesion: 1
-  fish: []
-  averageAngle: 0
-  schoolCenter: {x: 0, y: 0}
+  _separationMaxDistance: 2
+  _separationMaxCloseDistance: 0.25
+  _separationAngle: 20
+  _shoals: []
+  _averageAngle: 0
+  _schoolCenter: {x: 0, y: 0}
 --- !u!114 &1513562068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4749,7 +4698,6 @@ GameObject:
   - component: {fileID: 1772197796}
   - component: {fileID: 1772197799}
   - component: {fileID: 1772197798}
-  - component: {fileID: 1772197797}
   m_Layer: 0
   m_Name: Minnow Spawn Zone (2)
   m_TagString: Untagged
@@ -4773,20 +4721,6 @@ Transform:
   - {fileID: 1032123707}
   m_Father: {fileID: 620436426}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1772197797
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1772197795}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3688a57bb03ab7d4a82dde61863b7417, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shoals: []
-  innerloopBatchCount: 64
 --- !u!114 &1772197798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4799,14 +4733,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffeba698911aa0846b25d8c0f7d285a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  separationMaxDistance: 2
-  separationMaxCloseDistance: 0.25
-  separationAngle: 20
-  alignment: 1
-  cohesion: 1
-  fish: []
-  averageAngle: 0
-  schoolCenter: {x: 0, y: 0}
+  _separationMaxDistance: 2
+  _separationMaxCloseDistance: 0.25
+  _separationAngle: 20
+  _shoals: []
+  _averageAngle: 0
+  _schoolCenter: {x: 0, y: 0}
 --- !u!114 &1772197799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5237,7 +5169,6 @@ GameObject:
   - component: {fileID: 1932495349}
   - component: {fileID: 1932495352}
   - component: {fileID: 1932495351}
-  - component: {fileID: 1932495350}
   m_Layer: 0
   m_Name: Minnow Spawn Zone (4)
   m_TagString: Untagged
@@ -5261,20 +5192,6 @@ Transform:
   - {fileID: 508240235}
   m_Father: {fileID: 620436426}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1932495350
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1932495348}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3688a57bb03ab7d4a82dde61863b7417, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shoals: []
-  innerloopBatchCount: 64
 --- !u!114 &1932495351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5287,14 +5204,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffeba698911aa0846b25d8c0f7d285a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  separationMaxDistance: 2
-  separationMaxCloseDistance: 0.25
-  separationAngle: 20
-  alignment: 1
-  cohesion: 1
-  fish: []
-  averageAngle: 0
-  schoolCenter: {x: 0, y: 0}
+  _separationMaxDistance: 2
+  _separationMaxCloseDistance: 0.25
+  _separationAngle: 20
+  _shoals: []
+  _averageAngle: 0
+  _schoolCenter: {x: 0, y: 0}
 --- !u!114 &1932495352
 MonoBehaviour:
   m_ObjectHideFlags: 0

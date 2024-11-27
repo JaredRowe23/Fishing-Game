@@ -4,52 +4,48 @@ using UnityEngine;
 
 namespace Fishing.Fishables.Fish
 {
-    public class FishSchoolBehaviour : MonoBehaviour
-    {
-        public float separationMaxDistance;
-        public float separationMaxCloseDistance;
-        [Range(0, 90)]
-        public float separationAngle;
-        [Range(0, 1)]
-        public float alignment;
-        [Range(0, 1)]
-        public float cohesion;
+    public class FishSchoolBehaviour : MonoBehaviour {
+        [SerializeField] private float _separationMaxDistance;
+        public float SeparationMaxDistance { get => _separationMaxDistance; private set { } }
 
-        public List<Fishable> fish;
-        public float averageAngle;
-        public Vector2 schoolCenter;
+        [SerializeField] private float _separationMaxCloseDistance;
+        public float SeparationMaxCloseDistance { get => _separationMaxCloseDistance; private set { } }
 
-        private SpawnZone spawnZone;
+        [SerializeField, Range(0, 90)] private float _separationAngle;
+        public float SeparationAngle { get => _separationAngle; private set { } }
+
+        [SerializeField] private List<Shoal> _shoals;
+        public List<Shoal> Shoals { get => _shoals; set => _shoals = value; }
+
+        [SerializeField] private float _averageAngle;
+        public float AverageAngle { get => _averageAngle; private set => _averageAngle = value; }
+
+        [SerializeField] private Vector2 _schoolCenter;
+        public Vector2 SchoolCenter { get => _schoolCenter; private set => _schoolCenter = value; }
 
         public void FixedUpdate()
         {
-            schoolCenter = Vector2.zero;
-            averageAngle = 0f;
-            foreach (Fishable f in fish)
-            {
-                schoolCenter = schoolCenter + (Vector2)f.transform.position;
-            }
-            schoolCenter = schoolCenter / fish.Count;
+            CalculateSchoolCenter();
+            AverageAngle = AverageRotation();
+        }
 
-            averageAngle = AverageRotation();
+        private void CalculateSchoolCenter() {
+            SchoolCenter = Vector2.zero;
+            AverageAngle = 0f;
+            foreach (Shoal shoal in Shoals) {
+                SchoolCenter = SchoolCenter + (Vector2)shoal.transform.position;
+            }
+            SchoolCenter = SchoolCenter / Shoals.Count;
         }
 
         private float AverageRotation()
         {
-            int _count = fish.Count;
-
-            if (fish == null || _count < 1) return 0f;
-
-            if (_count < 2) return (360 - fish[0].transform.rotation.eulerAngles.z + 270) % 360;
-
-            float weight = 1.0f / (float)_count;
-            Vector2 avg = Vector2.zero;
-            for (int i = 0; i < _count; i++)
-            {
-                avg += new Vector2(Mathf.Sin(((360 - fish[i].transform.rotation.eulerAngles.z + 270) % 360) * Mathf.Deg2Rad), Mathf.Cos(((360 - fish[i].transform.rotation.eulerAngles.z + 270) % 360) * Mathf.Deg2Rad));
+            float averageRotation = 0;
+            for (int i = 0; i < Shoals.Count; i++) {
+                averageRotation += Shoals[i].transform.rotation.eulerAngles.z;
             }
-
-            return (360 - (Mathf.Atan2(avg.y, avg.x) * Mathf.Rad2Deg) + 90) % 360;
+            averageRotation /= Shoals.Count;
+            return averageRotation;
         }
     }
 }
