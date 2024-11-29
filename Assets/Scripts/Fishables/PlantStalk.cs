@@ -17,7 +17,7 @@ namespace Fishing.Fishables
 
         private void Awake()
         {
-            playerCam = CameraBehaviour.instance;
+            playerCam = CameraBehaviour.Instance;
         }
 
         private void Start()

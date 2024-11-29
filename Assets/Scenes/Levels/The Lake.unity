@@ -1090,7 +1090,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &263776746
 Transform:
   m_ObjectHideFlags: 0
@@ -1324,7 +1324,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &421997193
 Transform:
   m_ObjectHideFlags: 0
@@ -1817,7 +1817,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &602535914
 Transform:
   m_ObjectHideFlags: 0
@@ -1866,11 +1866,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffeba698911aa0846b25d8c0f7d285a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _separationMaxDistance: 2
-  _separationMaxCloseDistance: 0.25
-  _separationAngle: 20
+  _avoidanceMaxDistance: 0.5
+  _avoidanceMaxCloseDistance: 0.25
+  _avoidanceAngle: 20
   _shoals: []
-  _averageAngle: 0
+  _averageRotation: 0
   _schoolCenter: {x: 0, y: 0}
 --- !u!1 &607191311
 GameObject:
@@ -1887,7 +1887,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &607191312
 Transform:
   m_ObjectHideFlags: 0
@@ -2873,7 +2873,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &955512174
 Transform:
   m_ObjectHideFlags: 0
@@ -2956,7 +2956,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1035771418
 Transform:
   m_ObjectHideFlags: 0
@@ -3040,7 +3040,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1065524026
 Transform:
   m_ObjectHideFlags: 0
@@ -3074,7 +3074,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1085002195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3777,7 +3777,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1340101903
 Transform:
   m_ObjectHideFlags: 0
@@ -3851,7 +3851,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1348043844
 Transform:
   m_ObjectHideFlags: 0
@@ -3880,11 +3880,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffeba698911aa0846b25d8c0f7d285a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _separationMaxDistance: 2
-  _separationMaxCloseDistance: 0.25
-  _separationAngle: 20
+  _avoidanceMaxDistance: 0.5
+  _avoidanceMaxCloseDistance: 0.25
+  _avoidanceAngle: 20
   _shoals: []
-  _averageAngle: 0
+  _averageRotation: 0
   _schoolCenter: {x: 0, y: 0}
 --- !u!114 &1348043847
 MonoBehaviour:
@@ -4113,7 +4113,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1404601215
 Transform:
   m_ObjectHideFlags: 0
@@ -4261,11 +4261,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffeba698911aa0846b25d8c0f7d285a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _separationMaxDistance: 2
-  _separationMaxCloseDistance: 0.25
-  _separationAngle: 20
+  _avoidanceMaxDistance: 0.5
+  _avoidanceMaxCloseDistance: 0.25
+  _avoidanceAngle: 20
   _shoals: []
-  _averageAngle: 0
+  _averageRotation: 0
   _schoolCenter: {x: 0, y: 0}
 --- !u!114 &1513562068
 MonoBehaviour:
@@ -4600,18 +4600,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8aa877b91e119024e84cbdf6f573e1ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parallaxTransforms:
-  - {fileID: 1212353458}
-  - {fileID: 1639722576}
-  - {fileID: 764006856}
-  - {fileID: 199600767}
-  - {fileID: 1999359927}
-  - {fileID: 458789825}
-  - {fileID: 472153817}
-  - {fileID: 141224418}
-  layers: 0100000002000000030000000400000005000000030000000400000005000000
-  parallaxStrength: 0.1
-  parallaxOrigin: {x: 0, y: 0, z: 0}
+  _parallaxTransforms: []
+  _layers: 
+  _parallaxStrength: 0
+  _parallaxOrigin: {x: 0, y: 0, z: 0}
 --- !u!1 &1728010487
 GameObject:
   m_ObjectHideFlags: 0
@@ -4704,7 +4696,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1772197796
 Transform:
   m_ObjectHideFlags: 0
@@ -4733,11 +4725,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffeba698911aa0846b25d8c0f7d285a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _separationMaxDistance: 2
-  _separationMaxCloseDistance: 0.25
-  _separationAngle: 20
+  _avoidanceMaxDistance: 0.5
+  _avoidanceMaxCloseDistance: 0.25
+  _avoidanceAngle: 20
   _shoals: []
-  _averageAngle: 0
+  _averageRotation: 0
   _schoolCenter: {x: 0, y: 0}
 --- !u!114 &1772197799
 MonoBehaviour:
@@ -5119,7 +5111,7 @@ GameObject:
   - component: {fileID: 1907768256}
   - component: {fileID: 1907768255}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Fish Grid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5175,7 +5167,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1932495349
 Transform:
   m_ObjectHideFlags: 0
@@ -5204,11 +5196,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffeba698911aa0846b25d8c0f7d285a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _separationMaxDistance: 2
-  _separationMaxCloseDistance: 0.25
-  _separationAngle: 20
+  _avoidanceMaxDistance: 0.5
+  _avoidanceMaxCloseDistance: 0.25
+  _avoidanceAngle: 20
   _shoals: []
-  _averageAngle: 0
+  _averageRotation: 0
   _schoolCenter: {x: 0, y: 0}
 --- !u!114 &1932495352
 MonoBehaviour:
@@ -5546,7 +5538,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2073822855
 Transform:
   m_ObjectHideFlags: 0

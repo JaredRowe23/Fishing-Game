@@ -1,51 +1,52 @@
-using System.Collections;
+using Fishing.Util;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Fishing.Fishables.Fish
-{
+namespace Fishing.Fishables.Fish {
     public class FishSchoolBehaviour : MonoBehaviour {
-        [SerializeField] private float _separationMaxDistance;
-        public float SeparationMaxDistance { get => _separationMaxDistance; private set { } }
+        [SerializeField] private float _avoidanceMaxDistance;
+        public float AvoidanceMaxDistance { get => _avoidanceMaxDistance; private set { } }
 
-        [SerializeField] private float _separationMaxCloseDistance;
-        public float SeparationMaxCloseDistance { get => _separationMaxCloseDistance; private set { } }
+        [SerializeField] private float _avoidanceMaxCloseDistance;
+        public float AvoidanceMaxCloseDistance { get => _avoidanceMaxCloseDistance; private set { } }
 
-        [SerializeField, Range(0, 90)] private float _separationAngle;
-        public float SeparationAngle { get => _separationAngle; private set { } }
+        [SerializeField, Range(0, 90)] private float _avoidanceAngle;
+        public float AvoidanceAngle { get => _avoidanceAngle; private set { } }
 
         [SerializeField] private List<Shoal> _shoals;
-        public List<Shoal> Shoals { get => _shoals; set => _shoals = value; }
+        public List<Shoal> Shoals { get => _shoals; private set { _shoals = value; } }
 
-        [SerializeField] private float _averageAngle;
-        public float AverageAngle { get => _averageAngle; private set => _averageAngle = value; }
+        [SerializeField] private float _averageRotation;
+        public float AverageRotation { get => _averageRotation; private set => _averageRotation = value; }
 
         [SerializeField] private Vector2 _schoolCenter;
         public Vector2 SchoolCenter { get => _schoolCenter; private set => _schoolCenter = value; }
 
-        public void FixedUpdate()
-        {
+        private void Awake() {
+            Shoals = new List<Shoal>();
+        }
+
+        public void FixedUpdate() {
             CalculateSchoolCenter();
-            AverageAngle = AverageRotation();
+            CalculateSchoolAverageRotation();
         }
 
         private void CalculateSchoolCenter() {
             SchoolCenter = Vector2.zero;
-            AverageAngle = 0f;
             foreach (Shoal shoal in Shoals) {
-                SchoolCenter = SchoolCenter + (Vector2)shoal.transform.position;
+                SchoolCenter += (Vector2)shoal.transform.position;
             }
-            SchoolCenter = SchoolCenter / Shoals.Count;
+            SchoolCenter /= Shoals.Count;
         }
 
-        private float AverageRotation()
-        {
-            float averageRotation = 0;
+        private void CalculateSchoolAverageRotation() {
+            Vector2 averageRotationVector = Vector2.zero;
             for (int i = 0; i < Shoals.Count; i++) {
-                averageRotation += Shoals[i].transform.rotation.eulerAngles.z;
+                Vector2 shoalForward = Shoals[i].transform.up;
+                averageRotationVector += shoalForward;
             }
-            averageRotation /= Shoals.Count;
-            return averageRotation;
+            averageRotationVector /= Shoals.Count;
+            AverageRotation = Vector2.SignedAngle(Vector2.up, averageRotationVector);
         }
     }
 }

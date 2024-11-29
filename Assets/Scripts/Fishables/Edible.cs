@@ -50,7 +50,7 @@ namespace Fishing.Fishables.Fish
             if (foodSearch.DesiredFood == null) return;
             if (!foodSearch.DesiredFood.GetComponent<FishMovement>()) return;
 
-            foodSearch.DesiredFood.GetComponent<FishMovement>().activePredator = null;
+            foodSearch.DesiredFood.GetComponent<FishMovement>().ActivePredator = null;
         }
     }
 }

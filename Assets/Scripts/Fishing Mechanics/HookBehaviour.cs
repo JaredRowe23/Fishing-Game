@@ -42,7 +42,7 @@ namespace Fishing.FishingMechanics
         {
             rod = transform.parent.GetComponent<RodBehaviour>();
             rb = GetComponent<Rigidbody2D>();
-            cam = CameraBehaviour.instance;
+            cam = CameraBehaviour.Instance;
 
             lineRenderer.SetPosition(0, linePivotPoint.position);
         }

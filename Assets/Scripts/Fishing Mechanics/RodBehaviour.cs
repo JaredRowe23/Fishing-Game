@@ -40,7 +40,7 @@ namespace Fishing.FishingMechanics
         {
             rodManager = RodManager.instance;
             anim = GetComponent<Animator>();
-            cam = CameraBehaviour.instance;
+            cam = CameraBehaviour.Instance;
             bucket = BucketBehaviour.instance;
 
             InputManager.onCastReel += StartCast;

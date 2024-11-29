@@ -40,7 +40,7 @@ namespace Fishing.FishingMechanics
         private void Awake()
         {
             powerAngle = PowerAndAngle.instance;
-            cam = CameraBehaviour.instance;
+            cam = CameraBehaviour.Instance;
 
             trajectoryLineRenderer.material = trajectoryMat;
             minTrajectoryLineRenderer.material = minTrajectoryMat;

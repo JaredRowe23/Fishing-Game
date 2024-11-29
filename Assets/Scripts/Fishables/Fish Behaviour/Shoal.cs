@@ -1,40 +1,46 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Fishing.FishingMechanics;
 using Fishing.Util;
+using UnityEngine;
 
-namespace Fishing.Fishables.Fish
-{
+namespace Fishing.Fishables.Fish {
     [RequireComponent(typeof(FishMovement))]
-    public class Shoal : MonoBehaviour, IMovement, IEdible
-    {
-        [SerializeField] private float _separationDirWeight = 1f;
-        public float SeparationDirWeight { get => _separationDirWeight; set => _separationDirWeight = value; }
+    public class Shoal : MonoBehaviour, IMovement, IEdible {
+        [SerializeField, Range(0, 1)] private float _avoidanceDirWeight = 1f;
+        [SerializeField, Range(0, 1)] private float _cohesionDirWeight = 1f;
+        [SerializeField, Range(0, 1)] private float _alignmentDirWeight = 1f;
+        [SerializeField, Range(0, 1)] private float _targetPosWeight = 1f;
 
-        [SerializeField] private float _cohesionDirWeight = 1f;
-        public float CohesionDirWeight { get => _cohesionDirWeight; set => _cohesionDirWeight = value; }
+        private float _avoidanceDir = 0;
+        private float _cohesionDir = 0;
+        private float _alignmentDir = 0;
 
-        [SerializeField] private float _alignmentDirWeight = 1f;
-        public float AlignmentDirWeight { get => _alignmentDirWeight; set => _alignmentDirWeight = value; }
-
-        [Range(-1, 1)] private float _separationDir = 0;
-        public float SeparationDir { get => _separationDir; set => _separationDir = value; }
-
-        [Range(-1, 1)] private float _cohesionDir = 0;
-        public float CohesionDir { get => _cohesionDir; set => _cohesionDir = value; }
-
-        [Range(-1, 1)] private float _alignmentDir = 0;
-        public float AlignmentDir { get => _alignmentDir; set => _alignmentDir = value; }
+        private float _avoidanceTurn = 0;
+        private float _cohesionTurn = 0;
+        private float _alignmentTurn = 0;
+        private float _targetTurn = 0;
 
         private SpawnZone _spawn;
+
+        [Header("Gizmos")]
+        #region
+        [SerializeField] private bool _drawCohesionGizmo = false;
+        [SerializeField] private Color _cohesionGizmoColor = Color.white;
+        [SerializeField] private bool _drawAlignmentGizmo = false;
+        [SerializeField] private Color _alignmentGizmoColor = Color.white;
+        [SerializeField] private bool _drawAvoidanceGizmo = false;
+        [SerializeField] private Color _avoidanceGizmoColor = Color.white;
+
+        [SerializeField] private bool _drawDirectionGizmos = false;
+        [SerializeField] private float _directionGizmoLength = 1f;
+        [SerializeField] private float _directionSpace = 0.5f;
+        [SerializeField] private float _directionPadding = 0.1f;
+        [SerializeField] private Color _targetGizmoColor = Color.white;
+        #endregion
 
         private FishMovement _movement;
         private FishSchoolBehaviour _school;
 
-
-        private void Awake()
-        {
+        private void Awake() {
             _movement = GetComponent<FishMovement>();
             _spawn = transform.parent.GetComponent<SpawnZone>();
             _school = _spawn.GetComponent<FishSchoolBehaviour>();
@@ -42,41 +48,26 @@ namespace Fishing.Fishables.Fish
             _school.Shoals.Add(this);
         }
 
-        public void Movement()
-        {
-            CalculateAvoidance();
-            _movement.targetPos = _spawn.testObject.transform.position;
+        public void Movement() {
+            _movement.TargetPos = _spawn.testObject.transform.position; // TODO: Remove this in place of the spawn location, or 
+            CalculateAvoidanceTurning();
+            CalculateTargetTurning();
+            CalculateCohesionTurning();
+            CalculateAlignmentTurning();
 
-            float _angleToTargetPos = Vector2.SignedAngle(Vector3.up, _movement.targetPos - (Vector2)transform.position);
-            float _targetPosAngleDelta = Mathf.DeltaAngle(transform.rotation.eulerAngles.z, _angleToTargetPos);
-            _movement.targetPosDir = Utilities.DirectionFromTransformToTarget(transform, _movement.targetPos);
-
-            float _angleToSchoolCenter = Vector2.SignedAngle(Vector3.up, _school.SchoolCenter - (Vector2)transform.position);
-            float _schoolCenterAngleDelta = Mathf.DeltaAngle(transform.rotation.eulerAngles.z, _angleToSchoolCenter);
-            CohesionDir = Utilities.DirectionFromTransformToTarget(transform, _school.SchoolCenter);
-
-            float _alignmentAngleDelta = Mathf.DeltaAngle(transform.rotation.eulerAngles.z, _school.AverageAngle);
-            AlignmentDir = _alignmentAngleDelta == 0 ? 0 : (_alignmentAngleDelta > 0 ? 1 : -1);
-
-            AlignmentDir = WeighDirection(AlignmentDir, _alignmentAngleDelta);
-            _movement.targetPosDir = WeighDirection(_movement.targetPosDir, _targetPosAngleDelta) * Mathf.InverseLerp(0, _movement.GetMaxHomeDistance(), Mathf.Clamp(Vector3.Distance(transform.position, _movement.targetPos), 0, _movement.GetMaxHomeDistance()));
-            CohesionDir = WeighDirection(CohesionDir, _schoolCenterAngleDelta) * Mathf.InverseLerp(0, _movement.GetMaxHomeDistance(), Mathf.Clamp(Vector3.Distance(transform.position, _school.SchoolCenter), 0, _movement.GetMaxHomeDistance()));
-            float _calculatedDir = (AlignmentDir * AlignmentDirWeight + CohesionDir * CohesionDirWeight + SeparationDir * SeparationDirWeight + _movement.targetPosDir * _movement.targetPosDirWeight) / 4f;
-
-            _movement.rotationDir = Mathf.Clamp(_calculatedDir, -1, 1);
+            CalculateFinalTurnValue();
         }
 
-        public void Despawn()
-        {
+        public void Despawn() {
             BaitManager.instance.RemoveFish(GetComponent<FoodSearch>());
             _school.Shoals.Remove(this);
             GetComponent<Edible>().Despawn();
         }
 
-        private void CalculateAvoidance() {
+        private void CalculateAvoidanceTurning() {
             Shoal closestShoal = null;
             float closestShoalDistance = 0;
-            float angleToShoal = 0;
+            float angleToClosestShoal = 0;
 
             foreach (Shoal shoal in _school.Shoals) {
                 if (shoal == this) {
@@ -84,18 +75,19 @@ namespace Fishing.Fishables.Fish
                 }
 
                 float shoalDistance = Vector2.Distance(transform.position, shoal.transform.position);
-                if (shoalDistance > _school.SeparationMaxDistance) {
+                if (shoalDistance > _school.AvoidanceMaxDistance) {
                     continue;
                 }
 
-                angleToShoal = Vector2.SignedAngle(transform.up, transform.position - shoal.transform.position);
-                if (Mathf.Abs(angleToShoal) > _school.SeparationAngle && shoalDistance > _school.SeparationMaxCloseDistance) {
+                float angleToShoal = Vector2.SignedAngle(transform.up, shoal.transform.position - transform.position);
+                if (Mathf.Abs(angleToShoal) > _school.AvoidanceAngle && shoalDistance > _school.AvoidanceMaxCloseDistance) {
                     continue;
                 }
 
                 if (closestShoal == null) {
                     closestShoal = shoal;
                     closestShoalDistance = shoalDistance;
+                    angleToClosestShoal = angleToShoal;
                     continue;
                 }
 
@@ -105,33 +97,144 @@ namespace Fishing.Fishables.Fish
 
                 closestShoal = shoal;
                 closestShoalDistance = shoalDistance;
+                angleToClosestShoal = angleToShoal;
             }
 
-            float desiredAngle = angleToShoal <= 0 ? -1 : 1;
-            desiredAngle *= 1 - Mathf.InverseLerp(0, _school.SeparationMaxDistance, Mathf.Clamp(closestShoalDistance, 0, _school.SeparationMaxDistance));
-            SeparationDir = desiredAngle == 0 ? 0 : desiredAngle;
+            if (closestShoal == null) {
+                _avoidanceDir = 0f;
+                return;
+            }
+
+            float desiredAngle = angleToClosestShoal > 0f ? -1f : 1f;
+            desiredAngle *= Mathf.InverseLerp(_school.AvoidanceMaxDistance, 0f, closestShoalDistance);
+            _avoidanceDir = desiredAngle;
         }
 
-        private void OnDrawGizmosSelected()
-        {
-            Gizmos.color = Color.red;
-            Gizmos.DrawRay(transform.position, Quaternion.Euler(0f, 0f, _school.AverageAngle) * Vector3.up);
+        private void CalculateTargetTurning() {
+            float angleToTargetPos = Vector2.SignedAngle(Vector2.up, _movement.TargetPos - (Vector2)transform.position);
+            float targetPosAngleDelta = Mathf.DeltaAngle(transform.rotation.eulerAngles.z, angleToTargetPos);
 
-            Gizmos.color = Color.black;
+            float targetTurnDirection = Utilities.DirectionFromTransformToTarget(transform, _movement.TargetPos);
+            float weighedTurnDirection = Utilities.WeighDirection(targetTurnDirection, targetPosAngleDelta);
+
+            float targetDistance = Vector2.Distance(transform.position, _movement.TargetPos);
+            float targetDistanceWeight = Mathf.InverseLerp(0f, _movement.MaxHomeDistance, targetDistance); // Since shoals will never leave home, we use MaxHomeDistance as a value for how much to weigh movement towards target, even though target isn't necessarily home
+
+            _movement.TargetPosDir = weighedTurnDirection * targetDistanceWeight;
+        }
+
+        private void CalculateCohesionTurning() {
+            float angleToSchoolCenter = Vector2.SignedAngle(Vector2.up, _school.SchoolCenter - (Vector2)transform.position);
+            float schoolCenterAngleDelta = Mathf.DeltaAngle(transform.rotation.eulerAngles.z, angleToSchoolCenter);
+
+            float cohesionTurnDirection = Utilities.DirectionFromTransformToTarget(transform, _school.SchoolCenter);
+            float weighedCohesionDirection = Utilities.WeighDirection(cohesionTurnDirection, schoolCenterAngleDelta);
+
+            float schoolCenterDistance = Vector3.Distance(transform.position, _school.SchoolCenter);
+            float schoolCenterDistanceWeight = Mathf.InverseLerp(0, _movement.MaxHomeDistance, schoolCenterDistance);
+
+            _cohesionDir = weighedCohesionDirection * schoolCenterDistanceWeight;
+        }
+
+        private void CalculateAlignmentTurning() {
+            float alignmentAngleDelta = Mathf.DeltaAngle(transform.rotation.eulerAngles.z, _school.AverageRotation);
+            float alignmentDirection = alignmentAngleDelta == 0 ? 0 : (alignmentAngleDelta > 0 ? 1 : -1);
+            float weighedAlignmentDirection = Utilities.WeighDirection(alignmentDirection, alignmentAngleDelta);
+            _alignmentDir = weighedAlignmentDirection;
+        }
+
+        private void CalculateFinalTurnValue() {
+            float calculatedDir;
+
+            if (_avoidanceDir == 0) { // If _avoidanceDir == 0, it had nothing to avoid and shouldn't be factored into the turning calculation
+                _targetTurn = _movement.TargetPosDir * (_targetPosWeight + _avoidanceDirWeight * _targetPosWeight); // When _avoidanceDirWeight is not needed, we split it by each turn's weight
+                _alignmentTurn = _alignmentDir * (_alignmentDirWeight + _avoidanceDirWeight * _alignmentDirWeight);
+                _cohesionTurn = _cohesionDir * (_cohesionDirWeight + _avoidanceDirWeight * _cohesionDirWeight);
+                _avoidanceTurn = 0;
+
+                calculatedDir = Mathf.Clamp(_alignmentTurn + _cohesionTurn + _targetTurn, -1, 1);
+            }
+            else {
+                _targetTurn = _movement.TargetPosDir * _targetPosWeight;
+                _alignmentTurn = _alignmentDir * _alignmentDirWeight;
+                _cohesionTurn = _cohesionDir * _cohesionDirWeight;
+                _avoidanceTurn = _avoidanceDir * _avoidanceDirWeight;
+
+                calculatedDir = Mathf.Clamp(_alignmentTurn + _cohesionTurn + _avoidanceTurn + _targetTurn, -1, 1);
+            }
+
+            _movement.RotationDir = Mathf.Clamp(calculatedDir, -1, 1);
+        }
+
+        private void OnDrawGizmosSelected() {
+            if (_drawCohesionGizmo) {
+                DrawCohesionGizmo();
+            }
+            if (_drawAlignmentGizmo) {
+                DrawAlignmentGizmo();
+            }
+            if (_drawAvoidanceGizmo) {
+                DrawSeparationGizmo();
+            }
+            if (_drawDirectionGizmos) {
+                DrawDirectionGizmos();
+            }
+        }
+
+        private void DrawCohesionGizmo() {
+            Gizmos.color = _cohesionGizmoColor;
             Gizmos.DrawRay(transform.position, _school.SchoolCenter - (Vector2)transform.position);
-
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawRay(transform.position, Quaternion.Euler(0f, 0f, _school.SeparationAngle) * transform.up * _school.SeparationMaxDistance);
-            Gizmos.DrawRay(transform.position, Quaternion.Euler(0f, 0f, -_school.SeparationAngle) * transform.up * _school.SeparationMaxDistance);
-
-            Gizmos.color = Color.blue;
-            Gizmos.DrawWireSphere(transform.position, _school.SeparationMaxCloseDistance);
         }
 
-        private float WeighDirection(float _dir, float _angle)
-        {
-            Vector3 _angleVector = new Vector3(Mathf.Cos((_angle - 90f) * Mathf.Deg2Rad), Mathf.Sin(-(_angle - 90f) * Mathf.Deg2Rad), 0f);
-            return _dir * (1f - ((Vector3.Dot(Vector3.up, _angleVector) + 1f) / 2f));
+        private void DrawAlignmentGizmo() {
+            Gizmos.color = _alignmentGizmoColor;
+            Gizmos.DrawRay(transform.position, Quaternion.Euler(0f, 0f, _school.AverageRotation) * Vector3.up);
+        }
+
+        private void DrawSeparationGizmo() {
+            Gizmos.color = _avoidanceGizmoColor;
+            Gizmos.DrawWireSphere(transform.position, _school.AvoidanceMaxCloseDistance);
+            Gizmos.DrawRay(transform.position, Quaternion.Euler(0f, 0f, _school.AvoidanceAngle) * transform.up * _school.AvoidanceMaxDistance);
+            Gizmos.DrawRay(transform.position, Quaternion.Euler(0f, 0f, -_school.AvoidanceAngle) * transform.up * _school.AvoidanceMaxDistance);
+        }
+
+        private void DrawDirectionGizmos() {
+            Vector2 rayLength = Vector2.left * _directionGizmoLength;
+            Vector2 cohesionRay = rayLength * _cohesionTurn;
+            Vector2 alignmentRay = rayLength * _alignmentTurn;
+            Vector2 avoidanceRay = rayLength * _avoidanceTurn;
+            Vector2 targetRay = rayLength * _targetTurn;
+            Vector2 finalRotationRay = rayLength * _movement.RotationDir;
+
+            float spacing = _directionSpace;
+            Vector3 padding = Vector3.down * spacing;
+            Vector3 startSection = padding;
+            Gizmos.color = _targetGizmoColor;
+            Gizmos.DrawRay(transform.position + padding, targetRay);
+
+            spacing += _directionPadding;
+            padding = Vector3.down * spacing;
+            Gizmos.color = _cohesionGizmoColor;
+            Gizmos.DrawRay(transform.position + padding, cohesionRay);
+
+            spacing += _directionPadding;
+            padding = Vector3.down * spacing;
+            Gizmos.color = _alignmentGizmoColor;
+            Gizmos.DrawRay(transform.position + padding, alignmentRay);
+
+            spacing += _directionPadding;
+            padding = Vector3.down * spacing;
+            Gizmos.color = _avoidanceGizmoColor;
+            Gizmos.DrawRay(transform.position + padding, avoidanceRay);
+
+            spacing += _directionPadding;
+            padding = Vector3.down * spacing;
+            float sectionLength = spacing - _directionSpace;
+            Gizmos.color = new Color(1f, 1f, 1f, 0.5f);
+            Gizmos.DrawRay(transform.position + padding, finalRotationRay);
+
+            Gizmos.color = new Color(1f, 1f, 1f, 0.5f);
+            Gizmos.DrawRay(transform.position + startSection, Vector3.down * sectionLength);
         }
     }
 }

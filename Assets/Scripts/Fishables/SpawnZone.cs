@@ -25,7 +25,7 @@ namespace Fishing
         private void Awake()
         {
             spawnTimer = new WaitForSeconds(spawnTimeSpacing);
-            playerCam = CameraBehaviour.instance;
+            playerCam = CameraBehaviour.Instance;
             floorColliders = GameObject.Find("Grid").GetComponentsInChildren<PolygonCollider2D>();
         }
 

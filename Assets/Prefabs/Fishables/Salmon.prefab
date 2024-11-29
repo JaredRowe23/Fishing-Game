@@ -322,17 +322,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a0d7ab1dd7ef4146a9519f5a25964fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swimSpeed: 3
-  rotationSpeed: 100
-  obstacleAvoidanceDistance: 2
-  targetPosDirWeight: 10
+  _swimSpeed: 3
+  _rotationSpeed: 100
+  _obstacleAvoidanceDistance: 2
+  _targetPosDirWeight: 10
   obstacleAvoidanceDirWeight: 11
-  baseMaxHomeDistance: 25
-  maxHomeDistanceVariation: 5
-  targetPos: {x: 0, y: 0}
-  targetPosDir: 0
-  rotationDir: 0
-  activePredator: {fileID: 0}
+  _baseMaxHomeDistance: 25
+  _maxHomeDistanceVariation: 5
+  _drawBaseMaxHomeDistance: 0
+  _baseMaxHomeDistanceColor: {r: 0, g: 1, b: 1, a: 0.2509804}
+  _drawMaxHomeDistance: 0
+  _maxHomeDistanceColor: {r: 0, g: 1, b: 1, a: 1}
+  _drawMaxHomeDistanceVariations: 0
+  _minHomeDistanceVariationColor: {r: 0, g: 1, b: 1, a: 0.1254902}
+  _maxHomeDistanceVariationColor: {r: 0, g: 1, b: 1, a: 0.1254902}
+  _drawTargetPos: 0
+  _targetPosColor: {r: 1, g: 0, b: 1, a: 0.7529412}
+  _drawObstacleAvoidanceDistance: 0
+  _obstacleAvoidanceDistanceColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &6838956506335450506
 MonoBehaviour:
   m_ObjectHideFlags: 0

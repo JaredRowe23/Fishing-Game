@@ -365,11 +365,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d187c2bd7d8fc4f9e701b32517bcd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _eatDistance: 0.5
   _sightAngle: 30
   _sightDistance: 50
   _smellRadius: 10
   _desiredFoodTypes: 353
+  _drawSearchingGizmos: 0
+  _smellRadiusColor: {r: 0, g: 1, b: 0, a: 1}
+  _sightConeColor: {r: 0, g: 1, b: 0, a: 1}
+  _drawDesiredFoodGizmos: 0
+  _desiredFoodRayColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!114 &711715533592342275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,11 +386,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d01d3450772a4804e8298cb12105fc75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hungerStart: 1500
-  decayRate: 1
-  foodStart: 500
-  foodStartVariance: 10
-  currentFood: 0
+  _hungerStart: 100
+  _decayRate: 0.1
+  _foodStart: 50
+  _foodStartVariance: 10
 --- !u!114 &-1346237745618794196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,10 +402,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e95c5405c2f3d3641987609571099086, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  growthStart: 750
-  growthCheckFrequency: 15
-  growthVariance: 0.25
-  growthFoodCost: 250
+  _growthStart: 75
+  _growthCheckFrequency: 15
+  _growthVariance: 0.25
+  _growthFoodCost: 25
 --- !u!114 &8775194993542396431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -415,17 +418,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a0d7ab1dd7ef4146a9519f5a25964fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swimSpeed: 15
-  rotationSpeed: 100
-  obstacleAvoidanceDistance: 10
-  targetPosDirWeight: 10
+  _swimSpeed: 15
+  _rotationSpeed: 100
+  _obstacleAvoidanceDistance: 10
+  _targetPosDirWeight: 10
   obstacleAvoidanceDirWeight: 11
-  baseMaxHomeDistance: 75
-  maxHomeDistanceVariation: 25
-  targetPos: {x: 0, y: 0}
-  targetPosDir: 0
-  rotationDir: 0
-  activePredator: {fileID: 0}
+  _baseMaxHomeDistance: 75
+  _maxHomeDistanceVariation: 25
+  _drawMaxHomeDistance: 0
+  _maxHomeDistanceColor: {r: 0, g: 1, b: 1, a: 1}
+  _drawBaseMaxHomeDistance: 0
+  _baseMaxHomeDistanceColor: {r: 0, g: 1, b: 1, a: 0.2509804}
+  _drawMaxHomeDistanceVariations: 0
+  _minHomeDistanceVariationColor: {r: 0, g: 1, b: 1, a: 0.1254902}
+  _maxHomeDistanceVariationColor: {r: 0, g: 1, b: 1, a: 0.1254902}
+  _drawTargetPos: 0
+  _targetPosColor: {r: 1, g: 0, b: 1, a: 0.7529412}
+  _drawObstacleAvoidanceDistance: 0
+  _obstacleAvoidanceDistanceColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &2971129566693087700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -454,11 +464,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa071eeb49792cd449496805bb3f10c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sectionPrefab: {fileID: 3142583375956271979, guid: 9633cfdbe3219e447a6bdc8ab1443684, type: 3}
-  numberOfSections: 25
-  sectionScale: 0.75
-  sectionSpacing: 4
-  sectionRotationDampening: 0.1
+  _sectionPrefab: {fileID: 3142583375956271979, guid: 9633cfdbe3219e447a6bdc8ab1443684, type: 3}
+  _numberOfSections: 20
+  _sectionScale: 0.75
+  _sectionSpacing: 3
+  _sectionRotationDampening: 0.1
+  _drawSectionGizmos: 0
+  _sectionGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!61 &7472043319420965868
 BoxCollider2D:
   m_ObjectHideFlags: 0

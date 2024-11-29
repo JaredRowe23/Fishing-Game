@@ -38,7 +38,7 @@ namespace Fishing.Fishables
 
         void Start()
         {
-            cam = CameraBehaviour.instance;
+            cam = CameraBehaviour.Instance;
         }
 
         private void Update()
@@ -63,10 +63,10 @@ namespace Fishing.Fishables
             if (fishMovement)
             {
                 fishMovement.enabled = false;
-                if (fishMovement.activePredator != null)
+                if (fishMovement.ActivePredator != null)
                 {
-                    fishMovement.activePredator.GetComponent<FoodSearch>().DesiredFood = null;
-                    fishMovement.activePredator = null;
+                    fishMovement.ActivePredator.GetComponent<FoodSearch>().DesiredFood = null;
+                    fishMovement.ActivePredator = null;
                 }
                 if (movement is MonoBehaviour mono)
                 {

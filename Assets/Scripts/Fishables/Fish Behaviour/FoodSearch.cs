@@ -1,18 +1,11 @@
-﻿using System.Collections;
+﻿using Fishing.FishingMechanics;
+using Fishing.Util;
 using System.Collections.Generic;
 using UnityEngine;
-using Fishing.FishingMechanics;
-using System.Linq;
-using Fishing.Util;
 
-namespace Fishing.Fishables.Fish
-{
-    [RequireComponent(typeof(Fishable))]
-    [RequireComponent(typeof(Hunger))]
+namespace Fishing.Fishables.Fish {
+    [RequireComponent(typeof(Fishable), typeof(Hunger), typeof(Edible))]
     public class FoodSearch : MonoBehaviour {
-        [SerializeField] private float _eatDistance;
-        public float EatDistance { get => _eatDistance; private set { } }
-
         [SerializeField] private float _sightAngle;
         public float SightAngle { get => _sightAngle; private set { } }
 
@@ -28,6 +21,17 @@ namespace Fishing.Fishables.Fish
         private GameObject _desiredFood;
         public GameObject DesiredFood { get => _desiredFood; set { _desiredFood = value; } }
 
+        [Header("Gizmos")]
+        #region
+        [SerializeField] private bool _drawSearchingGizmos = false;
+        [SerializeField] private Color _smellRadiusColor = Color.green;
+        [SerializeField] private Color _sightConeColor = Color.green;
+
+        [Space(20)]
+        [SerializeField] private bool _drawDesiredFoodGizmos = false;
+        [SerializeField] private Color _desiredFoodRayColor = Color.green;
+        #endregion
+
         private Fishable _fishable;
         private Hunger _hunger;
         private Edible _edible;
@@ -39,35 +43,48 @@ namespace Fishing.Fishables.Fish
         }
 
         private void FixedUpdate() {
-            if (_fishable.IsHooked) return;
+            if (_fishable.IsHooked) {
+                return;
+            }
             DetermineDesiredFood();
-            if (DesiredFood == null) return;
-            if (Vector2.Distance(transform.position, DesiredFood.transform.position) >= (transform.localScale.x * 0.5f) + (DesiredFood.transform.localScale.x * 0.5f)) return;
+            if (DesiredFood == null) {
+                return; 
+            }
+            if (!IsWithinEatRange()) {
+                return;
+            }
             Eat();
+        }
+
+        private bool IsWithinEatRange() {
+            float distanceToFood = Vector2.Distance(transform.position, DesiredFood.transform.position);
+            float thisHalfLength = transform.localScale.x * 0.5f;
+            float foodHalfLength = DesiredFood.transform.localScale.x * 0.5f;
+            float eatDistance = thisHalfLength + foodHalfLength;
+            bool isWithinRange = distanceToFood <= eatDistance;
+            return isWithinRange;
         }
 
         public void Eat() {
             HandleHookedItem();
-            _hunger.AddFood(DesiredFood);
+            _hunger.AddFood(DesiredFood.GetComponent<Edible>());
             GetComponent<AudioSource>().Play();
-            Debug.Log($"{gameObject.name} ate {DesiredFood.name}");
             DesiredFood.GetComponent<IEdible>().Despawn();
             DesiredFood = null;
         }
 
         private void HandleHookedItem() {
-            if (DesiredFood.TryGetComponent<HookBehaviour>(out HookBehaviour hook)) {
+            if (DesiredFood.TryGetComponent(out HookBehaviour hook)) {
                 hook.SetHook(_fishable);
                 return;
             }
 
-            if (DesiredFood.TryGetComponent<Fishable>(out Fishable hookedFishable)) {
-                if (hookedFishable.IsHooked) {
-                    _fishable.SetThisToHooked();
-                    return;
-                }
+            if (DesiredFood.GetComponent<Fishable>().IsHooked) {
+                _fishable.SetThisToHooked();
+                return;
             }
-            if (DesiredFood.TryGetComponent<BaitBehaviour>(out _)) {
+
+            if (DesiredFood.TryGetComponent(out BaitBehaviour _)) {
                 _fishable.SetThisToHooked();
                 return;
             }
@@ -100,6 +117,7 @@ namespace Fishing.Fishables.Fish
                 if (!DesiredFoodTypes.HasFlag(edible.FoodType)) {
                     continue;
                 }
+
                 if (distance <= SmellRadius) {
                     newDesiredFood = edible.gameObject;
                     continue;
@@ -114,28 +132,43 @@ namespace Fishing.Fishables.Fish
 
         private void OnDrawGizmosSelected() {
             if (!DesiredFood) {
+                if (!_drawSearchingGizmos) {
+                    return;
+                }
                 DrawNoFoodGizmos();
             }
             else {
+                if (!_drawDesiredFoodGizmos) {
+                    return;
+                }
                 DrawDesiredFoodGizmos();
             }
         }
 
         private void DrawNoFoodGizmos() {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, SmellRadius);
-
-            Vector2 _dir = transform.up;
-            _dir = Quaternion.Euler(0f, 0f, -SightAngle) * _dir;
-            Gizmos.DrawRay(transform.position, _dir * SightDistance);
-
-            _dir = transform.up;
-            _dir = Quaternion.Euler(0f, 0f, SightAngle) * _dir;
-            Gizmos.DrawRay(transform.position, _dir * SightDistance);
+            DrawSmellRadius();
+            DrawSightCone();
         }
 
         private void DrawDesiredFoodGizmos() {
-            Gizmos.color = Color.red;
+            DrawDesiredFoodRay();
+        }
+
+        private void DrawSmellRadius() {
+            Gizmos.color = _smellRadiusColor;
+            Gizmos.DrawWireSphere(transform.position, SmellRadius);
+        }
+        private void DrawSightCone() {
+            Gizmos.color = _sightConeColor;
+
+            Vector2 _dir = Quaternion.Euler(0f, 0f, -SightAngle) * transform.up;
+            Gizmos.DrawRay(transform.position, _dir * SightDistance);
+
+            _dir = Quaternion.Euler(0f, 0f, SightAngle) * transform.up;
+            Gizmos.DrawRay(transform.position, _dir * SightDistance);
+        }
+        private void DrawDesiredFoodRay() {
+            Gizmos.color = _desiredFoodRayColor;
             Gizmos.DrawRay(transform.position, (DesiredFood.transform.position - transform.position));
         }
     }

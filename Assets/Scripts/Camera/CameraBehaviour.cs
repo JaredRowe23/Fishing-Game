@@ -1,124 +1,127 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Fishing.IO;
 using UnityEngine;
-using Fishing.IO;
-using Fishing.UI;
 
-namespace Fishing.PlayerCamera
-{
-    public class CameraBehaviour : MonoBehaviour
-    {
+namespace Fishing.PlayerCamera {
+    public class CameraBehaviour : MonoBehaviour {
         [Header("Position And Tracking")]
-        [SerializeField] private Vector2 defaultPosition;
+        [SerializeField] private Vector2 _defaultPosition;
 
-        [Range(0f, 1.0f)]
-        [SerializeField] private float minFollowSpeed = 0.1f;
-        [Range(0f, 1.0f)]
-        [SerializeField] private float maxFollowSpeed = 1f;
-        [Range(0f, 1.0f)]
-        [SerializeField] private float followThreshold = 0.1f;
+        [SerializeField, Range(0f, 1.0f)] private float _minFollowSpeed = 0.1f;
+        [SerializeField, Range(0f, 1.0f)] private float _maxFollowSpeed = 1f;
+        [SerializeField, Range(0f, 1.0f)] private float _followThreshold = 0.1f;
 
         [Header("Zoom")]
-        [Range(0f, 1.0f)]
-        [SerializeField] private float zoomSpeed = 0.5f;
-        [SerializeField] private float zoomThreshold = 0.1f;
+        [SerializeField, Range(0f, 1.0f)] private float _zoomSpeed = 0.5f;
+        [SerializeField] private float _zoomThreshold = 0.1f;
 
-        [SerializeField] private float zoomMagnitude = 1;
-        [SerializeField] private float minPlayerZoom = 1;
-        [SerializeField] private float maxPlayerZoom = 20;
+        [SerializeField, Min(0)] private float _zoomMagnitude = 1;
+        [SerializeField, Min(0)] private float _minPlayerZoom = 1;
+        [SerializeField, Min(0)] private float _maxPlayerZoom = 20;
 
-        private bool lockZoom = false;
-        private bool lockPosition = false;
-        private bool lockPlayerControls = false;
+        private bool _lockZoom = false;
+        private bool _lockPosition = false;
+        private bool _lockPlayerControls = false;
 
-        private Vector2 desiredPosition;
-        private float desiredZoom;
+        private Vector2 _desiredPosition;
+        private float _desiredZoom;
 
-        private float playerZoom;
-        private float tempZoom;
+        private float _playerZoom;
+        private float _tempZoom;
 
-        private bool activeUILastFrame;
+        private bool _activeUILastFrame;
 
-        public static CameraBehaviour instance;
-        [HideInInspector]
-        public Camera cam;
+        private static CameraBehaviour _instance;
+        public static CameraBehaviour Instance { get => _instance; private set => _instance = value; }
 
-        private CameraBehaviour() => instance = this;
+        private Camera _camera;
+        public Camera Camera { get => _camera; set => _camera = value; }
 
-        private void Awake()
-        {
-            cam = GetComponent<Camera>();
+
+        private CameraBehaviour() => Instance = this;
+
+        private void Awake() {
+            Camera = GetComponent<Camera>();
             InputManager.onZoomIn += CameraZoomIn;
             InputManager.onZoomOut += CameraZoomOut;
         }
 
-        private void Start()
-        {
-            lockZoom = lockPosition = lockPlayerControls = activeUILastFrame = false;
-            playerZoom = desiredZoom = tempZoom = cam.orthographicSize;
-            desiredPosition = defaultPosition = cam.transform.position;
+        private void Start() {
+            _lockZoom = _lockPosition = _lockPlayerControls = _activeUILastFrame = false;
+            _playerZoom = _desiredZoom = _tempZoom = Camera.orthographicSize;
+            _desiredPosition = _defaultPosition = Camera.transform.position;
         }
 
-        private void Update()
-        {
-            if (UIManager.instance.IsActiveUI()) lockPlayerControls = true;
+        private void Update() {
+            if (UIManager.instance.IsActiveUI()) {
+                _lockPlayerControls = true;
+            }
 
-            else if (activeUILastFrame) lockPlayerControls = false; // not a great solution, potentially replace with subscription to a "close active ui" subscription to turn off control lock
+            else if (_activeUILastFrame) {
+                _lockPlayerControls = false; // not a great solution, potentially replace with subscription to a "close active ui" subscription to turn off control lock
+            }
 
-            desiredZoom = lockPlayerControls ? tempZoom : playerZoom;
-            if (!lockZoom) HandleCameraZoom();
-            if (!lockPosition) HandleCameraPosition();
+            _desiredZoom = _lockPlayerControls ? _tempZoom : _playerZoom;
+            if (!_lockZoom) {
+                HandleCameraZoom();
+            }
+            if (!_lockPosition) {
+                HandleCameraPosition();
+            }
 
-            activeUILastFrame = UIManager.instance.IsActiveUI();
+            _activeUILastFrame = UIManager.instance.IsActiveUI();
         }
 
-        private void HandleCameraZoom()
-        {
-            if (Mathf.Abs(cam.orthographicSize - desiredZoom) <= zoomThreshold) return;
-            cam.orthographicSize = Mathf.Lerp(cam.orthographicSize, desiredZoom, zoomSpeed);
+        private void HandleCameraZoom() {
+            if (Mathf.Abs(Camera.orthographicSize - _desiredZoom) <= _zoomThreshold) { 
+                return;
+            }
+            Camera.orthographicSize = Mathf.Lerp(Camera.orthographicSize, _desiredZoom, _zoomSpeed);
         }
 
-        private void HandleCameraPosition()
-        {
-            float _viewportSqrDistance = GetViewportSqrDistanceFromCenter(desiredPosition);
-            if (_viewportSqrDistance < followThreshold * followThreshold) return;
+        private void HandleCameraPosition() {
+            float viewportSqrDistance = GetViewportSqrDistanceFromCenter(_desiredPosition);
+            if (viewportSqrDistance < _followThreshold * _followThreshold) { 
+                return; 
+            }
 
-            float _speed = Mathf.Lerp(minFollowSpeed, maxFollowSpeed, _viewportSqrDistance);
-            float _distance = Vector2.Distance(cam.transform.position, desiredPosition);
-            Vector2 _newPos = Vector2.MoveTowards(cam.transform.position, desiredPosition, _distance * _speed);
-            cam.transform.position = new Vector3(_newPos.x, _newPos.y, cam.transform.position.z);
+            float speed = Mathf.Lerp(_minFollowSpeed, _maxFollowSpeed, viewportSqrDistance);
+            float distance = Vector2.Distance(Camera.transform.position, _desiredPosition);
+            Vector2 newPos = Vector2.MoveTowards(Camera.transform.position, _desiredPosition, distance * speed);
+            Camera.transform.position = new Vector3(newPos.x, newPos.y, Camera.transform.position.z);
         }
 
-        private float GetViewportSqrDistanceFromCenter(Vector2 _pos)
-        {
-            Vector2 _posViewport = cam.WorldToViewportPoint(_pos);
-            _posViewport = new Vector2(_posViewport.x * 2 - 1, _posViewport.y * 2 - 1);
-            float _viewportDistanceMagnitude = _posViewport.x * _posViewport.x + _posViewport.y * _posViewport.y;
+        private float GetViewportSqrDistanceFromCenter(Vector2 pos) {
+            Vector2 posViewport = Camera.WorldToViewportPoint(pos);
+            posViewport = new Vector2(posViewport.x * 2 - 1, posViewport.y * 2 - 1);
+            float viewportDistanceMagnitude = posViewport.x * posViewport.x + posViewport.y * posViewport.y;
 
-            return _viewportDistanceMagnitude;
+            return viewportDistanceMagnitude;
         }
 
-        private void CameraZoomIn()
-        {
-            if (lockPlayerControls) return;
-            playerZoom = Mathf.Clamp(playerZoom - zoomMagnitude, minPlayerZoom, maxPlayerZoom);
+        private void CameraZoomIn() {
+            if (_lockPlayerControls) { 
+                return; 
+            }
+            _playerZoom = Mathf.Clamp(_playerZoom - _zoomMagnitude, _minPlayerZoom, _maxPlayerZoom);
         }
-        private void CameraZoomOut()
-        {
-            if (lockPlayerControls) return;
-            playerZoom = Mathf.Clamp(playerZoom + zoomMagnitude, minPlayerZoom, maxPlayerZoom);
+        private void CameraZoomOut() {
+            if (_lockPlayerControls) { 
+                return; 
+            }
+            _playerZoom = Mathf.Clamp(_playerZoom + _zoomMagnitude, _minPlayerZoom, _maxPlayerZoom);
         }
 
-        public void ReturnHome() => desiredPosition = defaultPosition;
+        public void ReturnHome() => _desiredPosition = _defaultPosition;
 
         /// <summary>
         /// Determines whether the given position is within the camera's frame.
         /// </summary>
-        public bool IsInFrame(Vector2 _pos)
-        {
-            Vector2 _viewportPos = cam.WorldToViewportPoint(_pos);
+        public bool IsInFrame(Vector2 pos) {
+            Vector2 viewportPos = Camera.WorldToViewportPoint(pos);
 
-            if (_viewportPos.x < 0f || _viewportPos.x > 1f || _viewportPos.y < 0f || _viewportPos.y > 1f) return false;
+            if (viewportPos.x < 0f || viewportPos.x > 1f || viewportPos.y < 0f || viewportPos.y > 1f) { 
+                return false; 
+            }
 
             else return true;
         }
@@ -126,18 +129,17 @@ namespace Fishing.PlayerCamera
         /// <summary>
         /// Returns orthographic size needed to cover the given parameter's distance.
         /// </summary>
-        public float ViewDistanceToCameraZoom(float _distance)
-        {
+        public float ViewDistanceToCameraZoom(float distance) {
             // orthographic size determines the radius of vertical view distance of the camera.
             // So we convert vertical to horizontal (based on the 16:9 aspect ratio) and half it
             // to return the orthographic size needed to cover a known vertical distance.
-            return _distance *= 0.5625f * 0.5f;
+            return distance *= 0.5625f * 0.5f;
         }
 
-        public void SetDesiredPosition(Vector2 _pos) => desiredPosition = _pos;
+        public void SetDesiredPosition(Vector2 pos) => _desiredPosition = pos;
 
-        public void EnablePlayerControls() => lockPlayerControls = false;
-        public void DisablePlayerControls() => lockPlayerControls = true;
-        public void SetTempZoom(float _tempZoom) => tempZoom = _tempZoom;
+        public void EnablePlayerControls() => _lockPlayerControls = false;
+        public void DisablePlayerControls() => _lockPlayerControls = true;
+        public void SetTempZoom(float tempZoom) => _tempZoom = tempZoom;
     }
 }

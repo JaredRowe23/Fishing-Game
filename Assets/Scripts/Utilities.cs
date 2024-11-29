@@ -85,9 +85,30 @@ namespace Fishing.Util
         /// <returns>float from -180 to 180</returns>
         public static float UnsignedToSignedAngle(float angle)
         {
-            if (angle > 180) angle = -180 + angle % 180;
-            return angle;
+            return angle - ((int)(angle / 360) * 360f);
+            //angle = angle % 360;
+            //if (angle > 180) angle = -180 + angle % 180;
+            //return angle;
         }
+
+        /// <summary>
+        /// Takes a turn direction value of -1 or 1 and weighs it based on how close a transform is pointed towards the given angle
+        /// </summary>
+        /// <param name="direction"></param>
+        /// <param name="angle"></param>
+        /// <param name="objectTransform"></param>
+        /// <returns></returns>
+        public static float WeighDirection(float direction, float angle) {
+            float rads = (Mathf.Abs(angle) + 90f) * Mathf.Deg2Rad; // Converting angle to Vector
+                                                                   // We get the absolute value here because the direction of the angle doesn't matter for now and will be corrected using the direction variable
+                                                                   // We add 90 as part of the conversion, since Unity's rotation 0 is up whereas radians 0 is right
+            Vector3 angleVector = new Vector3(Mathf.Cos(rads), Mathf.Sin(rads), 0f);
+            float angleDot = Vector2.Dot(Vector2.up, angleVector); // Get Dot product and clamp values 0 to 1. Using Vector2.up since the angleVector should be relative to facing direction.
+            float directionWeight = 1f - Mathf.Clamp(angleDot, 0, 1);
+            return direction * directionWeight; // direction value of -1 or 1 is now weighed
+        }
+
+        public const float AngleToRadians90 = Mathf.PI * 0.25f;
 
         /// <summary>
         /// Returns struct with the data on the closest collider, point, and distance from a given position and array of colliders.

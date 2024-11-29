@@ -1,49 +1,48 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Fishing.Fishables.Fish
-{
+namespace Fishing.Fishables.Fish {
     [RequireComponent(typeof(FoodSearch))]
-    public class Hunger : MonoBehaviour
-    {
-        [SerializeField] private float hungerStart = 100;
-        [SerializeField] private float decayRate = 0.1f;
-        [SerializeField] private float foodStart = 50;
-        [SerializeField] private float foodStartVariance = 10;
-        [HideInInspector] public float currentFood;
+    public class Hunger : MonoBehaviour {
+        [SerializeField] private float _hungerStart = 100;
+        [SerializeField] private float _decayRate = 0.1f;
+        [SerializeField] private float _foodStart = 50;
+        [SerializeField] private float _foodStartVariance = 10;
+        private float _currentFood;
+        public float CurrentFood { get => _currentFood; set => _currentFood = value; }
 
-        private Fishable fishable;
-        private IEdible edible;
+        private Fishable _fishable;
+        private IEdible _edible;
 
-        private void Awake()
-        {
-            fishable = GetComponent<Fishable>();
-            edible = GetComponent<IEdible>();
+
+        private void Awake() {
+            _fishable = GetComponent<Fishable>();
+            _edible = GetComponent<IEdible>();
         }
 
-        void Start()
-        {
-            currentFood = foodStart + Random.Range(-foodStartVariance, foodStartVariance);
+        void Start() {
+            CurrentFood = _foodStart + Random.Range(-_foodStartVariance, _foodStartVariance);
         }
 
-        void Update()
-        {
-            if (fishable.IsHooked) return;
+        void FixedUpdate() {
+            if (_fishable.IsHooked) { 
+                return;
+            }
 
-            currentFood -= Time.deltaTime * decayRate;
-            if (currentFood <= 0) Starve();
-            else HandleHunger();
+            CurrentFood -= Time.fixedDeltaTime * _decayRate;
+            if (CurrentFood <= 0) { 
+                Starve();
+            }
+            else { 
+                HandleHunger();
+            }
         }
 
-        private void Starve()
-        {
-            edible.Despawn();
+        private void Starve() {
+            _edible.Despawn();
         }
 
-        private void HandleHunger()
-        {
-            if (currentFood <= hungerStart) {
+        private void HandleHunger() {
+            if (CurrentFood <= _hungerStart) {
                 // TODO: Start searching
             }
             else {
@@ -51,14 +50,12 @@ namespace Fishing.Fishables.Fish
             }
         }
 
-        public void AddFood(GameObject _food)
-        {
-            Fishable _foodFishable = _food.GetComponent<Fishable>();
-            float _lengthScalar = Mathf.InverseLerp(_foodFishable.LengthMin, _foodFishable.LengthMax, _foodFishable.Length);
-            float _weightScalar = Mathf.InverseLerp(_foodFishable.WeightMin, _foodFishable.WeightMax, _foodFishable.Weight);
-            if (_lengthScalar == 0) _lengthScalar = 0.5f;
-            if (_weightScalar == 0) _weightScalar = 0.5f;
-            currentFood += _food.GetComponent<Edible>().baseFoodAmount * (_lengthScalar * 2) * (_weightScalar * 2);
+        public void AddFood(Edible food) {
+            Fishable foodFishable = food.GetComponent<Fishable>();
+            float lengthScalar = Mathf.InverseLerp(foodFishable.LengthMin, foodFishable.LengthMax, foodFishable.Length) + 0.5f;
+            float weightScalar = Mathf.InverseLerp(foodFishable.WeightMin, foodFishable.WeightMax, foodFishable.Weight) + 0.5f;
+            float scalarAverage = (lengthScalar + weightScalar) * 0.5f;
+            CurrentFood += food.baseFoodAmount * scalarAverage;
         }
     }
 }

@@ -173,11 +173,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d187c2bd7d8fc4f9e701b32517bcd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _eatDistance: 0.5
   _sightAngle: 30
   _sightDistance: 10
   _smellRadius: 2.5
   _desiredFoodTypes: 5216
+  _drawSearchingGizmos: 0
+  _smellRadiusColor: {r: 0, g: 1, b: 0, a: 1}
+  _sightConeColor: {r: 0, g: 1, b: 0, a: 1}
+  _drawDesiredFoodGizmos: 0
+  _desiredFoodRayColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!114 &-2751715254068480783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,11 +194,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d01d3450772a4804e8298cb12105fc75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hungerStart: 100
-  decayRate: 0.1
-  foodStart: 50
-  foodStartVariance: 10
-  currentFood: 0
+  _hungerStart: 100
+  _decayRate: 0.1
+  _foodStart: 50
+  _foodStartVariance: 10
 --- !u!114 &-4568451399582953420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,10 +210,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e95c5405c2f3d3641987609571099086, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  growthStart: 75
-  growthCheckFrequency: 15
-  growthVariance: 0.25
-  growthFoodCost: 25
+  _growthStart: 75
+  _growthCheckFrequency: 15
+  _growthVariance: 0.25
+  _growthFoodCost: 25
 --- !u!114 &4802181909688707500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,17 +226,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a0d7ab1dd7ef4146a9519f5a25964fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swimSpeed: 2
-  rotationSpeed: 100
-  obstacleAvoidanceDistance: 2
-  targetPosDirWeight: 10
-  obstacleAvoidanceDirWeight: 11
-  baseMaxHomeDistance: 25
-  maxHomeDistanceVariation: 5
-  targetPos: {x: 0, y: 0}
-  targetPosDir: 0
-  rotationDir: 0
-  activePredator: {fileID: 0}
+  _swimSpeed: 2
+  _rotationSpeed: 360
+  _obstacleAvoidanceDistance: 2
+  _obstacleAvoidanceWeight: 1
+  _baseMaxHomeDistance: 25
+  _maxHomeDistanceVariation: 5
+  _drawMaxHomeDistance: 0
+  _maxHomeDistanceColor: {r: 0, g: 1, b: 1, a: 1}
+  _drawBaseMaxHomeDistance: 0
+  _baseMaxHomeDistanceColor: {r: 0, g: 1, b: 1, a: 0.2509804}
+  _drawMaxHomeDistanceVariations: 0
+  _minHomeDistanceVariationColor: {r: 0, g: 1, b: 1, a: 0.1254902}
+  _maxHomeDistanceVariationColor: {r: 0, g: 1, b: 1, a: 0.1254902}
+  _drawTargetPos: 0
+  _targetPosColor: {r: 1, g: 0, b: 1, a: 0.7529412}
+  _drawObstacleAvoidanceDistance: 0
+  _obstacleAvoidanceDistanceColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &7264469932497168973
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,9 +255,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 607f95fe04642b04995280c64558d300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _separationDirWeight: 11
-  _cohesionDirWeight: 9
-  _alignmentDirWeight: 1
+  _avoidanceDirWeight: 1
+  _cohesionDirWeight: 1
+  _alignmentDirWeight: 0.5
+  _targetPosWeight: 0.25
+  _drawCohesionGizmo: 0
+  _cohesionGizmoColor: {r: 0, g: 1, b: 0.49803922, a: 0.5019608}
+  _drawAlignmentGizmo: 0
+  _alignmentGizmoColor: {r: 1, g: 0.49803922, b: 0, a: 0.5019608}
+  _drawAvoidanceGizmo: 0
+  _avoidanceGizmoColor: {r: 0.49803922, g: 0, b: 1, a: 0.49803922}
+  _drawDirectionGizmos: 0
+  _directionGizmoLength: 1
+  _directionSpace: 0.5
+  _directionPadding: 0.1
+  _targetGizmoColor: {r: 1, g: 0, b: 0, a: 0.5019608}
 --- !u!82 &7240242511635904219
 AudioSource:
   m_ObjectHideFlags: 0

@@ -1,50 +1,38 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Fishing.Fishables.Fish
-{
+namespace Fishing.Fishables.Fish {
     [RequireComponent(typeof(Hunger))]
-    public class Growth : MonoBehaviour
-    {
-        [SerializeField] private float growthStart = 75;
-        [SerializeField] private float growthCheckFrequency = 15;
-        [SerializeField] private float growthVariance = 0.25f;
-        [SerializeField] private float growthFoodCost = 25;
-        private float growthCheckCount;
+    public class Growth : MonoBehaviour {
+        [SerializeField] private float _growthStart = 75;
+        [SerializeField] private float _growthCheckFrequency = 15;
+        [SerializeField] private float _growthVariance = 0.25f;
+        [SerializeField] private float _growthFoodCost = 25;
 
-        private Fishable fishable;
-        private Hunger hunger;
+        private Fishable _fishable;
+        private Hunger _hunger;
 
-        private void Awake()
-        {
-            fishable = GetComponent<Fishable>();
-            hunger = GetComponent<Hunger>();
+        private void Awake() {
+            _fishable = GetComponent<Fishable>();
+            _hunger = GetComponent<Hunger>();
         }
 
-        void Start() => growthCheckCount = growthCheckFrequency;
-
-        void Update()
-        {
-            if (fishable.IsHooked) return;
-            HandleGrowth();
+        void Start() {
+            StartCoroutine(CheckForGrowth());
         }
 
-        private void HandleGrowth()
-        {
-            growthCheckCount -= Time.deltaTime;
-            if (growthCheckCount <= 0)
-            {
-                if (hunger.currentFood >= growthStart) Grow();
-                growthCheckCount = growthCheckFrequency;
+        private IEnumerator CheckForGrowth() {
+            if (_fishable.IsHooked) yield return new WaitForSeconds(_growthCheckFrequency);
+            if (_hunger.CurrentFood >= _growthStart) {
+                Grow();
             }
+            yield return new WaitForSeconds(_growthCheckFrequency);
         }
 
-        private void Grow()
-        {
-            fishable.Length = Mathf.Lerp(fishable.Length, fishable.LengthMax, 0.5f + Random.Range(-growthVariance, growthVariance));
-            fishable.Weight = Mathf.Lerp(fishable.Weight, fishable.WeightMax, 0.5f + Random.Range(-growthVariance, growthVariance));
-            hunger.currentFood -= growthFoodCost;
+        private void Grow() {
+            _fishable.Length = Mathf.Lerp(_fishable.Length, _fishable.LengthMax, 0.5f + Random.Range(-_growthVariance, _growthVariance));
+            _fishable.Weight = Mathf.Lerp(_fishable.Weight, _fishable.WeightMax, 0.5f + Random.Range(-_growthVariance, _growthVariance));
+            _hunger.CurrentFood -= _growthFoodCost;
         }
     }
 }

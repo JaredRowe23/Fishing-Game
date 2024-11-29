@@ -31,7 +31,7 @@ namespace Fishing.Fishables
         private void Awake()
         {
             fishableItem = GetComponent<Fishable>();
-            cam = CameraBehaviour.instance;
+            cam = CameraBehaviour.Instance;
             spawn = transform.parent.GetComponent<SpawnZone>();
             floorColliders = GameObject.Find("Grid").GetComponentsInChildren<PolygonCollider2D>();
 

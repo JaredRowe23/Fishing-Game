@@ -36,12 +36,12 @@ namespace Fishing.Fishables.Fish
 
         public void Movement()
         {
-            if (Vector2.Distance(transform.position, movement.targetPos) <= distanceThreshold)
+            if (Vector2.Distance(transform.position, movement.TargetPos) <= distanceThreshold)
             {
                 GenerateWanderPosition();
                 return;
             }
-            movement.CalculateTurnDirection();
+            movement.CalculateTurnDirection(movement.TargetPos);
 
             holdCount -= Time.deltaTime;
             if (holdCount > 0) return;
@@ -56,23 +56,23 @@ namespace Fishing.Fishables.Fish
             {
                 if (i >= generateWanderPositionPasses)
                 {
-                    movement.targetPos = transform.parent.position;
+                    movement.TargetPos = transform.parent.position;
                     break;
                 }
 
-                Vector2 _rand = Random.insideUnitCircle * movement.GetMaxHomeDistance();
+                Vector2 _rand = Random.insideUnitCircle * movement.MaxHomeDistance;
                 bool _aboveWater = _rand.y + transform.position.y >= 0f;
                 float _distanceFromHome = Vector2.Distance(new Vector2(_rand.x + transform.position.x, _rand.y + transform.position.y), transform.parent.position);
                 i++;
 
                 if (_aboveWater) continue;
-                if (_distanceFromHome > movement.GetMaxHomeDistance()) continue;
-                movement.targetPos = (Vector2)transform.position + _rand;
+                if (_distanceFromHome > movement.MaxHomeDistance) continue;
+                movement.TargetPos = (Vector2)transform.position + _rand;
                 break;
             }
 
-            ClosestPointInfo _closestPointInfo = Utilities.ClosestPointFromColliders(movement.targetPos, floorColliders);
-            if (_closestPointInfo.collider.OverlapPoint(movement.targetPos)) movement.targetPos = _closestPointInfo.collider.ClosestPoint(transform.position);
+            ClosestPointInfo _closestPointInfo = Utilities.ClosestPointFromColliders(movement.TargetPos, floorColliders);
+            if (_closestPointInfo.collider.OverlapPoint(movement.TargetPos)) movement.TargetPos = _closestPointInfo.collider.ClosestPoint(transform.position);
 
             holdCount = holdTime;
         }
