@@ -102,12 +102,15 @@ namespace Fishing.Fishables.Fish {
                 return;
             }
 
-            ClosestPointInfo closestPointInfo = Utilities.ClosestPointFromColliders(transform.position, _floorColliders);
-            float distToFloor = Vector2.Distance(transform.position, closestPointInfo.position);
+            if (FishableGrid.instance.IsNearbyTerrainGrid(_fishable.GridSquare[0], _fishable.GridSquare[1], _fishable.Range)) {
 
-            if (distToFloor < _obstacleAvoidanceDistance) {
-                AvoidFloor(closestPointInfo.position);
-                return;
+                ClosestPointInfo closestPointInfo = Utilities.ClosestPointFromColliders(transform.position, _floorColliders);
+                float distToFloor = Vector2.Distance(transform.position, closestPointInfo.position);
+
+                if (distToFloor < _obstacleAvoidanceDistance) {
+                    AvoidFloor(closestPointInfo.position);
+                    return;
+                }
             }
 
             if (ActivePredator != null) {
