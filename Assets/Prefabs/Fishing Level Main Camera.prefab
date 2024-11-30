@@ -100,11 +100,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _defaultPosition: {x: 0, y: 0}
-  _minFollowSpeed: 0.1
-  _maxFollowSpeed: 1
+  _minFollowSpeed: 0.001
+  _maxFollowSpeed: 0.05
   _followThreshold: 0.1
   _zoomSpeed: 0.5
-  _zoomThreshold: 0.1
+  _zoomThreshold: 0.01
   _zoomMagnitude: 1
   _minPlayerZoom: 1
   _maxPlayerZoom: 20
