@@ -18,15 +18,17 @@ namespace Fishing.Fishables.Fish {
         }
 
         void Start() {
-            StartCoroutine(CheckForGrowth());
+            StartCoroutine(Co_CheckForGrowth());
         }
 
-        private IEnumerator CheckForGrowth() {
-            if (_fishable.IsHooked) yield return new WaitForSeconds(_growthCheckFrequency);
-            if (_hunger.CurrentFood >= _growthStart) {
-                Grow();
+        private IEnumerator Co_CheckForGrowth() {
+            while (true) {
+                if (_fishable.IsHooked) yield return new WaitForSeconds(_growthCheckFrequency);
+                if (_hunger.CurrentFood >= _growthStart) {
+                    Grow();
+                }
+                yield return new WaitForSeconds(_growthCheckFrequency);
             }
-            yield return new WaitForSeconds(_growthCheckFrequency);
         }
 
         private void Grow() {

@@ -1,84 +1,72 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Fishing.FishingMechanics;
+﻿using Fishing.FishingMechanics;
 using Fishing.Util;
+using System.Collections;
+using UnityEngine;
 
-namespace Fishing.Fishables.Fish
-{
+namespace Fishing.Fishables.Fish {
     [RequireComponent(typeof(FishMovement))]
-    public class Wander : MonoBehaviour, IMovement, IEdible
-    {
+    public class Wander : MonoBehaviour, IMovement, IEdible {
         [Header("Movement")]
-        [SerializeField] private int generateWanderPositionPasses;
-        [SerializeField] private float wanderSpeed;
+        [SerializeField] private int _generateWanderPositionPasses;
+        [SerializeField] private float _wanderSpeed;
 
-        [SerializeField] private float distanceThreshold;
+        [SerializeField] private float _distanceThreshold;
+        [SerializeField] private float _wanderPositionTimeout;
 
-        [Header("Hold")]
-        [SerializeField] private float holdTime;
-        private float holdCount;
+        private FishMovement _movement;
+        private PolygonCollider2D[] _floorColliders;
 
-        private FishMovement movement;
-        private PolygonCollider2D[] floorColliders;
-
-        private void Awake()
-        {
-            movement = GetComponent<FishMovement>();
-            floorColliders = GameObject.Find("Grid").GetComponentsInChildren<PolygonCollider2D>();
+        private void Awake() {
+            _movement = GetComponent<FishMovement>();
+            _floorColliders = GameObject.Find("Grid").GetComponentsInChildren<PolygonCollider2D>();
         }
 
-        private void Start()
-        {
-            GenerateWanderPosition();
-            holdCount = holdTime;
+        private void Start() {
+            StartCoroutine(Co_GenerateWanderPosition());
         }
 
-        public void Movement()
-        {
-            if (Vector2.Distance(transform.position, movement.TargetPos) <= distanceThreshold)
-            {
-                GenerateWanderPosition();
-                return;
+        public void Movement() {
+            if (Vector2.Distance(transform.position, _movement.TargetPos) <= _distanceThreshold) {
+                StopCoroutine(Co_GenerateWanderPosition());
+                StartCoroutine(Co_GenerateWanderPosition());
             }
-            movement.CalculateTurnDirection(movement.TargetPos);
-
-            holdCount -= Time.deltaTime;
-            if (holdCount > 0) return;
-
-            GenerateWanderPosition();
+            _movement.CalculateTurnDirection(_movement.TargetPos);
         }
 
-        private void GenerateWanderPosition()
-        {
-            int i = 0;
-            while (true)
-            {
-                if (i >= generateWanderPositionPasses)
-                {
-                    movement.TargetPos = transform.parent.position;
+        private IEnumerator Co_GenerateWanderPosition() {
+            while (true) {
+                int i = 0;
+                while (true) {
+                    if (i >= _generateWanderPositionPasses) {
+                        _movement.TargetPos = transform.parent.position;
+                        break;
+                    }
+
+                    Vector2 _rand = Random.insideUnitCircle * _movement.MaxHomeDistance;
+                    bool _aboveWater = _rand.y + transform.position.y >= 0f;
+                    float _distanceFromHome = Vector2.Distance(new Vector2(_rand.x + transform.position.x, _rand.y + transform.position.y), transform.parent.position);
+                    i++;
+
+                    if (_aboveWater) {
+                        continue;
+                    }
+                    if (_distanceFromHome > _movement.MaxHomeDistance) {
+                        continue;
+                    }
+                    _movement.TargetPos = (Vector2)transform.position + _rand;
                     break;
                 }
 
-                Vector2 _rand = Random.insideUnitCircle * movement.MaxHomeDistance;
-                bool _aboveWater = _rand.y + transform.position.y >= 0f;
-                float _distanceFromHome = Vector2.Distance(new Vector2(_rand.x + transform.position.x, _rand.y + transform.position.y), transform.parent.position);
-                i++;
+                ClosestPointInfo _closestPointInfo = Utilities.ClosestPointFromColliders(_movement.TargetPos, _floorColliders);
+                if (_closestPointInfo.collider.OverlapPoint(_movement.TargetPos)) {
+                    _movement.TargetPos = _closestPointInfo.collider.ClosestPoint(transform.position);
+                }
 
-                if (_aboveWater) continue;
-                if (_distanceFromHome > movement.MaxHomeDistance) continue;
-                movement.TargetPos = (Vector2)transform.position + _rand;
-                break;
+                yield return new WaitForSeconds(_wanderPositionTimeout);
             }
-
-            ClosestPointInfo _closestPointInfo = Utilities.ClosestPointFromColliders(movement.TargetPos, floorColliders);
-            if (_closestPointInfo.collider.OverlapPoint(movement.TargetPos)) movement.TargetPos = _closestPointInfo.collider.ClosestPoint(transform.position);
-
-            holdCount = holdTime;
         }
 
-        public void Despawn()
-        {
+        public void Despawn() {
             BaitManager.instance.RemoveFish(GetComponent<FoodSearch>());
             GetComponent<Edible>().Despawn();
         }

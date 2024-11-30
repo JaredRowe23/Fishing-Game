@@ -421,8 +421,7 @@ MonoBehaviour:
   _swimSpeed: 15
   _rotationSpeed: 100
   _obstacleAvoidanceDistance: 10
-  _targetPosDirWeight: 10
-  obstacleAvoidanceDirWeight: 11
+  _obstacleAvoidanceWeight: 1
   _baseMaxHomeDistance: 75
   _maxHomeDistanceVariation: 25
   _drawMaxHomeDistance: 0
@@ -448,10 +447,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5708863d083a7844eb0d0789190bfbbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generateWanderPositionPasses: 10
-  wanderSpeed: 15
-  distanceThreshold: 0.1
-  holdTime: 2.5
+  _generateWanderPositionPasses: 10
+  _wanderSpeed: 5
+  _distanceThreshold: 1
+  _wanderPositionTimeout: 10
 --- !u!114 &1462735215908233737
 MonoBehaviour:
   m_ObjectHideFlags: 0

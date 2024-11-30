@@ -93,6 +93,8 @@ namespace Fishing.Fishables.Fish {
         private void DetermineDesiredFood() {
             GameObject newDesiredFood = null;
             List<Edible> ediblesWithinRange = FishableGrid.instance.GetNearbyEdibles(_fishable.GridSquare[0], _fishable.GridSquare[1], _fishable.Range);
+            Vector2 thisPosition = transform.position;
+            Vector2 thisForward = transform.forward;
             foreach(Edible edible in ediblesWithinRange) {
                 if (edible == _edible) {
                     continue;
@@ -100,16 +102,17 @@ namespace Fishing.Fishables.Fish {
                 if (edible.GetComponent<Fishable>().IsHooked) {
                     continue;
                 }
-                if (edible.transform.position.y >= 0) {
+                Vector2 ediblePosition = edible.transform.position;
+                if (ediblePosition.y >= 0) {
                     continue;
                 }
 
-                float distance = Vector2.Distance(edible.transform.position, transform.position);
+                float distance = Vector2.Distance(ediblePosition, thisPosition);
                 if (distance > SightDistance) {
                     continue;
                 }
                 if (newDesiredFood != null) {
-                    if (distance > Vector2.Distance(transform.position, (Vector2)newDesiredFood.transform.position)) {
+                    if (distance > Vector2.Distance(thisPosition, (Vector2)newDesiredFood.transform.position)) {
                         continue;
                     }
                 }
@@ -122,7 +125,7 @@ namespace Fishing.Fishables.Fish {
                     newDesiredFood = edible.gameObject;
                     continue;
                 }
-                if (Utilities.IsWithinAngleOfDirection(transform.position, edible.transform.position, transform.forward, SightAngle)) {
+                if (Utilities.IsWithinAngleOfDirection(thisPosition, ediblePosition, thisForward, SightAngle)) {
                     newDesiredFood = edible.gameObject;
                     continue;
                 }
