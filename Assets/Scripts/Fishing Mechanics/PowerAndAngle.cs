@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Fishing.IO;
 using Fishing.UI;
 using Fishing.Util;
+using Fishing.PlayerInput;
 
 namespace Fishing.FishingMechanics
 {

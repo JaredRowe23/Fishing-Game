@@ -5,6 +5,7 @@ using Fishing.Fishables;
 using Fishing.IO;
 using UnityEngine.UI;
 using Fishing.UI;
+using Fishing.PlayerInput;
 
 namespace Fishing.FishingMechanics.Minigame
 {

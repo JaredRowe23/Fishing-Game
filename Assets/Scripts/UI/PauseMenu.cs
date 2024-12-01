@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fishing.IO;
 using UnityEngine.SceneManagement;
+using Fishing.PlayerInput;
 
 namespace Fishing.UI
 {

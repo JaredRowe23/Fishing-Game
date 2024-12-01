@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Fishing.IO;
+using Fishing.PlayerInput;
 
 namespace Fishing.FishingMechanics
 {

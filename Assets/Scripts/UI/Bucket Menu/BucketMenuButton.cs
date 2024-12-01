@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using Fishing.IO;
+using Fishing.PlayerInput;
 
 namespace Fishing.UI
 {

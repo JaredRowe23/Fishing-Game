@@ -7,6 +7,7 @@ using Fishing.UI;
 using Fishing.PlayerCamera;
 using Fishing.FishingMechanics.Minigame;
 using Fishing.Inventory;
+using Fishing.PlayerInput;
 
 namespace Fishing.FishingMechanics
 {

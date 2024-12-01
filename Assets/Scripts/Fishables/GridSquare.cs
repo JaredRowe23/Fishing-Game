@@ -2,7 +2,6 @@ using Fishing.Fishables.Fish;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 namespace Fishing.Fishables {
     [Serializable]

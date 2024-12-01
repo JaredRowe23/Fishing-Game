@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Fishing.IO
+namespace Fishing.PlayerInput
 {
     public class InputManager : MonoBehaviour
     {

@@ -1,5 +1,5 @@
-﻿using Fishing.IO;
-using UnityEngine;
+﻿using UnityEngine;
+using Fishing.PlayerInput;
 
 namespace Fishing.PlayerCamera {
     public class CameraBehaviour : MonoBehaviour {
@@ -28,6 +28,13 @@ namespace Fishing.PlayerCamera {
         private float _playerZoom;
         private float _tempZoom;
 
+        private bool _activeUI;
+
+        public bool ActiveUI {
+            get { return _activeUI; }
+            set { _activeUI = value; }
+        }
+
         private bool _activeUILastFrame;
 
         private static CameraBehaviour _instance;
@@ -52,7 +59,7 @@ namespace Fishing.PlayerCamera {
         }
 
         private void Update() {
-            if (UIManager.instance.IsActiveUI()) {
+            if (ActiveUI) {
                 _lockPlayerControls = true;
             }
 
@@ -68,7 +75,7 @@ namespace Fishing.PlayerCamera {
                 HandleCameraPosition();
             }
 
-            _activeUILastFrame = UIManager.instance.IsActiveUI();
+            _activeUILastFrame = ActiveUI;
         }
 
         private void HandleCameraZoom() {
