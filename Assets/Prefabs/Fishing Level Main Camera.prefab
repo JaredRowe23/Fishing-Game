@@ -249,9 +249,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b826ddd63ab2afb459d985e8fc44eafe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxAlpha: 100
+  _maxAlpha: 1
   _minDepth: 50
   _maxDepth: 100
+  _minDepthGizmoColor: {r: 0, g: 1, b: 0, a: 0.49803922}
+  _maxDepthGizmoColor: {r: 1, g: 0, b: 0, a: 0.49803922}
 --- !u!1 &8734894529570693113
 GameObject:
   m_ObjectHideFlags: 0
