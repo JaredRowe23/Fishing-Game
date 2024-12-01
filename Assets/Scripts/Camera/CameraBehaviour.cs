@@ -12,7 +12,7 @@ namespace Fishing.PlayerCamera {
 
         [Header("Zoom")]
         [SerializeField, Range(0f, 1.0f), Tooltip("Speed camera will zoom in at (not scaled with deltaTime).")] private float _zoomSpeed = 0.5f;
-        [SerializeField, Tooltip("Value difference camera will stop adjusting zoom to match target zoom.")] private float _zoomThreshold = 0.01f;
+        [SerializeField, Min(0f), Tooltip("Value difference camera will stop adjusting zoom to match target zoom.")] private float _zoomThreshold = 0.01f;
 
         [SerializeField, Min(0), Tooltip("Amount Camera.orthographicSize is adjusted for each zoom action.")] private float _zoomMagnitude = 1;
         [SerializeField, Min(0), Tooltip("Minimum value for Camera.orthographicSize when zooming.")] private float _minPlayerZoom = 1;
@@ -42,6 +42,15 @@ namespace Fishing.PlayerCamera {
         public Camera Camera { get => _camera; set => _camera = value; }
 
         private CameraBehaviour() => Instance = this;
+
+        private void OnValidate() {
+            if (_minFollowSpeed > _maxFollowSpeed) {
+                _minFollowSpeed = _maxFollowSpeed;
+            }
+            if (_minPlayerZoom > _maxPlayerZoom) {
+                _minPlayerZoom = _maxPlayerZoom;
+            }
+        }
 
         private void Awake() {
             Camera = GetComponent<Camera>();
