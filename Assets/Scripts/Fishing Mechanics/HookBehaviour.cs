@@ -95,7 +95,7 @@ namespace Fishing.FishingMechanics
                 rb.isKinematic = false;
             }
 
-            cam.SetDesiredPosition(transform.position);
+            cam.DesiredPosition = transform.position;
         }
 
         public void Despawn()

@@ -21,20 +21,18 @@ namespace Fishing.PlayerCamera {
         private bool _lockZoom = false;
         private bool _lockPosition = false;
         private bool _lockPlayerControls = false;
+        public bool LockPlayerControls { get => _lockPlayerControls; set => _lockPlayerControls = value; }
 
         private Vector2 _desiredPosition;
+        public Vector2 DesiredPosition { get => _desiredPosition; set => _desiredPosition = value; }
         private float _desiredZoom;
 
         private float _playerZoom;
         private float _tempZoom;
+        public float TempZoom { get => _tempZoom; set => _tempZoom = value; }
 
         private bool _activeUI;
-
-        public bool ActiveUI {
-            get { return _activeUI; }
-            set { _activeUI = value; }
-        }
-
+        public bool ActiveUI { get { return _activeUI; } set { _activeUI = value; } }
         private bool _activeUILastFrame;
 
         private static CameraBehaviour _instance;
@@ -42,7 +40,6 @@ namespace Fishing.PlayerCamera {
 
         private Camera _camera;
         public Camera Camera { get => _camera; set => _camera = value; }
-
 
         private CameraBehaviour() => Instance = this;
 
@@ -53,21 +50,21 @@ namespace Fishing.PlayerCamera {
         }
 
         private void Start() {
-            _lockZoom = _lockPosition = _lockPlayerControls = _activeUILastFrame = false;
-            _playerZoom = _desiredZoom = _tempZoom = Camera.orthographicSize;
-            _desiredPosition = _defaultPosition = Camera.transform.position;
+            _lockZoom = _lockPosition = LockPlayerControls = _activeUILastFrame = false;
+            _playerZoom = _desiredZoom = TempZoom = Camera.orthographicSize;
+            DesiredPosition = _defaultPosition = Camera.transform.position;
         }
 
         private void Update() {
             if (ActiveUI) {
-                _lockPlayerControls = true;
+                LockPlayerControls = true;
             }
 
             else if (_activeUILastFrame) {
-                _lockPlayerControls = false; // not a great solution, potentially replace with subscription to a "close active ui" subscription to turn off control lock
+                LockPlayerControls = false; // not a great solution, potentially replace with subscription to a "close active ui" subscription to turn off control lock
             }
 
-            _desiredZoom = _lockPlayerControls ? _tempZoom : _playerZoom;
+            _desiredZoom = LockPlayerControls ? TempZoom : _playerZoom;
             if (!_lockZoom) {
                 HandleCameraZoom();
             }
@@ -86,14 +83,14 @@ namespace Fishing.PlayerCamera {
         }
 
         private void HandleCameraPosition() {
-            float viewportSqrDistance = GetViewportSqrDistanceFromCenter(_desiredPosition);
+            float viewportSqrDistance = GetViewportSqrDistanceFromCenter(DesiredPosition);
             if (viewportSqrDistance < _followThreshold * _followThreshold) { 
                 return; 
             }
 
             float speed = Mathf.Lerp(_minFollowSpeed, _maxFollowSpeed, viewportSqrDistance);
-            float distance = Vector2.Distance(Camera.transform.position, _desiredPosition);
-            Vector2 newPos = Vector2.MoveTowards(Camera.transform.position, _desiredPosition, distance * speed);
+            float distance = Vector2.Distance(Camera.transform.position, DesiredPosition);
+            Vector2 newPos = Vector2.MoveTowards(Camera.transform.position, DesiredPosition, distance * speed);
             Camera.transform.position = new Vector3(newPos.x, newPos.y, Camera.transform.position.z);
         }
 
@@ -105,20 +102,20 @@ namespace Fishing.PlayerCamera {
             return viewportDistanceMagnitude;
         }
 
-        private void CameraZoomIn() {
-            if (_lockPlayerControls) { 
+        public void CameraZoomIn() {
+            if (LockPlayerControls) { 
                 return; 
             }
             _playerZoom = Mathf.Clamp(_playerZoom - _zoomMagnitude, _minPlayerZoom, _maxPlayerZoom);
         }
-        private void CameraZoomOut() {
-            if (_lockPlayerControls) { 
+        public void CameraZoomOut() {
+            if (LockPlayerControls) { 
                 return; 
             }
             _playerZoom = Mathf.Clamp(_playerZoom + _zoomMagnitude, _minPlayerZoom, _maxPlayerZoom);
         }
 
-        public void ReturnHome() => _desiredPosition = _defaultPosition;
+        public void ReturnHome() => DesiredPosition = _defaultPosition;
 
         /// <summary>
         /// Determines whether the given position is within the camera's frame.
@@ -142,11 +139,5 @@ namespace Fishing.PlayerCamera {
             // to return the orthographic size needed to cover a known vertical distance.
             return distance *= 0.5625f * 0.5f;
         }
-
-        public void SetDesiredPosition(Vector2 pos) => _desiredPosition = pos;
-
-        public void EnablePlayerControls() => _lockPlayerControls = false;
-        public void DisablePlayerControls() => _lockPlayerControls = true;
-        public void SetTempZoom(float tempZoom) => _tempZoom = tempZoom;
     }
 }

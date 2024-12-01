@@ -127,13 +127,13 @@ namespace Fishing.FishingMechanics
             Vector2 _furthestPoint = _trajectoryPoints[_trajectoryPoints.Count - 1];
 
             Vector2 _newPos = (_closestPoint + _furthestPoint) * 0.5f;
-            cam.SetDesiredPosition(_newPos);
+            cam.DesiredPosition = _newPos;
 
             float _distance = _furthestPoint.x - _closestPoint.x;
             float _zoom = cam.ViewDistanceToCameraZoom(_distance) * trajectoryCameraZoomMagnitude;
 
-            cam.DisablePlayerControls();
-            cam.SetTempZoom(_zoom);
+            cam.LockPlayerControls = true;
+            cam.TempZoom = _zoom;
             AdjustWidthToCameraZoom(_zoom);
         }
 

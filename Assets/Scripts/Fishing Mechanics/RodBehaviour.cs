@@ -118,7 +118,7 @@ namespace Fishing.FishingMechanics
             anim.SetTrigger("cast");
             playerAnim.SetTrigger("cast");
 
-            cam.EnablePlayerControls();
+            cam.LockPlayerControls = false;
             InputManager.onCastReel += StartReeling;
             InputManager.releaseCastReel += StopReeling;
 
