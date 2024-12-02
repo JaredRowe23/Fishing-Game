@@ -1,33 +1,36 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Fishing.PlayerCamera {
     public class BackgroundParallax : MonoBehaviour {
-        [SerializeField] private List<Transform> _parallaxTransforms;
-        [SerializeField] private List<int> _layers;
-        [SerializeField] private float _parallaxStrength;
-        [SerializeField] private Vector3 _parallaxOrigin;
-
-        private List<Vector3> _originalPositions;
+        [SerializeField, Tooltip("Elements making up the layers of the parallax effect.")] private List<ParallaxingElement> _parallaxingElements;
+        private Vector3 _parallaxOrigin;
 
         private Camera _camera;
 
-        void Awake() {
-            _camera = CameraBehaviour.Instance.Camera;
-            _parallaxOrigin = _camera.transform.position;
+        private void Awake() {
+            _camera = GetComponent<Camera>();
         }
 
-        void Start() {
-            _originalPositions = new List<Vector3>();
-            for (int i = 0; i < _parallaxTransforms.Count; i++) {
-                _originalPositions.Add(_parallaxTransforms[i].position);
+        private void Start() {
+            _parallaxOrigin = _camera.transform.position;
+            for (int i = 0; i < _parallaxingElements.Count; i++) {
+                if (_parallaxingElements[i].ElementTransform == null) {
+                    Debug.LogError("Parallaxing Element Transform not set", this);
+                }
+                _parallaxingElements[i].OriginalPosition = _parallaxingElements[i].ElementTransform.position;
             }
         }
 
-        void Update() {
-            for (int i = 0; i < _parallaxTransforms.Count; i++) {
-                _parallaxTransforms[i].position = _originalPositions[i] + (_camera.transform.position - _parallaxOrigin) * _parallaxStrength * _layers[i];
+        private void FixedUpdate() {
+            AdjustParallaxPositions();
+        }
+
+        private void AdjustParallaxPositions() {
+            for (int i = 0; i < _parallaxingElements.Count; i++) {
+                ParallaxingElement element = _parallaxingElements[i];
+                Vector2 cameraDeltaPosition = _camera.transform.position - _parallaxOrigin;
+                element.ElementTransform.position = element.OriginalPosition + cameraDeltaPosition * element.ParallaxMultiplier;
             }
         }
     }
