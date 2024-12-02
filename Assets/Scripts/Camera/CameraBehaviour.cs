@@ -19,7 +19,9 @@ namespace Fishing.PlayerCamera {
         [SerializeField, Min(0), Tooltip("Maximum value for Camera.orthographicSize when zooming.")] private float _maxPlayerZoom = 20;
 
         private bool _lockZoom = false;
+        public bool LockZoom { get => _lockZoom; set => _lockZoom = value; }
         private bool _lockPosition = false;
+        public bool LockPosition { get => _lockPosition; set => _lockPosition = value; }
         private bool _lockPlayerControls = false;
         public bool LockPlayerControls { get => _lockPlayerControls; set => _lockPlayerControls = value; }
 
@@ -33,13 +35,13 @@ namespace Fishing.PlayerCamera {
 
         private bool _activeUI;
         public bool ActiveUI { get { return _activeUI; } set { _activeUI = value; } }
-        private bool _activeUILastFrame;
+        private bool _activeUILastFrame = false;
 
         private static CameraBehaviour _instance;
         public static CameraBehaviour Instance { get => _instance; private set => _instance = value; }
 
         private Camera _camera;
-        public Camera Camera { get => _camera; set => _camera = value; }
+        public Camera Camera { get => _camera; private set => _camera = value; }
 
         private CameraBehaviour() => Instance = this;
 
@@ -59,7 +61,6 @@ namespace Fishing.PlayerCamera {
         }
 
         private void Start() {
-            _lockZoom = _lockPosition = LockPlayerControls = _activeUILastFrame = false;
             _playerZoom = _desiredZoom = TempZoom = Camera.orthographicSize;
             DesiredPosition = _defaultPosition = Camera.transform.position;
         }
@@ -74,10 +75,10 @@ namespace Fishing.PlayerCamera {
             }
 
             _desiredZoom = LockPlayerControls ? TempZoom : _playerZoom;
-            if (!_lockZoom) {
+            if (!LockZoom) {
                 HandleCameraZoom();
             }
-            if (!_lockPosition) {
+            if (!LockPosition) {
                 HandleCameraPosition();
             }
 

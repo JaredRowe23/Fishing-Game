@@ -24,9 +24,13 @@ namespace Fishing.PlayerCamera {
             _sprite = GetComponent<SpriteRenderer>();
         }
 
-        void Update() {
-            if (-transform.position.y < _minDepth || _sprite.color.a == 0f) { 
-                return; 
+        private void FixedUpdate() {
+            AdjustTransparency();
+        }
+
+        private void AdjustTransparency() {
+            if (-transform.position.y < _minDepth || _sprite.color.a == 0f) {
+                return;
             }
             _sprite.color = Utilities.SetTransparency(_sprite.color, Mathf.InverseLerp(_minDepth, _maxDepth, -transform.position.y) * _maxAlpha);
         }
