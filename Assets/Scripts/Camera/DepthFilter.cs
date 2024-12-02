@@ -1,18 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Fishing.Util;
+using System.ComponentModel;
 using UnityEngine;
-using Fishing.Util;
 
 namespace Fishing.PlayerCamera {
     public class DepthFilter : MonoBehaviour {
-        [SerializeField, Range(0, 1f)] private float _maxAlpha;
-        [SerializeField] private float _minDepth;
-        [SerializeField] private float _maxDepth;
+        [SerializeField, Range(0, 1f), Tooltip("The maximum alpha value the filter will be set to when it reaches the set maximum depth.")] private float _maxAlpha;
+        [SerializeField, Tooltip("The depth the filter will begin to show itself at when moving down, or conversely when it's fully hidden when moving up.")] private float _minDepth;
+        [SerializeField, Tooltip("The depth the filter will be at maximum transparency.")] private float _maxDepth;
         private SpriteRenderer _sprite;
 
         [Header("Gizmos")]
-        [SerializeField] private Color _minDepthGizmoColor;
-        [SerializeField] private Color _maxDepthGizmoColor;
+        [SerializeField, Tooltip("The color of the line that represents the minimum depth.")] private Color _minDepthGizmoColor;
+        [SerializeField, Tooltip("The color of the line that represents the maximum depth.")] private Color _maxDepthGizmoColor;
 
         private void OnValidate() {
             if (_minDepth > _maxDepth) {
