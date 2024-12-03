@@ -75,7 +75,7 @@ namespace Fishing.Fishables.Fish {
             HandleHookedItem();
             _hunger.AddFood(DesiredFood.GetComponent<Edible>());
             GetComponent<AudioSource>().Play();
-            DesiredFood.GetComponent<IEdible>().Despawn();
+            Destroy(DesiredFood);
             DesiredFood = null;
         }
 
@@ -137,6 +137,18 @@ namespace Fishing.Fishables.Fish {
                 }
             }
             DesiredFood = newDesiredFood;
+        }
+
+        public void RemoveAsActivePredator() {
+            if (DesiredFood == null) return;
+            if (!DesiredFood.GetComponent<FishMovement>()) return;
+
+            DesiredFood.GetComponent<FishMovement>().ActivePredator = null;
+        }
+
+        private void OnDestroy() {
+            RemoveAsActivePredator();
+            BaitManager.instance.RemoveFish(this);
         }
 
         private void OnDrawGizmosSelected() {

@@ -6,11 +6,19 @@ using Fishing.Fishables.Fish;
 
 namespace Fishing.Fishables
 {
-    public class BaitBehaviour : MonoBehaviour, IEdible
+    public class BaitBehaviour : MonoBehaviour
     {
         [SerializeField] private BaitScriptable scriptable;
         [SerializeField] private Vector3 anchorPoint;
         [SerializeField] private Vector3 anchorRotation;
+
+        private FoodSearch _foodSearch;
+        private Edible _edible;
+
+        private void Awake() {
+            _foodSearch = GetComponent<FoodSearch>();
+            _edible = GetComponent<Edible>();
+        }
 
         private void Start()
         {
@@ -22,11 +30,6 @@ namespace Fishing.Fishables
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(transform.position, scriptable.areaOfEffect);
         }
-        public void Despawn()
-        {
-            BaitManager.instance.RemoveFish(GetComponent<FoodSearch>());
-            DestroyImmediate(gameObject);
-        }
 
         private void OnTriggerStay2D(Collider2D collision)
         {
@@ -34,7 +37,7 @@ namespace Fishing.Fishables
 
             FoodSearch colSearch = collision.GetComponent<FoodSearch>();
 
-            if (!colSearch.DesiredFoodTypes.HasFlag(GetComponent<Edible>().FoodType)) return;
+            if (!colSearch.DesiredFoodTypes.HasFlag(_edible.FoodType)) return;
 
             colSearch.DesiredFood = gameObject;
         }
@@ -42,5 +45,9 @@ namespace Fishing.Fishables
         public BaitScriptable GetScriptable() => scriptable;
         public Vector3 GetAnchorPoint() => anchorPoint;
         public Vector3 GetAnchorRotation() => anchorRotation;
+
+        private void OnDestroy() {
+            BaitManager.instance.RemoveFish(_foodSearch);
+        }
     }
 }

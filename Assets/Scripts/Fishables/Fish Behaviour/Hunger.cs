@@ -11,7 +11,6 @@ namespace Fishing.Fishables.Fish {
         public float CurrentFood { get => _currentFood; set => _currentFood = value; }
 
         private Fishable _fishable;
-        private IEdible _edible;
 
         private void OnValidate() {
             if (_foodStartVariance > _foodStart) {
@@ -21,7 +20,6 @@ namespace Fishing.Fishables.Fish {
 
         private void Awake() {
             _fishable = GetComponent<Fishable>();
-            _edible = GetComponent<IEdible>();
         }
 
         void Start() {
@@ -43,7 +41,7 @@ namespace Fishing.Fishables.Fish {
         }
 
         private void Starve() {
-            _edible.Despawn();
+            Destroy(gameObject);
         }
 
         private void HandleHunger() {
@@ -60,7 +58,7 @@ namespace Fishing.Fishables.Fish {
             float lengthScalar = Mathf.InverseLerp(foodFishable.LengthMin, foodFishable.LengthMax, foodFishable.Length) + 0.5f;
             float weightScalar = Mathf.InverseLerp(foodFishable.WeightMin, foodFishable.WeightMax, foodFishable.Weight) + 0.5f;
             float scalarAverage = (lengthScalar + weightScalar) * 0.5f;
-            CurrentFood += food.baseFoodAmount * scalarAverage;
+            CurrentFood += food.BaseFoodAmount * scalarAverage;
         }
     }
 }

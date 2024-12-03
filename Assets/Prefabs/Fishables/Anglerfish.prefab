@@ -445,7 +445,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ed023c87f291a42a62ede1f6a833e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseFoodAmount: 30
+  _baseFoodAmount: 20
   _foodType: 1
 --- !u!114 &7006070457836360306
 MonoBehaviour:
@@ -459,11 +459,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d187c2bd7d8fc4f9e701b32517bcd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _eatDistance: 0.5
   _sightAngle: 30
   _sightDistance: 10
   _smellRadius: 2.5
   _desiredFoodTypes: 4608
+  _drawSearchingGizmos: 0
+  _smellRadiusColor: {r: 0, g: 1, b: 0, a: 1}
+  _sightConeColor: {r: 0, g: 1, b: 0, a: 1}
+  _drawDesiredFoodGizmos: 0
+  _desiredFoodRayColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!114 &7142783276189959130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -476,11 +480,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d01d3450772a4804e8298cb12105fc75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hungerStart: 100
-  decayRate: 0.1
-  foodStart: 50
-  foodStartVariance: 10
-  currentFood: 0
+  _hungerStart: 100
+  _decayRate: 0.1
+  _foodStart: 50
+  _foodStartVariance: 10
 --- !u!114 &5629051499999482069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -493,10 +496,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e95c5405c2f3d3641987609571099086, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  growthStart: 75
-  growthCheckFrequency: 15
-  growthVariance: 0.25
-  growthFoodCost: 25
+  _growthStart: 75
+  _growthCheckFrequency: 15
+  _growthVariance: 0.25
+  _growthFoodCost: 25
 --- !u!114 &-5754156657919711059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -512,14 +515,12 @@ MonoBehaviour:
   _swimSpeed: 1.5
   _rotationSpeed: 100
   _obstacleAvoidanceDistance: 2
-  _targetPosDirWeight: 10
-  obstacleAvoidanceDirWeight: 11
   _baseMaxHomeDistance: 75
   _maxHomeDistanceVariation: 25
-  _drawBaseMaxHomeDistance: 0
-  _baseMaxHomeDistanceColor: {r: 0, g: 1, b: 1, a: 0.2509804}
   _drawMaxHomeDistance: 0
   _maxHomeDistanceColor: {r: 0, g: 1, b: 1, a: 1}
+  _drawBaseMaxHomeDistance: 0
+  _baseMaxHomeDistanceColor: {r: 0, g: 1, b: 1, a: 0.2509804}
   _drawMaxHomeDistanceVariations: 0
   _minHomeDistanceVariationColor: {r: 0, g: 1, b: 1, a: 0.1254902}
   _maxHomeDistanceVariationColor: {r: 0, g: 1, b: 1, a: 0.1254902}
@@ -539,10 +540,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5708863d083a7844eb0d0789190bfbbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generateWanderPositionPasses: 3
-  wanderSpeed: 1.15
-  distanceThreshold: 0.1
-  holdTime: 2.5
+  _wanderSpeed: 0.5
+  _distanceThreshold: 0.1
+  _wanderPositionTimeout: 10
 --- !u!82 &-6890081191903633112
 AudioSource:
   m_ObjectHideFlags: 0

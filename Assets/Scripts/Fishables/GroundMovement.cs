@@ -6,7 +6,7 @@ using Fishing.Util;
 
 namespace Fishing.Fishables.Fish
 {
-    public class GroundMovement : MonoBehaviour, IEdible
+    public class GroundMovement : MonoBehaviour
     {
         [SerializeField] private float moveSpeed;
         [SerializeField] private float groundOffset;
@@ -90,12 +90,6 @@ namespace Fishing.Fishables.Fish
 
             float _angleFromFloor = Vector2.Angle(Vector2.up, (Vector2)transform.position - closestFloorPoint);
             transform.rotation = Quaternion.Euler(0, 0, _angleFromFloor);
-        }
-
-        public void Despawn()
-        {
-            BaitManager.instance.RemoveFish(GetComponent<FoodSearch>());
-            GetComponent<Edible>().Despawn();
         }
     }
 }

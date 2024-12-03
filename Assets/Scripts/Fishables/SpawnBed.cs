@@ -62,7 +62,9 @@ namespace Fishing
             }
         }
 
-        public void RemoveFromList(GameObject _go) => spawnList.Remove(_go);
+        public void RemoveFromSpawner(GameObject _go) {
+            spawnList.Remove(_go);
+        }
 
         private void OnDrawGizmosSelected()
         {

@@ -225,7 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ed023c87f291a42a62ede1f6a833e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseFoodAmount: 5
+  _baseFoodAmount: 5
   _foodType: 8
 --- !u!114 &2841550005915398361
 MonoBehaviour:
@@ -256,11 +256,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1d187c2bd7d8fc4f9e701b32517bcd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _eatDistance: 0.5
   _sightAngle: 30
   _sightDistance: 10
   _smellRadius: 2.5
   _desiredFoodTypes: 0
+  _drawSearchingGizmos: 0
+  _smellRadiusColor: {r: 0, g: 1, b: 0, a: 1}
+  _sightConeColor: {r: 0, g: 1, b: 0, a: 1}
+  _drawDesiredFoodGizmos: 0
+  _desiredFoodRayColor: {r: 0, g: 1, b: 0, a: 1}
 --- !u!114 &4409439052025071731
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,11 +277,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d01d3450772a4804e8298cb12105fc75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hungerStart: 100
-  decayRate: 0.1
-  foodStart: 50
-  foodStartVariance: 10
-  currentFood: 0
+  _hungerStart: 100
+  _decayRate: 0.1
+  _foodStart: 50
+  _foodStartVariance: 10
 --- !u!114 &5125613466573839871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -290,10 +293,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e95c5405c2f3d3641987609571099086, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  growthStart: 75
-  growthCheckFrequency: 15
-  growthVariance: 0.25
-  growthFoodCost: 25
+  _growthStart: 75
+  _growthCheckFrequency: 15
+  _growthVariance: 0.25
+  _growthFoodCost: 25
 --- !u!82 &4457348879507938280
 AudioSource:
   m_ObjectHideFlags: 0

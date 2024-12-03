@@ -1,13 +1,10 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Fishing.Fishables.Fish
-{
-    public class Edible : MonoBehaviour
-    {
-        public float baseFoodAmount;
+namespace Fishing.Fishables.Fish {
+    public class Edible : MonoBehaviour {
+        [SerializeField, Min(0), Tooltip("The base amount of food for a \"normal\" sized fish of this type.")] private float _baseFoodAmount = 10f;
+        public float BaseFoodAmount { get => _baseFoodAmount; private set { } }
         [Flags] public enum FoodTypes { 
             Anglerfish = 1, 
             Boot = 2, 
@@ -23,34 +20,16 @@ namespace Fishing.Fishables.Fish
             TinCan = 2048, 
             WaterLilyFruit = 4096
         };
-        [SerializeField] private FoodTypes _foodType;
+        [SerializeField, Tooltip("The type of food this is.")] private FoodTypes _foodType;
         public FoodTypes FoodType { get => _foodType; private set { } }
 
-        private FoodSearch foodSearch;
-        [SerializeField] private ISpawn spawn;
 
-        private void Awake()
-        {
-            foodSearch = GetComponent<FoodSearch>();
-            spawn = transform.parent.GetComponent<ISpawn>();
-        }
+        private FoodSearch _foodSearch;
+        private ISpawn _spawn;
 
-        public int GetFoodType() => (int)_foodType;
-
-        public void Despawn()
-        {
-            RemovePredatorFromPrey();
-            spawn.RemoveFromList(gameObject);
-            DestroyImmediate(gameObject);
-        }
-
-        private void RemovePredatorFromPrey()
-        {
-            if (foodSearch == null) return;
-            if (foodSearch.DesiredFood == null) return;
-            if (!foodSearch.DesiredFood.GetComponent<FishMovement>()) return;
-
-            foodSearch.DesiredFood.GetComponent<FishMovement>().ActivePredator = null;
+        private void Awake() {
+            _foodSearch = GetComponent<FoodSearch>();
+            _spawn = transform.parent.GetComponent<ISpawn>();
         }
     }
 }

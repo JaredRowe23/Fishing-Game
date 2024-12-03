@@ -101,7 +101,7 @@ namespace Fishing.UI
         {
             if (menuListingReference != manager.overflowItem) bucket.AddToBucket(rodManager.equippedRod.GetHook().hookedObject.GetComponent<Fishable>());
 
-            rodManager.equippedRod.GetHook().DespawnHookedObject();
+            rodManager.equippedRod.GetHook().DestroyHookedObject();
             manager.overflowItem.SetActive(false);
             bucketMenu.ToggleBucketMenu();
         }

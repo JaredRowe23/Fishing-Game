@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Fishing.Fishables.Fish {
     [RequireComponent(typeof(FishMovement))]
-    public class Shoal : MonoBehaviour, IMovement, IEdible {
+    public class Shoal : MonoBehaviour, IMovement {
         [Header("Turn Factor Weights")]
         [SerializeField, Range(0, 1), Tooltip("Weight on how much this shoal should prioritize avoidance.")] private float _avoidanceDirWeight = 1f;
         [SerializeField, Range(0, 1), Tooltip("Weight on how much this shoal should prioritize cohesion.")] private float _cohesionDirWeight = 1f;
@@ -88,12 +88,6 @@ namespace Fishing.Fishables.Fish {
             CalculateAlignmentTurning();
 
             CalculateFinalTurnValue();
-        }
-
-        public void Despawn() {
-            BaitManager.instance.RemoveFish(GetComponent<FoodSearch>());
-            _school.Shoals.Remove(this);
-            GetComponent<Edible>().Despawn();
         }
 
         private void CalculateAvoidanceTurning() {
@@ -196,6 +190,10 @@ namespace Fishing.Fishables.Fish {
             }
 
             _movement.RotationDir = Mathf.Clamp(calculatedDir, -1, 1);
+        }
+
+        private void OnDestroy() {
+            _school.Shoals.Remove(this);
         }
 
         private void OnDrawGizmosSelected() {

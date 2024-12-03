@@ -351,7 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ed023c87f291a42a62ede1f6a833e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseFoodAmount: 750
+  _baseFoodAmount: 150
   _foodType: 512
 --- !u!114 &7006070457836360306
 MonoBehaviour:
@@ -421,7 +421,6 @@ MonoBehaviour:
   _swimSpeed: 15
   _rotationSpeed: 100
   _obstacleAvoidanceDistance: 10
-  _obstacleAvoidanceWeight: 1
   _baseMaxHomeDistance: 75
   _maxHomeDistanceVariation: 25
   _drawMaxHomeDistance: 0
@@ -447,7 +446,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5708863d083a7844eb0d0789190bfbbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _generateWanderPositionPasses: 10
   _wanderSpeed: 5
   _distanceThreshold: 1
   _wanderPositionTimeout: 10
@@ -467,7 +465,6 @@ MonoBehaviour:
   _numberOfSections: 20
   _sectionScale: 0.75
   _sectionSpacing: 3
-  _sectionRotationDampening: 0.1
   _drawSectionGizmos: 0
   _sectionGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!61 &7472043319420965868

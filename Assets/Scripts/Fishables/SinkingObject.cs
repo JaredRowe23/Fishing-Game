@@ -1,15 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using Fishing.Fishables.Fish;
 using Fishing.PlayerCamera;
-using Fishing.Fishables.Fish;
 using Fishing.Util;
+using UnityEngine;
 
-namespace Fishing.Fishables
-{
+namespace Fishing.Fishables {
     [RequireComponent(typeof(Edible))]
-    public class SinkingObject : MonoBehaviour, IEdible
-    {
+    public class SinkingObject : MonoBehaviour {
         [SerializeField] private float sinkSpeed;
         [SerializeField] private float speedVariance;
         [SerializeField] private Vector2 sinkDirection;
@@ -28,8 +24,7 @@ namespace Fishing.Fishables
         private float groundedCount;
         private bool isGrounded;
 
-        private void Awake()
-        {
+        private void Awake() {
             fishableItem = GetComponent<Fishable>();
             cam = CameraBehaviour.Instance;
             spawn = transform.parent.GetComponent<SpawnZone>();
@@ -44,58 +39,68 @@ namespace Fishing.Fishables
             groundedCount = groundedDespawnTime;
         }
 
-        private void Update()
-        {
-            if (fishableItem.IsHooked) return;
+        private void Update() {
+            if (fishableItem.IsHooked) { 
+                return; 
+            }
 
-            if (!isGrounded)
-            {
+            if (!isGrounded) {
                 Float();
-                if (transform.position.y > 0) HandleGroundedOrSurfaced();
+                if (transform.position.y > 0) { 
+                    HandleGroundedOrSurfaced(); 
+                }
                 DespawnFarObjects();
             }
-            else HandleGroundedOrSurfaced();
+            else { 
+                HandleGroundedOrSurfaced(); 
+            }
         }
 
-        private void Float()
-        {
+        private void Float() {
             transform.Translate(sinkSpeed * Time.deltaTime * sinkDirection.normalized, Space.World);
 
             CheckIfGrounded();
 
-            if (transform.position.y > 0) transform.Translate(Vector3.down * transform.position.y, Space.World);
+            if (transform.position.y > 0) { 
+                transform.Translate(Vector3.down * transform.position.y, Space.World); 
+            }
 
             transform.Rotate(Vector3.forward, rotationSpeed * Time.deltaTime);
         }
 
-        private void CheckIfGrounded()
-        {
+        private void CheckIfGrounded() {
             ClosestPointInfo _closestPointInfo = Utilities.ClosestPointFromColliders(transform.position, floorColliders);
-            if (!_closestPointInfo.collider.OverlapPoint(transform.position)) return;
+            if (!_closestPointInfo.collider.OverlapPoint(transform.position)) { 
+                return; 
+            }
 
             transform.position = _closestPointInfo.position;
             isGrounded = true;
         }
 
-        private void HandleGroundedOrSurfaced()
-        {
+        private void HandleGroundedOrSurfaced() {
             groundedCount -= Time.deltaTime;
-            if (cam.IsInFrame(transform.position)) return;
-            if (groundedCount <= 0) Despawn();
+            if (cam.IsInFrame(transform.position)) { 
+                return; 
+            }
+            if (groundedCount <= 0) {
+                Destroy(gameObject);
+            }
         }
 
-        private void DespawnFarObjects()
-        {
-            if (Vector3.Distance(transform.position, transform.parent.transform.position) < maximumDistance) return;
-            if (cam.IsInFrame(transform.position)) return;
+        private void DespawnFarObjects() {
+            if (Vector3.Distance(transform.position, transform.parent.transform.position) < maximumDistance) { 
+                return; 
+            }
+            if (cam.IsInFrame(transform.position)) { 
+                return; 
+            }
 
-            Despawn();
+            Destroy(gameObject);
         }
 
-        public void Despawn()
-        {
-            spawn.spawnList.Remove(gameObject);
-            DestroyImmediate(gameObject);
+        private void OnDestroy() {
+            spawn.RemoveFromSpawner(gameObject);
         }
     }
 

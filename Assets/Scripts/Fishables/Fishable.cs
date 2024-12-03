@@ -72,8 +72,16 @@ namespace Fishing.Fishables
         public int Range { get => _range; private set { _range = value; } }
 
         private RodManager _rodManager;
+        private ISpawn _spawner;
+        private AudioSource _audioSource;
+        private FoodSearch _foodSearch;
 
-        private void Awake() => _rodManager = RodManager.instance;
+        private void Awake() {
+            _rodManager = RodManager.instance;
+            _spawner = transform.parent.GetComponent<ISpawn>();
+            _audioSource = GetComponent<AudioSource>();
+            _foodSearch = GetComponent<FoodSearch>();
+        }
 
         private void Start() {
             IsHooked = false;
@@ -92,14 +100,15 @@ namespace Fishing.Fishables
 
         public void OnHooked(Transform _hook) {
             IsHooked = true;
-            if (transform.parent.GetComponent<SpawnZone>()) transform.parent.GetComponent<SpawnZone>().spawnList.Remove(gameObject);
-            else if (transform.parent.GetComponent<PlantStalk>()) transform.parent.GetComponent<PlantStalk>().RemoveFruit(gameObject);
+            _spawner.RemoveFromSpawner(gameObject);
             transform.parent = _hook;
         }
 
         public void SetThisToHooked() {
-            GetComponent<AudioSource>().Play();
-            if (GetComponent<FoodSearch>()) GetComponent<FoodSearch>().DesiredFood.GetComponent<IEdible>().Despawn();
+            _audioSource.Play();
+            if (_foodSearch) { 
+                Destroy(_foodSearch.DesiredFood);
+            }
             _rodManager.equippedRod.GetHook().hookedObject = null;
             _rodManager.equippedRod.GetHook().SetHook(this);
         }
@@ -110,7 +119,8 @@ namespace Fishing.Fishables
         }
 
         private void OnDestroy() {
-            FishableGrid.instance.RemoveFromGridSquares(GetComponent<Fishable>());
+            FishableGrid.instance.RemoveFromGridSquares(this);
+            _spawner.RemoveFromSpawner(gameObject);
         }
     }
 }

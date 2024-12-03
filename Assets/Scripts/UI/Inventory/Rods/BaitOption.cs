@@ -47,7 +47,7 @@ namespace Fishing.UI
             if (string.IsNullOrEmpty(playerData.equippedRod.equippedBait?.baitName)) return;
 
             playerData.equippedRod.equippedBait.amount++;
-            rodManager.equippedRod.equippedBait.Despawn();
+            Destroy(rodManager.equippedRod.equippedBait);
             playerData.equippedRod.equippedBait = null;
         }
 

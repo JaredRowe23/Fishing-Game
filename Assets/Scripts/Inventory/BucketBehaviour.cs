@@ -48,7 +48,7 @@ namespace Fishing.Inventory
             if (playerData.hasSeenTutorialData.bucketTutorial) ShowBucketTutorial();
             playerData.UpdateFishRecordData(_bucketItemData);
 
-            rodManager.equippedRod.GetHook().DespawnHookedObject();
+            rodManager.equippedRod.GetHook().DestroyHookedObject();
             rodManager.equippedRod.ReEquipBait();
         }
 

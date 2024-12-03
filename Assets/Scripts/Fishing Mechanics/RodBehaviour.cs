@@ -207,7 +207,7 @@ namespace Fishing.FishingMechanics
 
         private void OnDestroy()
         {
-            hook.Despawn();
+            Destroy(hook); // TODO: See if this call is necessary, as the rod behaviour may call the hook's OnDestroy anyway
             InputManager.onCastReel -= StartCast;
         } 
     }

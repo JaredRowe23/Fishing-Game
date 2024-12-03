@@ -105,7 +105,7 @@ namespace Fishing.FishingMechanics.Minigame
 
         public void OnLineSnap()
         {
-            equippedRod.GetHook().DespawnHookedObject();
+            equippedRod.GetHook().DestroyHookedObject();
             equippedRod.GetHook().hookedObject = null;
             equippedRod.StopReeling();
 

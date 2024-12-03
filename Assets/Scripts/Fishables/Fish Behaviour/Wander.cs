@@ -5,10 +5,10 @@ using UnityEngine;
 
 namespace Fishing.Fishables.Fish {
     [RequireComponent(typeof(FishMovement))]
-    public class Wander : MonoBehaviour, IMovement, IEdible {
+    public class Wander : MonoBehaviour, IMovement {
         [SerializeField, Min(0), Tooltip("Speed that the fish moves towards it's wander target position.")] private float _wanderSpeed;
-        [SerializeField, Min(0), Tooltip("Minimum distance this must be within it's wander target for it to generate a new wander target.")] private float _distanceThreshold;
-        [SerializeField, Min(0), Tooltip("The amount of seconds that must pass without this fish meeting the distance threshold to the wander target that another target is generated.")] private float _wanderPositionTimeout;
+        [SerializeField, Min(0), Tooltip("Minimum distance this must be within it's wander target for it to generate a new wander target.")] private float _distanceThreshold = 0.1f;
+        [SerializeField, Min(0), Tooltip("The amount of seconds that must pass without this fish meeting the distance threshold to the wander target that another target is generated.")] private float _wanderPositionTimeout = 10f;
 
         private FishMovement _movement;
         private PolygonCollider2D[] _floorColliders;
@@ -48,11 +48,6 @@ namespace Fishing.Fishables.Fish {
 
                 yield return new WaitForSeconds(_wanderPositionTimeout);
             }
-        }
-
-        public void Despawn() {
-            BaitManager.instance.RemoveFish(GetComponent<FoodSearch>());
-            GetComponent<Edible>().Despawn();
         }
     }
 }

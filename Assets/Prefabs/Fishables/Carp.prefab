@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ed023c87f291a42a62ede1f6a833e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseFoodAmount: 15
+  _baseFoodAmount: 15
   _foodType: 4
 --- !u!114 &7006070457836360306
 MonoBehaviour:
@@ -353,7 +353,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5708863d083a7844eb0d0789190bfbbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _generateWanderPositionPasses: 10
   _wanderSpeed: 1
   _distanceThreshold: 0.1
   _wanderPositionTimeout: 10
