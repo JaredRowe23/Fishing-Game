@@ -4,10 +4,10 @@ using UnityEngine;
 namespace Fishing.Fishables.Fish {
     [RequireComponent(typeof(Hunger))]
     public class Growth : MonoBehaviour {
-        [SerializeField] private float _growthStart = 75;
-        [SerializeField] private float _growthCheckFrequency = 15;
-        [SerializeField] private float _growthVariance = 0.25f;
-        [SerializeField] private float _growthFoodCost = 25;
+        [SerializeField, Min(0), Tooltip("Minimum food value for this to start growing.")] private float _growthStart = 75f;
+        [SerializeField, Min(0), Tooltip("Amount of seconds each growth check takes.")] private float _growthCheckFrequency = 15f;
+        [SerializeField, Min(0), Tooltip("A multiplier for varying the size of growth when it occurs.")] private float _growthVariance = 0.25f;
+        [SerializeField, Min(0), Tooltip("The food cost taken away every time this grows.")] private float _growthFoodCost = 25f;
 
         private Fishable _fishable;
         private Hunger _hunger;

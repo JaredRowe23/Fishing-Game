@@ -4,22 +4,14 @@ using UnityEngine;
 
 namespace Fishing.Fishables.Fish {
     public class FishSchoolBehaviour : MonoBehaviour {
-        [SerializeField] private float _avoidanceMaxDistance;
-        public float AvoidanceMaxDistance { get => _avoidanceMaxDistance; private set { } }
 
-        [SerializeField] private float _avoidanceMaxCloseDistance;
-        public float AvoidanceMaxCloseDistance { get => _avoidanceMaxCloseDistance; private set { } }
-
-        [SerializeField, Range(0, 90)] private float _avoidanceAngle;
-        public float AvoidanceAngle { get => _avoidanceAngle; private set { } }
-
-        [SerializeField] private List<Shoal> _shoals;
+        private List<Shoal> _shoals;
         public List<Shoal> Shoals { get => _shoals; private set { _shoals = value; } }
 
-        [SerializeField] private float _averageRotation;
+        private float _averageRotation;
         public float AverageRotation { get => _averageRotation; private set => _averageRotation = value; }
 
-        [SerializeField] private Vector2 _schoolCenter;
+        private Vector2 _schoolCenter;
         public Vector2 SchoolCenter { get => _schoolCenter; private set => _schoolCenter = value; }
 
         private void Awake() {

@@ -276,7 +276,7 @@ MonoBehaviour:
   _sightDistance: 10
   _smellRadius: 2.5
   _desiredFoodTypes: 7552
-  _drawSearchingGizmos: 0
+  _drawSearchingGizmos: 1
   _smellRadiusColor: {r: 0, g: 1, b: 0, a: 1}
   _sightConeColor: {r: 0, g: 1, b: 0, a: 1}
   _drawDesiredFoodGizmos: 0
@@ -328,7 +328,6 @@ MonoBehaviour:
   _swimSpeed: 2.5
   _rotationSpeed: 100
   _obstacleAvoidanceDistance: 2
-  _obstacleAvoidanceWeight: 1
   _baseMaxHomeDistance: 25
   _maxHomeDistanceVariation: 5
   _drawMaxHomeDistance: 0

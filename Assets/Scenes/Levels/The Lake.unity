@@ -3274,6 +3274,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -926003220157883637, guid: 24d34cc9ba61cc8429c0ff27fb21ec55, type: 3}
+      propertyPath: m_TagString
+      value: Fishing Level Terrain
+      objectReference: {fileID: 0}
+    - target: {fileID: -926003220157883637, guid: 24d34cc9ba61cc8429c0ff27fb21ec55, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
       objectReference: {fileID: 0}

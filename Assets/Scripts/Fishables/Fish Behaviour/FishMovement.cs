@@ -5,22 +5,15 @@ namespace Fishing.Fishables.Fish {
     [RequireComponent(typeof(Fishable), typeof(FoodSearch))]
     public class FishMovement : MonoBehaviour {
         [Header("Movement Speeds")]
-        #region
-        [SerializeField] private float _swimSpeed;
-        [SerializeField] private float _rotationSpeed;
-        #endregion
+        [SerializeField, Min(0f), Tooltip("Maximum speed in m/s the fish will move foward.")] private float _swimSpeed;
+        [SerializeField, Min(0f), Tooltip("Maximum speed in angle/s the fish can turn.")] private float _rotationSpeed;
 
         [Header("Move Direction")]
-        #region
-        [SerializeField] private float _obstacleAvoidanceDistance;
-        [SerializeField] private float _obstacleAvoidanceWeight = 1f;
-        public float ObstacleAvoidanceWeight { get => _obstacleAvoidanceWeight; set => _obstacleAvoidanceWeight = value; }
-        #endregion
+        [SerializeField, Min(0f), Tooltip("Distance the fish will begin to turn away from obstacles.")] private float _obstacleAvoidanceDistance;
 
         [Header("Home Distance")]
-        #region
-        [SerializeField] private float _baseMaxHomeDistance;
-        [SerializeField] private float _maxHomeDistanceVariation;
+        [SerializeField, Min(0f), Tooltip("Base distance from home that will cause the fish to return home.")] private float _baseMaxHomeDistance;
+        [SerializeField, Min(0f), Tooltip("Maximum value added or subtracted from Base Max Home Distance.")] private float _maxHomeDistanceVariation;
         private float _maxHomeDistance;
         public float MaxHomeDistance { get => _maxHomeDistance; private set { _maxHomeDistance = value; } }
 
@@ -42,32 +35,37 @@ namespace Fishing.Fishables.Fish {
         private SpawnZone _spawn;
         private PolygonCollider2D[] _floorColliders;
         private Fishable _fishable;
-        #endregion
 
         [Header("Gizmos")]
         #region
-        [SerializeField] private bool _drawMaxHomeDistance = false;
-        [SerializeField] private Color _maxHomeDistanceColor = Color.cyan;
+        [SerializeField, Tooltip("Whether to draw gizmos for max home distance.")] private bool _drawMaxHomeDistance = false;
+        [SerializeField, Tooltip("Color for max home distance gizmos.")] private Color _maxHomeDistanceColor = Color.cyan;
 
-        [SerializeField] private bool _drawBaseMaxHomeDistance = false;
-        [SerializeField] private Color _baseMaxHomeDistanceColor = Color.cyan;
+        [SerializeField, Tooltip("Whether to draw gizmos for base max home distance.")] private bool _drawBaseMaxHomeDistance = false;
+        [SerializeField, Tooltip("Color for base max home distance gizmos.")] private Color _baseMaxHomeDistanceColor = Color.cyan;
 
-        [SerializeField] private bool _drawMaxHomeDistanceVariations = false;
-        [SerializeField] private Color _minHomeDistanceVariationColor = Color.cyan;
-        [SerializeField] private Color _maxHomeDistanceVariationColor = Color.cyan;
+        [SerializeField, Tooltip("Whether to draw gizmos for max home distance variations.")] private bool _drawMaxHomeDistanceVariations = false;
+        [SerializeField, Tooltip("Color for min home distance variations gizmos.")] private Color _minHomeDistanceVariationColor = Color.cyan;
+        [SerializeField, Tooltip("Color for max home distance variations gizmos.")] private Color _maxHomeDistanceVariationColor = Color.cyan;
 
-        [SerializeField] private bool _drawTargetPos = false;
-        [SerializeField] private Color _targetPosColor = Color.magenta;
+        [SerializeField, Tooltip("Whether to draw gizmos for target position.")] private bool _drawTargetPos = false;
+        [SerializeField, Tooltip("Color for target position gizmos.")] private Color _targetPosColor = Color.magenta;
 
-        [SerializeField] private bool _drawObstacleAvoidanceDistance = false;
-        [SerializeField] private Color _obstacleAvoidanceDistanceColor = Color.red;
+        [SerializeField, Tooltip("Whether to draw gizmos for obstacle avoidance distance.")] private bool _drawObstacleAvoidanceDistance = false;
+        [SerializeField, Tooltip("Color for obstacle avoidance distance gizmos.")] private Color _obstacleAvoidanceDistanceColor = Color.red;
         #endregion
+
+        private void OnValidate() {
+            if (_maxHomeDistanceVariation > _baseMaxHomeDistance) {
+                _maxHomeDistanceVariation = _baseMaxHomeDistance;
+            }
+        }
 
         private void Awake() {
             _foodSearch = GetComponent<FoodSearch>();
             _spawn = transform.parent.GetComponent<SpawnZone>();
-            _floorColliders = GameObject.Find("Grid").GetComponentsInChildren<PolygonCollider2D>(); // TODO: Change how the PolygonCollider2D is found, as GameObject.Find isn't reliable or performant
-            _flippableSprites = GetSpriteRenderers();
+            _floorColliders = GameObject.FindGameObjectWithTag("Fishing Level Terrain").GetComponentsInChildren<PolygonCollider2D>();
+            _flippableSprites = GetNonMinimapSpriteRenderers();
             _fishable = GetComponent<Fishable>();
         }
 
@@ -133,7 +131,7 @@ namespace Fishing.Fishables.Fish {
         }
 
         private void AvoidSurface() {
-            RotationDir = transform.rotation.eulerAngles.z > 0 ? ObstacleAvoidanceWeight : -ObstacleAvoidanceWeight;
+            RotationDir = transform.rotation.eulerAngles.z > 0 ? 1f : -1f;
         }
 
         private void AvoidFloor(Vector2 _closestFloorPosition) {
@@ -147,7 +145,7 @@ namespace Fishing.Fishables.Fish {
         public void CalculateTurnDirection(Vector2 targetPos) {
             TargetPos = targetPos;
             TargetPosDir = Utilities.DirectionFromTransformToTarget(transform, TargetPos);
-            RotationDir = Mathf.Clamp(TargetPosDir * ObstacleAvoidanceWeight, -1, 1);
+            RotationDir = Mathf.Clamp(TargetPosDir, -1, 1);
         }
 
         private void Move() {
@@ -162,20 +160,8 @@ namespace Fishing.Fishables.Fish {
             }
         }
 
-        private SpriteRenderer[] GetSpriteRenderers() {
-            SpriteRenderer[] _sprites = transform.GetComponentsInChildren<SpriteRenderer>();
-            int _minimapSpriteIndex = 0;  // TODO: idk wtf this minimapSpriteIndex is *actually* doing, but this can probably be simplified massively.
-            for (int i = 0; i < _sprites.Length; i++) {
-                if (_sprites[i].gameObject.layer == LayerMask.NameToLayer("Minimap")) {
-                    _minimapSpriteIndex = i;
-                }
-            }
-
-            for (int i = _minimapSpriteIndex + 1; i < _sprites.Length; i++) {
-                _sprites[i - 1] = _sprites[i];
-            }
-            System.Array.Resize(ref _sprites, _sprites.Length - 1);
-            return _sprites;
+        private SpriteRenderer[] GetNonMinimapSpriteRenderers() {
+            return System.Array.FindAll(transform.GetComponentsInChildren<SpriteRenderer>(), sprite => sprite.gameObject.layer != LayerMask.NameToLayer("Minimap"));
         }
 
         private void OnDrawGizmosSelected() {

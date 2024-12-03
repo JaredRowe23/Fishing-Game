@@ -5,11 +5,10 @@ using UnityEngine;
 namespace Fishing.Fishables.Fish {
     [RequireComponent(typeof(Fishable))]
     public class SectionedFish : MonoBehaviour {
-        [SerializeField] private GameObject _sectionPrefab;
-        [SerializeField] private int _numberOfSections = 20;
-        [SerializeField] private float _sectionScale = 0.75f;
-        [SerializeField] private float _sectionSpacing = 3f;
-        [SerializeField] private float _sectionRotationDampening = 0.1f;
+        [SerializeField, Tooltip("Prefab of the game object that's spawned in for each \"section\" of this fish.")] private GameObject _sectionPrefab;
+        [SerializeField, Min(0), Tooltip("Number of section prefabs to spawn in.")] private int _numberOfSections = 20;
+        [SerializeField, Min(0), Tooltip("Scale of each section in relation to the fish's base.")] private float _sectionScale = 0.75f;
+        [SerializeField, Min(0), Tooltip("Distance each section maintains from each other during movement.")] private float _sectionSpacing = 3f;
 
         private List<GameObject> _sections;
         private List<Vector3> _previousFrameSectionPositions;

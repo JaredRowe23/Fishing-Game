@@ -6,12 +6,9 @@ using UnityEngine;
 namespace Fishing.Fishables.Fish {
     [RequireComponent(typeof(FishMovement))]
     public class Wander : MonoBehaviour, IMovement, IEdible {
-        [Header("Movement")]
-        [SerializeField] private int _generateWanderPositionPasses;
-        [SerializeField] private float _wanderSpeed;
-
-        [SerializeField] private float _distanceThreshold;
-        [SerializeField] private float _wanderPositionTimeout;
+        [SerializeField, Min(0), Tooltip("Speed that the fish moves towards it's wander target position.")] private float _wanderSpeed;
+        [SerializeField, Min(0), Tooltip("Minimum distance this must be within it's wander target for it to generate a new wander target.")] private float _distanceThreshold;
+        [SerializeField, Min(0), Tooltip("The amount of seconds that must pass without this fish meeting the distance threshold to the wander target that another target is generated.")] private float _wanderPositionTimeout;
 
         private FishMovement _movement;
         private PolygonCollider2D[] _floorColliders;
@@ -35,27 +32,14 @@ namespace Fishing.Fishables.Fish {
 
         private IEnumerator Co_GenerateWanderPosition() {
             while (true) {
-                int i = 0;
-                while (true) {
-                    if (i >= _generateWanderPositionPasses) {
-                        _movement.TargetPos = transform.parent.position;
-                        break;
-                    }
+                Vector2 _rand = Random.insideUnitCircle * _movement.MaxHomeDistance;
 
-                    Vector2 _rand = Random.insideUnitCircle * _movement.MaxHomeDistance;
-                    bool _aboveWater = _rand.y + transform.position.y >= 0f;
-                    float _distanceFromHome = Vector2.Distance(new Vector2(_rand.x + transform.position.x, _rand.y + transform.position.y), transform.parent.position);
-                    i++;
-
-                    if (_aboveWater) {
-                        continue;
-                    }
-                    if (_distanceFromHome > _movement.MaxHomeDistance) {
-                        continue;
-                    }
-                    _movement.TargetPos = (Vector2)transform.position + _rand;
-                    break;
+                bool _aboveWater = _rand.y + transform.position.y >= 0f;
+                if (_aboveWater) {
+                    _rand.y = 0f;
                 }
+
+                _movement.TargetPos = (Vector2)transform.position + _rand;
 
                 ClosestPointInfo _closestPointInfo = Utilities.ClosestPointFromColliders(_movement.TargetPos, _floorColliders);
                 if (_closestPointInfo.collider.OverlapPoint(_movement.TargetPos)) {

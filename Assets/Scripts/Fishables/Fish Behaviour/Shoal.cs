@@ -5,10 +5,16 @@ using UnityEngine;
 namespace Fishing.Fishables.Fish {
     [RequireComponent(typeof(FishMovement))]
     public class Shoal : MonoBehaviour, IMovement, IEdible {
-        [SerializeField, Range(0, 1)] private float _avoidanceDirWeight = 1f;
-        [SerializeField, Range(0, 1)] private float _cohesionDirWeight = 1f;
-        [SerializeField, Range(0, 1)] private float _alignmentDirWeight = 1f;
-        [SerializeField, Range(0, 1)] private float _targetPosWeight = 1f;
+        [Header("Turn Factor Weights")]
+        [SerializeField, Range(0, 1), Tooltip("Weight on how much this shoal should prioritize avoidance.")] private float _avoidanceDirWeight = 1f;
+        [SerializeField, Range(0, 1), Tooltip("Weight on how much this shoal should prioritize cohesion.")] private float _cohesionDirWeight = 1f;
+        [SerializeField, Range(0, 1), Tooltip("Weight on how much this shoal should prioritize alignment.")] private float _alignmentDirWeight = 1f;
+        [SerializeField, Range(0, 1), Tooltip("Weight on how much this shoal should prioritize moving towards the target.")] private float _targetPosWeight = 1f;
+
+        [Header("Avoidance")]
+        [SerializeField, Range(0, 360), Tooltip("Angle from this shoal's front a shoal must be within for avoidance to begin")] private float _avoidanceAngle;
+        [SerializeField, Min(0), Tooltip("Distance for avoidance to begin.")] private float _avoidanceMaxDistance;
+        [SerializeField, Min(0), Tooltip("Distance for this shoal to ignore other turning factors other than avoidance.")] private float _avoidanceMaxCloseDistance;
 
         private float _avoidanceDir = 0;
         private float _cohesionDir = 0;
@@ -31,14 +37,40 @@ namespace Fishing.Fishables.Fish {
         [SerializeField] private Color _avoidanceGizmoColor = Color.white;
 
         [SerializeField] private bool _drawDirectionGizmos = false;
-        [SerializeField] private float _directionGizmoLength = 1f;
-        [SerializeField] private float _directionSpace = 0.5f;
-        [SerializeField] private float _directionPadding = 0.1f;
+        [SerializeField, Tooltip("Length of the line gizmo depicting each turn factor")] private float _directionGizmoLength = 1f;
+        [SerializeField, Tooltip("Distance below the shoal that turn factor gizmos should be drawn.")] private float _directionSpace = 0.5f;
+        [SerializeField, Tooltip("Padding between each turn factor gizmo.")] private float _directionPadding = 0.1f;
         [SerializeField] private Color _targetGizmoColor = Color.white;
         #endregion
 
         private FishMovement _movement;
         private FishSchoolBehaviour _school;
+
+        private void OnValidate() {
+            ValidateMaxCloseDistance();
+            ValidateWeights();
+        }
+
+        private void ValidateMaxCloseDistance() {
+            if (_avoidanceMaxCloseDistance > _avoidanceMaxDistance) {
+                _avoidanceMaxCloseDistance = _avoidanceMaxDistance;
+            }
+        }
+
+        private void ValidateWeights() {
+            float totalWeight = _avoidanceDirWeight + _cohesionDirWeight + _alignmentDirWeight + _targetPosWeight;
+            if (totalWeight <= 0f) {
+                _avoidanceDirWeight = 0.25f;
+                _cohesionDirWeight = 0.25f;
+                _alignmentDirWeight = 0.25f;
+                _targetPosWeight = 0.25f;
+                return;
+            }
+            _avoidanceDirWeight = _avoidanceDirWeight / totalWeight;
+            _cohesionDirWeight = _cohesionDirWeight / totalWeight;
+            _alignmentDirWeight = _alignmentDirWeight / totalWeight;
+            _targetPosWeight = _targetPosWeight / totalWeight;
+        }
 
         private void Awake() {
             _movement = GetComponent<FishMovement>();
@@ -75,12 +107,12 @@ namespace Fishing.Fishables.Fish {
                 }
 
                 float shoalDistance = Vector2.Distance(transform.position, shoal.transform.position);
-                if (shoalDistance > _school.AvoidanceMaxDistance) {
+                if (shoalDistance > _avoidanceMaxDistance) {
                     continue;
                 }
 
                 float angleToShoal = Vector2.SignedAngle(transform.up, shoal.transform.position - transform.position);
-                if (Mathf.Abs(angleToShoal) > _school.AvoidanceAngle && shoalDistance > _school.AvoidanceMaxCloseDistance) {
+                if (Mathf.Abs(angleToShoal) > _avoidanceAngle * 0.5f && shoalDistance > _avoidanceMaxCloseDistance) {
                     continue;
                 }
 
@@ -106,7 +138,7 @@ namespace Fishing.Fishables.Fish {
             }
 
             float desiredAngle = angleToClosestShoal > 0f ? -1f : 1f;
-            desiredAngle *= Mathf.InverseLerp(_school.AvoidanceMaxDistance, 0f, closestShoalDistance);
+            desiredAngle *= Mathf.InverseLerp(_avoidanceMaxDistance, 0f, closestShoalDistance);
             _avoidanceDir = desiredAngle;
         }
 
@@ -193,9 +225,9 @@ namespace Fishing.Fishables.Fish {
 
         private void DrawSeparationGizmo() {
             Gizmos.color = _avoidanceGizmoColor;
-            Gizmos.DrawWireSphere(transform.position, _school.AvoidanceMaxCloseDistance);
-            Gizmos.DrawRay(transform.position, Quaternion.Euler(0f, 0f, _school.AvoidanceAngle) * transform.up * _school.AvoidanceMaxDistance);
-            Gizmos.DrawRay(transform.position, Quaternion.Euler(0f, 0f, -_school.AvoidanceAngle) * transform.up * _school.AvoidanceMaxDistance);
+            Gizmos.DrawWireSphere(transform.position, _avoidanceMaxCloseDistance);
+            Gizmos.DrawRay(transform.position, Quaternion.Euler(0f, 0f, _avoidanceAngle * 0.5f) * transform.up * _avoidanceMaxDistance);
+            Gizmos.DrawRay(transform.position, Quaternion.Euler(0f, 0f, -_avoidanceAngle * 0.5f) * transform.up * _avoidanceMaxDistance);
         }
 
         private void DrawDirectionGizmos() {

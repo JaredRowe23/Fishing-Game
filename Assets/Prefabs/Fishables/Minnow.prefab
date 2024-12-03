@@ -229,7 +229,6 @@ MonoBehaviour:
   _swimSpeed: 2
   _rotationSpeed: 360
   _obstacleAvoidanceDistance: 2
-  _obstacleAvoidanceWeight: 1
   _baseMaxHomeDistance: 25
   _maxHomeDistanceVariation: 5
   _drawMaxHomeDistance: 0
@@ -241,7 +240,7 @@ MonoBehaviour:
   _maxHomeDistanceVariationColor: {r: 0, g: 1, b: 1, a: 0.1254902}
   _drawTargetPos: 0
   _targetPosColor: {r: 1, g: 0, b: 1, a: 0.7529412}
-  _drawObstacleAvoidanceDistance: 0
+  _drawObstacleAvoidanceDistance: 1
   _obstacleAvoidanceDistanceColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &7264469932497168973
 MonoBehaviour:
@@ -255,10 +254,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 607f95fe04642b04995280c64558d300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _avoidanceDirWeight: 1
-  _cohesionDirWeight: 1
-  _alignmentDirWeight: 0.5
-  _targetPosWeight: 0.25
+  _avoidanceDirWeight: 0.4999845
+  _cohesionDirWeight: 0.2875295
+  _alignmentDirWeight: 0.15909995
+  _targetPosWeight: 0.053386044
+  _avoidanceAngle: 45
+  _avoidanceMaxDistance: 1
+  _avoidanceMaxCloseDistance: 0.2
   _drawCohesionGizmo: 0
   _cohesionGizmoColor: {r: 0, g: 1, b: 0.49803922, a: 0.5019608}
   _drawAlignmentGizmo: 0

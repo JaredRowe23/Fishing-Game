@@ -6,16 +6,16 @@ using UnityEngine;
 namespace Fishing.Fishables.Fish {
     [RequireComponent(typeof(Fishable), typeof(Hunger), typeof(Edible))]
     public class FoodSearch : MonoBehaviour {
-        [SerializeField] private float _sightAngle;
+        [SerializeField, Range(0, 360), Tooltip("Angle in degrees in front this fish can see within.")] private float _sightAngle;
         public float SightAngle { get => _sightAngle; private set { } }
 
-        [SerializeField] private float _sightDistance;
+        [SerializeField, Min(0), Tooltip("Maximum distance this fish can see food items at.")] private float _sightDistance;
         public float SightDistance { get => _sightDistance; private set { } }
 
-        [SerializeField] private float _smellRadius;
+        [SerializeField, Min(0), Tooltip("Distance this fish can smell food items within.")] private float _smellRadius;
         public float SmellRadius { get => _smellRadius; private set { } }
 
-        [SerializeField] private Edible.FoodTypes _desiredFoodTypes;
+        [SerializeField, Tooltip("Types of fish this fish is able to eat.")] private Edible.FoodTypes _desiredFoodTypes;
         public Edible.FoodTypes DesiredFoodTypes { get => _desiredFoodTypes; private set { } }
 
         private GameObject _desiredFood;
@@ -35,6 +35,12 @@ namespace Fishing.Fishables.Fish {
         private Fishable _fishable;
         private Hunger _hunger;
         private Edible _edible;
+
+        private void OnValidate() {
+            if (_smellRadius > _sightDistance) {
+                _smellRadius = _sightDistance;
+            }
+        }
 
         private void Awake() {
             _hunger = GetComponent<Hunger>();
