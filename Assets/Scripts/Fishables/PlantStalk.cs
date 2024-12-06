@@ -1,55 +1,58 @@
 using Fishing.PlayerCamera;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 namespace Fishing.Fishables {
     public class PlantStalk : MonoBehaviour, ISpawn {
-        [SerializeField] private float spawnTime;
-        [SerializeField] private GameObject fruitPrefab;
-        [SerializeField] private List<Transform> fruitPoints;
+        [SerializeField, Min(0), Tooltip("Amount of time in seconds it takes for a fruit spawn to be attempted.")] private float _spawnTime;
+        [SerializeField, Tooltip("Prefab of the fruit to spawn.")] private GameObject _fruitPrefab;
+        [SerializeField, Tooltip("Transforms for the positions of where to spawn fruit at.")] private List<Transform> _fruitSpawnPoints;
 
-        [SerializeField] private GameObject[] fruits;
-        private float spawnCount;
-        private CameraBehaviour playerCam;
+        private GameObject[] _fruits;
+        private CameraBehaviour _playerCam;
 
         private void Awake() {
-            playerCam = CameraBehaviour.Instance;
+            _playerCam = CameraBehaviour.Instance;
         }
 
         private void Start() {
-            fruits = new GameObject[fruitPoints.Count];
+            _fruits = new GameObject[_fruitSpawnPoints.Count];
 
-            for (int i = 0; i < fruits.Length; i++) {
+            for (int i = 0; i < _fruits.Length; i++) {
                 SpawnAtIndex(i); 
             }
-            spawnCount = spawnTime;
+
+            StartCoroutine(Co_SpawnFruit());
         }
 
-        private void Update() {
-            spawnCount -= Time.deltaTime;
+        private IEnumerator Co_SpawnFruit() {
+            while (true) {
+                int i = Random.Range(0, _fruitSpawnPoints.Count);
 
-            if (spawnCount > 0) { 
-                return; 
+                if (_playerCam.IsInFrame(_fruitSpawnPoints[i].position)) {
+                    yield return null;
+                    continue;
+                }
+
+                SpawnAtIndex(Random.Range(0, _fruitSpawnPoints.Count));
+
+                yield return new WaitForSeconds(_spawnTime);
             }
-            int i = Random.Range(0, fruitPoints.Count);
-            if (playerCam.IsInFrame(fruitPoints[i].position)) { 
-                return; 
-            }
-            SpawnAtIndex(Random.Range(0, fruitPoints.Count));
         }
 
         private void SpawnAtIndex(int index) {
-            if (fruits[index] != null) { 
+            if (_fruits[index] != null) { 
                 return; 
             }
 
-            GameObject newFruit = Instantiate(fruitPrefab, fruitPoints[index].position, Quaternion.identity, this.transform);
-            fruits[index] = newFruit;
-            spawnCount = spawnTime;
+            GameObject newFruit = Instantiate(_fruitPrefab, _fruitSpawnPoints[index].position, Quaternion.identity, transform);
+            _fruits[index] = newFruit;
         }
 
-        public void RemoveFromSpawner(GameObject _fruit) {
-            fruits[System.Array.IndexOf(fruits, _fruit)] = null;
+        public void RemoveFromSpawner(GameObject fruit) {
+            int fruitIndex = System.Array.IndexOf(_fruits, fruit);
+            _fruits[fruitIndex] = null;
         }
     }
 }

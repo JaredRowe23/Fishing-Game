@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 9090202394078601320}
   - component: {fileID: 2294510265361410913}
   - component: {fileID: -1247558335250953390}
+  - component: {fileID: 3462273446267450217}
   m_Layer: 0
   m_Name: Boot
   m_TagString: Hookable Object
@@ -109,7 +110,6 @@ MonoBehaviour:
   _weightMin: 1
   _lengthMax: 0.25
   _lengthMin: 0.25
-  _minimapIndicator: {fileID: 0}
 --- !u!114 &211761124399546874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,14 +122,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8806f565621dfd84ebf2f3ab517c832a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sinkSpeed: 0.5
-  speedVariance: 0.1
-  sinkDirection: {x: -1, y: -0.5}
-  directionVariance: 10
-  rotationSpeed: 10
-  rotationVariance: 5
-  maximumDistance: 25
-  groundedDespawnTime: 10
+  _baseSinkSpeed: 0.5
+  _speedVariance: 0.1
+  _sinkDirection: {x: -1, y: -0.05}
+  _directionVariance: 10
+  _baseRotationSpeed: 10
+  _rotationVariance: 5
+  _maximumDistance: 25
+  _groundedDespawnTime: 10
 --- !u!114 &9090202394078601320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,7 +201,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f87ee3d6f47b9b1498d55c4c46fc4a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  optimizationDistance: 75
+  _optimizationDistance: 0
+--- !u!114 &3462273446267450217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 211761124399546875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 556b0a1ee4938b34f91f3aae4a66dfb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _minigameStrength: 5
+  _minigameMoveDistance: 100
+  _minigameMoveDistanceVariance: 50
+  _minigameMoveTime: 5
+  _minigameMoveTimeVariance: 1
+  _minigameSwimSpeed: 0
+  _minigameSwimTime: 10
+  _minigameSwimTimeVariance: 1
+  _minigameRestTime: 5
+  _minigameRestTimeVariance: 1
 --- !u!1 &5875787623742116828
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,5 +321,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 426add82db23744459d1e4ccad60bdcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scannedScale: 25
-  lifeTime: 5
+  _scannedScale: 25
+  _lifeTime: 5

@@ -22,14 +22,5 @@ namespace Fishing.Fishables.Fish {
         };
         [SerializeField, Tooltip("The type of food this is.")] private FoodTypes _foodType;
         public FoodTypes FoodType { get => _foodType; private set { } }
-
-
-        private FoodSearch _foodSearch;
-        private ISpawn _spawn;
-
-        private void Awake() {
-            _foodSearch = GetComponent<FoodSearch>();
-            _spawn = transform.parent.GetComponent<ISpawn>();
-        }
     }
 }

@@ -2,6 +2,7 @@
 using Fishing.Util;
 using System.Collections.Generic;
 using UnityEngine;
+using Fishing.Fishables.FishGrid;
 
 namespace Fishing.Fishables.Fish {
     [RequireComponent(typeof(Fishable), typeof(Hunger), typeof(Edible))]
@@ -35,6 +36,7 @@ namespace Fishing.Fishables.Fish {
         private Fishable _fishable;
         private Hunger _hunger;
         private Edible _edible;
+        private RodManager _rodManager;
 
         private void OnValidate() {
             if (_smellRadius > _sightDistance) {
@@ -46,6 +48,7 @@ namespace Fishing.Fishables.Fish {
             _hunger = GetComponent<Hunger>();
             _fishable = GetComponent<Fishable>();
             _edible = GetComponent<Edible>();
+            _rodManager = RodManager.instance;
         }
 
         private void FixedUpdate() {
@@ -72,33 +75,29 @@ namespace Fishing.Fishables.Fish {
         }
 
         public void Eat() {
-            HandleHookedItem();
+            HookBehaviour hook = _rodManager.equippedRod.GetHook();
+
+            if (hook.gameObject == DesiredFood) {
+                hook.SetHook(_fishable);
+                return;
+            }
+
+            if (DesiredFood.GetComponent<Fishable>().IsHooked) {
+                hook.SetHook(_fishable);
+            }
+            else if (DesiredFood.TryGetComponent(out BaitBehaviour _)) {
+                hook.SetHook(_fishable);
+            }
+
             _hunger.AddFood(DesiredFood.GetComponent<Edible>());
             GetComponent<AudioSource>().Play();
             Destroy(DesiredFood);
             DesiredFood = null;
         }
 
-        private void HandleHookedItem() {
-            if (DesiredFood.TryGetComponent(out HookBehaviour hook)) {
-                hook.SetHook(_fishable);
-                return;
-            }
-
-            if (DesiredFood.GetComponent<Fishable>().IsHooked) {
-                _fishable.SetThisToHooked();
-                return;
-            }
-
-            if (DesiredFood.TryGetComponent(out BaitBehaviour _)) {
-                _fishable.SetThisToHooked();
-                return;
-            }
-        }
-
         private void DetermineDesiredFood() {
             GameObject newDesiredFood = null;
-            List<Edible> ediblesWithinRange = FishableGrid.instance.GetNearbyEdibles(_fishable.GridSquare[0], _fishable.GridSquare[1], _fishable.Range);
+            List<Edible> ediblesWithinRange = FishableGrid.instance.GetNearbyEdibles(_fishable.GridSquare[0], _fishable.GridSquare[1], SightDistance);
             Vector2 thisPosition = transform.position;
             Vector2 thisForward = transform.forward;
             foreach(Edible edible in ediblesWithinRange) {

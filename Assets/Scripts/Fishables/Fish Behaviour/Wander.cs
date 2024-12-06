@@ -1,5 +1,4 @@
-﻿using Fishing.FishingMechanics;
-using Fishing.Util;
+﻿using Fishing.Util.Collision;
 using System.Collections;
 using UnityEngine;
 
@@ -12,10 +11,12 @@ namespace Fishing.Fishables.Fish {
 
         private FishMovement _movement;
         private PolygonCollider2D[] _floorColliders;
+        private SpawnZone _spawner;
 
         private void Awake() {
             _movement = GetComponent<FishMovement>();
-            _floorColliders = GameObject.Find("Grid").GetComponentsInChildren<PolygonCollider2D>();
+            _floorColliders = GameObject.FindGameObjectWithTag("Fishing Level Terrain").GetComponentsInChildren<PolygonCollider2D>(); // TODO: Replace with searching for a static instance of a FishingLevelTerrain script
+            _spawner = transform.parent.GetComponent<SpawnZone>();
         }
 
         private void Start() {
@@ -32,18 +33,18 @@ namespace Fishing.Fishables.Fish {
 
         private IEnumerator Co_GenerateWanderPosition() {
             while (true) {
-                Vector2 _rand = Random.insideUnitCircle * _movement.MaxHomeDistance;
+                Vector2 rand = Random.insideUnitCircle * _movement.MaxHomeDistance + (Vector2)_spawner.transform.position;
 
-                bool _aboveWater = _rand.y + transform.position.y >= 0f;
-                if (_aboveWater) {
-                    _rand.y = 0f;
+                bool aboveWater = rand.y + transform.position.y >= 0f;
+                if (aboveWater) {
+                    rand.y = 0f;
                 }
 
-                _movement.TargetPos = (Vector2)transform.position + _rand;
+                _movement.TargetPos = (Vector2)transform.position + rand;
 
-                ClosestPointInfo _closestPointInfo = Utilities.ClosestPointFromColliders(_movement.TargetPos, _floorColliders);
-                if (_closestPointInfo.collider.OverlapPoint(_movement.TargetPos)) {
-                    _movement.TargetPos = _closestPointInfo.collider.ClosestPoint(transform.position);
+                SurfacePositionInfo surfacePositionInfo = new SurfacePositionInfo(_movement.TargetPos, _floorColliders);
+                if (surfacePositionInfo.positionInsideTerrain) {
+                    _movement.TargetPos = surfacePositionInfo.surfacePosition;
                 }
 
                 yield return new WaitForSeconds(_wanderPositionTimeout);

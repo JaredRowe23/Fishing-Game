@@ -1,110 +1,91 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Fishing.FishingMechanics;
 using Fishing.Fishables.Fish;
 using Fishing.PlayerCamera;
+using UnityEngine;
 
-namespace Fishing.Fishables
-{
-    public class OffScreenOptimizations : MonoBehaviour
-    {
-        [SerializeField] private float optimizationDistance;
+namespace Fishing.Fishables {
+    public class OffScreenOptimizations : MonoBehaviour {
+        [SerializeField, Min(0), Tooltip("Distance away from player camera for optimization to begin shutting down unnecessary gameplay systems for this object.")] private float _optimizationDistance;
 
-        private Fishable fishable;
-        private FoodSearch foodSearch;
-        private Edible edible;
-        private FishMovement fishMovement;
-        private GroundMovement groundMovement;
-        private SinkingObject sinkingObject;
-        private IMovement movement;
-        private Hunger hunger;
-        private Growth growth;
+        private FoodSearch _foodSearch;
+        private FishMovement _fishMovement;
+        private GroundMovement _groundMovement;
+        private SinkingObject _sinkingObject;
+        private IMovement _movement;
+        private Hunger _hunger;
+        private Growth _growth;
 
-        private CameraBehaviour cam;
+        private CameraBehaviour _camera;
 
-        private void Awake()
-        {
-            fishable = GetComponent<Fishable>();
-            foodSearch = GetComponent<FoodSearch>();
-            edible = GetComponent<Edible>();
-            fishMovement = GetComponent<FishMovement>();
-            groundMovement = GetComponent<GroundMovement>();
-            sinkingObject = GetComponent<SinkingObject>();
-            movement = GetComponent<IMovement>();
-            hunger = GetComponent<Hunger>();
-            growth = GetComponent<Growth>();
+        private void Awake() {
+            _foodSearch = GetComponent<FoodSearch>();
+            _fishMovement = GetComponent<FishMovement>();
+            _groundMovement = GetComponent<GroundMovement>();
+            _sinkingObject = GetComponent<SinkingObject>();
+            _movement = GetComponent<IMovement>();
+            _hunger = GetComponent<Hunger>();
+            _growth = GetComponent<Growth>();
         }
 
-        void Start()
-        {
-            cam = CameraBehaviour.Instance;
+        void Start() {
+            _camera = CameraBehaviour.Instance;
         }
 
-        private void Update()
-        {
-            if (cam.IsInFrame(transform.position))
-            {
+        private void FixedUpdate() {
+            if (_camera.IsInFrame(transform.position)) {
                 EndOptimizing();
                 return;
             }
-            float _distance = Vector2.Distance(cam.transform.position, transform.position);
-            if (_distance > optimizationDistance) StartOptimizing();
-            else EndOptimizing();
+            float distance = Vector2.Distance(_camera.transform.position, transform.position);
+            if (distance > _optimizationDistance) {
+                StartOptimizing();
+            }
+            else {
+                EndOptimizing();
+            }
         }
 
         private void StartOptimizing()
         {
-            if (foodSearch)
-            {
-                hunger.enabled = false;
-                growth.enabled = false;
+            if (_foodSearch) {
+                _hunger.enabled = false;
+                _growth.enabled = false;
             }
-            if (fishMovement)
-            {
-                fishMovement.enabled = false;
-                if (fishMovement.ActivePredator != null)
-                {
-                    fishMovement.ActivePredator.GetComponent<FoodSearch>().DesiredFood = null;
-                    fishMovement.ActivePredator = null;
+
+            if (_fishMovement) {
+                _fishMovement.enabled = false;
+                if (_fishMovement.ActivePredator != null) {
+                    _fishMovement.ActivePredator.GetComponent<FoodSearch>().DesiredFood = null;
+                    _fishMovement.ActivePredator = null;
                 }
-                if (movement is MonoBehaviour mono)
-                {
+                if (_movement is MonoBehaviour mono) {
                     mono.enabled = false;
                 }
             }
-            else if (groundMovement)
-            {
-                groundMovement.enabled = false;
+            else if (_groundMovement) {
+                _groundMovement.enabled = false;
             }
-            else if (sinkingObject)
-            {
-                sinkingObject.enabled = false;
+            else if (_sinkingObject) {
+                _sinkingObject.enabled = false;
             }
         }
 
-        private void EndOptimizing()
-        {
-            if (foodSearch)
-            {
-                hunger.enabled = true;
-                growth.enabled = true;
+        private void EndOptimizing() {
+            if (_foodSearch) {
+                _hunger.enabled = true;
+                _growth.enabled = true;
             }
-            if (fishMovement)
-            {
-                fishMovement.enabled = true;
-                if (movement is MonoBehaviour mono)
-                {
+
+            if (_fishMovement) {
+                _fishMovement.enabled = true;
+                if (_movement is MonoBehaviour mono) {
                     mono.enabled = true;
                 }
             }
-            else if (groundMovement)
-            {
-                groundMovement.enabled = true;
+            else if (_groundMovement) {
+                _groundMovement.enabled = true;
             }
-            else if (sinkingObject)
-            {
-                sinkingObject.enabled = true;
+            else if (_sinkingObject) {
+                _sinkingObject.enabled = true;
             }
         }
     }

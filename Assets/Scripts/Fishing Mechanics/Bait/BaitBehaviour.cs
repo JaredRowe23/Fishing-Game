@@ -48,6 +48,9 @@ namespace Fishing.Fishables
 
         private void OnDestroy() {
             BaitManager.instance.RemoveFish(_foodSearch);
+            if (RodManager.instance.equippedRod.GetHook().hookedObject = gameObject) {
+                RodManager.instance.equippedRod.GetHook().hookedObject = null;
+            }
         }
     }
 }

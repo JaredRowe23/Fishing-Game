@@ -202,6 +202,7 @@ GameObject:
   - component: {fileID: -6890081191903633112}
   - component: {fileID: 7472043319420965868}
   - component: {fileID: 215303076194675346}
+  - component: {fileID: 4024376063678406577}
   m_Layer: 0
   m_Name: Carp
   m_TagString: Hookable Object
@@ -245,7 +246,6 @@ MonoBehaviour:
   _weightMin: 1.5
   _lengthMax: 1
   _lengthMin: 0.75
-  _minimapIndicator: {fileID: 0}
 --- !u!114 &-5582888590848471281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,3 +510,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   optimizationDistance: 75
+--- !u!114 &4024376063678406577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8313649653780738666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 556b0a1ee4938b34f91f3aae4a66dfb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _minigameStrength: 25
+  _minigameMoveDistance: 500
+  _minigameMoveDistanceVariance: 100
+  _minigameMoveTime: 5
+  _minigameMoveTimeVariance: 1
+  _minigameSwimSpeed: 2.5
+  _minigameSwimTime: 7.5
+  _minigameSwimTimeVariance: 2.5
+  _minigameRestTime: 7.5
+  _minigameRestTimeVariance: 2.5

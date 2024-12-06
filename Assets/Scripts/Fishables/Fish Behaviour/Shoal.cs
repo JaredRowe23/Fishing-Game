@@ -1,4 +1,3 @@
-using Fishing.FishingMechanics;
 using Fishing.Util;
 using UnityEngine;
 
@@ -81,7 +80,7 @@ namespace Fishing.Fishables.Fish {
         }
 
         public void Movement() {
-            _movement.TargetPos = _spawn.testObject.transform.position; // TODO: Remove this in place of the spawn location, or 
+            _movement.TargetPos = _spawn._testObject.transform.position; // TODO: Remove this in place of the spawn location, or 
             CalculateAvoidanceTurning();
             CalculateTargetTurning();
             CalculateCohesionTurning();

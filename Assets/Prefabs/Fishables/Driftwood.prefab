@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 9090202394078601320}
   - component: {fileID: 4266904595221770158}
   - component: {fileID: 4002074861144793379}
+  - component: {fileID: -1481619242551611243}
   m_Layer: 0
   m_Name: Driftwood
   m_TagString: Hookable Object
@@ -109,7 +110,6 @@ MonoBehaviour:
   _weightMin: 1
   _lengthMax: 0.25
   _lengthMin: 0.75
-  _minimapIndicator: {fileID: 0}
 --- !u!114 &211761124399546874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,14 +122,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8806f565621dfd84ebf2f3ab517c832a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sinkSpeed: 1.5
-  speedVariance: 0.1
-  sinkDirection: {x: -1, y: 1}
-  directionVariance: 25
-  rotationSpeed: 5
-  rotationVariance: 1
-  maximumDistance: 25
-  groundedDespawnTime: 10
+  _baseSinkSpeed: 1.5
+  _speedVariance: 0.1
+  _sinkDirection: {x: -1, y: 1}
+  _directionVariance: 25
+  _baseRotationSpeed: 5
+  _rotationVariance: 1
+  _maximumDistance: 25
+  _groundedDespawnTime: 10
 --- !u!114 &9090202394078601320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,7 +201,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f87ee3d6f47b9b1498d55c4c46fc4a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  optimizationDistance: 75
+  _optimizationDistance: 0
+--- !u!114 &-1481619242551611243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 211761124399546875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 556b0a1ee4938b34f91f3aae4a66dfb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _minigameStrength: 5
+  _minigameMoveDistance: 250
+  _minigameMoveDistanceVariance: 75
+  _minigameMoveTime: 3
+  _minigameMoveTimeVariance: 1
+  _minigameSwimSpeed: 0
+  _minigameSwimTime: 10
+  _minigameSwimTimeVariance: 1
+  _minigameRestTime: 5
+  _minigameRestTimeVariance: 1
 --- !u!1 &5875787623742116828
 GameObject:
   m_ObjectHideFlags: 0
@@ -299,5 +321,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 426add82db23744459d1e4ccad60bdcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scannedScale: 25
-  lifeTime: 5
+  _scannedScale: 25
+  _lifeTime: 5

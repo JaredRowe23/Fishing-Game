@@ -1,36 +1,20 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Fishing.FishingMechanics;
-using Fishing.Fishables.Fish;
+﻿using Fishing.FishingMechanics;
 using Fishing.Util;
-using System;
+using UnityEngine;
+using Fishing.Fishables.FishGrid;
 
-namespace Fishing.Fishables
-{
+namespace Fishing.Fishables {
     public class Fishable : MonoBehaviour
     {
-        [Header("Stats")]
-        #region
-        [SerializeField] private string _itemName;
+        [Header("Descriptors")]
+        [SerializeField, Tooltip("Name of this item.")] private string _itemName;
         public string ItemName { get => _itemName; private set { } }
 
-        [SerializeField] private string _itemDescription;
+        [SerializeField, Tooltip("Description of this item.")] private string _itemDescription;
         public string ItemDescription { get => _itemDescription; private set { } }
 
-        private float _weight;
-        public float Weight { get => _weight; set { _weight = value; } }
-
-        private float _length;
-        public float Length { 
-            get => _length;
-            set {
-                _length = value;
-                Utilities.SetGlobalScale(transform, value);
-            }
-        }
-
-        [SerializeField] private float _baseValue;
+        [Header("Stats")]
+        [SerializeField, Tooltip("Base value for a \"normal\" sized item of this type.")] private float _baseValue;
         public float BaseValue { get => _baseValue; private set { } }
 
         private float _value;
@@ -42,25 +26,33 @@ namespace Fishing.Fishables
                 return BaseValue * _valueDelta;
             }
             private set { } }
-        #endregion
 
-        [Header("Variation")]
-        #region
-        [SerializeField] private float _weightMax;
+        [SerializeField, Tooltip("Maximum weight this item can reach.")] private float _weightMax;
         public float WeightMax { get => _weightMax; private set { } }
 
-        [SerializeField] private float _weightMin;
+        [SerializeField, Tooltip("Minimum weight this item can reach.")] private float _weightMin;
         public float WeightMin { get => _weightMin; private set { } }
 
-        [SerializeField] private float _lengthMax;
+        private float _weight;
+        public float Weight { get => _weight; set { _weight = value; } }
+
+        [SerializeField, Tooltip("Maximum length this item can reach.")] private float _lengthMax;
         public float LengthMax { get => _lengthMax; private set { } }
 
-        [SerializeField] private float _lengthMin;
+        [SerializeField, Tooltip("Minimum length this item can reach.")] private float _lengthMin;
         public float LengthMin { get => _lengthMin; private set { } }
-        #endregion
 
-        [SerializeField] private GameObject _minimapIndicator;
-        public GameObject MinimapIndicator { get => _minimapIndicator; private set { } }
+        private float _length;
+        public float Length {
+            get => _length;
+            set {
+                _length = value;
+                Utilities.SetGlobalScale(transform, value);
+            }
+        }
+
+        private RadarScanObject _minimapIndicator;
+        public RadarScanObject MinimapIndicator { get => _minimapIndicator; private set { } }
 
         private bool _isHooked;
         public bool IsHooked { get => _isHooked; set => _isHooked = value; }
@@ -68,59 +60,59 @@ namespace Fishing.Fishables
         private int[] _gridSquare = {0, 0};
         public int[] GridSquare { get => _gridSquare; set { _gridSquare = value; } }
 
-        private int _range = 1;
-        public int Range { get => _range; private set { _range = value; } }
-
         private RodManager _rodManager;
         private ISpawn _spawner;
-        private AudioSource _audioSource;
-        private FoodSearch _foodSearch;
+        private FishableGrid _fishableGrid;
+
+        private void OnValidate() {
+            if (WeightMin > WeightMax) {
+                WeightMin = WeightMax;
+            }
+            if (LengthMin > LengthMax) {
+                LengthMin = LengthMax;
+            }
+        }
 
         private void Awake() {
             _rodManager = RodManager.instance;
             _spawner = transform.parent.GetComponent<ISpawn>();
-            _audioSource = GetComponent<AudioSource>();
-            _foodSearch = GetComponent<FoodSearch>();
+            _minimapIndicator = GetComponentInChildren<RadarScanObject>();
+            _fishableGrid = FishableGrid.instance;
         }
 
         private void Start() {
             IsHooked = false;
             SetWeightAndLength();
-            FishableGrid.instance.SortFishableIntoGridSquare(this);
+            _fishableGrid.SortFishableIntoGridSquare(this);
         }
 
         private void SetWeightAndLength() {
-            Weight = Mathf.Round(UnityEngine.Random.Range(WeightMin, WeightMax) * 100f) / 100f;
-            Length = Mathf.Round(UnityEngine.Random.Range(LengthMin, LengthMax) * 100f) / 100f;
+            Weight = Mathf.Round(Random.Range(WeightMin, WeightMax) * 100f) / 100f;
+            Length = Mathf.Round(Random.Range(LengthMin, LengthMax) * 100f) / 100f;
         }
 
         public void DisableMinimapIndicator() {
-            MinimapIndicator.SetActive(false);
+            MinimapIndicator.gameObject.SetActive(false);
         }
 
-        public void OnHooked(Transform _hook) {
+        public void OnHooked() {
             IsHooked = true;
             _spawner.RemoveFromSpawner(gameObject);
-            transform.parent = _hook;
+            transform.parent = _rodManager.equippedRod.GetHook().transform;
         }
 
-        public void SetThisToHooked() {
-            _audioSource.Play();
-            if (_foodSearch) { 
-                Destroy(_foodSearch.DesiredFood);
+        private void OnTriggerEnter2D(Collider2D other) {
+            if (other.TryGetComponent(out HookBehaviour hook)) {
+                hook.SetHook(this);
             }
-            _rodManager.equippedRod.GetHook().hookedObject = null;
-            _rodManager.equippedRod.GetHook().SetHook(this);
-        }
-
-        private void OnTriggerEnter2D(Collider2D _other) {
-            if (!_other.GetComponent<HookBehaviour>()) return;
-            _other.GetComponent<HookBehaviour>().SetHook(this);
         }
 
         private void OnDestroy() {
-            FishableGrid.instance.RemoveFromGridSquares(this);
+            _fishableGrid.RemoveFromGridSquares(this, _gridSquare[0], _gridSquare[1]);
             _spawner.RemoveFromSpawner(gameObject);
+            if (_rodManager.equippedRod.GetHook().hookedObject == gameObject) {
+                _rodManager.equippedRod.GetHook().hookedObject = null;
+            }
         }
     }
 }

@@ -489,8 +489,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ed023c87f291a42a62ede1f6a833e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseFoodAmount: 0
-  foodType: 0
+  _baseFoodAmount: 10
+  _foodType: 64
 --- !u!120 &1408322187
 LineRenderer:
   serializedVersion: 2

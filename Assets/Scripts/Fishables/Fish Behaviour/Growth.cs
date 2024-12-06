@@ -23,7 +23,10 @@ namespace Fishing.Fishables.Fish {
 
         private IEnumerator Co_CheckForGrowth() {
             while (true) {
-                if (_fishable.IsHooked) yield return new WaitForSeconds(_growthCheckFrequency);
+                if (_fishable.IsHooked) {
+                    yield return new WaitForSeconds(_growthCheckFrequency);
+                    continue;
+                }
                 if (_hunger.CurrentFood >= _growthStart) {
                     Grow();
                 }

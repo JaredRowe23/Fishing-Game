@@ -202,6 +202,7 @@ GameObject:
   - component: {fileID: 7587219364055408247}
   - component: {fileID: -6890081191903633112}
   - component: {fileID: -4131283791763283466}
+  - component: {fileID: -1577039516795739324}
   m_Layer: 0
   m_Name: Salmon
   m_TagString: Hookable Object
@@ -245,7 +246,6 @@ MonoBehaviour:
   _weightMin: 10
   _lengthMax: 1.5
   _lengthMin: 1
-  _minimapIndicator: {fileID: 0}
 --- !u!114 &-5582888590848471281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,3 +510,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   optimizationDistance: 75
+--- !u!114 &-1577039516795739324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8313649653780738666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 556b0a1ee4938b34f91f3aae4a66dfb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _minigameStrength: 40
+  _minigameMoveDistance: 800
+  _minigameMoveDistanceVariance: 400
+  _minigameMoveTime: 2.5
+  _minigameMoveTimeVariance: 1.5
+  _minigameSwimSpeed: 3
+  _minigameSwimTime: 15
+  _minigameSwimTimeVariance: 2.5
+  _minigameRestTime: 10
+  _minigameRestTimeVariance: 1

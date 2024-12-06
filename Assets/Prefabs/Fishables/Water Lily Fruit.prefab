@@ -110,10 +110,10 @@ GameObject:
   - component: {fileID: 4409351912995626347}
   - component: {fileID: 4398047508615510556}
   - component: {fileID: 8360194488488037177}
-  - component: {fileID: 2772352469541683304}
   - component: {fileID: 3777187760447900214}
   - component: {fileID: 1952756216818593957}
   - component: {fileID: 5120606048609897703}
+  - component: {fileID: -164591640777953223}
   m_Layer: 0
   m_Name: Water Lily Fruit
   m_TagString: Hookable Object
@@ -224,18 +224,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.25
---- !u!114 &2772352469541683304
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8689487642219765853}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c7692eace54032439376a636573fdae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &3777187760447900214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,7 +257,6 @@ MonoBehaviour:
   _weightMin: 1
   _lengthMax: 0.5
   _lengthMin: 0.5
-  _minimapIndicator: {fileID: 0}
 --- !u!114 &5120606048609897703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,4 +269,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f87ee3d6f47b9b1498d55c4c46fc4a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  optimizationDistance: 75
+  _optimizationDistance: 0
+--- !u!114 &-164591640777953223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8689487642219765853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 556b0a1ee4938b34f91f3aae4a66dfb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _minigameStrength: 10
+  _minigameMoveDistance: 250
+  _minigameMoveDistanceVariance: 50
+  _minigameMoveTime: 3
+  _minigameMoveTimeVariance: 1
+  _minigameSwimSpeed: 0
+  _minigameSwimTime: 10
+  _minigameSwimTimeVariance: 1
+  _minigameRestTime: 5
+  _minigameRestTimeVariance: 1

@@ -127,7 +127,7 @@ namespace Fishing.FishingMechanics {
                 return; 
             }
 
-            _fishable.OnHooked(transform);
+            _fishable.OnHooked();
             hookedObject = _fishable.gameObject;
             hookedObject.transform.position = transform.position;
 

@@ -1,5 +1,7 @@
+using Fishing.Util.Collision;
 using Fishing.Util;
 using UnityEngine;
+using Fishing.Fishables.FishGrid;
 
 namespace Fishing.Fishables.Fish {
     [RequireComponent(typeof(Fishable), typeof(FoodSearch))]
@@ -38,21 +40,21 @@ namespace Fishing.Fishables.Fish {
 
         [Header("Gizmos")]
         #region
-        [SerializeField, Tooltip("Whether to draw gizmos for max home distance.")] private bool _drawMaxHomeDistance = false;
-        [SerializeField, Tooltip("Color for max home distance gizmos.")] private Color _maxHomeDistanceColor = Color.cyan;
+        [SerializeField] private bool _drawMaxHomeDistance = false;
+        [SerializeField] private Color _maxHomeDistanceColor = Color.cyan;
 
-        [SerializeField, Tooltip("Whether to draw gizmos for base max home distance.")] private bool _drawBaseMaxHomeDistance = false;
-        [SerializeField, Tooltip("Color for base max home distance gizmos.")] private Color _baseMaxHomeDistanceColor = Color.cyan;
+        [SerializeField] private bool _drawBaseMaxHomeDistance = false;
+        [SerializeField] private Color _baseMaxHomeDistanceColor = Color.cyan;
 
-        [SerializeField, Tooltip("Whether to draw gizmos for max home distance variations.")] private bool _drawMaxHomeDistanceVariations = false;
-        [SerializeField, Tooltip("Color for min home distance variations gizmos.")] private Color _minHomeDistanceVariationColor = Color.cyan;
-        [SerializeField, Tooltip("Color for max home distance variations gizmos.")] private Color _maxHomeDistanceVariationColor = Color.cyan;
+        [SerializeField] private bool _drawMaxHomeDistanceVariations = false;
+        [SerializeField] private Color _minHomeDistanceVariationColor = Color.cyan;
+        [SerializeField] private Color _maxHomeDistanceVariationColor = Color.cyan;
 
-        [SerializeField, Tooltip("Whether to draw gizmos for target position.")] private bool _drawTargetPos = false;
-        [SerializeField, Tooltip("Color for target position gizmos.")] private Color _targetPosColor = Color.magenta;
+        [SerializeField] private bool _drawTargetPos = false;
+        [SerializeField] private Color _targetPosColor = Color.magenta;
 
-        [SerializeField, Tooltip("Whether to draw gizmos for obstacle avoidance distance.")] private bool _drawObstacleAvoidanceDistance = false;
-        [SerializeField, Tooltip("Color for obstacle avoidance distance gizmos.")] private Color _obstacleAvoidanceDistanceColor = Color.red;
+        [SerializeField] private bool _drawObstacleAvoidanceDistance = false;
+        [SerializeField] private Color _obstacleAvoidanceDistanceColor = Color.red;
         #endregion
 
         private void OnValidate() {
@@ -64,7 +66,7 @@ namespace Fishing.Fishables.Fish {
         private void Awake() {
             _foodSearch = GetComponent<FoodSearch>();
             _spawn = transform.parent.GetComponent<SpawnZone>();
-            _floorColliders = GameObject.FindGameObjectWithTag("Fishing Level Terrain").GetComponentsInChildren<PolygonCollider2D>();
+            _floorColliders = GameObject.FindGameObjectWithTag("Fishing Level Terrain").GetComponentsInChildren<PolygonCollider2D>(); // TODO: Replace with searching for a static instance of a FishingLevelTerrain script
             _flippableSprites = GetNonMinimapSpriteRenderers();
             _fishable = GetComponent<Fishable>();
         }
@@ -100,14 +102,20 @@ namespace Fishing.Fishables.Fish {
                 return;
             }
 
-            if (FishableGrid.instance.IsNearbyTerrainGrid(_fishable.GridSquare[0], _fishable.GridSquare[1], _fishable.Range)) {
+            if (FishableGrid.instance.IsNearbyTerrainGrid(_fishable.GridSquare[0], _fishable.GridSquare[1], _obstacleAvoidanceDistance)) {
 
-                ClosestPointInfo closestPointInfo = Utilities.ClosestPointFromColliders(transform.position, _floorColliders);
-                float distToFloor = Vector2.Distance(transform.position, closestPointInfo.position);
-
-                if (distToFloor < _obstacleAvoidanceDistance) {
-                    AvoidFloor(closestPointInfo.position);
+                SurfacePositionInfo surfacePositionInfo = new SurfacePositionInfo(transform.position, _floorColliders);
+                if (surfacePositionInfo.positionInsideTerrain) {
+                    CalculateTurnDirection(surfacePositionInfo.surfacePosition);
                     return;
+                }
+                else {
+                    float distToFloor = Vector2.Distance(transform.position, surfacePositionInfo.surfacePosition);
+
+                    if (distToFloor < _obstacleAvoidanceDistance) {
+                        AvoidFloor(surfacePositionInfo.surfacePosition);
+                        return;
+                    }
                 }
             }
 
@@ -131,7 +139,7 @@ namespace Fishing.Fishables.Fish {
         }
 
         private void AvoidSurface() {
-            RotationDir = transform.rotation.eulerAngles.z > 0 ? 1f : -1f;
+            RotationDir = Vector2.SignedAngle(Vector2.up, transform.up) > 0 ? 1f : -1f;
         }
 
         private void AvoidFloor(Vector2 _closestFloorPosition) {
@@ -154,7 +162,7 @@ namespace Fishing.Fishables.Fish {
         }
 
         private void FlipSprite() {
-            bool flipSprite = Utilities.UnsignedToSignedAngle(transform.rotation.eulerAngles.z) < 0;
+            bool flipSprite = Vector2.SignedAngle(Vector2.up, transform.up) < 0;
             for (int i = 0; i < _flippableSprites.Length; i++) {
                 _flippableSprites[i].flipY = flipSprite;
             }

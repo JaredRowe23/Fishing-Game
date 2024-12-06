@@ -647,58 +647,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &145091557
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 145091558}
-  - component: {fileID: 145091559}
-  m_Layer: 0
-  m_Name: Carp Spawn Zone
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &145091558
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 145091557}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 54, y: -30.4, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1065524026}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &145091559
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 145091557}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff8cf2880c06928439d1e2fc91609fa2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  continueSpawning: 1
-  radius: 25
-  prefab: {fileID: 8313649653780738666, guid: f27de0c63b349354599e68de41f655ee, type: 3}
-  spawnMax: 1
-  spawnList: []
-  spawnTimeSpacing: 15
-  spawnAttempts: 10
-  testObject: {fileID: 0}
 --- !u!1001 &160719063
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1118,14 +1066,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff8cf2880c06928439d1e2fc91609fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  continueSpawning: 1
-  radius: 50
-  prefab: {fileID: 211761124399546875, guid: eb3eab79ee8f08f4f934130dec1572d3, type: 3}
-  spawnMax: 10
-  spawnList: []
-  spawnTimeSpacing: 15
-  spawnAttempts: 10
-  testObject: {fileID: 0}
+  _prefab: {fileID: 211761124399546875, guid: eb3eab79ee8f08f4f934130dec1572d3, type: 3}
+  _radius: 50
+  _spawnMax: 10
+  _spawnTimeSpacing: 15
+  _testObject: {fileID: 0}
+  _drawSpawnRadiusGizmo: 0
+  _spawnRadiusGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!1 &282512308
 GameObject:
   m_ObjectHideFlags: 0
@@ -1353,14 +1300,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff8cf2880c06928439d1e2fc91609fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  continueSpawning: 1
-  radius: 50
-  prefab: {fileID: 8313649653780738666, guid: f9f142b8135525f45895c1e2f0be3601, type: 3}
-  spawnMax: 1
-  spawnList: []
-  spawnTimeSpacing: 60
-  spawnAttempts: 10
-  testObject: {fileID: 35703569}
+  _prefab: {fileID: 8313649653780738666, guid: f9f142b8135525f45895c1e2f0be3601, type: 3}
+  _radius: 50
+  _spawnMax: 1
+  _spawnTimeSpacing: 60
+  _testObject: {fileID: 35703569}
+  _drawSpawnRadiusGizmo: 0
+  _spawnRadiusGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!1 &434996643
 GameObject:
   m_ObjectHideFlags: 0
@@ -1846,14 +1792,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff8cf2880c06928439d1e2fc91609fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  continueSpawning: 1
-  radius: 15
-  prefab: {fileID: 3997795474192000409, guid: d7c3dce2b731ea74bbc407de29769494, type: 3}
-  spawnMax: 10
-  spawnList: []
-  spawnTimeSpacing: 15
-  spawnAttempts: 10
-  testObject: {fileID: 13079165}
+  _prefab: {fileID: 3997795474192000409, guid: d7c3dce2b731ea74bbc407de29769494, type: 3}
+  _radius: 15
+  _spawnMax: 10
+  _spawnTimeSpacing: 15
+  _testObject: {fileID: 13079165}
+  _drawSpawnRadiusGizmo: 0
+  _spawnRadiusGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!114 &602535917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1866,12 +1811,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffeba698911aa0846b25d8c0f7d285a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _avoidanceMaxDistance: 0.5
-  _avoidanceMaxCloseDistance: 0.25
-  _avoidanceAngle: 20
-  _shoals: []
-  _averageRotation: 0
-  _schoolCenter: {x: 0, y: 0}
 --- !u!1 &607191311
 GameObject:
   m_ObjectHideFlags: 0
@@ -1930,7 +1869,7 @@ Transform:
   m_GameObject: {fileID: 611682307}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 110.6, y: -98.8, z: 0}
+  m_LocalPosition: {x: 110.6, y: -70.72, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1948,13 +1887,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa5c034e4fe541c4a919b1d143d6b042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 7894754619917888832, guid: b7a06ef44cc651143b5ec9d9b1d5ce49, type: 3}
-  radius: 40
-  spawnMax: 100
-  spawnAttempts: 10
-  spawnHeightFromFloor: 0.4
-  scale: 5
-  scaleVariance: 1
+  _prefab: {fileID: 7894754619917888832, guid: b7a06ef44cc651143b5ec9d9b1d5ce49, type: 3}
+  _radius: 40
+  _spawnMax: 100
+  _spawnTime: 0
+  _spawnHeightFromFloor: 1
+  _randomizeScale: 1
+  _scale: 5
+  _scaleVariance: 1
+  _drawSpawnRadiusGizmo: 1
+  _spawnRadiusGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  _debugging: 0
 --- !u!1 &620436425
 GameObject:
   m_ObjectHideFlags: 0
@@ -2574,13 +2517,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa5c034e4fe541c4a919b1d143d6b042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 7894754619917888832, guid: b7a06ef44cc651143b5ec9d9b1d5ce49, type: 3}
-  radius: 25
-  spawnMax: 50
-  spawnAttempts: 10
-  spawnHeightFromFloor: 0.4
-  scale: 5
-  scaleVariance: 1
+  _prefab: {fileID: 7894754619917888832, guid: b7a06ef44cc651143b5ec9d9b1d5ce49, type: 3}
+  _radius: 25
+  _spawnMax: 50
+  _spawnTime: 0
+  _spawnHeightFromFloor: 1
+  _randomizeScale: 1
+  _scale: 5
+  _scaleVariance: 1
+  _drawSpawnRadiusGizmo: 1
+  _spawnRadiusGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  _debugging: 0
 --- !u!1 &798432310
 GameObject:
   m_ObjectHideFlags: 0
@@ -2625,14 +2572,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff8cf2880c06928439d1e2fc91609fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  continueSpawning: 1
-  radius: 25
-  prefab: {fileID: 211761124399546875, guid: 8e566323059cd0542bb9292215beb5a7, type: 3}
-  spawnMax: 15
-  spawnList: []
-  spawnTimeSpacing: 15
-  spawnAttempts: 10
-  testObject: {fileID: 0}
+  _prefab: {fileID: 211761124399546875, guid: 8e566323059cd0542bb9292215beb5a7, type: 3}
+  _radius: 25
+  _spawnMax: 15
+  _spawnTimeSpacing: 15
+  _testObject: {fileID: 0}
+  _drawSpawnRadiusGizmo: 0
+  _spawnRadiusGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!1001 &806217674
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4261,14 +4207,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff8cf2880c06928439d1e2fc91609fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  continueSpawning: 1
-  radius: 20
-  prefab: {fileID: 211761124399546875, guid: 91d0db73238d08e4ba161ab3516d100d, type: 3}
-  spawnMax: 10
-  spawnList: []
-  spawnTimeSpacing: 15
-  spawnAttempts: 10
-  testObject: {fileID: 0}
+  _prefab: {fileID: 211761124399546875, guid: 91d0db73238d08e4ba161ab3516d100d, type: 3}
+  _radius: 20
+  _spawnMax: 10
+  _spawnTimeSpacing: 15
+  _testObject: {fileID: 0}
+  _drawSpawnRadiusGizmo: 0
+  _spawnRadiusGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!1 &1032123706
 GameObject:
   m_ObjectHideFlags: 0
@@ -4344,14 +4289,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff8cf2880c06928439d1e2fc91609fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  continueSpawning: 1
-  radius: 100
-  prefab: {fileID: 8313649653780738666, guid: 38cfc22d749e3fd4289007bd2df9664e, type: 3}
-  spawnMax: 25
-  spawnList: []
-  spawnTimeSpacing: 15
-  spawnAttempts: 10
-  testObject: {fileID: 0}
+  _prefab: {fileID: 8313649653780738666, guid: 38cfc22d749e3fd4289007bd2df9664e, type: 3}
+  _radius: 100
+  _spawnMax: 25
+  _spawnTimeSpacing: 15
+  _testObject: {fileID: 0}
+  _drawSpawnRadiusGizmo: 0
+  _spawnRadiusGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!1 &1058195129
 GameObject:
   m_ObjectHideFlags: 0
@@ -4414,7 +4358,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 145091558}
   - {fileID: 1639633692}
   m_Father: {fileID: 2084702444}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4447,14 +4390,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff8cf2880c06928439d1e2fc91609fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  continueSpawning: 1
-  radius: 15
-  prefab: {fileID: 8313649653780738666, guid: f29394d0aad20604a93052bf91102f0c, type: 3}
-  spawnMax: 10
-  spawnList: []
-  spawnTimeSpacing: 15
-  spawnAttempts: 10
-  testObject: {fileID: 0}
+  _prefab: {fileID: 8313649653780738666, guid: f29394d0aad20604a93052bf91102f0c, type: 3}
+  _radius: 15
+  _spawnMax: 10
+  _spawnTimeSpacing: 15
+  _testObject: {fileID: 0}
+  _drawSpawnRadiusGizmo: 0
+  _spawnRadiusGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!4 &1085002196
 Transform:
   m_ObjectHideFlags: 0
@@ -4978,14 +4920,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff8cf2880c06928439d1e2fc91609fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  continueSpawning: 1
-  radius: 25
-  prefab: {fileID: 211761124399546875, guid: 8e566323059cd0542bb9292215beb5a7, type: 3}
-  spawnMax: 15
-  spawnList: []
-  spawnTimeSpacing: 15
-  spawnAttempts: 10
-  testObject: {fileID: 0}
+  _prefab: {fileID: 211761124399546875, guid: 8e566323059cd0542bb9292215beb5a7, type: 3}
+  _radius: 25
+  _spawnMax: 15
+  _spawnTimeSpacing: 15
+  _testObject: {fileID: 0}
+  _drawSpawnRadiusGizmo: 0
+  _spawnRadiusGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!1 &1302238945
 GameObject:
   m_ObjectHideFlags: 0
@@ -5114,14 +5055,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff8cf2880c06928439d1e2fc91609fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  continueSpawning: 1
-  radius: 25
-  prefab: {fileID: 211761124399546875, guid: 8e566323059cd0542bb9292215beb5a7, type: 3}
-  spawnMax: 25
-  spawnList: []
-  spawnTimeSpacing: 15
-  spawnAttempts: 10
-  testObject: {fileID: 0}
+  _prefab: {fileID: 211761124399546875, guid: 8e566323059cd0542bb9292215beb5a7, type: 3}
+  _radius: 25
+  _spawnMax: 25
+  _spawnTimeSpacing: 15
+  _testObject: {fileID: 0}
+  _drawSpawnRadiusGizmo: 0
+  _spawnRadiusGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!1 &1340101902
 GameObject:
   m_ObjectHideFlags: 0
@@ -5240,12 +5180,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffeba698911aa0846b25d8c0f7d285a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _avoidanceMaxDistance: 0.5
-  _avoidanceMaxCloseDistance: 0.25
-  _avoidanceAngle: 20
-  _shoals: []
-  _averageRotation: 0
-  _schoolCenter: {x: 0, y: 0}
 --- !u!114 &1348043847
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5258,14 +5192,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff8cf2880c06928439d1e2fc91609fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  continueSpawning: 1
-  radius: 15
-  prefab: {fileID: 3997795474192000409, guid: d7c3dce2b731ea74bbc407de29769494, type: 3}
-  spawnMax: 10
-  spawnList: []
-  spawnTimeSpacing: 15
-  spawnAttempts: 10
-  testObject: {fileID: 1952554190}
+  _prefab: {fileID: 3997795474192000409, guid: d7c3dce2b731ea74bbc407de29769494, type: 3}
+  _radius: 15
+  _spawnMax: 10
+  _spawnTimeSpacing: 15
+  _testObject: {fileID: 1952554190}
+  _drawSpawnRadiusGizmo: 0
+  _spawnRadiusGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!1 &1373055203
 GameObject:
   m_ObjectHideFlags: 0
@@ -5310,13 +5243,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa5c034e4fe541c4a919b1d143d6b042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 7894754619917888832, guid: b7a06ef44cc651143b5ec9d9b1d5ce49, type: 3}
-  radius: 75
-  spawnMax: 150
-  spawnAttempts: 10
-  spawnHeightFromFloor: 0.4
-  scale: 5
-  scaleVariance: 1
+  _prefab: {fileID: 7894754619917888832, guid: b7a06ef44cc651143b5ec9d9b1d5ce49, type: 3}
+  _radius: 75
+  _spawnMax: 150
+  _spawnTime: 0
+  _spawnHeightFromFloor: 1
+  _randomizeScale: 1
+  _scale: 5
+  _scaleVariance: 1
+  _drawSpawnRadiusGizmo: 0
+  _spawnRadiusGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  _debugging: 0
 --- !u!1 &1384266165
 GameObject:
   m_ObjectHideFlags: 0
@@ -5501,14 +5438,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff8cf2880c06928439d1e2fc91609fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  continueSpawning: 1
-  radius: 50
-  prefab: {fileID: 211761124399546875, guid: 3734a2df5dcb86d4c97a764a01df9c3e, type: 3}
-  spawnMax: 10
-  spawnList: []
-  spawnTimeSpacing: 15
-  spawnAttempts: 10
-  testObject: {fileID: 0}
+  _prefab: {fileID: 211761124399546875, guid: 3734a2df5dcb86d4c97a764a01df9c3e, type: 3}
+  _radius: 50
+  _spawnMax: 10
+  _spawnTimeSpacing: 15
+  _testObject: {fileID: 0}
+  _drawSpawnRadiusGizmo: 0
+  _spawnRadiusGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!1001 &1457424796
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5621,12 +5557,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffeba698911aa0846b25d8c0f7d285a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _avoidanceMaxDistance: 0.5
-  _avoidanceMaxCloseDistance: 0.25
-  _avoidanceAngle: 20
-  _shoals: []
-  _averageRotation: 0
-  _schoolCenter: {x: 0, y: 0}
 --- !u!114 &1513562068
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5639,14 +5569,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff8cf2880c06928439d1e2fc91609fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  continueSpawning: 1
-  radius: 15
-  prefab: {fileID: 3997795474192000409, guid: d7c3dce2b731ea74bbc407de29769494, type: 3}
-  spawnMax: 25
-  spawnList: []
-  spawnTimeSpacing: 15
-  spawnAttempts: 10
-  testObject: {fileID: 851013380}
+  _prefab: {fileID: 3997795474192000409, guid: d7c3dce2b731ea74bbc407de29769494, type: 3}
+  _radius: 15
+  _spawnMax: 10
+  _spawnTimeSpacing: 25
+  _testObject: {fileID: 851013380}
+  _drawSpawnRadiusGizmo: 0
+  _spawnRadiusGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!1 &1552711530
 GameObject:
   m_ObjectHideFlags: 0
@@ -5820,14 +5749,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff8cf2880c06928439d1e2fc91609fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  continueSpawning: 1
-  radius: 25
-  prefab: {fileID: 8313649653780738666, guid: f27de0c63b349354599e68de41f655ee, type: 3}
-  spawnMax: 15
-  spawnList: []
-  spawnTimeSpacing: 15
-  spawnAttempts: 10
-  testObject: {fileID: 0}
+  _prefab: {fileID: 8313649653780738666, guid: f27de0c63b349354599e68de41f655ee, type: 3}
+  _radius: 25
+  _spawnMax: 1
+  _spawnTimeSpacing: 15
+  _testObject: {fileID: 0}
+  _drawSpawnRadiusGizmo: 0
+  _spawnRadiusGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!1 &1639722575
 GameObject:
   m_ObjectHideFlags: 0
@@ -6070,12 +5998,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffeba698911aa0846b25d8c0f7d285a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _avoidanceMaxDistance: 0.5
-  _avoidanceMaxCloseDistance: 0.25
-  _avoidanceAngle: 20
-  _shoals: []
-  _averageRotation: 0
-  _schoolCenter: {x: 0, y: 0}
 --- !u!114 &1772197799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6088,14 +6010,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff8cf2880c06928439d1e2fc91609fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  continueSpawning: 1
-  radius: 15
-  prefab: {fileID: 3997795474192000409, guid: d7c3dce2b731ea74bbc407de29769494, type: 3}
-  spawnMax: 10
-  spawnList: []
-  spawnTimeSpacing: 15
-  spawnAttempts: 10
-  testObject: {fileID: 1032123706}
+  _prefab: {fileID: 3997795474192000409, guid: d7c3dce2b731ea74bbc407de29769494, type: 3}
+  _radius: 15
+  _spawnMax: 10
+  _spawnTimeSpacing: 15
+  _testObject: {fileID: 1032123706}
+  _drawSpawnRadiusGizmo: 0
+  _spawnRadiusGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!4 &1794502299 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8867471417143239251, guid: 24d34cc9ba61cc8429c0ff27fb21ec55, type: 3}
@@ -6550,12 +6471,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffeba698911aa0846b25d8c0f7d285a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _avoidanceMaxDistance: 0.5
-  _avoidanceMaxCloseDistance: 0.25
-  _avoidanceAngle: 20
-  _shoals: []
-  _averageRotation: 0
-  _schoolCenter: {x: 0, y: 0}
 --- !u!114 &1932495352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6568,14 +6483,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff8cf2880c06928439d1e2fc91609fa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  continueSpawning: 1
-  radius: 15
-  prefab: {fileID: 3997795474192000409, guid: d7c3dce2b731ea74bbc407de29769494, type: 3}
-  spawnMax: 5
-  spawnList: []
-  spawnTimeSpacing: 15
-  spawnAttempts: 10
-  testObject: {fileID: 508240234}
+  _prefab: {fileID: 3997795474192000409, guid: d7c3dce2b731ea74bbc407de29769494, type: 3}
+  _radius: 15
+  _spawnMax: 10
+  _spawnTimeSpacing: 5
+  _testObject: {fileID: 508240234}
+  _drawSpawnRadiusGizmo: 0
+  _spawnRadiusGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
 --- !u!1 &1952554190
 GameObject:
   m_ObjectHideFlags: 0
@@ -6633,7 +6547,7 @@ Transform:
   m_GameObject: {fileID: 1958498728}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 79.1, y: -91.3, z: 0}
+  m_LocalPosition: {x: 79.1, y: -83.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6651,13 +6565,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa5c034e4fe541c4a919b1d143d6b042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 2855300750751475942, guid: 8d3d1d5557cd04a4c94c1d62676b69a4, type: 3}
-  radius: 25
-  spawnMax: 15
-  spawnAttempts: 10
-  spawnHeightFromFloor: 0.4
-  scale: 5
-  scaleVariance: 1
+  _prefab: {fileID: 2855300750751475942, guid: 8d3d1d5557cd04a4c94c1d62676b69a4, type: 3}
+  _radius: 25
+  _spawnMax: 10
+  _spawnTime: 10
+  _spawnHeightFromFloor: 0.4
+  _randomizeScale: 0
+  _scale: 1
+  _scaleVariance: 1
+  _drawSpawnRadiusGizmo: 1
+  _spawnRadiusGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  _debugging: 0
 --- !u!1 &1999359926
 GameObject:
   m_ObjectHideFlags: 0
@@ -6786,13 +6704,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa5c034e4fe541c4a919b1d143d6b042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 7894754619917888832, guid: b7a06ef44cc651143b5ec9d9b1d5ce49, type: 3}
-  radius: 30
-  spawnMax: 100
-  spawnAttempts: 10
-  spawnHeightFromFloor: 0.4
-  scale: 5
-  scaleVariance: 1
+  _prefab: {fileID: 7894754619917888832, guid: b7a06ef44cc651143b5ec9d9b1d5ce49, type: 3}
+  _radius: 30
+  _spawnMax: 100
+  _spawnTime: 0
+  _spawnHeightFromFloor: 1
+  _randomizeScale: 1
+  _scale: 5
+  _scaleVariance: 1
+  _drawSpawnRadiusGizmo: 0
+  _spawnRadiusGizmoColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  _debugging: 0
 --- !u!1 &2066548816
 GameObject:
   m_ObjectHideFlags: 0

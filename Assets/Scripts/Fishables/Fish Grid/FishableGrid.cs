@@ -2,12 +2,12 @@ using Fishing.Fishables.Fish;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Fishing.Fishables {
+namespace Fishing.Fishables.FishGrid {
     public class FishableGrid : MonoBehaviour {
         [Header("Grid Shape")]
-        [SerializeField, Min(1)] private int _columns = 16;
-        [SerializeField, Min(1)] private int _rows = 16;
-        [SerializeField, Min(0.1f)] private float _gridSquareSize = 1f;
+        [SerializeField, Min(1), Tooltip("The amount of columns that will made up the grid.")] private int _columns = 16;
+        [SerializeField, Min(1), Tooltip("The amount of rows that will made up the grid.")] private int _rows = 16;
+        [SerializeField, Min(0f), Tooltip("Size of each grid square (one side to the other).")] private float _gridSquareSize = 1f;
         public float GridSquareSize { get => _gridSquareSize; private set { } }
         private float GridWidth => _columns * _gridSquareSize;
         public float GridHeight => _rows * _gridSquareSize;
@@ -17,15 +17,15 @@ namespace Fishing.Fishables {
         public GridSquare[][] GridSquares { get => _gridSquares; private set { } }
 
         [Header("Gizmos")]
-        [SerializeField] private bool _drawGridLines;
-        [SerializeField] private Color _gridColor;
+        [SerializeField] private bool _drawGridLines = false;
+        [SerializeField] private Color _gridColor = Color.green;
 
-        [SerializeField] private bool _drawGridCenters;
-        [SerializeField] private Color _gridCenterColor;
-        [SerializeField] private Color _gridHasTerrainColor;
+        [SerializeField] private bool _drawGridCenters = false;
+        [SerializeField] private Color _gridCenterColor = Color.green;
+        [SerializeField] private Color _gridHasTerrainColor = Color.red;
 
-        [SerializeField] private bool _drawFishableLines;
-        [SerializeField] private Color _fishableColor;
+        [SerializeField] private bool _drawFishableLines = false;
+        [SerializeField] private Color _fishableColor = Color.yellow;
 
         public static FishableGrid instance;
 
@@ -55,158 +55,9 @@ namespace Fishing.Fishables {
                 _gridSquares[x] = new GridSquare[_rows];
                 for (int y = 0; y < _rows; y++) {
                     GridSquare _newGridSquare = new GridSquare(x, y);
-                    DetermineIfCollidingWithTerrain(_newGridSquare);
                     _gridSquares[x][y] = _newGridSquare;
                 }
             }
-        }
-
-        private void DetermineIfCollidingWithTerrain(GridSquare gridSquare) {
-            PolygonCollider2D[] terrainColliders = GameObject.Find("Grid").GetComponentsInChildren<PolygonCollider2D>();
-            for (int i = 0; i < terrainColliders.Length; i++) {
-                if (IsGridSquareOutsideOfChunk(terrainColliders[i], gridSquare)) {
-                    continue;
-                }
-                if (!AreGridEdgesCollidingWithCollider(terrainColliders[i], gridSquare)) {
-                    continue;
-                }
-
-                // TODO: Add function for detecting if a section of terrain is completely encapsulated by a grid square.
-                //       This should take each point of the terrain collider and raycast towards the grid center by it's extents length.
-                //       If the raycast exits the grid square an odd amount of times, then the point it came from is within the grid square.
-
-                gridSquare.IsCollidingWithTerrain = true;
-                return;
-            }
-            gridSquare.IsCollidingWithTerrain = false;
-        }
-
-        private bool IsGridSquareOutsideOfChunk(PolygonCollider2D collider, GridSquare gridSquare) {
-            Bounds terrainBounds = collider.bounds;
-            float distanceToCenter = Vector2.Distance(gridSquare.GridCenter, terrainBounds.center);
-            float inBoundsRange = terrainBounds.extents.magnitude + GridSquareSize;
-            bool isChunkTooFarAway = distanceToCenter >= inBoundsRange;
-            return isChunkTooFarAway;
-        }
-
-        private bool AreGridEdgesCollidingWithCollider(PolygonCollider2D collider, GridSquare gridSquare) {
-
-            int terrainLayer = ~LayerMask.NameToLayer("Terrain");
-
-            // Rays move and check clockwise around square
-            Vector2 topLeftPosition = gridSquare.GridCenter + new Vector2(-GridSquareHalfSize, GridSquareHalfSize);
-            RaycastHit2D topLeftHit = Physics2D.Raycast(topLeftPosition, Vector2.right, GridSquareSize, terrainLayer);
-
-            Vector2 topRightPosition = gridSquare.GridCenter + new Vector2(GridSquareHalfSize, GridSquareHalfSize);
-            RaycastHit2D topRightHit = Physics2D.Raycast(topRightPosition, Vector2.down, GridSquareSize, terrainLayer);
-
-            Vector2 bottomRightPosition = gridSquare.GridCenter + new Vector2(GridSquareHalfSize, -GridSquareHalfSize);
-            RaycastHit2D bottomRightHit = Physics2D.Raycast(bottomRightPosition, Vector2.left, GridSquareSize, terrainLayer);
-
-            Vector2 bottomLeftPosition = gridSquare.GridCenter + new Vector2(-GridSquareHalfSize, -GridSquareHalfSize);
-            RaycastHit2D bottomLeftHit = Physics2D.Raycast(bottomLeftPosition, Vector2.up, GridSquareSize, terrainLayer);
-
-            if (topLeftHit.collider == collider) {
-                return true;
-            }
-            if (topRightHit.collider == collider) {
-                return true;
-            }
-            if (bottomRightHit.collider == collider) {
-                return true;
-            }
-            if (bottomLeftHit.collider == collider) {
-                return true;
-            }
-
-            return false;
-        }
-
-        public void SortFishableIntoGridSquare(Fishable fishable) {
-            int[] gridCoord = Vector2ToGrid(fishable.transform.position);
-            GridSquare gridSquare = _gridSquares[gridCoord[0]][gridCoord[1]];
-            gridSquare.GridFishables.Add(fishable);
-            if (fishable.TryGetComponent(out Edible edible)) {
-                gridSquare.GridEdibles.Add(edible);
-            }
-            fishable.GridSquare = gridCoord;
-        }
-        // TODO: Return after removing first instance, as there should only ever be one instance in the whole grid
-        public void RemoveFromGridSquares(Fishable fishable) {
-            for (int x = 0; x < _columns; x++) {
-                for (int y = 0; y < _rows; y++) {
-                    if (!_gridSquares[x][y].GridFishables.Contains(fishable)) {
-                        continue;
-                    }
-                    _gridSquares[x][y].GridFishables.Remove(fishable);
-
-                    if (fishable.TryGetComponent(out Edible edible)) {
-                        if (!_gridSquares[x][y].GridEdibles.Contains(edible)) {
-                            continue;
-                        }
-                        _gridSquares[x][y].GridEdibles.Remove(edible);
-                    }
-                }
-            }
-        }
-
-        public int[] Vector2ToGrid(Vector2 position) {
-            Debug.Assert(position != null, "Cannot convert null position to grid");
-
-            Vector2 cleanPosition = position - (Vector2)transform.position;
-            cleanPosition.y += GridHeight;
-            cleanPosition.x = Mathf.Clamp(cleanPosition.x, 0, GridWidth);
-            cleanPosition.y = Mathf.Clamp(cleanPosition.y, 0, GridHeight);
-
-            int gridX = Mathf.Min(Mathf.FloorToInt(cleanPosition.x / _gridSquareSize), _columns - 1);
-            int gridY = Mathf.Min(Mathf.FloorToInt(cleanPosition.y / _gridSquareSize), _rows - 1);
-
-            int[] grid = new int[2] { gridX, gridY };
-
-            return grid;
-        }
-
-        public List<Edible> GetNearbyEdibles(int originSquareX, int originSquareY, int range) {
-            Debug.Assert(originSquareX >= 0 && originSquareY >= 0, $"Attempting to get fishables form outside of grid ({originSquareX},{originSquareY})");
-
-            List<Edible> edible = new List<Edible>();
-            for (int x = originSquareX - range; x <= originSquareX + range; x++) {
-                if (x >= _gridSquares.Length || x < 0) {
-                    continue;
-                }
-
-                for (int y = originSquareY - range; y <= originSquareY + range; y++) {
-                    if (y >= _gridSquares[x].Length || y < 0) {
-                        continue;
-                    }
-
-                    for (int i = 0; i < _gridSquares[x][y].GridFishables.Count; i++) {
-                        edible.Add(_gridSquares[x][y].GridEdibles[i]);
-                    }
-                }
-            }
-            return edible;
-        }
-
-        public bool IsNearbyTerrainGrid(int originSquareX, int originSquareY, int range) {
-            Debug.Assert(originSquareX >= 0 && originSquareY >= 0, $"Attempting to get fishables form outside of grid ({originSquareX},{originSquareY})");
-
-            for (int x = originSquareX - range; x <= originSquareX + range; x++) {
-                if (x >= _gridSquares.Length || x < 0) {
-                    continue;
-                }
-
-                for (int y = originSquareY - range; y <= originSquareY + range; y++) {
-                    if (y >= _gridSquares[x].Length || y < 0) {
-                        continue;
-                    }
-
-                    if (_gridSquares[x][y].IsCollidingWithTerrain) {
-                        return true;
-                    }
-                }
-            }
-            return false;
         }
 
         private void AssessGridSquareOutOfBoundsFish(GridSquare gridSquare) {
@@ -232,6 +83,88 @@ namespace Fishing.Fishables {
                 }
                 SortFishableIntoGridSquare(fishable);
             }
+        }
+
+        public void SortFishableIntoGridSquare(Fishable fishable) {
+            int[] gridCoord = Vector2ToGrid(fishable.transform.position);
+            GridSquare gridSquare = _gridSquares[gridCoord[0]][gridCoord[1]];
+            gridSquare.GridFishables.Add(fishable);
+            if (fishable.TryGetComponent(out Edible edible)) {
+                gridSquare.GridEdibles.Add(edible);
+            }
+            fishable.GridSquare = gridCoord;
+        }
+
+        public void RemoveFromGridSquares(Fishable fishable, int gridX, int gridY) {
+            Debug.Assert(gridX >= 0 && gridX <= _columns && gridY >= 0 && gridY <= _rows, "Trying to remove fishable form a grid square out of range!.");
+
+            _gridSquares[gridX][gridY].GridFishables.Remove(fishable);
+
+            if (fishable.TryGetComponent(out Edible edible)) {
+                _gridSquares[gridX][gridY].GridEdibles.Remove(edible);
+                return;
+            }
+        }
+
+        public int[] Vector2ToGrid(Vector2 position) {
+            Debug.Assert(position != null, "Cannot convert null position to grid");
+
+            Vector2 cleanPosition = position - (Vector2)transform.position;
+            cleanPosition.y += GridHeight;
+            cleanPosition.x = Mathf.Clamp(cleanPosition.x, 0, GridWidth);
+            cleanPosition.y = Mathf.Clamp(cleanPosition.y, 0, GridHeight);
+
+            int gridX = Mathf.Min(Mathf.FloorToInt(cleanPosition.x / _gridSquareSize), _columns - 1);
+            int gridY = Mathf.Min(Mathf.FloorToInt(cleanPosition.y / _gridSquareSize), _rows - 1);
+
+            int[] grid = new int[2] { gridX, gridY };
+
+            return grid;
+        }
+
+        public List<Edible> GetNearbyEdibles(int originSquareX, int originSquareY, float range) {
+            Debug.Assert(originSquareX >= 0 && originSquareY >= 0, $"Attempting to get fishables form outside of grid ({originSquareX},{originSquareY})");
+
+            int gridSquareRange = Mathf.CeilToInt(range / GridSquareSize);
+            List<Edible> edible = new List<Edible>();
+            for (int x = originSquareX - gridSquareRange; x <= originSquareX + range; x++) {
+                if (x >= _gridSquares.Length || x < 0) {
+                    continue;
+                }
+
+                for (int y = originSquareY - gridSquareRange; y <= originSquareY + range; y++) {
+                    if (y >= _gridSquares[x].Length || y < 0) {
+                        continue;
+                    }
+
+                    for (int i = 0; i < _gridSquares[x][y].GridFishables.Count; i++) {
+                        edible.Add(_gridSquares[x][y].GridEdibles[i]);
+                    }
+                }
+            }
+            return edible;
+        }
+
+        public bool IsNearbyTerrainGrid(int originSquareX, int originSquareY, float range) {
+            Debug.Assert(originSquareX >= 0 && originSquareY >= 0, $"Attempting to get fishables form outside of grid ({originSquareX},{originSquareY})");
+
+            int gridSquareRange = Mathf.CeilToInt(range / GridSquareSize);
+            for (int x = originSquareX - gridSquareRange; x <= originSquareX + range; x++) {
+                if (x >= _gridSquares.Length || x < 0) {
+                    continue;
+                }
+
+                for (int y = originSquareY - gridSquareRange; y <= originSquareY + range; y++) {
+                    if (y >= _gridSquares[x].Length || y < 0) {
+                        continue;
+                    }
+
+                    if (_gridSquares[x][y].IsCollidingWithTerrain) {
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         private void OnDrawGizmosSelected() {
