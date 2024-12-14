@@ -18,7 +18,7 @@ MonoBehaviour:
   prefab: {fileID: 7061067434651880759, guid: 2b49f259fab14824eabbd3e7dfde2556, type: 3}
   cost: 0.5
   areaOfEffect: 1
-  baitableFishTypes: 0100000004000000
+  baitableFishTypes: 4
   effects:
   - Shiny
   - Heavy Weight

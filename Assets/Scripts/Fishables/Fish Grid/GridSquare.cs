@@ -24,6 +24,9 @@ namespace Fishing.Fishables.FishGrid {
         private List<Edible> _gridEdibles;
         public List<Edible> GridEdibles { get => _gridEdibles; set { _gridEdibles = value; } }
 
+        private List<FoodSearch> _gridFoodSearches;
+        public List<FoodSearch> GridFoodSearches { get => _gridFoodSearches; set { _gridFoodSearches = value; } }
+
 		public GridSquare(int _xPos, int _yPos) {
             GridX = _xPos;
             GridY = _yPos;
@@ -35,6 +38,7 @@ namespace Fishing.Fishables.FishGrid {
 
             GridFishables = new List<Fishable>();
             GridEdibles = new List<Edible>();
+            GridFoodSearches = new List<FoodSearch>();
         }
 
         private void DetermineIfCollidingWithTerrain() {

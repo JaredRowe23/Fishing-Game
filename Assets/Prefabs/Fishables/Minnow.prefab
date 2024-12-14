@@ -177,11 +177,11 @@ MonoBehaviour:
   _sightDistance: 10
   _smellRadius: 2.5
   _desiredFoodTypes: 5216
-  _drawSearchingGizmos: 0
+  _drawSearchingGizmos: 1
   _smellRadiusColor: {r: 0, g: 1, b: 0, a: 1}
   _sightConeColor: {r: 0, g: 1, b: 0, a: 1}
-  _drawDesiredFoodGizmos: 0
-  _desiredFoodRayColor: {r: 0, g: 1, b: 0, a: 1}
+  _drawDesiredFoodGizmos: 1
+  _desiredFoodRayColor: {r: 1, g: 1, b: 0, a: 1}
 --- !u!114 &-2751715254068480783
 MonoBehaviour:
   m_ObjectHideFlags: 0

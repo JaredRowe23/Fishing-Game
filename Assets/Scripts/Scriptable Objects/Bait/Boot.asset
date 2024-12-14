@@ -19,7 +19,7 @@ MonoBehaviour:
   prefab: {fileID: 7061067434651880759, guid: 47a2de0f966719d4f9409ac1519bf41f, type: 3}
   cost: 1
   areaOfEffect: 1
-  baitableFishTypes: 01000000
+  baitableFishTypes: 4
   effects:
   - Trash
   effectsSprites:

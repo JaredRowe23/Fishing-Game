@@ -81,6 +81,9 @@ namespace Fishing.Fishables.FishGrid {
                 if (fishable.TryGetComponent(out Edible edible)) {
                     gridSquare.GridEdibles.Remove(edible);
                 }
+                if (fishable.TryGetComponent(out FoodSearch foodSearch)) {
+                    gridSquare.GridFoodSearches.Remove(foodSearch);
+                }
                 SortFishableIntoGridSquare(fishable);
             }
         }
@@ -92,6 +95,9 @@ namespace Fishing.Fishables.FishGrid {
             if (fishable.TryGetComponent(out Edible edible)) {
                 gridSquare.GridEdibles.Add(edible);
             }
+            if (fishable.TryGetComponent(out FoodSearch foodSearch)) {
+                gridSquare.GridFoodSearches.Add(foodSearch);
+            }
             fishable.GridSquare = gridCoord;
         }
 
@@ -102,7 +108,9 @@ namespace Fishing.Fishables.FishGrid {
 
             if (fishable.TryGetComponent(out Edible edible)) {
                 _gridSquares[gridX][gridY].GridEdibles.Remove(edible);
-                return;
+            }
+            if (fishable.TryGetComponent(out FoodSearch foodSearch)) {
+                _gridSquares[gridX][gridY].GridFoodSearches.Remove(foodSearch);
             }
         }
 
@@ -126,7 +134,7 @@ namespace Fishing.Fishables.FishGrid {
             Debug.Assert(originSquareX >= 0 && originSquareY >= 0, $"Attempting to get fishables form outside of grid ({originSquareX},{originSquareY})");
 
             int gridSquareRange = Mathf.CeilToInt(range / GridSquareSize);
-            List<Edible> edible = new List<Edible>();
+            List<Edible> edibles = new List<Edible>();
             for (int x = originSquareX - gridSquareRange; x <= originSquareX + range; x++) {
                 if (x >= _gridSquares.Length || x < 0) {
                     continue;
@@ -138,11 +146,34 @@ namespace Fishing.Fishables.FishGrid {
                     }
 
                     for (int i = 0; i < _gridSquares[x][y].GridFishables.Count; i++) {
-                        edible.Add(_gridSquares[x][y].GridEdibles[i]);
+                        edibles.Add(_gridSquares[x][y].GridEdibles[i]);
                     }
                 }
             }
-            return edible;
+            return edibles;
+        }
+
+        public List<FoodSearch> GetNearbyFoodSearches(int originSquareX, int originSquareY, float range) {
+            Debug.Assert(originSquareX >= 0 && originSquareY >= 0, $"Attempting to get fishables form outside of grid ({originSquareX},{originSquareY})");
+
+            int gridSquareRange = Mathf.CeilToInt(range / GridSquareSize);
+            List<FoodSearch> foodSearches = new List<FoodSearch>();
+            for (int x = originSquareX - gridSquareRange; x <= originSquareX + range; x++) {
+                if (x >= _gridSquares.Length || x < 0) {
+                    continue;
+                }
+
+                for (int y = originSquareY - gridSquareRange; y <= originSquareY + range; y++) {
+                    if (y >= _gridSquares[x].Length || y < 0) {
+                        continue;
+                    }
+
+                    for (int i = 0; i < _gridSquares[x][y].GridFoodSearches.Count; i++) {
+                        foodSearches.Add(_gridSquares[x][y].GridFoodSearches[i]);
+                    }
+                }
+            }
+            return foodSearches;
         }
 
         public bool IsNearbyTerrainGrid(int originSquareX, int originSquareY, float range) {

@@ -72,9 +72,8 @@ namespace Fishing
             BaitBehaviour _newBait = Instantiate(ItemLookupTable.instance.StringToBait(playerData.equippedRod.equippedBait.baitName).prefab, equippedRod.GetHook().transform).GetComponent<BaitBehaviour>();
             equippedRod.equippedBait = _newBait;
             equippedRod.GetHook().hookedObject = _newBait.gameObject;
-            _newBait.transform.localPosition = _newBait.GetAnchorPoint();
-            _newBait.transform.localRotation = Quaternion.Euler(_newBait.GetAnchorRotation());
-            BaitManager.instance.bait = _newBait;
+            _newBait.transform.localPosition = _newBait.AnchorPoint;
+            _newBait.transform.localRotation = Quaternion.Euler(0f, 0f, _newBait.AnchorRotation);
         }
     }
 

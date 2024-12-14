@@ -14,39 +14,16 @@ namespace Fishing.FishingMechanics
         public GameObject prefab;
         public float cost;
         public float areaOfEffect;
-        [SerializeField] private Edible.FoodTypes[] baitableFishTypes;
+        [SerializeField] private Edible.FoodTypes baitableFishTypes;
+        public Edible.FoodTypes BaitableFishTypes { get => baitableFishTypes; private set { } }
         public List<string> effects;
         public List<Sprite> effectsSprites;
 
         public List<string> GetFoodTypesAsString()
         {
-            List<string> _types = new List<string>();
-            foreach(Edible.FoodTypes _type in baitableFishTypes)
-            {
-                _types.Add(_type.ToString());
-            }
-            return _types;
-        }
-
-        public long GetFoodTypes()
-        {
-            if (baitableFishTypes.Length > 9)
-            {
-                Debug.LogError("Too many food types assigned to object for c# long to handle!", this);
-                return 0;
-            }
-            string _typesString = "1";
-            for (int i = 0; i < baitableFishTypes.Length; i++)
-            {
-                int _typeInt = (int)baitableFishTypes[i];
-                if (_typeInt < 10)
-                {
-                    _typesString += "0";
-                }
-                _typesString += _typeInt.ToString();
-            }
-            long types = long.Parse(_typesString);
-            return types;
+            string typesString = BaitableFishTypes.ToString();
+            string[] typesStrings = typesString.Split(", ");
+            return new List<string>(typesStrings);
         }
     }
 }

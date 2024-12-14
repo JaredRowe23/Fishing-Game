@@ -120,7 +120,7 @@ namespace Fishing.FishingMechanics {
         public Transform GetHookAnchorPoint() => linePivotPoint;
 
         public void SetHook(Fishable _fishable) {
-            if (hookedObject != null) { 
+            if (hookedObject != null && !hookedObject.TryGetComponent(out BaitBehaviour _)) { 
                 return; 
             }
             if (rod.isResettingHook) { 

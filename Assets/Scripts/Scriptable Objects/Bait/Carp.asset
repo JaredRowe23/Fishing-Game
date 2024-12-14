@@ -19,7 +19,7 @@ MonoBehaviour:
   prefab: {fileID: 7061067434651880759, guid: bed25caa61bd9e74a9ab6805ae0e5a28, type: 3}
   cost: 75
   areaOfEffect: 10
-  baitableFishTypes: 0b000000
+  baitableFishTypes: 512
   effects:
   - Fresh Catch
   effectsSprites:

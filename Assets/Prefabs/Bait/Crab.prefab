@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6034212303486645230}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 22, y: 22, z: 22}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1375262557628840332}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!331 &1387924263038697122
 SpriteMask:
@@ -77,8 +77,8 @@ SpriteMask:
   m_MaskAlphaCutoff: 0.2
   m_FrontSortingLayerID: -1418280931
   m_BackSortingLayerID: -1418280931
-  m_FrontSortingLayer: 2
-  m_BackSortingLayer: 2
+  m_FrontSortingLayer: 4
+  m_BackSortingLayer: 4
   m_FrontSortingOrder: 5
   m_BackSortingOrder: 0
   m_IsCustomRangeActive: 1
@@ -110,6 +110,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7061067434651880759}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: -0.53998333, w: 0.84167576}
   m_LocalPosition: {x: 0.46, y: -0.3, z: 1}
   m_LocalScale: {x: 3, y: 3, z: 3}
@@ -117,7 +118,6 @@ Transform:
   m_Children:
   - {fileID: 899872906844618874}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -65.365}
 --- !u!212 &8229338517153851395
 SpriteRenderer:
@@ -183,9 +183,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5087a8be7993fe4480ab09fe9d718fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scriptable: {fileID: 11400000, guid: 5b2eda1a1afc77a4d84b205459f3d456, type: 2}
-  anchorPoint: {x: 0.46, y: -1.02, z: 1}
-  anchorRotation: {x: 0, y: 0, z: -65.365}
+  _scriptable: {fileID: 11400000, guid: 5b2eda1a1afc77a4d84b205459f3d456, type: 2}
+  _anchorPoint: {x: 0.46, y: -1.02, z: 1}
+  _anchorRotation: -65.365
+  _drawBaitRangeGizmo: 0
+  _baitRangeGizmoColor: {r: 0, g: 0, b: 1, a: 1}
 --- !u!114 &629361283186392710
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -198,8 +200,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84ed023c87f291a42a62ede1f6a833e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  baseFoodAmount: 0
-  foodType: 12
+  _baseFoodAmount: 10
+  _foodType: 0
 --- !u!58 &-2929111798186344732
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -210,6 +212,25 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0

@@ -103,7 +103,9 @@ namespace Fishing.Fishables {
 
         private void OnTriggerEnter2D(Collider2D other) {
             if (other.TryGetComponent(out HookBehaviour hook)) {
-                hook.SetHook(this);
+                if (hook.hookedObject == null) {
+                    hook.SetHook(this);
+                }
             }
         }
 

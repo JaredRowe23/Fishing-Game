@@ -73,7 +73,7 @@ namespace Fishing.Util {
         /// </summary>
         /// <param name="angle"></param>
         /// <returns>float from -180 to 180</returns>
-        public static float UnsignedToSignedAngle(float angle) {
+        public static float UnsignedToSignedAngle(float angle) { // TODO: DOES NOT WORK, FIX THIS! Check to see if an if statement to get this working is less intensive than a Vector2.UnsignedAngle.
             return angle - ((int)(angle / 360) * 360f);
             //angle = angle % 360;
             //if (angle > 180) angle = -180 + angle % 180;
