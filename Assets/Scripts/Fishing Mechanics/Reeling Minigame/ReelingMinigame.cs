@@ -1,97 +1,90 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Fishing.Fishables;
 using Fishing.IO;
-using UnityEngine.UI;
-using Fishing.UI;
 using Fishing.PlayerInput;
+using Fishing.UI;
+using UnityEngine;
+using UnityEngine.UI;
 
-namespace Fishing.FishingMechanics.Minigame
-{
-    public class ReelingMinigame : MonoBehaviour
-    {
-        [SerializeField] private float reelBarMaxX = 1124f;
+namespace Fishing.FishingMechanics.Minigame {
+    public class ReelingMinigame : MonoBehaviour {
+        [SerializeField, Min(0), Tooltip("Represents the maximum X value in pixels that the reel bar encapsulates.")] private float _reelBarMaxX = 1124f; // TODO: Automatically determine this off of the side of the UI element's bounds.
+        public float ReelBarMaxX { get => _reelBarMaxX; private set => _reelBarMaxX = value; }
 
-        [SerializeField] private GameObject reelingBarOutline;
+        [SerializeField, Tooltip("Text UI element that shows the line's strength.")] private Text _lineStrengthText;
+        [SerializeField, Tooltip("Text UI element that shows the name of the fish.")] private Text _fishNameText;
+        [SerializeField, Tooltip("Text UI element taht shows the strength of the fishable.")] private Text _fishStrengthText;
 
-        [SerializeField] private Text lineStrengthText;
-        [SerializeField] private Text fishNameText;
-        [SerializeField] private Text fishStrengthText;
+        [SerializeField, Tooltip("Game object of the reeling bar sprite.")] private GameObject _reelingBarOutline;
+        private LineStress _stressBar;
+        private ReelZone _reelZone;
+        private MinigameFish _fishIcon;
+        private DistanceBar _distanceBar;
 
-        private LineStress stressBar;
-        private ReelZone reelZone;
-        private MinigameFish fishIcon;
-        private DistanceBar distanceBar;
+        private bool _isReeling;
+        public bool IsReeling { get => _isReeling; private set => _isReeling = value; }
 
-        private bool isReeling;
+        private bool _isInMinigame = false;
+        public bool IsInMinigame { get => _isInMinigame; private set => _isInMinigame = value; }
 
-        private bool isInMinigame = false;
+        private RodBehaviour _equippedRod;
+        private Fishable _fishable;
+        private RodManager _rodManager;
 
-        private RodBehaviour equippedRod;
-        private Fishable fish;
+        private static ReelingMinigame _instance;
+        public static ReelingMinigame Instance { get => _instance; private set => _instance = value; }
 
-        public static ReelingMinigame instance;
-
-        private ReelingMinigame() => instance = this;
-
-        private void Awake()
-        {
-            stressBar = LineStress.instance;
-            reelZone = ReelZone.instance;
-            fishIcon = MinigameFish.instance;
-            distanceBar = DistanceBar.instance;
+        private void Awake() {
+            Instance = this;
         }
 
-        private void Start()
-        {
-            isInMinigame = false;
+        private void Start() {
+            _stressBar = LineStress.Instance;
+            _reelZone = ReelZone.Instance;
+            _fishIcon = MinigameFish.Instance;
+            _distanceBar = DistanceBar.Instance;
+
+            _rodManager = RodManager.instance;
+
+            IsInMinigame = false;
             ShowMinigame(false);
         }
 
-        public void InitiateMinigame(Fishable _fish)
-        {
+        public void InitiateMinigame(Fishable fishable) {
+            _equippedRod = _rodManager.equippedRod;
+            _fishable = fishable;
+
             ShowMinigame(true);
-
-            equippedRod = RodManager.instance.equippedRod;
-            fish = _fish;
-
             InitializeMinigameScripts();
-
             PopulateUIText();
-
             SetInputs();
+            IsInMinigame = true;
 
-            isInMinigame = true;
-
-            if (!PlayerData.instance.hasSeenTutorialData.reelingMinigameTutorial) HandleTutorial();
+            if (!PlayerData.instance.hasSeenTutorialData.reelingMinigameTutorial) {
+                HandleTutorial();
+            }
         }
 
-        private void InitializeMinigameScripts()
-        {
-            fishIcon.InitializeMinigame(fish);
-            reelZone.InitializeMinigame();
-            stressBar.InitializeMinigame();
-            distanceBar.InitializeMinigame(fish);
+        private void InitializeMinigameScripts() {
+            _fishIcon.InitializeMinigame(_fishable);
+            _reelZone.InitializeMinigame();
+            _stressBar.InitializeMinigame();
+            _distanceBar.InitializeMinigame(_fishable);
         }
 
-        private void PopulateUIText()
-        {
-            lineStrengthText.text = "Line STR - " + equippedRod.scriptable.lineStrength.ToString();
-            fishNameText.text = fish.ItemName;
-            fishStrengthText.text = "Diff - x" + fish.GetComponent<MinigameStats>().MinigameDifficulty.ToString("F2");
+        private void PopulateUIText() {
+            _lineStrengthText.text = $"Line STR - {_equippedRod.scriptable.lineStrength.ToString()}";
+            _fishNameText.text = _fishable.ItemName;
+            _fishStrengthText.text = $"Diff - x{_fishable.GetComponent<MinigameStats>().MinigameDifficulty.ToString("F2")}";
         }
 
-        private void SetInputs()
-        {
-            isReeling = false;
-            equippedRod.ClearReelInputs();
+        private void SetInputs() {
+            IsReeling = false;
+            _equippedRod.ClearReelInputs();
             InputManager.onCastReel += StartReeling;
             InputManager.releaseCastReel += EndReeling;
         }
 
-        private void HandleTutorial()
-        {
+        private void HandleTutorial() {
             TutorialSystem.instance.QueueTutorial("When you hook something, the reeling minigame starts. Move the green \"reeling zone\" with the Left Mouse Button to cover the fish icon to start reeling it in.");
             TutorialSystem.instance.QueueTutorial("Your line can snap under too much stress, so pay attention to the bar's color!");
             TutorialSystem.instance.QueueTutorial("Reeling will cause some stress, but not as much when the fish is in the reeling zone. Stronger lines can handle stronger fish.");
@@ -100,44 +93,41 @@ namespace Fishing.FishingMechanics.Minigame
             PlayerData.instance.hasSeenTutorialData.reelingMinigameTutorial = true;
         }
 
-        private void StartReeling() => isReeling = true;
-        private void EndReeling() => isReeling = false;
+        private void StartReeling() {
+            IsReeling = true;
+        }
 
-        public void OnLineSnap()
-        {
-            equippedRod.GetHook().DestroyHookedObject();
-            equippedRod.GetHook().hookedObject = null;
-            equippedRod.StopReeling();
+        private void EndReeling() {
+            IsReeling = false;
+        }
+
+        public void OnLineSnap() {
+            _equippedRod.GetHook().DestroyHookedObject(); // TODO: Remove this Destroy call after checking to see if fishables are functional when released from the hook
+            _equippedRod.GetHook().hookedObject = null;
+            _equippedRod.StopReeling();
 
             InputManager.onCastReel -= StartReeling;
             InputManager.releaseCastReel -= EndReeling;
-            equippedRod.OnReeledIn();
+            _equippedRod.OnReeledIn();
 
             EndMinigame();
         }
 
 
-        private void ShowMinigame(bool _show)
-        {
-            reelingBarOutline.SetActive(_show);
-            stressBar.gameObject.SetActive(_show);
-            reelZone.gameObject.SetActive(_show);
-            fishIcon.gameObject.SetActive(_show);
-            distanceBar.gameObject.SetActive(_show);
-            lineStrengthText.gameObject.SetActive(_show);
-            fishNameText.gameObject.SetActive(_show);
-            fishStrengthText.gameObject.SetActive(_show);
+        private void ShowMinigame(bool _show) { // TODO: Remove this code after making this script no longer required to be active in order to start the minigame.
+            _reelingBarOutline.SetActive(_show);
+            _stressBar.gameObject.SetActive(_show);
+            _reelZone.gameObject.SetActive(_show);
+            _fishIcon.gameObject.SetActive(_show);
+            _distanceBar.gameObject.SetActive(_show);
+            _lineStrengthText.gameObject.SetActive(_show);
+            _fishNameText.gameObject.SetActive(_show);
+            _fishStrengthText.gameObject.SetActive(_show);
         }
 
-        public void EndMinigame()
-        {
-            isInMinigame = false;
+        public void EndMinigame() {
+            IsInMinigame = false;
             ShowMinigame(false);
         }
-
-
-        public bool IsReeling() => isReeling;
-        public bool IsInMinigame() => isInMinigame;
-        public float GetXAxisMax() => reelBarMaxX;
     }
 }

@@ -129,7 +129,7 @@ namespace Fishing.FishingMechanics
         {
             AddCatch();
 
-            ReelingMinigame.instance.EndMinigame();
+            ReelingMinigame.Instance.EndMinigame();
 
             AudioManager.instance.StopPlaying("Reel");
 

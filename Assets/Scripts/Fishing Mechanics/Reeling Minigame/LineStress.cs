@@ -1,90 +1,112 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Fishing.FishingMechanics.Minigame
-{
-    public class LineStress : MonoBehaviour
-    {
+namespace Fishing.FishingMechanics.Minigame {
+    public class LineStress : MonoBehaviour {
+        [SerializeField, Tooltip("Series of colors that the line stress bar will blend through based on how much stress there is, ordered from least to most stressed.")] private List<Color> _reelingBarFillColors;
 
-        [SerializeField] private List<Color> reelingBarFillColors;
+        [SerializeField, Min(0), Tooltip("Amount of stress per second the line is relieved by.")] private float _lineStressDecayRate = 5f;
 
-        [SerializeField] private float lineStressDecayRate = 1f;
+        private Image _reelingBarFill;
 
-        private Image reelingBarFill;
+        private float _lineStrength;
+        private float _lineStress;
 
-        private float lineStrength;
-        private float lineStress;
+        private ReelingMinigame _minigame;
+        private ReelZone _reelZone;
+        private MinigameFish _minigameFish;
+        private RodManager _rodManager;
 
-        private ReelingMinigame minigame;
-        private ReelZone reelZone;
-        private MinigameFish minigameFish;
+        private static LineStress _instance;
+        public static LineStress Instance { get => _instance; private set => _instance = value; }
 
-        public static LineStress instance;
-
-        private LineStress() => instance = this;
-
-        private void Awake()
-        {
-            reelingBarFill = GetComponent<Image>();
-            minigame = ReelingMinigame.instance;
-            minigameFish = MinigameFish.instance;
-            reelZone = ReelZone.instance;
+        private void Awake() {
+            Instance = this;
+            _reelingBarFill = GetComponent<Image>();
         }
 
-        private void Update()
-        {
-            if (!minigame.IsInMinigame()) return;
+        private void Start() {
+            _minigame = ReelingMinigame.Instance;
+            _minigameFish = MinigameFish.Instance;
+            _reelZone = ReelZone.Instance;
+            _rodManager = RodManager.instance;
+        }
 
-            if (minigame.IsReeling())
-            {
+        private void FixedUpdate() {
+            if (!_minigame.IsInMinigame) {
+                return;
+            }
+
+            if (_minigame.IsReeling) {
+                HandleReelingStress();
+            }
+            else {
+                DecayLineStress();
+            }
+
+            _reelingBarFill.color = GetStressColor();
+        }
+
+        private void HandleReelingStress() {
+            AddLineStress();
+
+            if (!_reelZone.IsFishInReelZone()) {
                 AddLineStress();
-                if (!reelZone.IsFishInReelZone()) AddLineStress();
-                if (minigameFish.IsFishSwimming()) AddLineStress();
-                if (lineStress >= lineStrength)
-                {
-                    minigame.OnLineSnap();
-                    return;
-                }
-            }
-            else
-            {
-                if (lineStress > 0f) lineStress -= lineStressDecayRate * Time.deltaTime;
-                if (lineStress < 0f) lineStress = 0f;
             }
 
-            reelingBarFill.color = GetStressColor();
+            if (_minigameFish.IsSwimming) {
+                AddLineStress();
+            }
+
+            if (_lineStress >= _lineStrength) {
+                _minigame.OnLineSnap();
+                return;
+            }
         }
 
-        public void InitializeMinigame()
-        {
-            lineStress = 0f;
-            lineStrength = RodManager.instance.equippedRod.scriptable.lineStrength;
-            reelingBarFill.color = GetStressColor();
+        private void AddLineStress() {
+            float stress = _minigameFish.Strength * _minigameFish.Difficulty - _lineStrength;
+            if (stress > 0f) {
+                _lineStress += stress * Time.deltaTime;
+            }
         }
 
-        private void AddLineStress()
-        {
-            float _stress = minigameFish.GetFishStrength() * minigameFish.GetFishDifficulty() - lineStrength;
-            if (_stress > 0f) lineStress += _stress * Time.deltaTime;
+        private void DecayLineStress() {
+            if (_lineStress > 0f) {
+                _lineStress -= _lineStressDecayRate * Time.deltaTime;
+            }
+
+            if (_lineStress < 0f) {
+                _lineStress = 0f;
+            }
         }
 
-        private Color GetStressColor()
-        {
-            if (lineStress >= lineStrength) return reelingBarFillColors[reelingBarFillColors.Count - 1];
-            else if (lineStress <= 0f) return reelingBarFillColors[0];
+        private Color GetStressColor() {
+            if (_lineStress >= _lineStrength) {
+                return _reelingBarFillColors[_reelingBarFillColors.Count - 1];
+            }
 
-            float _normalizedStress = Mathf.InverseLerp(0f, lineStrength, lineStress);
+            else if (_lineStress <= 0f) {
+                return _reelingBarFillColors[0];
+            }
 
-            float _colorFactor = 1.0f / (reelingBarFillColors.Count - 1);
+            float normalizedStress = Mathf.InverseLerp(0f, _lineStrength, _lineStress);
 
-            int _gradientStartIndex = Mathf.FloorToInt(_normalizedStress / _colorFactor);
-            float _gradientValueNormalized = Mathf.InverseLerp(_colorFactor * _gradientStartIndex, _colorFactor * (_gradientStartIndex + 1), _normalizedStress);
+            float singularColorRange = 1.0f / (_reelingBarFillColors.Count - 1);
 
-            Color _newColor = Color.Lerp(reelingBarFillColors[_gradientStartIndex], reelingBarFillColors[_gradientStartIndex + 1], _gradientValueNormalized);
+            int colorIndex = Mathf.FloorToInt(normalizedStress / singularColorRange);
+            float colorBlendValue = Mathf.InverseLerp(singularColorRange * colorIndex, singularColorRange * (colorIndex + 1), normalizedStress);
 
-            return _newColor;
+            Color newColor = Color.Lerp(_reelingBarFillColors[colorIndex], _reelingBarFillColors[colorIndex + 1], colorBlendValue);
+
+            return newColor;
+        }
+
+        public void InitializeMinigame() {
+            _lineStress = 0f;
+            _lineStrength = _rodManager.equippedRod.scriptable.lineStrength;
+            _reelingBarFill.color = GetStressColor();
         }
     }
 }

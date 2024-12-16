@@ -1944,8 +1944,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e12e97a2efa5a3b4eb0920505834b135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  swimmingIcon: {fileID: 6010383812563225387}
-  fishMoveSmoothing: 0.1
+  _fishMoveSmoothing: 0.1
+  _swimmingIcon: {fileID: 6010383812563225387}
 --- !u!1 &793272707528090784
 GameObject:
   m_ObjectHideFlags: 0
@@ -3692,11 +3692,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd69350cb2738654dae83bb2ea4300a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reelBarMaxX: 1124
-  reelingBarOutline: {fileID: 4480150298306755269}
-  lineStrengthText: {fileID: 3040410578660923605}
-  fishNameText: {fileID: 581762591290212811}
-  fishStrengthText: {fileID: 5383788344783599835}
+  _reelBarMaxX: 1124
+  _lineStrengthText: {fileID: 3040410578660923605}
+  _fishNameText: {fileID: 581762591290212811}
+  _fishStrengthText: {fileID: 5383788344783599835}
+  _reelingBarOutline: {fileID: 4480150298306755269}
 --- !u!1 &2618023748176216879
 GameObject:
   m_ObjectHideFlags: 0
@@ -6061,10 +6061,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d996ffe47f57c4e98ddd2e976a1357, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceBarMaxX: 864
-  smoothing: 0.1
-  distanceText: {fileID: 5399498581009674700}
-  hookIcon: {fileID: 7076097827091175763}
+  _distanceBarMaxX: 864
+  _smoothing: 0.1
+  _distanceText: {fileID: 5399498581009674700}
+  _hookIcon: {fileID: 7076097827091175763}
 --- !u!1 &4788794945119239396
 GameObject:
   m_ObjectHideFlags: 0
@@ -20330,19 +20330,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ad0fefaf080ccd468439956b299326d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reelingBarFillColors:
+  _reelingBarFillColors:
   - {r: 0.5882353, g: 0.78823537, b: 0.98823535, a: 1}
-  - {r: 0.3803922, g: 0.78823537, b: 0.8078432, a: 1}
-  - {r: 0.32156864, g: 0.8117648, b: 0.5568628, a: 1}
-  - {r: 0.34117648, g: 0.8313726, b: 0.36862746, a: 1}
-  - {r: 0.48235297, g: 0.82745105, b: 0.26666668, a: 1}
-  - {r: 0.7254902, g: 0.86666673, b: 0.24313727, a: 1}
-  - {r: 0.92549026, g: 0.86274517, b: 0.32156864, a: 1}
-  - {r: 0.8313726, g: 0.627451, b: 0.32941177, a: 1}
-  - {r: 0.8313726, g: 0.4784314, b: 0.28627452, a: 1}
-  - {r: 0.7803922, g: 0.28235295, b: 0.28235295, a: 1}
-  - {r: 0.4666667, g: 0.14901961, b: 0.14901961, a: 1}
-  lineStressDecayRate: 5
+  - {r: 0.40574938, g: 0.8867924, b: 0.5791066, a: 1}
+  - {r: 0.31668952, g: 0.8113208, b: 0.27171594, a: 1}
+  - {r: 0.52445734, g: 0.8301887, b: 0.19971518, a: 1}
+  - {r: 0.8679245, g: 0.8301607, b: 0.1760413, a: 1}
+  - {r: 0.83137256, g: 0.558687, b: 0.18431371, a: 1}
+  - {r: 0.7176471, g: 0.2763674, b: 0.18431371, a: 1}
+  - {r: 0.5849056, g: 0.08001069, b: 0.10164906, a: 1}
+  _lineStressDecayRate: 5
 --- !u!1 &8321841923663067188
 GameObject:
   m_ObjectHideFlags: 0
@@ -21092,9 +21089,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2854a68e8d4e1942a7285bc4dff70e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reelZoneImageWidth: 60
-  reelingTransparency: 1
-  notReelingTransparency: 0.5
+  _reelZoneImageWidth: 60
+  _reelingAlpha: 1
+  _notReelingAlpha: 0.5
 --- !u!1 &8660820503776033117
 GameObject:
   m_ObjectHideFlags: 0

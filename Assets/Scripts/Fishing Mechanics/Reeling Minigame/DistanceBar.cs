@@ -1,71 +1,70 @@
-using System.Collections;
-using System.Collections.Generic;
+using Fishing.Fishables;
 using UnityEngine;
 using UnityEngine.UI;
-using Fishing.Fishables;
 
-namespace Fishing.FishingMechanics.Minigame
-{
-    public class DistanceBar : MonoBehaviour
-    {
-        [SerializeField] private float distanceBarMaxX = 864f;
-        [Range(0f, 1.0f)]
-        [SerializeField] private float smoothing = 0.1f;
+namespace Fishing.FishingMechanics.Minigame {
+    public class DistanceBar : MonoBehaviour {
+        [SerializeField, Min(0), Tooltip("Width of the distance bar in pixels (should match size in editor)")] private float _distanceBarMaxX = 864f; // TODO: Change this to be automatically determined by UI size
+        
+        [SerializeField, Range(0f, 1.0f), Tooltip("Smoothing lerp value applied to hook icon when updating the fishable's distance. Can be thought of as \"Will move towards new target by this much per frame.\"")] private float _smoothing = 0.1f;
 
-        [SerializeField] private Text distanceText;
-        [SerializeField] private Image hookIcon;
+        [SerializeField, Tooltip("Text UI element above the minigame hook icon that displays the distance the fish needs to be reeled in.")] private Text _distanceText;
+        [SerializeField, Tooltip("Image UI element that gives a visual representation of the fish's distance on the bar.")] private Image _hookIcon;
 
-        private Fishable fish;
-        private RodBehaviour rod;
+        private Fishable _fishable;
+        private RodBehaviour _rod;
 
-        private float currentDistance;
-        private float furthestDistance;
-        private float rodReeledInDistance;
-        private float hookIconTargetX;
+        private float _currentDistance;
+        private float _furthestDistance;
+        private float _rodReeledInDistance;
+        private float _hookIconTargetX;
 
-        private RodManager rodManager;
+        private RodManager _rodManager;
 
-        public static DistanceBar instance;
+        private static DistanceBar _instance;
+        public static DistanceBar Instance { get => _instance; private set => _instance = value; }
 
-        private DistanceBar() => instance = this;
+        private void Awake() {
+            Instance = this;
+        }
 
-        private void Awake() => rodManager = RodManager.instance;
+        private void Start() {
+            _rodManager = RodManager.instance;
+        }
 
-        private void Update()
-        {
-            currentDistance = Vector2.Distance(fish.transform.position, rod.GetHook().GetHookAnchorPoint().position) - rodReeledInDistance;
-            if (currentDistance >= furthestDistance) furthestDistance = currentDistance;
+        private void FixedUpdate() {
+            _currentDistance = Vector2.Distance(_fishable.transform.position, _rod.GetHook().GetHookAnchorPoint().position) - _rodReeledInDistance; // TODO: Change the hook resting position to a static position so that reeling animations don't change this distance.
+            if (_currentDistance > _furthestDistance) {
+                _furthestDistance = _currentDistance;
+            }
 
             MoveIcon();
 
-            distanceText.text = currentDistance.ToString("F2") + "m";
+            _distanceText.text = _currentDistance.ToString("F2") + "m";
         }
 
-        public void InitializeMinigame(Fishable _fish)
-        {
-            fish = _fish;
-            rod = rodManager.equippedRod;
-
-            rodReeledInDistance = rod.GetReeledInDistance();
-            currentDistance = Vector2.Distance(fish.transform.position, rod.GetHook().GetHookAnchorPoint().position) - rodReeledInDistance;
-            furthestDistance = currentDistance;
-
-            hookIconTargetX = distanceBarMaxX;
-            hookIcon.rectTransform.anchoredPosition = new Vector2(0f, 0f);
+        private void MoveIcon() {
+            _hookIconTargetX = DistanceToBarPos();
+            float newX = Mathf.Lerp(_hookIcon.rectTransform.anchoredPosition.x, _hookIconTargetX, _smoothing);
+            _hookIcon.rectTransform.anchoredPosition = new Vector2(newX, 0f);
         }
 
-        private float DistanceToBarPos()
-        {
-            float _distanceValue = Mathf.InverseLerp(0f, furthestDistance, currentDistance);
-            float _barPos = Mathf.Lerp(0f, distanceBarMaxX, _distanceValue);
-            return _barPos;
+        private float DistanceToBarPos() {
+            float distanceValue = Mathf.InverseLerp(0f, _furthestDistance, _currentDistance);
+            float barPos = Mathf.Lerp(0f, _distanceBarMaxX, distanceValue);
+            return barPos;
         }
 
-        private void MoveIcon()
-        {
-            hookIconTargetX = DistanceToBarPos();
-            float _newX = Mathf.Lerp(hookIcon.rectTransform.anchoredPosition.x, hookIconTargetX, smoothing);
-            hookIcon.rectTransform.anchoredPosition = new Vector2(_newX, 0f);
+        public void InitializeMinigame(Fishable fishable) {
+            _fishable = fishable;
+            _rod = _rodManager.equippedRod;
+
+            _rodReeledInDistance = _rod.GetReeledInDistance();
+            _currentDistance = Vector2.Distance(_fishable.transform.position, _rod.GetHook().GetHookAnchorPoint().position) - _rodReeledInDistance;
+            _furthestDistance = _currentDistance;
+
+            _hookIconTargetX = _distanceBarMaxX;
+            _hookIcon.rectTransform.anchoredPosition = new Vector2(0f, 0f);
         }
     }
 }

@@ -1,109 +1,114 @@
-using System.Collections;
-using System.Collections.Generic;
+using Fishing.Util;
 using UnityEngine;
 using UnityEngine.UI;
-using Fishing.Util;
 
-namespace Fishing.FishingMechanics.Minigame
-{
-    public class ReelZone : MonoBehaviour
-    {
-        [SerializeField] private float reelZoneImageWidth;
-        [Range(0f, 1.0f)]
-        [SerializeField] private float reelingTransparency = 1f;
-        [Range(0f, 1.0f)]
-        [SerializeField] private float notReelingTransparency = 0.5f;
+namespace Fishing.FishingMechanics.Minigame {
+    public class ReelZone : MonoBehaviour {
+        [SerializeField, Min(0), Tooltip("Width in pixels of the UI image representing the reel zone.")] private float _reelZoneImageWidth; // TODO: Set this automatically from the UI image's bounds.
+        [SerializeField, Range(0f, 1.0f), Tooltip("Alpha value from 0 to 1 for the fish icon when it's within the reel zone.")] private float _reelingAlpha = 1f;
+        [SerializeField, Range(0f, 1.0f), Tooltip("Alpha value from 0 to 1 for the fish icon when it's outside of the reel zone.")] private float _notReelingAlpha = 0.5f;
 
-        private Image img;
+        private Image _image;
 
-        private float reelZoneWidth;
-        private float reelZoneForce;
-        private float reelZoneMaxVelocity;
-        private float reelZoneGravity;
+        private float _reelZoneWidth;
+        private float _reelZoneForce;
+        private float _reelZoneMaxVelocity;
+        private float _reelZoneGravity;
 
-        private float reelZoneVelocity;
+        private float _reelZoneVelocity;
 
-        private ReelingMinigame minigame;
-        private MinigameFish minigameFish;
-        private RodManager rodManager;
+        private ReelingMinigame _minigame;
+        private MinigameFish _minigameFish;
+        private RodManager _rodManager;
 
-        public static ReelZone instance;
+        private static ReelZone _instance;
+        public static ReelZone Instance { get => _instance; private set => _instance = value; }
 
-        private ReelZone() => instance = this;
-
-        private void Awake()
-        {
-            img = GetComponent<Image>();
-            minigame = ReelingMinigame.instance;
-            minigameFish = MinigameFish.instance;
-            rodManager = RodManager.instance;
+        private void Awake() {
+            _image = GetComponent<Image>();
+            Instance = this;
         }
 
-        private void Update()
-        {
-            if (!minigame.IsInMinigame()) return;
+        private void Start() {
+            _minigame = ReelingMinigame.Instance;
+            _minigameFish = MinigameFish.Instance;
+            _rodManager = RodManager.instance;
+        }
 
-            if (minigame.IsReeling()) AddReelingForce();
-            else ApplyGravityToReel();
+        private void FixedUpdate() {
+            if (!_minigame.IsInMinigame) {
+                return;
+            }
+
+            if (_minigame.IsReeling) {
+                AddReelingForce();
+            }
+            else {
+                ApplyGravityToReel();
+            }
 
             MoveReelZone();
             HandleReelZone();
-           
         }
 
-        public void InitializeMinigame()
-        {
-            RodBehaviour _rod = RodManager.instance.equippedRod;
-
-            reelZoneWidth = _rod.scriptable.reelZoneWidth;
-            reelZoneForce = _rod.scriptable.reelZoneForce;
-            reelZoneMaxVelocity = _rod.scriptable.reelZoneMaxVelocity;
-            reelZoneGravity = _rod.scriptable.reelZoneGravity;
-
-            img.rectTransform.sizeDelta = new Vector2(reelZoneImageWidth + reelZoneWidth, 0f);
-            img.rectTransform.anchoredPosition = Vector2.zero;
-            reelZoneVelocity = 0f;
+        private void AddReelingForce() {
+            _reelZoneVelocity = Mathf.Clamp(_reelZoneVelocity + _reelZoneForce * Time.fixedDeltaTime, 0f, _reelZoneMaxVelocity);
         }
 
-        private void HandleReelZone()
-        {
-            if (IsFishInReelZone())
-            {
-                img.color = Utilities.SetTransparency(img.color, reelingTransparency);
-                rodManager.equippedRod.StartReeling();
+        private void ApplyGravityToReel() {
+            float reelZonePos = _image.rectTransform.anchoredPosition.x;
+
+            if (reelZonePos <= 0f && _reelZoneVelocity < 0f) {
+                _reelZoneVelocity = 0f;
             }
-            else
-            {
-                img.color = Utilities.SetTransparency(img.color, notReelingTransparency);
-                rodManager.equippedRod.StopReeling();
+
+            else if (reelZonePos >= _minigame.ReelBarMaxX - _image.rectTransform.sizeDelta.x && _reelZoneVelocity > 0f) {
+                _reelZoneVelocity = 0f;
+            }
+
+            else {
+                _reelZoneVelocity = Mathf.Clamp(_reelZoneVelocity - _reelZoneGravity * Time.deltaTime, -_reelZoneMaxVelocity, _reelZoneMaxVelocity);
             }
         }
 
-        private void MoveReelZone()
-        {
-            float _newPosX = Mathf.Clamp(img.rectTransform.anchoredPosition.x + reelZoneVelocity, 0f, minigame.GetXAxisMax() - img.rectTransform.sizeDelta.x);
-            img.rectTransform.anchoredPosition = new Vector2(_newPosX, 0f);
+        private void MoveReelZone() {
+            float newPosX = Mathf.Clamp(_image.rectTransform.anchoredPosition.x + _reelZoneVelocity, 0f, _minigame.ReelBarMaxX - _image.rectTransform.sizeDelta.x);
+            _image.rectTransform.anchoredPosition = new Vector2(newPosX, 0f);
         }
 
-        private void AddReelingForce() => reelZoneVelocity = Mathf.Clamp(reelZoneVelocity + reelZoneForce * Time.deltaTime, 0f, reelZoneMaxVelocity);
-
-        private void ApplyGravityToReel()
-        {
-            float _reelZonePos = img.rectTransform.anchoredPosition.x;
-            if (_reelZonePos <= 0f && reelZoneVelocity < 0f) reelZoneVelocity = 0f;
-            else if (_reelZonePos >= minigame.GetXAxisMax() - img.rectTransform.sizeDelta.x && reelZoneVelocity > 0f) reelZoneVelocity = 0f;
-            else reelZoneVelocity = Mathf.Clamp(reelZoneVelocity - reelZoneGravity * Time.deltaTime, -reelZoneMaxVelocity, reelZoneMaxVelocity);
+        private void HandleReelZone() {
+            if (IsFishInReelZone()) {
+                _image.color = Utilities.SetTransparency(_image.color, _reelingAlpha);
+                _rodManager.equippedRod.StartReeling();
+            }
+            else {
+                _image.color = Utilities.SetTransparency(_image.color, _notReelingAlpha);
+                _rodManager.equippedRod.StopReeling();
+            }
         }
-        public bool IsFishInReelZone()
-        {
-            float _fishIconPos = minigameFish.GetMinigameFishIcon().rectTransform.anchoredPosition.x;
 
-            float _reelZoneXMin = img.rectTransform.anchoredPosition.x;
-            float _reelZoneXMax = _reelZoneXMin + img.rectTransform.sizeDelta.x;
+        public bool IsFishInReelZone() {
+            float fishIconPos = _minigameFish.FishIcon.rectTransform.anchoredPosition.x;
 
-            bool _isInZone = _fishIconPos >= _reelZoneXMin && _fishIconPos <= _reelZoneXMax;
+            float reelZoneXMin = _image.rectTransform.anchoredPosition.x;
+            float reelZoneXMax = reelZoneXMin + _image.rectTransform.sizeDelta.x;
 
-            return _isInZone;
+            bool isInZone = fishIconPos >= reelZoneXMin && fishIconPos <= reelZoneXMax;
+
+            return isInZone;
+        }
+
+        public void InitializeMinigame() {
+            RodBehaviour rod = _rodManager.equippedRod;
+
+            _reelZoneWidth = rod.scriptable.reelZoneWidth;
+            _reelZoneForce = rod.scriptable.reelZoneForce;
+            _reelZoneMaxVelocity = rod.scriptable.reelZoneMaxVelocity;
+            _reelZoneGravity = rod.scriptable.reelZoneGravity;
+
+            _image.rectTransform.sizeDelta = new Vector2(_reelZoneImageWidth + _reelZoneWidth, 0f);
+            _image.rectTransform.anchoredPosition = Vector2.zero;
+            _reelZoneVelocity = 0f;
         }
     }
 }

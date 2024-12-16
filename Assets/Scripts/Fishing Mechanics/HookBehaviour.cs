@@ -131,7 +131,7 @@ namespace Fishing.FishingMechanics {
             hookedObject = _fishable.gameObject;
             hookedObject.transform.position = transform.position;
 
-            ReelingMinigame.instance.InitiateMinigame(_fishable);
+            ReelingMinigame.Instance.InitiateMinigame(_fishable);
         }
 
         public void DestroyHookedObject() {
