@@ -22,7 +22,7 @@ namespace Fishing.UI
         private void Awake()
         {
             rodManager = RodManager.Instance;
-            playerData = PlayerData.instance;
+            playerData = SaveManager.Instance.LoadedPlayerData;
         }
 
 
@@ -43,16 +43,16 @@ namespace Fishing.UI
 
         public void GenerateSlots()
         {
-            for (int i = 0; i < playerData.fishingRodSaveData.Count; i++)
+            for (int i = 0; i < playerData.FishingRodSaveData.Count; i++)
             {
                 RodInventorySlot _newSlot = Instantiate(slotPrefab, content.transform).GetComponent<RodInventorySlot>();
 
-                _newSlot.Title.text = playerData.fishingRodSaveData[i].rodName;
+                _newSlot.Title.text = playerData.FishingRodSaveData[i].RodName;
 
                 for (int j = 0; j < rodManager.RodPrefabs.Count; j++)
                 {
                     rodManager.RodPrefabs[j].TryGetComponent(out RodBehaviour _rodBehaviour);
-                    if (_rodBehaviour.Scriptable.name != playerData.fishingRodSaveData[i].rodName) continue;
+                    if (_rodBehaviour.Scriptable.name != playerData.FishingRodSaveData[i].RodName) continue;
 
                     _newSlot.Sprite.sprite = _rodBehaviour.Scriptable.inventorySprite;
                     break;
@@ -73,7 +73,7 @@ namespace Fishing.UI
             foreach (Transform _slot in content.transform)
             {
                 RodInventorySlot _invSlot = _slot.GetComponent<RodInventorySlot>();
-                if (_invSlot.Title.text == playerData.equippedRod.rodName)
+                if (_invSlot.Title.text == playerData.EquippedRod.RodName)
                 {
                     _invSlot.EquippedCheck.SetActive(true);
                 }

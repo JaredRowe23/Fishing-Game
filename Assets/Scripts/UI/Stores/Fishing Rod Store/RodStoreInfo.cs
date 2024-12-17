@@ -42,15 +42,15 @@ namespace Fishing.UI
 
         public void BuyRod()
         {
-            if (PlayerData.instance.saveFileData.money < currentRodScriptable.cost)
+            if (SaveManager.Instance.LoadedPlayerData.SaveFileData.Money < currentRodScriptable.cost)
             {
                 TooltipSystem.instance.NewTooltip(5f, "You don't have enough money to buy this fishing rod");
                 return;
             }
 
             TooltipSystem.instance.NewTooltip(5f, $"You bought the {nameText.text} for {currentRodScriptable.cost.ToString("C")}");
-            PlayerData.instance.saveFileData.money -= currentRodScriptable.cost;
-            PlayerData.instance.fishingRodSaveData.Add(new FishingRodSaveData(nameText.text, "", "", null));
+            SaveManager.Instance.LoadedPlayerData.SaveFileData.Money -= currentRodScriptable.cost;
+            SaveManager.Instance.LoadedPlayerData.FishingRodSaveData.Add(new FishingRodSaveData(nameText.text, "", "", null));
             RodsStoreMenu.instance.RefreshStore();
             gameObject.SetActive(false);
         }

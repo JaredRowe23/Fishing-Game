@@ -17,11 +17,11 @@ namespace Fishing.UI
 
         public void UpdateInfo(SaveFile _saveFile)
         {
-            saveNameText.text = _saveFile.name;
-            moneyText.text = _saveFile.money.ToString("C");
-            saveTimeDateText.text = _saveFile.dateTime;
-            playTimeText.text = _saveFile.playtime;
-            fishCaughtText.text = $"{_saveFile.fishTypesCaught} / 11";
+            saveNameText.text = _saveFile.Name;
+            moneyText.text = _saveFile.Money.ToString("C");
+            saveTimeDateText.text = _saveFile.DateTime;
+            playTimeText.text = _saveFile.Playtime;
+            fishCaughtText.text = $"{_saveFile.FishTypesCaught} / 11";
         }
     }
 }

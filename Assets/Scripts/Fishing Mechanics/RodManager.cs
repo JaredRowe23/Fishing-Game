@@ -12,6 +12,7 @@ namespace Fishing {
         private RodBehaviour _equippedRod;
         public RodBehaviour EquippedRod { get => _equippedRod; private set => _equippedRod = value; }
 
+        private BaitManager _baitManager;
         private PlayerData _playerData;
         private RodsMenu _rodsMenu;
         private TooltipSystem _tooltipSystem;
@@ -26,12 +27,13 @@ namespace Fishing {
         }
 
         private void Start() {
+            _baitManager = BaitManager.Instance;
             _rodsMenu = RodsMenu.instance;
-            _playerData = PlayerData.instance;
+            _playerData = SaveManager.Instance.LoadedPlayerData;
             _tooltipSystem = TooltipSystem.instance;
             _audioManager = AudioManager.instance;
             _itemLookupTable = ItemLookupTable.instance;
-            EquipRod(PlayerData.instance.equippedRod.rodName, false);
+            EquipRod(_playerData.EquippedRod.RodName, false);
         }
 
         public void EquipRod(string rodName, bool playSound) {
@@ -58,12 +60,12 @@ namespace Fishing {
                 EquippedRod = Instantiate(RodPrefabs[0].GetComponent<RodBehaviour>());
             }
 
-            for (int i = 0; i < _playerData.fishingRodSaveData.Count; i++) {
-                if (_playerData.fishingRodSaveData[i].rodName != rodName) {
+            for (int i = 0; i < _playerData.FishingRodSaveData.Count; i++) {
+                if (_playerData.FishingRodSaveData[i].RodName != rodName) {
                     continue;
                 }
 
-                _playerData.equippedRod = _playerData.fishingRodSaveData[i];
+                _playerData.EquippedRod = _playerData.FishingRodSaveData[i];
             }
 
             _tooltipSystem.NewTooltip(5f, "Equipped the " + rodName);
@@ -72,23 +74,7 @@ namespace Fishing {
                 _audioManager.PlaySound("Equip Rod");
             }
 
-            SpawnBait();
-        }
-
-        public void SpawnBait() {
-            if (_playerData.equippedRod.equippedBait == null) {
-                return;
-            }
-            if (string.IsNullOrEmpty(_playerData.equippedRod.equippedBait.baitName)) {
-                return;
-            }
-
-            BaitBehaviour _newBait = Instantiate(_itemLookupTable.StringToBait(_playerData.equippedRod.equippedBait.baitName).prefab, EquippedRod.Hook.transform).GetComponent<BaitBehaviour>();
-            EquippedRod.EquippedBait = _newBait;
-            EquippedRod.Hook.HookedObject = _newBait.gameObject;
-            _newBait.transform.localPosition = _newBait.AnchorPoint;
-            _newBait.transform.localRotation = Quaternion.Euler(0f, 0f, _newBait.AnchorRotation);
+            _baitManager.SpawnBait();
         }
     }
-
 }

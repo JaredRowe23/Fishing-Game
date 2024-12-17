@@ -1,134 +1,109 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
 
-namespace Fishing.IO
-{
-    public class SaveManager : MonoBehaviour
-    {
-        public static List<SaveFile> saveFiles;
+namespace Fishing.IO {
+    public class SaveManager : MonoBehaviour {
+        [SerializeField] private PlayerData _loadedPlayerData;
+        public PlayerData LoadedPlayerData { get => _loadedPlayerData; set => _loadedPlayerData = value; }
 
-        public static SaveManager instance;
+        private List<SaveFile> _saveFiles;
+        public List<SaveFile> SaveFiles { get => _saveFiles; private set => _saveFiles = value; }
 
-        private void Awake()
-        {
-            if (instance != null)
-            {
+        private static SaveManager _instance;
+        public static SaveManager Instance { get => _instance; private set => _instance = value; }
+
+        private void Awake() {
+            if (Instance != null) {
                 Destroy(gameObject);
                 return;
             }
 
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
 
-        public static void LoadSaveSlots()
-        {
-            saveFiles = new List<SaveFile>();
-            string _path = Application.persistentDataPath;
+        public void LoadSaveSlots() {
+            SaveFiles = new List<SaveFile>();
+            string path = Application.persistentDataPath;
 
-            if (!Directory.Exists(_path))
-            {
+            if (!Directory.Exists(path)) {
                 return;
             }
 
-            DirectoryInfo _directoryInfo = new DirectoryInfo(_path);
-            FileInfo[] _fileInfo = _directoryInfo.GetFiles();
+            DirectoryInfo directoryInfo = new DirectoryInfo(path);
+            FileInfo[] fileInfo = directoryInfo.GetFiles();
 
-            for (int i = 0; i < _fileInfo.Length; i++)
-            {
-                if (_fileInfo[i].Extension != ".fish")
-                {
+            for (int i = 0; i < fileInfo.Length; i++) {
+                if (fileInfo[i].Extension != ".fish") {
                     continue;
                 }
-                BinaryFormatter _formatter = new BinaryFormatter();
-                FileStream _stream = File.Open(_fileInfo[i].FullName, FileMode.Open);
 
-                GameData _data = _formatter.Deserialize(_stream) as GameData;
-                _stream.Close();
+                PlayerData data = new PlayerData();
+                string jsonData = File.ReadAllText(fileInfo[i].FullName);
+                JsonUtility.FromJsonOverwrite(jsonData, data);
 
-                SaveFile _saveFile = new SaveFile(_data.saveFileData.playerName, _data.saveFileData.money, _data.saveFileData.dateTime, _data.saveFileData.playtime, 0);
-                if (_data.recordSaveData != null) _saveFile.fishTypesCaught = _data.recordSaveData.Count;
-                saveFiles.Add(_saveFile);
+                SaveFile saveFile = new SaveFile(data.SaveFileData.PlayerName, data.SaveFileData.Money, data.SaveFileData.DateTime, data.SaveFileData.Playtime, data.RecordSaveData.Count);
+                SaveFiles.Add(saveFile);
             }
 
-            saveFiles = SortSaveFiles(saveFiles);
+            SaveFiles = SortSaveFiles(SaveFiles);
         }
 
-        private static List<SaveFile> SortSaveFiles(List<SaveFile> _unorganizedFiles)
-        {
-            List<SaveFile> _sortedFiles = new List<SaveFile>();
+        private List<SaveFile> SortSaveFiles(List<SaveFile> unorganizedFiles) {
+            List<SaveFile> sortedFiles = new List<SaveFile>();
 
-            for (int i = 0; i < _unorganizedFiles.Count; i++)
-            {
-                if (_sortedFiles.Count == 0)
-                {
-                    _sortedFiles.Add(_unorganizedFiles[i]);
+            for (int i = 0; i < unorganizedFiles.Count; i++) {
+                if (sortedFiles.Count == 0) {
+                    sortedFiles.Add(unorganizedFiles[i]);
                     continue;
                 }
 
-                System.DateTime _saveFileDateTime = System.DateTime.Parse(_unorganizedFiles[i].dateTime);
+                System.DateTime saveFileDateTime = System.DateTime.Parse(unorganizedFiles[i].DateTime);
 
-                for (int j = 0; j < _sortedFiles.Count; j++)
-                {
-                    System.DateTime _sortedFileDateTime = System.DateTime.Parse(_sortedFiles[j].dateTime);
-                    int _dateTimeComparison = System.DateTime.Compare(_saveFileDateTime, _sortedFileDateTime);
+                for (int j = 0; j < sortedFiles.Count; j++) {
+                    System.DateTime sortedFileDateTime = System.DateTime.Parse(sortedFiles[j].DateTime);
+                    int dateTimeComparison = System.DateTime.Compare(saveFileDateTime, sortedFileDateTime);
 
-                    if (_dateTimeComparison > 0)
-                    {
-                        _sortedFiles.Insert(j, _unorganizedFiles[i]);
+                    if (dateTimeComparison > 0) {
+                        sortedFiles.Insert(j, unorganizedFiles[i]);
                         break;
                     }
 
-                    else if (_dateTimeComparison == 0)
-                    {
-                        _sortedFiles.Add(_unorganizedFiles[i]);
+                    else if (dateTimeComparison == 0) {
+                        sortedFiles.Add(unorganizedFiles[i]);
                         continue;
                     }
 
-                    else if (_dateTimeComparison < 0)
-                    {
-                        if (j != _sortedFiles.Count - 1) continue;
+                    else if (dateTimeComparison < 0) {
+                        if (j != sortedFiles.Count - 1) {
+                            continue;
+                        }
 
-                        _sortedFiles.Add(_unorganizedFiles[i]);
+                        sortedFiles.Add(unorganizedFiles[i]);
                         break;
                     }
                 }
             }
 
-            return _sortedFiles;
+            return sortedFiles;
         }
 
-        public static void SaveGame(PlayerData _player, string _fileName)
-        {
-            BinaryFormatter _formatter = new BinaryFormatter();
-
-            string _path = Application.persistentDataPath + "/" + _fileName + ".fish";
-            FileStream _stream = new FileStream(_path, FileMode.Create);
-
-            GameData _data = new GameData(_player);
-
-            _formatter.Serialize(_stream, _data);
-            _stream.Close();
+        public void SaveGame(string fileName) {
+            string path = $"{Application.persistentDataPath}";
+            if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+            string file = $"{path}/{fileName}.fish";
+            string json = JsonUtility.ToJson(LoadedPlayerData, false);
+            File.WriteAllText(file, json);
         }
 
-        public static void LoadGame(string _path)
-        {
-            if (File.Exists(_path))
-            {
-                BinaryFormatter _formatter = new BinaryFormatter();
-                FileStream _stream = new FileStream(_path, FileMode.Open);
-
-                GameData _data = _formatter.Deserialize(_stream) as GameData;
-                _stream.Close();
-
-                PlayerData.instance.LoadPlayer(_data);
+        public void LoadGame(string path) {
+            if (File.Exists(path)) {
+                string jsonData = File.ReadAllText(path);
+                JsonUtility.FromJsonOverwrite(jsonData, LoadedPlayerData);
             }
-            else
-            {
-                Debug.LogError("Save file not found in " + _path);
+            else {
+                Debug.LogError($"Save file not found in {path}.");
             }
         }
     }

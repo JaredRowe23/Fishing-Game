@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Fishing.IO;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 namespace Fishing.UI
 {
@@ -16,9 +17,10 @@ namespace Fishing.UI
         private NewGameMenu() => instance = this;
 
         public void StartNewGame() {
-            PlayerData.instance.NewGame();
-            PlayerData.instance.saveFileData.playerName = nameInput.text;
-            SceneManager.LoadScene("World Map");
+            SaveManager.Instance.LoadedPlayerData = new PlayerData();
+            SaveManager.Instance.LoadedPlayerData.NewGame();
+            SaveManager.Instance.LoadedPlayerData.SaveFileData.PlayerName = nameInput.text;
+            SceneManager.LoadScene(SaveManager.Instance.LoadedPlayerData.SaveFileData.CurrentSceneName);
         }
     }
 }

@@ -17,8 +17,8 @@ namespace Fishing.UI
         private ContinueMenu() => instance = this;
 
         public void LoadContinueSlotDetails() {
-            SaveManager.LoadSaveSlots();
-            if (SaveManager.saveFiles.Count == 0) {
+            SaveManager.Instance.LoadSaveSlots();
+            if (SaveManager.Instance.SaveFiles.Count == 0) {
                 DisplayNoSaves();
             }
             else {
@@ -37,7 +37,7 @@ namespace Fishing.UI
             noSavesText.SetActive(false);
             loadButton.interactable = true;
 
-            slotDetails.UpdateInfo(SaveManager.saveFiles[0]);
+            slotDetails.UpdateInfo(SaveManager.Instance.SaveFiles[0]);
         }
     }
 }

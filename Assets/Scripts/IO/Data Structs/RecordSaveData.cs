@@ -1,23 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Fishing.IO
-{
+namespace Fishing.IO {
     [System.Serializable]
-    public class RecordSaveData
-    { 
-        public string itemName;
-        public int amountCaught;
-        public float lengthRecord;
-        public float weightRecord;
+    public class RecordSaveData {
+        [SerializeField] private string _itemName;
+        public string ItemName { get => _itemName; private set => _itemName = value; }
 
-        public RecordSaveData(string _itemName, int _amountCaught, float _lengthRecord, float _weightRecord)
-        {
-            itemName = _itemName;
-            amountCaught = _amountCaught;
-            lengthRecord = _lengthRecord;
-            weightRecord = _weightRecord;
+        [SerializeField] private int _amountCaught;
+        public int AmountCaught { get => _amountCaught; set => _amountCaught = value; }
+
+        [SerializeField] private float _lengthRecord;
+        public float LengthRecord { get => _lengthRecord; set => _lengthRecord = value; }
+
+        [SerializeField] private float _weightRecord;
+        public float WeightRecord { get => _weightRecord; set => _weightRecord = value; }
+
+        public RecordSaveData(string itemName, int amountCaught, float lengthRecord, float weightRecord) {
+            ItemName = itemName;
+            AmountCaught = amountCaught;
+            LengthRecord = lengthRecord;
+            WeightRecord = weightRecord;
         }
     }
 }

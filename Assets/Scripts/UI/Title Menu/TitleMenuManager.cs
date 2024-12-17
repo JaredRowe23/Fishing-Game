@@ -47,8 +47,8 @@ namespace Fishing.UI
         }
         public void LoadGame(int _saveSlot)
         {
-            SaveManager.LoadGame($"{Application.persistentDataPath}/{SaveManager.saveFiles[_saveSlot].name}.fish");
-            SceneManager.LoadScene(PlayerData.instance.saveFileData.currentSceneName);
+            SaveManager.Instance.LoadGame($"{Application.persistentDataPath}/{SaveManager.Instance.SaveFiles[_saveSlot].Name}.fish");
+            SceneManager.LoadScene(SaveManager.Instance.LoadedPlayerData.SaveFileData.CurrentSceneName);
         }
 
         public void Continue()
@@ -58,7 +58,7 @@ namespace Fishing.UI
 
         public void ShowContinueMenu()
         {
-            SaveManager.LoadSaveSlots();
+            SaveManager.Instance.LoadSaveSlots();
             ContinueMenu.instance.LoadContinueSlotDetails();
             SwapActive(continueMenu, mainMenu);
         }

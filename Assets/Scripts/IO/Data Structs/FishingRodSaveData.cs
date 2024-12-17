@@ -1,23 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Fishing.IO
-{
+namespace Fishing.IO {
     [System.Serializable]
-    public class FishingRodSaveData
-    {
-        public string rodName;
-        public string equippedLine;
-        public string equippedHook;
-        public BaitSaveData equippedBait;
+    public class FishingRodSaveData {
+        [SerializeField] private string _rodName;
+        public string RodName { get => _rodName; private set => _rodName = value; }
 
-        public FishingRodSaveData(string _rodName, string _equippedLine, string _equippedHook, BaitSaveData _equippedBait)
-        {
-            rodName = _rodName;
-            equippedLine = _equippedLine;
-            equippedHook = _equippedHook;
-            equippedBait = _equippedBait;
+        [SerializeField] private string _equippedLine;
+        public string EquippedLine { get => _equippedLine; set => _equippedLine = value; }
+
+        [SerializeField] private string _equippedHook;
+        public string EquippedHook { get => _equippedHook; set => _equippedHook = value; }
+
+        [SerializeField] private BaitSaveData _equippedBait;
+        public BaitSaveData EquippedBait { get => _equippedBait; set => _equippedBait = value; }
+
+        public FishingRodSaveData(string rodName, string equippedLine, string equippedHook, BaitSaveData equippedBait) {
+            RodName = rodName;
+            EquippedLine = equippedLine;
+            EquippedHook = equippedHook;
+            EquippedBait = equippedBait;
         }
     }
 }

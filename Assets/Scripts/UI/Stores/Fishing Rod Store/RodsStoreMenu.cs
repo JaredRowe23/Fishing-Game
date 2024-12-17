@@ -33,9 +33,9 @@ namespace Fishing.UI
 
                 _listing.UpdateColor(RodStoreListing.ItemStatus.Available);
 
-                for (int i = 0; i < PlayerData.instance.fishingRodSaveData.Count; i++)
+                for (int i = 0; i < SaveManager.Instance.LoadedPlayerData.FishingRodSaveData.Count; i++)
                 {
-                    if (_rod.rodName == PlayerData.instance.fishingRodSaveData[i].rodName)
+                    if (_rod.rodName == SaveManager.Instance.LoadedPlayerData.FishingRodSaveData[i].RodName)
                     {
                         _listing.UpdateColor(RodStoreListing.ItemStatus.Purchased);
                         break;

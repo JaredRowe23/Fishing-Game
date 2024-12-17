@@ -17,38 +17,40 @@ namespace Fishing.UI
 
         private PlayerData playerData;
         private RodManager rodManager;
+        private BaitManager _baitManager;
 
         private void Awake()
         {
-            playerData = PlayerData.instance;
+            playerData = SaveManager.Instance.LoadedPlayerData;
             rodManager = RodManager.Instance;
+            _baitManager = BaitManager.Instance;
         }
 
         public void UpdateSlot() {
-            baitScriptable = ItemLookupTable.instance.StringToBait(baitSaveData.baitName);
-            title.text = baitSaveData.baitName;
+            baitScriptable = ItemLookupTable.instance.StringToBaitScriptable(baitSaveData.BaitName);
+            title.text = baitSaveData.BaitName;
             sprite.sprite = baitScriptable.inventorySprite;
-            countText.text = $"x{baitSaveData.amount}";
+            countText.text = $"x{baitSaveData.Amount}";
         }
 
         public void EquipBait()
         {
             UnequipCurrentBait();
 
-            playerData.equippedRod.equippedBait = baitSaveData;
-            rodManager.SpawnBait();
-            playerData.equippedRod.equippedBait.amount--;
+            playerData.EquippedRod.EquippedBait = baitSaveData;
+            _baitManager.SpawnBait();
+            playerData.EquippedRod.EquippedBait.Amount--;
 
             RodInfoMenu.instance.UpdateRodInfo(rodManager.EquippedRod);
         }
 
         private void UnequipCurrentBait()
         {
-            if (string.IsNullOrEmpty(playerData.equippedRod.equippedBait?.baitName)) return;
+            if (string.IsNullOrEmpty(playerData.EquippedRod.EquippedBait?.BaitName)) return;
 
-            playerData.equippedRod.equippedBait.amount++;
+            playerData.EquippedRod.EquippedBait.Amount++;
             Destroy(rodManager.EquippedRod.EquippedBait);
-            playerData.equippedRod.equippedBait = null;
+            playerData.EquippedRod.EquippedBait = null;
         }
 
         public void UnequipSelectedBait()

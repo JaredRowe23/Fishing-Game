@@ -26,7 +26,7 @@ namespace Fishing.UI
             instance = this;
             DontDestroyOnLoad(gameObject);
 
-            playerData = PlayerData.instance;
+            playerData = SaveManager.Instance.LoadedPlayerData;
 
             InputManager.onPauseMenu += ToggleMenu;
         }

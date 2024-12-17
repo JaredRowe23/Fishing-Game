@@ -54,9 +54,9 @@ namespace Fishing.UI
                 BucketMenu.instance.ToggleBucketMenu();
             }
 
-            if (PlayerData.instance.hasSeenTutorialData.inventoryTutorial) return;
+            if (SaveManager.Instance.LoadedPlayerData.HasSeenTutorialData.InventoryTutorial) return;
             TutorialSystem.instance.QueueTutorial("Here, you can view attachment slots for your fishing rod (line, bait, and hook). You can also take inventory of bait you have and equip bits of gear (TBD)");
-            PlayerData.instance.hasSeenTutorialData.inventoryTutorial = true;
+            SaveManager.Instance.LoadedPlayerData.HasSeenTutorialData.InventoryTutorial = true;
 
             UIManager.instance.HideHUDButtons();
         }

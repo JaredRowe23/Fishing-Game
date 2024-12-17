@@ -1,19 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Fishing.IO
-{
+namespace Fishing.IO {
     [System.Serializable]
-    public class BaitSaveData
-    {
-        public string baitName;
-        public int amount;
+    public class BaitSaveData {
+        [SerializeField] private string _baitName;
+        public string BaitName { get => _baitName; private set => _baitName = value; }
 
-        public BaitSaveData(string _baitName, int _amount)
-        {
-            baitName = _baitName;
-            amount = _amount;
+        [SerializeField] private int _amount;
+        public int Amount { get => _amount; set => _amount = value; }
+
+        public BaitSaveData(string baitName, int amount) {
+            BaitName = baitName;
+            Amount = amount;
         }
     }
 }

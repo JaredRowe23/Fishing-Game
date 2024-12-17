@@ -20,7 +20,7 @@ namespace Fishing.UI
 
         public void ShowData() {
             LoadMenu.instance.slotDetails.gameObject.SetActive(true);
-            LoadMenu.instance.slotDetails.UpdateInfo(SaveManager.saveFiles[saveIndex]);
+            LoadMenu.instance.slotDetails.UpdateInfo(SaveManager.Instance.SaveFiles[saveIndex]);
             LoadMenu.instance.selectedSlotIndex = saveIndex;
         }
     }

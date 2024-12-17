@@ -69,7 +69,7 @@ namespace Fishing.FishingMechanics {
             IsCharging = true;
             IsAngling = false;
 
-            if (PlayerData.instance.hasSeenTutorialData.castTutorial) {
+            if (SaveManager.Instance.LoadedPlayerData.HasSeenTutorialData.CastTutorial) {
                 return;
             }
 
@@ -98,12 +98,12 @@ namespace Fishing.FishingMechanics {
             IsAngling = true;
             IsCharging = false;
 
-            if (PlayerData.instance.hasSeenTutorialData.castTutorial) {
+            if (SaveManager.Instance.LoadedPlayerData.HasSeenTutorialData.CastTutorial) {
                 return;
             }
 
             TutorialSystem.instance.QueueTutorial("Click the left mouse button once more to set your angle and cast.", true, 3f);
-            PlayerData.instance.hasSeenTutorialData.castTutorial = true;
+            SaveManager.Instance.LoadedPlayerData.HasSeenTutorialData.CastTutorial = true;
         }
 
         private void Angle() {

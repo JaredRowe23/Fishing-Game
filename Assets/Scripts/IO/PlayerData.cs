@@ -1,127 +1,100 @@
-﻿using System.Collections;
+﻿using Fishing.UI;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
-using Fishing.UI;
+using UnityEngine.SceneManagement;
 
-namespace Fishing.IO
-{
-    public class PlayerData : MonoBehaviour
-    {
+namespace Fishing.IO {
+    [System.Serializable]
+    public class PlayerData {
         [Header("Save File Data")]
-        public SaveFileData saveFileData;
-        private System.DateTime sessionStartTime;
+        [SerializeField] private SaveFileData _saveFileData;
+        public SaveFileData SaveFileData { get => _saveFileData; private set => _saveFileData = value; }
+
+        [SerializeField] private System.DateTime _sessionStartTime;
 
         [Header("Bucket Items Data")]
-        public List<BucketItemSaveData> bucketItemSaveData;
+        [SerializeField] private List<BucketItemSaveData> _bucketItemSaveData;
+        public List<BucketItemSaveData> BucketItemSaveData { get => _bucketItemSaveData; private set => _bucketItemSaveData = value; }
 
         [Header("Fishing Rods")]
-        public List<FishingRodSaveData> fishingRodSaveData;
-        public FishingRodSaveData equippedRod;
+        [SerializeField] private List<FishingRodSaveData> _fishingRodSaveData;
+        public List<FishingRodSaveData> FishingRodSaveData { get => _fishingRodSaveData; private set => _fishingRodSaveData = value; }
+
+        [SerializeField] private FishingRodSaveData _equippedRod;
+        public FishingRodSaveData EquippedRod { get => _equippedRod; set => _equippedRod = value; }
 
         [Header("Bait")]
-        public List<BaitSaveData> baitSaveData;
+        [SerializeField] private List<BaitSaveData> _baitSaveData;
+        public List<BaitSaveData> BaitSaveData { get => _baitSaveData; private set => _baitSaveData = value; }
 
         [Header("Tutorials")]
-        public HasSeenTutorialData hasSeenTutorialData;
+        [SerializeField] private HasSeenTutorialData _hasSeenTutorialData;
+        public HasSeenTutorialData HasSeenTutorialData { get => _hasSeenTutorialData; private set => _hasSeenTutorialData = value; }
 
         [Header("Records")]
-        public List<RecordSaveData> recordSaveData;
+        [SerializeField] private List<RecordSaveData> _recordSaveData;
+        public List<RecordSaveData> RecordSaveData { get => _recordSaveData; private set => _recordSaveData = value; }
 
-        public delegate void OnMoneyUpdated();
-        public static event OnMoneyUpdated onMoneyUpdated;
-        private float previousMoney;
-
-        public static PlayerData instance;
-
-        private void Awake()
-        {
-            if (instance != null)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-
-            previousMoney = saveFileData.money;
-        }
-
-        public void Update() {
-
-            if (previousMoney != saveFileData.money) {
-                onMoneyUpdated?.Invoke();
-                previousMoney = saveFileData.money;
-            }
-        }
-
-        public void SavePlayer()
-        {
+        public void SavePlayer() {
             TooltipSystem.instance.NewTooltip(5f, "Game Saved!");
 
-            System.TimeSpan currentSessionTime = System.DateTime.Now.Subtract(sessionStartTime);
-            System.TimeSpan previousPlaytime = System.TimeSpan.Parse(saveFileData.playtime);
+            System.TimeSpan currentSessionTime = System.DateTime.Now.Subtract(_sessionStartTime);
+            System.TimeSpan previousPlaytime = System.TimeSpan.Parse(SaveFileData.Playtime);
             System.TimeSpan addPlaytime = previousPlaytime.Add(currentSessionTime);
-            saveFileData.playtime = string.Format("{0}:{1}:{2}", addPlaytime.Hours, addPlaytime.Minutes, addPlaytime.Seconds);
-            saveFileData.dateTime = System.DateTime.Now.ToString("G");
+            SaveFileData.Playtime = $"{addPlaytime.Hours}:{addPlaytime.Minutes}:{addPlaytime.Seconds}";
+            SaveFileData.DateTime = System.DateTime.Now.ToString("G"); // TODO: Find out why this uses the G string format specifier, and if it can be changed or removed altogether
 
-            SaveManager.SaveGame(this, saveFileData.playerName);
+            SaveManager.Instance.SaveGame(SaveFileData.PlayerName);
         }
 
-        public void LoadPlayer(GameData _saveData)
-        {
-            saveFileData = _saveData.saveFileData;
-            bucketItemSaveData = _saveData.bucketItemSaveData;
-            fishingRodSaveData = _saveData.fishingRodSaveData;
-            baitSaveData = _saveData.baitSaveData;
-            hasSeenTutorialData = _saveData.hasSeenTutorialData;
-            recordSaveData = _saveData.recordSaveData;
+        public void NewGame() {
+            SaveFileData = new SaveFileData("", "", 0, System.DateTime.Now.ToString("G"), System.TimeSpan.Zero.ToString());
+            SaveFileData.CurrentSceneName = Path.GetFileNameWithoutExtension(SceneUtility.GetScenePathByBuildIndex(1));
+            HasSeenTutorialData = new HasSeenTutorialData(false);
+            BucketItemSaveData = new List<BucketItemSaveData>();
+            FishingRodSaveData = new List<FishingRodSaveData>();
+            BaitSaveData = new List<BaitSaveData>();
+            RecordSaveData = new List<RecordSaveData>();
 
-            sessionStartTime = System.DateTime.Now;
-            equippedRod = _saveData.equippedRod;
+            _sessionStartTime = System.DateTime.Now;
+
+            FishingRodSaveData _defaultRod = new FishingRodSaveData(ItemLookupTable.instance.rodScriptables[0].rodName, "", "", null);
+            FishingRodSaveData.Add(_defaultRod);
+            EquippedRod = _defaultRod;
         }
 
-        public void NewGame()
-        {
-            saveFileData = new SaveFileData("", "World Map", 0, System.DateTime.Now.ToString("G"), System.TimeSpan.Zero.ToString());
-            hasSeenTutorialData = new HasSeenTutorialData(false);
-            bucketItemSaveData = new List<BucketItemSaveData>();
-            fishingRodSaveData = new List<FishingRodSaveData>();
-            baitSaveData = new List<BaitSaveData>();
-            recordSaveData = new List<RecordSaveData>();
-
-            sessionStartTime = System.DateTime.Now;
-
-            FishingRodSaveData _defaultRod = new FishingRodSaveData("Wooden Fishing Rod", "", "", null);
-            fishingRodSaveData.Add(_defaultRod);
-            equippedRod = fishingRodSaveData[0];
-        }
-
-        public void AddBait(string _baitName)
-        {
-            for (int i = 0; i < baitSaveData.Count; i++)
-            {
-                if (_baitName != baitSaveData[i].baitName) continue;
-                baitSaveData[i].amount++;
+        public void AddBait(string baitName, int amount) {
+            for (int i = 0; i < BaitSaveData.Count; i++) {
+                if (baitName != BaitSaveData[i].BaitName) {
+                    continue;
+                }
+                BaitSaveData[i].Amount += amount;
                 return;
             }
-            baitSaveData.Add(new BaitSaveData(_baitName, 1));
+            BaitSaveData.Add(new BaitSaveData(baitName, amount));
         }
 
-        public void UpdateFishRecordData(BucketItemSaveData _data)
-        {
-            for (int i = 0; i < recordSaveData.Count; i++)
-            {
-                if (_data.itemName != recordSaveData[i].itemName) continue;
+        public void UpdateFishRecordData(BucketItemSaveData _data) {
+            for (int i = 0; i < RecordSaveData.Count; i++) {
+                if (_data.ItemName != RecordSaveData[i].ItemName) {
+                    continue;
+                }
 
-                recordSaveData[i].amountCaught++;
-                if (recordSaveData[i].lengthRecord < _data.length) recordSaveData[i].lengthRecord = _data.length;
-                if (recordSaveData[i].weightRecord < _data.weight) recordSaveData[i].weightRecord = _data.weight;
+                RecordSaveData[i].AmountCaught++;
+
+                if (RecordSaveData[i].LengthRecord < _data.Length) {
+                    RecordSaveData[i].LengthRecord = _data.Length;
+                }
+
+                if (RecordSaveData[i].WeightRecord < _data.Weight) {
+                    RecordSaveData[i].WeightRecord = _data.Weight;
+                }
 
                 return;
             }
 
-            recordSaveData.Add(new RecordSaveData(_data.itemName, 1, _data.length, _data.weight));
+            RecordSaveData.Add(new RecordSaveData(_data.ItemName, 1, _data.Length, _data.Weight));
         }
     }
 }

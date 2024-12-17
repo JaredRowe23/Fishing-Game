@@ -82,7 +82,7 @@ namespace Fishing.FishingMechanics {
             }
             _rigidbody.drag = _waterDrag;
 
-            if (!PlayerData.instance.hasSeenTutorialData.reelingTutorial) {
+            if (!SaveManager.Instance.LoadedPlayerData.HasSeenTutorialData.ReelingTutorial) {
                 ShowReelingTutorial();
             }
         }
@@ -90,7 +90,7 @@ namespace Fishing.FishingMechanics {
         private void ShowReelingTutorial() {
             TutorialSystem.instance.QueueTutorial("Hold the left mouse button to begin reeling.");
             TutorialSystem.instance.QueueTutorial("Use A and D or the arrow keys to move the hook left and right slightly");
-            PlayerData.instance.hasSeenTutorialData.reelingTutorial = true;
+            SaveManager.Instance.LoadedPlayerData.HasSeenTutorialData.ReelingTutorial = true;
         }
 
         private void OnSurfaced() {

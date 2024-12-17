@@ -33,7 +33,7 @@ namespace Fishing.UI
 
         private void Awake()
         {
-            playerData = PlayerData.instance;
+            playerData = SaveManager.Instance.LoadedPlayerData;
             manager = UIManager.instance;
             bucketMenu = BucketMenu.instance;
             tooltipSystem = TooltipSystem.instance;
@@ -44,38 +44,38 @@ namespace Fishing.UI
         public void UpdateMenu(BucketItemSaveData _reference, GameObject _menuListing)
         {
             itemReference = _reference;
-            itemName.text = _reference.itemName;
-            itemValue.text = _reference.value.ToString();
-            itemWeight.text = _reference.weight.ToString();
-            itemLength.text = _reference.length.ToString();
-            itemDescription.text = _reference.description;
+            itemName.text = _reference.ItemName;
+            itemValue.text = _reference.Value.ToString();
+            itemWeight.text = _reference.Weight.ToString();
+            itemLength.text = _reference.Length.ToString();
+            itemDescription.text = _reference.Description;
 
             menuListingReference = _menuListing;
-            GenerateModel(_reference.itemName);
+            GenerateModel(_reference.ItemName);
 
             ItemViewerCamera.instance.UpdateCurrentItem(currentModel);
         }
 
         public void ThrowAwayItem()
         {
-            tooltipSystem.NewTooltip(5f, "Threw away the " + itemReference.itemName + " worth $" + itemReference.value.ToString("F2"));
+            tooltipSystem.NewTooltip(5f, "Threw away the " + itemReference.ItemName + " worth $" + itemReference.Value.ToString("F2"));
             if (manager.overflowItem.activeSelf) HandleOverflowItem();
             RemoveItem();
         }
 
         public void SellItem()
         {
-            playerData.saveFileData.money += itemReference.value;
-            tooltipSystem.NewTooltip(5f, "Sold the " + itemReference.itemName + " for $" + itemReference.value.ToString("F2"));
+            playerData.SaveFileData.Money += itemReference.Value;
+            tooltipSystem.NewTooltip(5f, "Sold the " + itemReference.ItemName + " for $" + itemReference.Value.ToString("F2"));
             RemoveItem();
         }
 
         public void ConvertToBait()
         {
-            playerData.AddBait(itemReference.itemName);
+            playerData.AddBait(itemReference.ItemName, 1);
             if (manager.overflowItem.activeSelf) HandleOverflowItem();
-            tooltipSystem.NewTooltip(5f, "Converted the " + itemReference.itemName + " into bait");
-            if (!playerData.hasSeenTutorialData.baitTutorial) ShowBaitTutorial();
+            tooltipSystem.NewTooltip(5f, "Converted the " + itemReference.ItemName + " into bait");
+            if (!playerData.HasSeenTutorialData.BaitTutorial) ShowBaitTutorial();
             RemoveItem();
         }
 
@@ -109,7 +109,7 @@ namespace Fishing.UI
         private void ShowBaitTutorial()
         {
             TutorialSystem.instance.QueueTutorial("Bait can help you catch fish that aren't interested in just your hook as is. Close the bucket menu and open the inventory menu (I) to equip it!");
-            playerData.hasSeenTutorialData.baitTutorial = true;
+            playerData.HasSeenTutorialData.BaitTutorial = true;
         }
 
         public GameObject GenerateModel(string _itemName) // to be removed when switching model viewer to sprite viewer

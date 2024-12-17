@@ -26,10 +26,10 @@ namespace Fishing.UI
 
         public void GenerateSlots()
         {
-            for (int i = 0; i < PlayerData.instance.baitSaveData.Count; i++)
+            for (int i = 0; i < SaveManager.Instance.LoadedPlayerData.BaitSaveData.Count; i++)
             {
                 BaitInventorySlot _newSlot = Instantiate(slotPrefab, listingsScrollRect.content.transform).GetComponent<BaitInventorySlot>();
-                _newSlot.baitSaveData = PlayerData.instance.baitSaveData[i];
+                _newSlot.baitSaveData = SaveManager.Instance.LoadedPlayerData.BaitSaveData[i];
                 _newSlot.UpdateSlot();
             }
         }

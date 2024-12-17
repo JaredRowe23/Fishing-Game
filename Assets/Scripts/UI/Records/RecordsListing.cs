@@ -35,10 +35,10 @@ namespace Fishing.UI
             }
 
             recordData = _recordData;
-            showName = recordData.itemName;
-            catchAmount = recordData.amountCaught;
-            length = recordData.lengthRecord;
-            weight = recordData.weightRecord;
+            showName = recordData.ItemName;
+            catchAmount = recordData.AmountCaught;
+            length = recordData.LengthRecord;
+            weight = recordData.WeightRecord;
             listingImage.color = Color.white;
         }
 

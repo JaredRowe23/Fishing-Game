@@ -48,10 +48,10 @@ namespace Fishing.UI
         {
             for (int i = 0; i < listings.Count; i++) {
                 listings[i].ResetListing();
-                for (int j = 0; j < PlayerData.instance.recordSaveData.Count; j++) {
-                    RecordSaveData _recordSaveData = PlayerData.instance.recordSaveData[j];
-                    if (_recordSaveData.itemName != listings[i].FishableName) continue;
-                    if (_recordSaveData.amountCaught == 0) continue;
+                for (int j = 0; j < SaveManager.Instance.LoadedPlayerData.RecordSaveData.Count; j++) {
+                    RecordSaveData _recordSaveData = SaveManager.Instance.LoadedPlayerData.RecordSaveData[j];
+                    if (_recordSaveData.ItemName != listings[i].FishableName) continue;
+                    if (_recordSaveData.AmountCaught == 0) continue;
 
                     listings[i].UpdateListing(_recordSaveData);
                     break;
@@ -65,7 +65,7 @@ namespace Fishing.UI
 
             recordInfoImage.sprite = _sprite;
 
-            if (_recordData.amountCaught == 0)
+            if (_recordData.AmountCaught == 0)
             {
                 recordInfoName.text = "???";
                 recordCatchAmount.text = "0";
@@ -75,10 +75,10 @@ namespace Fishing.UI
             }
             else
             {
-                recordInfoName.text = _recordData.itemName;
-                recordCatchAmount.text = $"Caught: {_recordData.amountCaught}";
-                recordInfoLength.text = $"Length Record: \n{_recordData.lengthRecord}cm";
-                recordInfoWeight.text = $"Weight Record: \n{_recordData.weightRecord}kg";
+                recordInfoName.text = _recordData.ItemName;
+                recordCatchAmount.text = $"Caught: {_recordData.AmountCaught}";
+                recordInfoLength.text = $"Length Record: \n{_recordData.LengthRecord}cm";
+                recordInfoWeight.text = $"Weight Record: \n{_recordData.WeightRecord}kg";
                 recordInfoImage.color = Color.white;
             }
         }

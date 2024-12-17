@@ -11,15 +11,15 @@ namespace Fishing
 
         private void Awake(){
             UpdateMoneyText();
-            PlayerData.onMoneyUpdated += UpdateMoneyText;
+            SaveFileData.onMoneyUpdated += UpdateMoneyText;
         }
 
         private void OnDestroy() {
-            PlayerData.onMoneyUpdated -= UpdateMoneyText;
+            SaveFileData.onMoneyUpdated -= UpdateMoneyText;
         }
 
         public void UpdateMoneyText() {
-            moneyText.text = PlayerData.instance.saveFileData.money.ToString("C");
+            moneyText.text = SaveManager.Instance.LoadedPlayerData.SaveFileData.Money.ToString("C");
         }
     }
 }

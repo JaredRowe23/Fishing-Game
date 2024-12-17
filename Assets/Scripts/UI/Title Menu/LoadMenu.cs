@@ -31,11 +31,11 @@ namespace Fishing.UI
         }
 
         public void GenerateSaveListings() {
-            SaveManager.LoadSaveSlots();
+            SaveManager.Instance.LoadSaveSlots();
 
-            for (int i = 0; i < SaveManager.saveFiles.Count; i++) {
+            for (int i = 0; i < SaveManager.Instance.SaveFiles.Count; i++) {
                 SaveSlotListing _newSlot = Instantiate(saveFileListingPrefab, saveFileListings.content).GetComponent<SaveSlotListing>();
-                _newSlot.SetInfo(SaveManager.saveFiles[i].name, SaveManager.saveFiles[i].dateTime, i);
+                _newSlot.SetInfo(SaveManager.Instance.SaveFiles[i].Name, SaveManager.Instance.SaveFiles[i].DateTime, i);
             }
         }
 
@@ -47,13 +47,13 @@ namespace Fishing.UI
         }
 
         public void DeleteSaveSlot() {
-            string _path = $"{Application.persistentDataPath}/{SaveManager.saveFiles[selectedSlotIndex].name}.fish";
+            string _path = $"{Application.persistentDataPath}/{SaveManager.Instance.SaveFiles[selectedSlotIndex].Name}.fish";
             if (File.Exists(_path)) {
                 File.Delete(_path);
                 RefreshSaveSlotListings();
             }
             else {
-                Debug.LogError($"Save file not found in {Application.persistentDataPath}/{SaveManager.saveFiles[selectedSlotIndex].name}.fish");
+                Debug.LogError($"Save file not found in {Application.persistentDataPath}/{SaveManager.Instance.SaveFiles[selectedSlotIndex].Name}.fish");
             }
             
         }

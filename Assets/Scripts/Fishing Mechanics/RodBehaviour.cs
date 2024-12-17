@@ -39,6 +39,7 @@ namespace Fishing.FishingMechanics {
         [SerializeField, Tooltip("Transforms that hold the positions of the fishing line start (end of the rod) in each reeling animation frame.")] private List<Transform> _reelingAnimationPositions;
 
         private RodManager _rodManager;
+        private BaitManager _baitManager;
         private CameraBehaviour _camera;
         private BucketBehaviour _bucket;
         private ReelingMinigame _reelingMinigame;
@@ -56,20 +57,21 @@ namespace Fishing.FishingMechanics {
 
         void Start() {
             _rodManager = RodManager.Instance;
+            _baitManager = BaitManager.Instance;
             _camera = CameraBehaviour.Instance;
             _bucket = BucketBehaviour.Instance;
             _reelingMinigame = ReelingMinigame.Instance;
             _audioManager = AudioManager.instance;
             _UIManager = UIManager.instance;
             _powerAndAngle = PowerAndAngle.Instance;
-            _playerData = PlayerData.instance;
+            _playerData = SaveManager.Instance.LoadedPlayerData;
             _tooltipSystem = TooltipSystem.instance;
             _tutorialSystem = TutorialSystem.instance;
 
             Casted = false;
             _playerAnimator = _rodManager.GetComponent<Animator>();
 
-            if (PlayerData.instance.hasSeenTutorialData.castTutorial) {
+            if (_playerData.HasSeenTutorialData.CastTutorial) {
                 return;
             }
 
@@ -184,22 +186,22 @@ namespace Fishing.FishingMechanics {
         }
 
         public void ReEquipBait() {
-            if (_playerData.equippedRod.equippedBait == null) {
+            if (_playerData.EquippedRod.EquippedBait == null) {
                 return;
             }
 
-            if (_playerData.equippedRod.equippedBait.baitName == null) {
+            if (_playerData.EquippedRod.EquippedBait.BaitName == null) {
                 return;
             }
 
-            if (_playerData.equippedRod.equippedBait.amount <= 0) {
-                _tooltipSystem.NewTooltip(3, "Out of bait: " + _playerData.equippedRod.equippedBait.baitName);
-                _playerData.baitSaveData.Remove(_playerData.equippedRod.equippedBait);
-                _playerData.equippedRod.equippedBait = null;
+            if (_playerData.EquippedRod.EquippedBait.Amount <= 0) {
+                _tooltipSystem.NewTooltip(3, "Out of bait: " + _playerData.EquippedRod.EquippedBait.BaitName);
+                _playerData.BaitSaveData.Remove(_playerData.EquippedRod.EquippedBait);
+                _playerData.EquippedRod.EquippedBait = null;
             }
             else {
-                _playerData.equippedRod.equippedBait.amount--;
-                _rodManager.SpawnBait();
+                _playerData.EquippedRod.EquippedBait.Amount--;
+                _baitManager.SpawnBait();
             }
         }
 

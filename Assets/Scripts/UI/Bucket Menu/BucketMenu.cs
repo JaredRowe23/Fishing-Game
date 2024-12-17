@@ -23,7 +23,7 @@ namespace Fishing.UI
 
         private void Awake()
         {
-            playerData = PlayerData.instance;
+            playerData = SaveManager.Instance.LoadedPlayerData;
         }
 
         public void ToggleBucketMenu()
@@ -42,7 +42,7 @@ namespace Fishing.UI
             AudioManager.instance.PlaySound("Open Bucket");
             InitializeMenu();
 
-            if (!PlayerData.instance.hasSeenTutorialData.bucketMenuTutorial) ShowBucketMenuTutorial();
+            if (!playerData.HasSeenTutorialData.BucketMenuTutorial) ShowBucketMenuTutorial();
         }
 
         public void HideBucketMenu()
@@ -55,7 +55,7 @@ namespace Fishing.UI
         private void ShowBucketMenuTutorial()
         {
             TutorialSystem.instance.QueueTutorial("Here you can view each fish or item you've caught. Click on each one to view more details, throw it away, or turn it into bait!");
-            playerData.hasSeenTutorialData.bucketMenuTutorial = true;
+            playerData.HasSeenTutorialData.BucketMenuTutorial = true;
         }
 
         public void InitializeMenu()

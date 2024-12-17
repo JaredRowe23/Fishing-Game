@@ -59,7 +59,7 @@ namespace Fishing.FishingMechanics.Minigame {
             SetInputs();
             IsInMinigame = true;
 
-            if (!PlayerData.instance.hasSeenTutorialData.reelingMinigameTutorial) {
+            if (!SaveManager.Instance.LoadedPlayerData.HasSeenTutorialData.ReelingMinigameTutorial) {
                 HandleTutorial();
             }
         }
@@ -90,7 +90,7 @@ namespace Fishing.FishingMechanics.Minigame {
             TutorialSystem.instance.QueueTutorial("Reeling will cause some stress, but not as much when the fish is in the reeling zone. Stronger lines can handle stronger fish.");
             TutorialSystem.instance.QueueTutorial("The fish will try and swim away (splash icon) before entering a rest period. Reeling while it's swimming will induce more stress.");
             TutorialSystem.instance.QueueTutorial("If you find a fish too difficult, upgrade your line, fishing rod, or try going after a smaller sized fish. Reel while the fish is resting, and good luck!");
-            PlayerData.instance.hasSeenTutorialData.reelingMinigameTutorial = true;
+            SaveManager.Instance.LoadedPlayerData.HasSeenTutorialData.ReelingMinigameTutorial = true;
         }
 
         private void StartReeling() {

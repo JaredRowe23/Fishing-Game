@@ -23,6 +23,9 @@ namespace Fishing.WorldMap
             confirmationWindow.SetActive(false);
         }
 
-        public void Travel() => SceneManager.LoadScene(potentialSceneName);
+        public void Travel() {
+            SaveManager.Instance.LoadedPlayerData.SaveFileData.CurrentSceneName = potentialSceneName;
+            SceneManager.LoadScene(potentialSceneName);
+        }
     }
 }

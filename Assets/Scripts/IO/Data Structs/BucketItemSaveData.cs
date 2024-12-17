@@ -1,35 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Fishing.IO
-{
+namespace Fishing.IO {
     [System.Serializable]
-    public class BucketItemSaveData
-    {
-        public string itemName;
-        public string description;
-        public float weight;
-        public float length;
-        public float value;
+    public class BucketItemSaveData {
+        [SerializeField] private string _itemName;
+        public string ItemName { get => _itemName; private set => _itemName = value; }
 
-        public BucketItemSaveData(string _itemName, string _description, float _weight, float _length, float _value)
-        {
-            itemName = _itemName;
-            description = _description;
-            weight = _weight;
-            length = _length;
-            value = _value;
+        [SerializeField] private string _description;
+        public string Description { get => _description; private set => _description = value; }
+
+        [SerializeField] private float _weight;
+        public float Weight { get => _weight; private set => _weight = value; }
+
+        [SerializeField] private float _length;
+        public float Length { get => _length; private set => _length = value; }
+
+        [SerializeField] private float _value;
+        public float Value { get => _value; private set => _value = value; }
+
+        public BucketItemSaveData(string itemName, string description, float weight, float length, float value) {
+            ItemName = itemName;
+            Description = description;
+            Weight = weight;
+            Length = length;
+            Value = value;
         }
 
-        public bool CompareTo(BucketItemSaveData _other)
-        {
-            return _other != null && 
-                itemName == _other.itemName && 
-                description == _other.description && 
-                weight == _other.weight && 
-                length == _other.length && 
-                value == _other.value;
+        public bool CompareTo(BucketItemSaveData other) {
+            return other != null && 
+                ItemName == other.ItemName && 
+                Description == other.Description && 
+                Weight == other.Weight && 
+                Length == other.Length && 
+                Value == other.Value;
         }
     }
 }

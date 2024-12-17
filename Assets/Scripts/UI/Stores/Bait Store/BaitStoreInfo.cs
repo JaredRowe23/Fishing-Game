@@ -50,14 +50,14 @@ namespace Fishing.UI
         }
 
         public void BuyBait() {
-            if (PlayerData.instance.saveFileData.money < currentBait.cost) {
+            if (SaveManager.Instance.LoadedPlayerData.SaveFileData.Money < currentBait.cost) {
                 TooltipSystem.instance.NewTooltip(5f, "You don't have enough money to buy this bait");
                 return;
             }
 
             TooltipSystem.instance.NewTooltip(5f, $"You bought the {nameText.text} for {currentBait.cost.ToString("C")}");
-            PlayerData.instance.saveFileData.money -= currentBait.cost;
-            PlayerData.instance.AddBait(nameText.text);
+            SaveManager.Instance.LoadedPlayerData.SaveFileData.Money -= currentBait.cost;
+            SaveManager.Instance.LoadedPlayerData.AddBait(nameText.text, 1);
             BaitStoreMenu.instance.RefreshStore();
             gameObject.SetActive(false);
         }

@@ -29,13 +29,13 @@ namespace Fishing.Inventory {
 
         private void Start() {
             _rodManager = RodManager.Instance;
-            _playerData = PlayerData.instance;
+            _playerData = SaveManager.Instance.LoadedPlayerData;
             _audioManager = AudioManager.instance;
             _tooltipSystem = TooltipSystem.instance;
             _tutorialSystem = TutorialSystem.instance;
             _overflowItem = UIManager.instance.overflowItem.GetComponent<BucketMenuItem>();
             _bucketMenu = BucketMenu.instance;
-            BucketList = _playerData.bucketItemSaveData;
+            BucketList = _playerData.BucketItemSaveData;
         }
 
         public void AddToBucket(Fishable fishable) {
@@ -49,7 +49,7 @@ namespace Fishing.Inventory {
             }
 
             _audioManager.PlaySound("Add To Bucket");
-            _tooltipSystem.NewTooltip(5f, $"You caught a {bucketItemData.itemName} worth {bucketItemData.value.ToString("C")}");
+            _tooltipSystem.NewTooltip(5f, $"You caught a {bucketItemData.ItemName} worth {bucketItemData.Value.ToString("C")}");
 
             BucketList.Add(bucketItemData);
             _rodManager.EquippedRod.Hook.DestroyHookedObject();
@@ -57,7 +57,7 @@ namespace Fishing.Inventory {
 
             _playerData.UpdateFishRecordData(bucketItemData);
 
-            if (!_playerData.hasSeenTutorialData.bucketTutorial) {
+            if (!_playerData.HasSeenTutorialData.BucketTutorial) {
                 ShowBucketTutorial();
             }
         }
@@ -71,7 +71,7 @@ namespace Fishing.Inventory {
 
         private void ShowBucketTutorial() {
             _tutorialSystem.QueueTutorial("Press B or click the bucket icon in the top-left corner to access your bucket");
-            _playerData.hasSeenTutorialData.bucketTutorial = true;
+            _playerData.HasSeenTutorialData.BucketTutorial = true;
         }
     }
 

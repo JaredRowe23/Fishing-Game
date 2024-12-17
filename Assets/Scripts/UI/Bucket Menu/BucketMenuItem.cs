@@ -18,10 +18,10 @@ namespace Fishing.UI
         public void UpdateInfo(BucketItemSaveData _item)
         {
             itemReference = _item;
-            itemName.text = _item.itemName;
-            itemWeight.text = _item.weight.ToString("F2") + " kg";
-            itemLength.text = _item.length.ToString("F2") + " cm";
-            itemValue.text = "$" + _item.value.ToString("F2");
+            itemName.text = _item.ItemName;
+            itemWeight.text = _item.Weight.ToString("F2") + " kg";
+            itemLength.text = _item.Length.ToString("F2") + " cm";
+            itemValue.text = "$" + _item.Value.ToString("F2");
         }
 
         public void OpenInfoMenu()

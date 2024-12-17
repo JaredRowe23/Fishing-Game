@@ -70,9 +70,9 @@ namespace Fishing.UI
         }
 
         private void GenerateBaitOptions() {
-            for (int i = 0; i < PlayerData.instance.baitSaveData.Count; i++) {
+            for (int i = 0; i < SaveManager.Instance.LoadedPlayerData.BaitSaveData.Count; i++) {
                 BaitAttachmentSlot _newSlot = Instantiate(baitOptionPrefab, baitsScrollRect.content.transform).GetComponent<BaitAttachmentSlot>();
-                _newSlot.baitSaveData = PlayerData.instance.baitSaveData[i];
+                _newSlot.baitSaveData = SaveManager.Instance.LoadedPlayerData.BaitSaveData[i];
                 _newSlot.UpdateSlot();
             }
         }

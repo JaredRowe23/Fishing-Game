@@ -1,22 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 namespace Fishing.IO {
     [System.Serializable]
     public class SaveFile {
-        public string name;
-        public float money;
-        public string dateTime;
-        public string playtime;
-        public int fishTypesCaught;
+        private string _name;
+        public string Name { get => _name; private set => _name = value; }
 
-        public SaveFile(string _name, float _money, string _dateTime, string _playtime, int _fishTypesCaught) {
-            name = _name;
-            money = _money;
-            dateTime = _dateTime;
-            playtime = _playtime;
-            fishTypesCaught = _fishTypesCaught;
+        private float _money;
+        public float Money { get => _money; private set => _money = value; }
+
+        private string _dateTime;
+        public string DateTime { get => _dateTime; private set => _dateTime = value; }
+
+        private string _playtime;
+        public string Playtime { get => _playtime; private set => _playtime = value; }
+
+        private int _fishTypesCaught;
+        public int FishTypesCaught { get => _fishTypesCaught; private set => _fishTypesCaught = value; }
+
+        public SaveFile(string name, float money, string dateTime, string playtime, int fishTypesCaught) {
+            Name = name;
+            Money = money;
+            DateTime = dateTime;
+            Playtime = playtime;
+            FishTypesCaught = fishTypesCaught;
         }
     }
 }

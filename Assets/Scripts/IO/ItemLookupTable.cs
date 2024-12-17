@@ -1,46 +1,37 @@
-using System.Collections;
+using Fishing.FishingMechanics;
 using System.Collections.Generic;
 using UnityEngine;
-using Fishing.Fishables;
-using Fishing.FishingMechanics;
 
-namespace Fishing.IO
-{
-    public class ItemLookupTable : MonoBehaviour
-    {
+namespace Fishing.IO {
+    public class ItemLookupTable : MonoBehaviour {
         [SerializeField] public List<RodScriptable> rodScriptables;
         [SerializeField] public List<BaitScriptable> baitScriptables;
 
         public static ItemLookupTable instance;
 
         private ItemLookupTable() => instance = this;
-        private void Awake()
-        {
+        private void Awake() {
             DontDestroyOnLoad(gameObject);
         }
 
-        public RodScriptable StringToRod(string _rodName)
-        {
-            foreach (RodScriptable _rodScriptable in rodScriptables)
-            {
-                if (_rodName == _rodScriptable.rodName)
-                {
-                    return _rodScriptable;
+        public RodScriptable StringToRodScriptable(string rodName) {
+            for (int i = 0; i < rodScriptables.Count; i++) {
+                if (rodScriptables[i].rodName != rodName) {
+                    continue;
                 }
+                return rodScriptables[i];
             }
 
             Debug.Log("No rod exists with provided string");
             return null;
         }
 
-        public BaitScriptable StringToBait(string _baitName) // TODO: Shift this over to a new BaitManager class that holds the scriptables and handles spawning
-        {
-            foreach (BaitScriptable _baitScriptable in baitScriptables)
-            {
-                if (_baitName == _baitScriptable.baitName)
-                {
-                    return _baitScriptable;
+        public BaitScriptable StringToBaitScriptable(string baitName) {
+            for (int i = 0; i < baitScriptables.Count; i++) {
+                if (baitScriptables[i].baitName != baitName) {
+                    continue;
                 }
+                return baitScriptables[i];
             }
 
             Debug.Log("No bait exists with provided string");

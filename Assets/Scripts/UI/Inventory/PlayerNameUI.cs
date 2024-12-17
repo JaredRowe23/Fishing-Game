@@ -10,7 +10,7 @@ namespace Fishing
         [SerializeField] private Text playerNameText;
 
         void Update() {
-            playerNameText.text = PlayerData.instance.saveFileData.playerName;
+            playerNameText.text = SaveManager.Instance.LoadedPlayerData.SaveFileData.PlayerName;
         }
     }
 }

@@ -1,25 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Fishing.IO
-{
+namespace Fishing.IO {
     [System.Serializable]
-    public class SaveFileData
-    {
-        public string playerName;
-        public string currentSceneName;
-        public float money;
-        public string dateTime;
-        public string playtime;
+    public class SaveFileData {
+        [SerializeField] private string _playerName;
+        public string PlayerName { get => _playerName; set => _playerName = value; }
 
-        public SaveFileData(string _playerName, string _currentSceneName, float _money, string _dateTime, string _playtime)
-        {
-            playerName = _playerName;
-            currentSceneName = _currentSceneName;
-            money = _money;
-            dateTime = _dateTime;
-            playtime = _playtime;
+        [SerializeField] private string _currentSceneName;
+        public string CurrentSceneName { get => _currentSceneName; set => _currentSceneName = value; }
+
+        [SerializeField] private float _money;
+        public float Money {
+            get => _money;
+            set {
+                onMoneyUpdated?.Invoke();
+                _money = value;
+            }
+        }
+
+        [SerializeField] private string _dateTime;
+        public string DateTime { get => _dateTime; set => _dateTime = value; }
+
+        [SerializeField] private string _playtime;
+        public string Playtime { get => _playtime; set => _playtime = value; }
+
+        public delegate void OnMoneyUpdated();
+        public static event OnMoneyUpdated onMoneyUpdated;
+
+        public SaveFileData(string playerName, string currentSceneName, float money, string dateTime, string playtime) {
+            PlayerName = playerName;
+            CurrentSceneName = currentSceneName;
+            Money = money;
+            DateTime = dateTime;
+            Playtime = playtime;
         }
     }
 }
