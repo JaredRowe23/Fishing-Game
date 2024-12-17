@@ -21,7 +21,7 @@ namespace Fishing.UI
         private void Awake()
         {
             playerData = PlayerData.instance;
-            rodManager = RodManager.instance;
+            rodManager = RodManager.Instance;
         }
 
         public void UpdateSlot() {
@@ -39,7 +39,7 @@ namespace Fishing.UI
             rodManager.SpawnBait();
             playerData.equippedRod.equippedBait.amount--;
 
-            RodInfoMenu.instance.UpdateRodInfo(rodManager.equippedRod);
+            RodInfoMenu.instance.UpdateRodInfo(rodManager.EquippedRod);
         }
 
         private void UnequipCurrentBait()
@@ -47,14 +47,14 @@ namespace Fishing.UI
             if (string.IsNullOrEmpty(playerData.equippedRod.equippedBait?.baitName)) return;
 
             playerData.equippedRod.equippedBait.amount++;
-            Destroy(rodManager.equippedRod.equippedBait);
+            Destroy(rodManager.EquippedRod.EquippedBait);
             playerData.equippedRod.equippedBait = null;
         }
 
         public void UnequipSelectedBait()
         {
             UnequipCurrentBait();
-            RodInfoMenu.instance.UpdateRodInfo(RodManager.instance.equippedRod);
+            RodInfoMenu.instance.UpdateRodInfo(RodManager.Instance.EquippedRod);
         }
     }
 }

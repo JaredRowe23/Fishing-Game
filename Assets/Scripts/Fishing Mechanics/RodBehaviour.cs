@@ -1,213 +1,243 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Fishing.Fishables;
-using Fishing.IO;
-using Fishing.UI;
-using Fishing.PlayerCamera;
+﻿using Fishing.Fishables;
 using Fishing.FishingMechanics.Minigame;
 using Fishing.Inventory;
+using Fishing.IO;
+using Fishing.PlayerCamera;
 using Fishing.PlayerInput;
+using Fishing.UI;
+using System.Collections.Generic;
+using UnityEngine;
 
-namespace Fishing.FishingMechanics
-{
-    //[RequireComponent(typeof(RodScriptable))]
-    public class RodBehaviour : MonoBehaviour
-    {
-        public Sprite inventorySprite;
-        public RodScriptable scriptable;
+namespace Fishing.FishingMechanics {
+    public class RodBehaviour : MonoBehaviour {
+        [SerializeField, Tooltip("Sprite that will be used for this fishing rod in inventory menus.")] private Sprite _inventorySprite;
+        public Sprite InventorySprite { get => _inventorySprite; private set => _inventorySprite = value; }
 
-        public BaitBehaviour equippedBait;
+        [SerializeField, Tooltip("Scriptable object that contains the stats for this type of fishing rod.")] private RodScriptable _scriptable;
+        public RodScriptable Scriptable { get => _scriptable; private set => _scriptable = value; }
 
-        [SerializeField] private Transform linePivotPoint;
-        public bool casted = false;
-        [SerializeField] private float reeledInDistance = 0.1f;
-        [SerializeField] private HookBehaviour hook;
-        private Animator anim;
-        [SerializeField] private Animator playerAnim;
+        private BaitBehaviour _equippedBait;
+        public BaitBehaviour EquippedBait { get => _equippedBait; set => _equippedBait = value; }
 
-        [SerializeField] private List<Transform> idleAnimationPositions;
-        [SerializeField] private List<Transform> startCastAnimationPositions;
-        [SerializeField] private List<Transform> castAnimationPositions;
-        [SerializeField] private List<Transform> reelingAnimationPositions;
+        [SerializeField, Tooltip("Transform that marks the position the fishing line starts from (the end of the fishing rod).")] private Transform _linePivotPoint;
+        public Transform LinePivotPoint { get => _linePivotPoint; set => _linePivotPoint = value; }
 
-        public bool isResettingHook = false;
+        private bool _casted = false;
+        public bool Casted { get => _casted; private set => _casted = value; }
 
-        private RodManager rodManager;
-        private CameraBehaviour cam;
-        private BucketBehaviour bucket;
+        [SerializeField, Min(0), Tooltip("Distance in meters that the hook must be within the water's surface beneath the hook's hanging point in order for the hook to be considered reeled in.")] private float _reeledInDistance = 10f;
+        public float ReeledInDistance { get => _reeledInDistance; private set => _reeledInDistance = value; }
+        [SerializeField, Tooltip("Game object for the fishing rod's hook.")] private HookBehaviour _hook;
+        public HookBehaviour Hook { get => _hook; private set => _hook = value; }
 
-        private void Awake()
-        {
-            rodManager = RodManager.instance;
-            anim = GetComponent<Animator>();
-            cam = CameraBehaviour.Instance;
-            bucket = BucketBehaviour.instance;
+        private Animator _animator;
+        private Animator _playerAnimator;
 
+        [SerializeField, Tooltip("Transforms that hold the positions of the fishing line start (end of the rod) in each idle animation frame.")] private List<Transform> _idleAnimationPositions;
+        [SerializeField, Tooltip("Transforms that hold the positions of the fishing line start (end of the rod) in each start cast animation frame.")] private List<Transform> _startCastAnimationPositions;
+        [SerializeField, Tooltip("Transforms that hold the positions of the fishing line start (end of the rod) in each cast animation frame.")] private List<Transform> _castAnimationPositions;
+        [SerializeField, Tooltip("Transforms that hold the positions of the fishing line start (end of the rod) in each reeling animation frame.")] private List<Transform> _reelingAnimationPositions;
+
+        private RodManager _rodManager;
+        private CameraBehaviour _camera;
+        private BucketBehaviour _bucket;
+        private ReelingMinigame _reelingMinigame;
+        private AudioManager _audioManager;
+        private UIManager _UIManager;
+        private PowerAndAngle _powerAndAngle;
+        private PlayerData _playerData;
+        private TooltipSystem _tooltipSystem;
+        private TutorialSystem _tutorialSystem;
+
+        private void Awake() {
+            _animator = GetComponent<Animator>();
             InputManager.onCastReel += StartCast;
         }
 
-        void Start()
-        {
-            casted = false;
-            playerAnim = rodManager.GetComponent<Animator>();
+        void Start() {
+            _rodManager = RodManager.Instance;
+            _camera = CameraBehaviour.Instance;
+            _bucket = BucketBehaviour.instance;
+            _reelingMinigame = ReelingMinigame.Instance;
+            _audioManager = AudioManager.instance;
+            _UIManager = UIManager.instance;
+            _powerAndAngle = PowerAndAngle.Instance;
+            _playerData = PlayerData.instance;
+            _tooltipSystem = TooltipSystem.instance;
+            _tutorialSystem = TutorialSystem.instance;
 
-            if (PlayerData.instance.hasSeenTutorialData.castTutorial) return;
+            Casted = false;
+            _playerAnimator = _rodManager.GetComponent<Animator>();
+
+            if (PlayerData.instance.hasSeenTutorialData.castTutorial) {
+                return;
+            }
+
             ShowCastingTutorial();
         }
 
-        void Update()
-        {
-            if (anim.GetBool("isReeling"))
-            {
-                AudioManager.instance.PlaySound("Reel", true);
-                hook.Reel(scriptable.reelSpeed);
-
-                Vector2 _waterSurfaceUnderRodPosition = new Vector2(hook.GetHookAnchorPoint().position.x, 0f);
-                if (Vector2.Distance(hook.transform.position, _waterSurfaceUnderRodPosition) <= reeledInDistance) OnReeledIn();
+        void Update() {
+            if (_animator.GetBool("isReeling")) {
+                Reel();
             }
         }
 
-        private void ShowCastingTutorial()
-        {
-            TutorialSystem.instance.QueueTutorial("Hold the left mouse button to begin casting.");
-        }
+        private void Reel() {
+            _audioManager.PlaySound("Reel", true);
+            Hook.Reel(Scriptable.reelSpeed);
 
-        public void StartReeling()
-        {
-            if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) return;
-            if (!casted) return;
-
-            if (hook.transform.position.y <= 0f)
-            {
-                anim.SetBool("isReeling", true);
-                playerAnim.SetBool("isReeling", true);
+            Vector2 _waterSurfaceUnderRodPosition = new Vector2(Hook.LinePivotPoint.position.x, 0f);
+            if (Vector2.Distance(Hook.transform.position, _waterSurfaceUnderRodPosition) <= ReeledInDistance) {
+                OnReeledIn();
             }
         }
 
-        public void StopReeling()
-        {
-            if (!anim.GetBool("isReeling")) return;
+        public void OnReeledIn() {
+            AddCatch();
 
-            AudioManager.instance.StopPlaying("Reel");
+            _reelingMinigame.EndMinigame();
 
-            anim.SetBool("isReeling", false);
-            playerAnim.SetBool("isReeling", false);
+            _audioManager.StopPlaying("Reel");
+
+            _animator.SetBool("isReeling", false);
+            _playerAnimator.SetBool("isReeling", false);
+
+            _camera.ReturnHome();
+
+            _UIManager.ShowHUDButtons();
+
+            Casted = false;
+            Hook.StartResettingHook();
         }
 
-        private void StartCast()
-        {
-            if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) return;
-            if (UIManager.instance.mouseOverUI || UIManager.instance.IsActiveUI() || TutorialSystem.instance.TutorialListings.content.gameObject.activeSelf) return;
-            if (casted) return;
+        private void AddCatch() {
+            if (Hook.HookedObject == null) {
+                return;
+            }
+            if (Hook.HookedObject.GetComponent<BaitBehaviour>()) {
+                return;
+            }
 
-            anim.SetTrigger("startCast");
-            playerAnim.SetTrigger("startCast");
+            _bucket.AddToBucket(_rodManager.EquippedRod.Hook.HookedObject.GetComponent<Fishable>());
+        }
 
-            UIManager.instance.HideHUDButtons();
+        private void ShowCastingTutorial() {
+            _tutorialSystem.QueueTutorial("Hold the left mouse button to begin casting.");
+        }
+
+        public void StartReeling() {
+            if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
+                return;
+            }
+            if (!Casted) {
+                return;
+            }
+
+            if (Hook.transform.position.y <= 0f) {
+                _animator.SetBool("isReeling", true);
+                _playerAnimator.SetBool("isReeling", true);
+            }
+        }
+
+        public void StopReeling() {
+            if (!_animator.GetBool("isReeling")) {
+                return;
+            }
+
+            _audioManager.StopPlaying("Reel");
+
+            _animator.SetBool("isReeling", false);
+            _playerAnimator.SetBool("isReeling", false);
+        }
+
+        private void StartCast() {
+            if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
+                return;
+            }
+            if (_UIManager.mouseOverUI || _UIManager.IsActiveUI() || _tutorialSystem.TutorialListings.content.gameObject.activeSelf) {
+                return;
+            }
+            if (Casted) {
+                return;
+            }
+
+            _animator.SetTrigger("startCast");
+            _playerAnimator.SetTrigger("startCast");
+
+            _UIManager.HideHUDButtons();
 
             InputManager.onCastReel -= StartCast;
 
-            PowerAndAngle.instance.StartAngling();
+            _powerAndAngle.StartAngling();
         }
 
-        public void Cast(float _angle, float _strength)
-        {
-            hook.Cast(_angle, _strength);
+        public void Cast(float angle, float strength) {
+            Hook.Cast(angle, strength);
 
-            anim.SetTrigger("cast");
-            playerAnim.SetTrigger("cast");
+            _animator.SetTrigger("cast");
+            _playerAnimator.SetTrigger("cast");
 
-            cam.LockPlayerControls = false;
-            InputManager.onCastReel += StartReeling;
-            InputManager.releaseCastReel += StopReeling;
+            _camera.LockPlayerControls = false;
+            AddReelInputs();
 
-            casted = true;
+            Casted = true;
         }
 
-        public void OnReeledIn()
-        {
-            AddCatch();
-
-            ReelingMinigame.Instance.EndMinigame();
-
-            AudioManager.instance.StopPlaying("Reel");
-
-            anim.SetBool("isReeling", false);
-            playerAnim.SetBool("isReeling", false);
-
-            cam.ReturnHome();
-
-            UIManager.instance.ShowHUDButtons();
-
-            casted = false;
-            isResettingHook = true;
-        }
-
-        private void AddCatch()
-        {
-            if (hook.hookedObject == null) return;
-            if (hook.hookedObject.GetComponent<BaitBehaviour>()) return;
-
-            bucket.AddToBucket(rodManager.equippedRod.GetHook().hookedObject.GetComponent<Fishable>());
-        }
-
-        public void ReEquipBait()
-        {
-            if (PlayerData.instance.equippedRod.equippedBait == null) return;
-            if (PlayerData.instance.equippedRod.equippedBait.baitName == null) return;
-
-            if (PlayerData.instance.equippedRod.equippedBait.amount <= 0)
-            {
-                TooltipSystem.instance.NewTooltip(3, "Out of bait: " + PlayerData.instance.equippedRod.equippedBait.baitName);
-
-                for (int i = 0; i < PlayerData.instance.baitSaveData.Count; i++)
-                {
-                    if (PlayerData.instance.baitSaveData[i].baitName != PlayerData.instance.equippedRod.equippedBait.baitName) continue;
-
-                    PlayerData.instance.baitSaveData.RemoveAt(i);
-                    break;
-                }
-                PlayerData.instance.equippedRod.equippedBait = null;
+        public void ReEquipBait() {
+            if (_playerData.equippedRod.equippedBait == null) {
+                return;
             }
-            else
-            {
-                PlayerData.instance.equippedRod.equippedBait.amount--;
-                rodManager.SpawnBait();
+
+            if (_playerData.equippedRod.equippedBait.baitName == null) {
+                return;
+            }
+
+            if (_playerData.equippedRod.equippedBait.amount <= 0) {
+                _tooltipSystem.NewTooltip(3, "Out of bait: " + _playerData.equippedRod.equippedBait.baitName);
+                _playerData.baitSaveData.Remove(_playerData.equippedRod.equippedBait);
+                _playerData.equippedRod.equippedBait = null;
+            }
+            else {
+                _playerData.equippedRod.equippedBait.amount--;
+                _rodManager.SpawnBait();
             }
         }
 
-        public void IdleLineAnchorPosition(int _index) => linePivotPoint.position = idleAnimationPositions[_index].position;
-        public void StartCastLineAnchorPosition(int _index) => linePivotPoint.position = startCastAnimationPositions[_index].position;
-        public void CastLineAnchorPosition(int _index) => linePivotPoint.position = castAnimationPositions[_index].position;
-        public void ReelingLineAnchorPosition(int _index) => linePivotPoint.position = reelingAnimationPositions[_index].position;
+        // Used in animation events to update the line's pivot point throughout keyframes
+        public void IdleLineAnchorPosition(int _index) {
+            LinePivotPoint.position = _idleAnimationPositions[_index].position;
+        }
+        public void StartCastLineAnchorPosition(int _index) {
+            LinePivotPoint.position = _startCastAnimationPositions[_index].position;
+        }
+        public void CastLineAnchorPosition(int _index) {
+            LinePivotPoint.position = _castAnimationPositions[_index].position;
+        }
+        public void ReelingLineAnchorPosition(int _index) {
+            LinePivotPoint.position = _reelingAnimationPositions[_index].position;
+        }
 
-        public HookBehaviour GetHook() => hook;
-        public Transform GetLinePivotPoint() => linePivotPoint;
-        public float GetLineLength() => scriptable.lineLength;
-        public string GetDescription() => scriptable.description;
-        public float GetReeledInDistance() => reeledInDistance;
-        public bool IsInStartingCastPosition() => linePivotPoint.position == startCastAnimationPositions[3].position;
-        public void ClearReelInputs()
-        {
+        public bool IsInStartingCastPosition() {
+            return LinePivotPoint.position == _startCastAnimationPositions[3].position;
+        }
+
+        public void ClearReelInputs() {
             InputManager.onCastReel -= StartReeling;
             InputManager.releaseCastReel -= StopReeling;
         }
 
-        public void AddReelInputs()
-        {
+        public void AddReelInputs() {
             InputManager.onCastReel += StartReeling;
             InputManager.releaseCastReel += StopReeling;
         }
 
-        public void AddCastInput()
-        {
+        public void AddCastInput() {
             InputManager.onCastReel += StartCast;
         }
 
         private void OnDestroy()
         {
-            Destroy(hook); // TODO: See if this call is necessary, as the rod behaviour may call the hook's OnDestroy anyway
+            //Destroy(hook); // TODO: See if this call is necessary, as the rod behaviour may call the hook's OnDestroy anyway
             InputManager.onCastReel -= StartCast;
         } 
     }

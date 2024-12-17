@@ -73,7 +73,7 @@ namespace Fishing.Gear
 
         private void CenterCamera()
         {
-            hook = RodManager.instance.equippedRod.GetHook();
+            hook = RodManager.Instance.EquippedRod.Hook;
             radarCamera.transform.position = hook.transform.position;
         }
 

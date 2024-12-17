@@ -1,158 +1,130 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using Fishing.IO;
+﻿using Fishing.IO;
+using Fishing.PlayerInput;
 using Fishing.UI;
 using Fishing.Util;
-using Fishing.PlayerInput;
+using UnityEngine;
+using UnityEngine.UI;
 
-namespace Fishing.FishingMechanics
-{
-    public class PowerAndAngle : MonoBehaviour
-    {
-        [Range(0f, 1.0f)]
-        [SerializeField] private float inactiveTransparency;
+namespace Fishing.FishingMechanics {
+    public class PowerAndAngle : MonoBehaviour {
+        private bool _isCharging;
+        public bool IsCharging { get => _isCharging; private set => _isCharging = value; }
 
-        [Header("Power Charge")]
-        [SerializeField] private Slider powerSlider;
-        [SerializeField] private Image powerImage;
-        [SerializeField] private Text powerText;
+        private float _targetCharge;
+        private float _chargeFrequency;
+        private float _power;
+        public float Power { get => _power; private set => _power = value; }
+        private float _minStrength;
+        private float _maxStrength;
 
+        private bool _isAngling;
+        public bool IsAngling { get => _isAngling; private set => _isAngling = value; }
 
-        [Header("Angle Arrow")]
-        [SerializeField] private RectTransform arrowRect;
-        [SerializeField] private Image arrowImage;
-        [SerializeField] private Text arrowText;
+        private float _targetAngle;
+        private float _minAngle = 0;
+        private float _maxAngle;
+        private float _angleFrequency;
+        private float _currentAngle;
+        public float CurrentAngle { get => _currentAngle; private set => _currentAngle = value; }
 
-        private bool isCharging;
-        private float targetCharge;
-        private float chargeFrequency;
-        private float charge;
-        private float minStrength;
-        private float maxStrength;
+        private RodManager _rodManager;
+        private RodBehaviour _equippedRod;
 
-        private bool isAngling;
-        private float targetAngle;
-        private float minAngle = 0;
-        private float maxAngle;
-        private float angleFrequency;
-        private float currentAngle;
+        private static PowerAndAngle _instance;
+        public static PowerAndAngle Instance { get => _instance; set => _instance = value; }
 
-        private RodManager rodManager;
-        private RodBehaviour equippedRod;
-
-        public static PowerAndAngle instance;
-
-        private PowerAndAngle() => instance = this;
-
-        private void Awake()
-        {
-            rodManager = RodManager.instance;
+        private void Awake() {
+            Instance = this;
         }
 
-        private void Start()
-        {
-            transform.SetParent(UIManager.instance.transform);
+        private void Start() {
+            _rodManager = RodManager.Instance;
         }
 
-        void Update()
-        {
-            if (isAngling)
-            {
-                if (!rodManager.equippedRod.GetHook().IsInStartCastPosition()) return;
+        void Update() {
+            if (IsAngling) {
+                if (!_rodManager.EquippedRod.Hook.IsInStartCastPosition()) {
+                    return;
+                }
 
-                transform.SetParent(UIManager.instance.rodCanvas.transform);
                 Angle();
             }
-            else if (isCharging) Charge();
+
+            else if (IsCharging) {
+                Charge();
+            }
         }
-        public void StartCharging()
-        {
-            minStrength = equippedRod.scriptable.minCastStrength;
-            maxStrength = equippedRod.scriptable.maxCastStrength;
-            chargeFrequency = equippedRod.scriptable.chargeFrequency;
 
-            charge = minStrength;
-            targetCharge = maxStrength;
+        public void StartCharging() {
+            _minStrength = _equippedRod.Scriptable.minCastStrength;
+            _maxStrength = _equippedRod.Scriptable.maxCastStrength;
+            _chargeFrequency = _equippedRod.Scriptable.chargeFrequency;
 
-            powerImage.color = Utilities.SetTransparency(powerImage.color, 1f);
-            powerText.color = Utilities.SetTransparency(powerText.color, 1f);
-            arrowImage.color = Utilities.SetTransparency(arrowImage.color, inactiveTransparency);
-            arrowText.color = Utilities.SetTransparency(arrowText.color, inactiveTransparency);
+            Power = _minStrength;
+            _targetCharge = _maxStrength;
 
             InputManager.onCastReel -= StartCharging;
             InputManager.onCastReel += Cast;
 
-            isCharging = true;
-            isAngling = false;
+            IsCharging = true;
+            IsAngling = false;
 
-            if (PlayerData.instance.hasSeenTutorialData.castTutorial) return;
+            if (PlayerData.instance.hasSeenTutorialData.castTutorial) {
+                return;
+            }
+
             TutorialSystem.instance.QueueTutorial("Release the left mouse button to set your power", true, 3f);
         }
 
-        private void Charge()
-        {
-            OscillateInfo _oscillateInfo = Utilities.OscillateFloat(minStrength, maxStrength, charge, chargeFrequency * Time.deltaTime / 1, targetCharge);
-            charge = _oscillateInfo.value;
-            targetCharge = _oscillateInfo.newTarget;
+        private void Charge() {
+            OscillateInfo _oscillateInfo = Utilities.OscillateFloat(_minStrength, _maxStrength, Power, _chargeFrequency * Time.deltaTime / 1, _targetCharge);
+            Power = _oscillateInfo.value;
+            _targetCharge = _oscillateInfo.newTarget;
 
-            powerSlider.value = Mathf.InverseLerp(minStrength, maxStrength, charge);
-            AudioManager.instance.GetSource("Power Audio").pitch = Mathf.InverseLerp(minStrength, maxStrength, charge);
+            AudioManager.instance.GetSource("Power Audio").pitch = Mathf.InverseLerp(_minStrength, _maxStrength, Power);
         }
 
-        public void StartAngling()
-        {
-            equippedRod = rodManager.equippedRod;
-            maxAngle = equippedRod.scriptable.maxCastAngle;
-            angleFrequency = equippedRod.scriptable.angleFrequency;
+        public void StartAngling() {
+            _equippedRod = _rodManager.EquippedRod;
+            _maxAngle = _equippedRod.Scriptable.maxCastAngle;
+            _angleFrequency = _equippedRod.Scriptable.angleFrequency;
 
-            currentAngle = 0f;
-            targetAngle = maxAngle;
-
-            arrowRect.rotation = Quaternion.identity;
-
-            arrowImage.color = Utilities.SetTransparency(arrowImage.color, 1f);
-            arrowText.color = Utilities.SetTransparency(arrowText.color, 1f);
-            powerImage.color = Utilities.SetTransparency(powerImage.color, inactiveTransparency);
-            powerText.color = Utilities.SetTransparency(powerText.color, inactiveTransparency);
+            CurrentAngle = 0f;
+            _targetAngle = _maxAngle;
 
             InputManager.onCastReel += StartCharging;
             AudioManager.instance.PlaySound("Power Audio");
 
-            isAngling = true;
-            isCharging = false;
+            IsAngling = true;
+            IsCharging = false;
 
-            if (PlayerData.instance.hasSeenTutorialData.castTutorial) return;
+            if (PlayerData.instance.hasSeenTutorialData.castTutorial) {
+                return;
+            }
+
             TutorialSystem.instance.QueueTutorial("Click the left mouse button once more to set your angle and cast.", true, 3f);
             PlayerData.instance.hasSeenTutorialData.castTutorial = true;
         }
 
-        private void Angle()
-        {
-            OscillateInfo _oscillateInfo = Utilities.OscillateFloat(minAngle, maxAngle, currentAngle, angleFrequency * Time.deltaTime / 1, targetAngle);
-            currentAngle = _oscillateInfo.value;
-            targetAngle = _oscillateInfo.newTarget;
+        private void Angle() {
+            OscillateInfo _oscillateInfo = Utilities.OscillateFloat(_minAngle, _maxAngle, CurrentAngle, _angleFrequency * Time.deltaTime / 1, _targetAngle);
+            CurrentAngle = _oscillateInfo.value;
+            _targetAngle = _oscillateInfo.newTarget;
 
-            arrowRect.rotation = Quaternion.Euler(0f, 0f, currentAngle);
-            AudioManager.instance.GetSource("Power Audio").pitch = Mathf.InverseLerp(minAngle, maxAngle, currentAngle) + AudioManager.instance.GetSound("Power Audio").pitch;
+            AudioManager.instance.GetSource("Power Audio").pitch = Mathf.InverseLerp(_minAngle, _maxAngle, CurrentAngle) + AudioManager.instance.GetSound("Power Audio").pitch;
         }
 
 
-        private void Cast()
-        {
-            if (!RodManager.instance.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Start Cast")) return;
+        private void Cast() {
+            if (!RodManager.Instance.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Start Cast")) { // TODO: Switch away from relying on animator state info to determine state
+                return;
+            }
+
             AudioManager.instance.StopPlaying("Power Audio");
-            isAngling = isCharging = false;
-            transform.SetParent(UIManager.instance.transform);
-            rodManager.equippedRod.Cast(currentAngle, charge);
+            IsAngling = IsCharging = false;
+            _rodManager.EquippedRod.Cast(CurrentAngle, Power);
             InputManager.onCastReel -= Cast;
         }
-
-        public bool IsCharging() => isCharging;
-        public bool IsAngling() => isAngling;
-        public float GetCharge() => charge;
-        public float GetAngle() => currentAngle;
     }
 
 }

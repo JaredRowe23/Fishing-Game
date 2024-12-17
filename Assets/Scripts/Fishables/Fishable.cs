@@ -2,6 +2,7 @@
 using Fishing.Util;
 using UnityEngine;
 using Fishing.Fishables.FishGrid;
+using Fishing.FishingMechanics.Minigame;
 
 namespace Fishing.Fishables {
     public class Fishable : MonoBehaviour
@@ -74,7 +75,7 @@ namespace Fishing.Fishables {
         }
 
         private void Awake() {
-            _rodManager = RodManager.instance;
+            _rodManager = RodManager.Instance;
             _spawner = transform.parent.GetComponent<ISpawn>();
             _minimapIndicator = GetComponentInChildren<RadarScanObject>();
             _fishableGrid = FishableGrid.instance;
@@ -98,13 +99,14 @@ namespace Fishing.Fishables {
         public void OnHooked() {
             IsHooked = true;
             _spawner.RemoveFromSpawner(gameObject);
-            transform.parent = _rodManager.equippedRod.GetHook().transform;
+            transform.parent = _rodManager.EquippedRod.Hook.transform;
         }
 
         private void OnTriggerEnter2D(Collider2D other) {
             if (other.TryGetComponent(out HookBehaviour hook)) {
-                if (hook.hookedObject == null) {
+                if (hook.HookedObject == null) {
                     hook.SetHook(this);
+                    ReelingMinigame.Instance.InitiateMinigame(this);
                 }
             }
         }
@@ -112,8 +114,8 @@ namespace Fishing.Fishables {
         private void OnDestroy() {
             _fishableGrid.RemoveFromGridSquares(this, _gridSquare[0], _gridSquare[1]);
             _spawner.RemoveFromSpawner(gameObject);
-            if (_rodManager.equippedRod.GetHook().hookedObject == gameObject) {
-                _rodManager.equippedRod.GetHook().hookedObject = null;
+            if (_rodManager.EquippedRod.Hook.HookedObject == gameObject) {
+                _rodManager.EquippedRod.Hook.HookedObject = null;
             }
         }
     }

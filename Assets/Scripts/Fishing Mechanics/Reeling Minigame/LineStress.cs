@@ -30,7 +30,7 @@ namespace Fishing.FishingMechanics.Minigame {
             _minigame = ReelingMinigame.Instance;
             _minigameFish = MinigameFish.Instance;
             _reelZone = ReelZone.Instance;
-            _rodManager = RodManager.instance;
+            _rodManager = RodManager.Instance;
         }
 
         private void FixedUpdate() {
@@ -105,7 +105,7 @@ namespace Fishing.FishingMechanics.Minigame {
 
         public void InitializeMinigame() {
             _lineStress = 0f;
-            _lineStrength = _rodManager.equippedRod.scriptable.lineStrength;
+            _lineStrength = _rodManager.EquippedRod.Scriptable.lineStrength;
             _reelingBarFill.color = GetStressColor();
         }
     }

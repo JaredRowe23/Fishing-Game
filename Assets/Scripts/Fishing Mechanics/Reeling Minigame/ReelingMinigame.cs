@@ -43,14 +43,14 @@ namespace Fishing.FishingMechanics.Minigame {
             _fishIcon = MinigameFish.Instance;
             _distanceBar = DistanceBar.Instance;
 
-            _rodManager = RodManager.instance;
+            _rodManager = RodManager.Instance;
 
             IsInMinigame = false;
             ShowMinigame(false);
         }
 
         public void InitiateMinigame(Fishable fishable) {
-            _equippedRod = _rodManager.equippedRod;
+            _equippedRod = _rodManager.EquippedRod;
             _fishable = fishable;
 
             ShowMinigame(true);
@@ -72,7 +72,7 @@ namespace Fishing.FishingMechanics.Minigame {
         }
 
         private void PopulateUIText() {
-            _lineStrengthText.text = $"Line STR - {_equippedRod.scriptable.lineStrength.ToString()}";
+            _lineStrengthText.text = $"Line STR - {_equippedRod.Scriptable.lineStrength.ToString()}";
             _fishNameText.text = _fishable.ItemName;
             _fishStrengthText.text = $"Diff - x{_fishable.GetComponent<MinigameStats>().MinigameDifficulty.ToString("F2")}";
         }
@@ -102,8 +102,8 @@ namespace Fishing.FishingMechanics.Minigame {
         }
 
         public void OnLineSnap() {
-            _equippedRod.GetHook().DestroyHookedObject(); // TODO: Remove this Destroy call after checking to see if fishables are functional when released from the hook
-            _equippedRod.GetHook().hookedObject = null;
+            _equippedRod.Hook.DestroyHookedObject(); // TODO: Remove this Destroy call after checking to see if fishables are functional when released from the hook
+            _equippedRod.Hook.HookedObject = null;
             _equippedRod.StopReeling();
 
             InputManager.onCastReel -= StartReeling;

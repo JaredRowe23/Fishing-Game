@@ -14,13 +14,12 @@ namespace Fishing.UI
         public Image Sprite { get { return sprite; } private set { } }
         [SerializeField] private GameObject equippedCheck;
         public GameObject EquippedCheck { get { return equippedCheck; } private set { } }
-        public GameObject itemReference;
 
         private RodManager rodManager;
 
         private void Awake()
         {
-            rodManager = RodManager.instance;
+            rodManager = RodManager.Instance;
         }
 
         public void UpdateInfoMenu()
@@ -28,7 +27,7 @@ namespace Fishing.UI
             if (!RodInfoMenu.instance.gameObject.activeSelf) {
                 RodInfoMenu.instance.gameObject.SetActive(true);
             }
-            RodInfoMenu.instance.UpdateRodInfo(rodManager.equippedRod.GetComponent<RodBehaviour>());
+            RodInfoMenu.instance.UpdateRodInfo(rodManager.EquippedRod.GetComponent<RodBehaviour>());
         }
 
         public void EquipRod()
@@ -37,7 +36,7 @@ namespace Fishing.UI
             {
                 if (_child.GetComponent<Text>())
                 {
-                    rodManager.EquipRod(itemReference.GetComponent<RodBehaviour>().scriptable.rodName, true);
+                    rodManager.EquipRod(Title.text, true);
                 }
             }
         }

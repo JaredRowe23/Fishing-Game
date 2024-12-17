@@ -1,5 +1,4 @@
 ﻿using Fishing.Fishables;
-using Fishing.FishingMechanics.Minigame;
 using Fishing.IO;
 using Fishing.PlayerCamera;
 using Fishing.UI;
@@ -7,36 +6,43 @@ using UnityEngine;
 
 namespace Fishing.FishingMechanics {
     public class HookBehaviour : MonoBehaviour {
-        public GameObject hookedObject;
+        private GameObject _hookedObject;
+        public GameObject HookedObject { get => _hookedObject; set => _hookedObject = value; }
 
-        [SerializeField] private Transform linePivotPoint;
-        [SerializeField] private Transform hookPivotPoint;
-        [SerializeField] private float resetSpeed;
-        [SerializeField] private float hookHangHeight;
+        [SerializeField, Tooltip("Transform indicating the position of the start of the fishing line.")] private Transform _linePivotPoint;
+        public Transform LinePivotPoint { get => _linePivotPoint; set => _linePivotPoint = value; }
+
+        [SerializeField, Tooltip("Transform indicating the position of the end of the fishing line.")] private Transform _hookPivotPoint;
+        [SerializeField, Min(0), Tooltip("Time in seconds the hook takes to reset to its hang height below the fishing rod.")] private float _resetTime = 1f;
+        [SerializeField, Min(0), Tooltip("Length in meters below the end of the fishing rod the fishing hook hangs.")] private float _hookHangHeight;
 
         [Header("Water Physics")]
-        [SerializeField] private float drag;
-        [SerializeField] private float waterDrag;
+        [SerializeField, Min(0), Tooltip("Drag force the hook experiences while in the air.")] private float _airDrag;
+        [SerializeField, Min(0), Tooltip("Drag force the hook experiences while in the water.")] private float _waterDrag;
 
-        private bool playedSplash;
+        private bool _isResetting;
+        private bool _hasPlayedSplashAudio;
 
-        private Vector2 targetPos;
-        private RodBehaviour rod;
-        private Rigidbody2D rb;
-        private CameraBehaviour cam;
+        private Vector2 _targetPos;
+        private float _distanceFromTarget;
+        private RodBehaviour _rod;
+        private Rigidbody2D _rigidbody;
+        private CameraBehaviour _camera;
 
-        private LineRenderer lineRenderer;
+        private LineRenderer _lineRenderer;
+
 
         private void Awake() {
-            lineRenderer = GetComponent<LineRenderer>();
+            _lineRenderer = GetComponent<LineRenderer>();
+            _rigidbody = GetComponent<Rigidbody2D>();
+            _rod = transform.parent.GetComponent<RodBehaviour>();
         }
 
         private void Start() {
-            rod = transform.parent.GetComponent<RodBehaviour>();
-            rb = GetComponent<Rigidbody2D>();
-            cam = CameraBehaviour.Instance;
-
-            lineRenderer.SetPosition(0, linePivotPoint.position);
+            _camera = CameraBehaviour.Instance;
+            _lineRenderer.SetPosition(0, LinePivotPoint.position);
+            _rigidbody.isKinematic = true;
+            _rigidbody.velocity = Vector3.zero;
         }
 
         void Update() {
@@ -49,52 +55,35 @@ namespace Fishing.FishingMechanics {
                 OnSurfaced(); 
             }
 
-            if (!rod.casted) {
-                HandleNotCasted();
-                return;
-            }
+            if (!_rod.Casted) {
+                _targetPos = LinePivotPoint.position - new Vector3(0, _hookHangHeight, 0);
 
-            HandlePhysics();
+                if (!_isResetting) {
+                    transform.position = _targetPos;
+                }
+                else {
+                    HandleNotCasted();
+                }
+            }
+            else {
+                HandlePhysics();
+            }
         }
 
         private void SetLineRendererPositions() {
-            lineRenderer.SetPosition(0, linePivotPoint.position);
-            lineRenderer.SetPosition(1, hookPivotPoint.position);
-        }
-
-        private void HandleNotCasted() {
-            rb.isKinematic = true;
-            rb.velocity = Vector2.zero;
-            targetPos = linePivotPoint.position - new Vector3(0, hookHangHeight, 0);
-            transform.position = Vector2.MoveTowards(transform.position, targetPos, resetSpeed * Time.deltaTime);
-            if (Vector2.Distance(transform.position, targetPos) == 0f && rod.isResettingHook) {
-                rod.AddCastInput();
-                rod.isResettingHook = false;
-            }
-        }
-
-        private void HandlePhysics() {
-            float _distanceFromPivot = Vector2.Distance(transform.position, linePivotPoint.position);
-            if (_distanceFromPivot >= rod.GetLineLength()) {
-                transform.position += (linePivotPoint.position - transform.position).normalized * (_distanceFromPivot - rod.GetLineLength());
-            }
-            else {
-                rb.gravityScale = 1;
-                rb.isKinematic = false;
-            }
-
-            cam.DesiredPosition = transform.position;
+            _lineRenderer.SetPosition(0, LinePivotPoint.position);
+            _lineRenderer.SetPosition(1, _hookPivotPoint.position);
         }
 
         private void OnSubmerged() {
-            if (!playedSplash) {
+            if (!_hasPlayedSplashAudio) {
                 AudioManager.instance.PlaySound("Hook Splash");
-                playedSplash = true;
+                _hasPlayedSplashAudio = true;
             }
-            rb.drag = waterDrag;
+            _rigidbody.drag = _waterDrag;
 
-            if (!PlayerData.instance.hasSeenTutorialData.reelingTutorial) { 
-                ShowReelingTutorial(); 
+            if (!PlayerData.instance.hasSeenTutorialData.reelingTutorial) {
+                ShowReelingTutorial();
             }
         }
 
@@ -105,46 +94,78 @@ namespace Fishing.FishingMechanics {
         }
 
         private void OnSurfaced() {
-            rb.drag = drag;
-            playedSplash = false;
+            _rigidbody.drag = _airDrag;
+            _hasPlayedSplashAudio = false;
+        }
+
+        private void HandleNotCasted() {
+            transform.position = Vector2.MoveTowards(transform.position, _targetPos, _distanceFromTarget / _resetTime * Time.deltaTime);
+            float distance = Vector2.Distance(transform.position, _targetPos);
+            if (distance == 0f && _isResetting) {
+                _rod.AddCastInput();
+                _isResetting = false;
+            }
+        }
+
+        private void HandlePhysics() {
+            float _distanceFromPivot = Vector2.Distance(transform.position, LinePivotPoint.position);
+            if (_distanceFromPivot >= _rod.Scriptable.lineLength) {
+                transform.position += (LinePivotPoint.position - transform.position).normalized * (_distanceFromPivot - _rod.Scriptable.lineLength);
+            }
+            //else {
+                // _rigidbody.gravityScale = 1; May be pointless, as nothing changes this?
+                // _rigidbody.isKinematic = false; May also be pointless, as this should already be set to false when casted and only reset when the hook is reeled in or the line's snapped
+            //}
+
+            _camera.DesiredPosition = transform.position;
+        }
+
+        public void StartResettingHook() {
+            _isResetting = true;
+
+            _rigidbody.isKinematic = true;
+            _rigidbody.velocity = Vector2.zero;
+            _distanceFromTarget = Vector2.Distance(transform.position, LinePivotPoint.position);
         }
 
         public void Cast(float _angle, float _force) {
-            rb.isKinematic = false;
+            _rigidbody.isKinematic = false;
             Quaternion rot = Quaternion.AngleAxis(_angle, Vector3.forward);
-            rb.AddForce(rot * Vector2.right * _force);
+            _rigidbody.AddForce(rot * Vector2.right * _force);
         }
 
-        public void Reel(float _force) => rb.AddForce(_force * Time.deltaTime * Vector3.Normalize(linePivotPoint.position - transform.position));
-
-        public Transform GetHookAnchorPoint() => linePivotPoint;
+        public void Reel(float _force) {
+            _rigidbody.AddForce(_force * Time.deltaTime * Vector3.Normalize(LinePivotPoint.position - transform.position));
+        }
 
         public void SetHook(Fishable _fishable) {
-            if (hookedObject != null && !hookedObject.TryGetComponent(out BaitBehaviour _)) { 
+            if (HookedObject != null && !HookedObject.TryGetComponent(out BaitBehaviour _)) { 
                 return; 
             }
-            if (rod.isResettingHook) { 
+            if (_isResetting || !_rod.Casted) { 
                 return; 
             }
 
             _fishable.OnHooked();
-            hookedObject = _fishable.gameObject;
-            hookedObject.transform.position = transform.position;
-
-            ReelingMinigame.Instance.InitiateMinigame(_fishable);
+            HookedObject = _fishable.gameObject;
+            HookedObject.transform.position = transform.position;
         }
 
         public void DestroyHookedObject() {
-            if (hookedObject != null) {
-                Destroy(hookedObject);
+            if (HookedObject != null) {
+                Destroy(HookedObject);
             }
         }
 
-        public bool IsInStartCastPosition() => ((Vector2)transform.position == targetPos) && rod.IsInStartingCastPosition();
+        public bool IsInStartCastPosition() {
+            return ((Vector2)transform.position == _targetPos) && _rod.IsInStartingCastPosition();
+        }
 
+        /*
         private void OnDestroy() {
             DestroyHookedObject(); // TODO: See if this call is necessary, as the hook behaviour may call the hooked object's OnDestroy anyway
         }
+        */
     }
 
 }

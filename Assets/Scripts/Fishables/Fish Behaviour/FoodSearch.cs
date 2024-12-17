@@ -3,6 +3,7 @@ using Fishing.Util;
 using System.Collections.Generic;
 using UnityEngine;
 using Fishing.Fishables.FishGrid;
+using Fishing.FishingMechanics.Minigame;
 
 namespace Fishing.Fishables.Fish {
     [RequireComponent(typeof(Fishable), typeof(Hunger), typeof(Edible))]
@@ -48,7 +49,7 @@ namespace Fishing.Fishables.Fish {
             _hunger = GetComponent<Hunger>();
             _fishable = GetComponent<Fishable>();
             _edible = GetComponent<Edible>();
-            _rodManager = RodManager.instance;
+            _rodManager = RodManager.Instance;
         }
 
         private void FixedUpdate() {
@@ -77,22 +78,25 @@ namespace Fishing.Fishables.Fish {
         }
 
         public void Eat() {
-            HookBehaviour hook = _rodManager.equippedRod.GetHook();
+            HookBehaviour hook = _rodManager.EquippedRod.Hook;
 
             if (hook.gameObject == DesiredFood) {
                 hook.SetHook(_fishable);
+                ReelingMinigame.Instance.InitiateMinigame(_fishable);
                 return;
             }
 
             if (DesiredFood.TryGetComponent(out Fishable fishable)) {
                 if (fishable.IsHooked) {
                     hook.SetHook(_fishable);
+                    ReelingMinigame.Instance.InitiateMinigame(_fishable);
                 }
                 _hunger.AddFood(DesiredFood.GetComponent<Edible>());
             }
 
             else if (DesiredFood.TryGetComponent(out BaitBehaviour _)) {
                 hook.SetHook(_fishable);
+                ReelingMinigame.Instance.InitiateMinigame(_fishable);
             }
 
             GetComponent<AudioSource>().Play();

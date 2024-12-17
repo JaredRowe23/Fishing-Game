@@ -1,20 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Fishing.PlayerInput;
+using UnityEngine;
 
-namespace Fishing.FishingMechanics
-{
-    public class HookInput : MonoBehaviour
-    {
-        [SerializeField] private float moveSpeed = 20f;
+namespace Fishing.FishingMechanics {
+    public class HookInput : MonoBehaviour {
+        [SerializeField, Min(0), Tooltip("Amount of force to be applied per second to the hook when directional inputs are pressed.")] private float _moveForce = 20f;
 
-        private Rigidbody2D rb;
-        private float direction = 0f;
+        private Rigidbody2D _rigidbody;
+        private float _direction = 0f;
 
-        private void Awake()
-        {
-            rb = GetComponent<Rigidbody2D>();
+        private void Awake() {
+            _rigidbody = GetComponent<Rigidbody2D>();
 
             InputManager.onMoveLeft += MoveLeft;
             InputManager.onMoveRight += MoveRight;
@@ -22,17 +17,30 @@ namespace Fishing.FishingMechanics
             InputManager.releaseMoveRight += StopRight;
         }
 
-        private void Update()
-        {
-            if (direction == 0) return;
-            if (transform.position.y > 0f) return;
-            rb.AddForce(new Vector2(direction * moveSpeed * Time.deltaTime, 0));
+        private void Update() {
+            if (_direction == 0) {
+                return;
+            }
+
+            if (transform.position.y > 0f) {
+                return;
+            }
+
+            _rigidbody.AddForce(new Vector2(_direction * _moveForce * Time.deltaTime, 0));
         }
 
-        private void MoveLeft() => direction = -moveSpeed;
-        private void MoveRight() => direction = moveSpeed;
+        private void MoveLeft() {
+            _direction = -_moveForce;
+        }
+        private void MoveRight() {
+            _direction = _moveForce;
+        }
 
-        private void StopLeft() => direction = 0f;
-        private void StopRight() => direction = 0f;
+        private void StopLeft() {
+            _direction = 0f;
+        }
+        private void StopRight() {
+            _direction = 0f;
+        }
     }
 }

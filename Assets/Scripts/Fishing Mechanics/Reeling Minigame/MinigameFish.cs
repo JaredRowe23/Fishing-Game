@@ -49,7 +49,7 @@ namespace Fishing.FishingMechanics.Minigame {
 
         private void Start() {
             _minigame = ReelingMinigame.Instance;
-            _rodManager = RodManager.instance;
+            _rodManager = RodManager.Instance;
         }
 
         private void FixedUpdate() {
@@ -74,8 +74,8 @@ namespace Fishing.FishingMechanics.Minigame {
         }
 
         private void MoveHookAwayFromPlayer() {
-            Vector3 direction = Vector3.Normalize(_fishable.transform.position - _rodManager.equippedRod.GetLinePivotPoint().position);
-            _rodManager.equippedRod.GetHook().transform.position += _swimSpeed * Time.fixedDeltaTime * direction;
+            Vector3 direction = Vector3.Normalize(_fishable.transform.position - _rodManager.EquippedRod.LinePivotPoint.position);
+            _rodManager.EquippedRod.Hook.transform.position += _swimSpeed * Time.fixedDeltaTime * direction;
 
             float rotationAngle = Vector2.Angle(Vector2.up, direction);
             _fishable.transform.rotation = Quaternion.Euler(0, 0, rotationAngle);

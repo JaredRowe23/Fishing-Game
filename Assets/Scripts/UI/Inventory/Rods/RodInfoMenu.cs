@@ -33,18 +33,18 @@ namespace Fishing.UI
 
         private void Awake()
         {
-            UpdateRodInfo(RodManager.instance.equippedRod);
+            UpdateRodInfo(RodManager.Instance.EquippedRod);
         }
 
         public void UpdateRodInfo(RodBehaviour _rod)
         {
             reference = _rod;
-            rodSprite.sprite = _rod.inventorySprite;
-            rodName.text = _rod.scriptable.rodName;
-            rodDescription.text = _rod.scriptable.description;
+            rodSprite.sprite = _rod.InventorySprite;
+            rodName.text = _rod.Scriptable.rodName;
+            rodDescription.text = _rod.Scriptable.description;
 
-            if (_rod.equippedBait != null) {
-                baitButton.UpdateButton(_rod.equippedBait.Scriptable.baitName, _rod.equippedBait.Scriptable.inventorySprite);
+            if (_rod.EquippedBait != null) {
+                baitButton.UpdateButton(_rod.EquippedBait.Scriptable.baitName, _rod.EquippedBait.Scriptable.inventorySprite);
             }
             else {
                 baitButton.UpdateButton("No Bait", null);

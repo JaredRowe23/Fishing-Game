@@ -29,11 +29,11 @@ namespace Fishing.FishingMechanics.Minigame {
         }
 
         private void Start() {
-            _rodManager = RodManager.instance;
+            _rodManager = RodManager.Instance;
         }
 
         private void FixedUpdate() {
-            _currentDistance = Vector2.Distance(_fishable.transform.position, _rod.GetHook().GetHookAnchorPoint().position) - _rodReeledInDistance; // TODO: Change the hook resting position to a static position so that reeling animations don't change this distance.
+            _currentDistance = Vector2.Distance(_fishable.transform.position, _rod.Hook.LinePivotPoint.position) - _rodReeledInDistance; // TODO: Change the hook resting position to a static position so that reeling animations don't change this distance.
             if (_currentDistance > _furthestDistance) {
                 _furthestDistance = _currentDistance;
             }
@@ -57,10 +57,10 @@ namespace Fishing.FishingMechanics.Minigame {
 
         public void InitializeMinigame(Fishable fishable) {
             _fishable = fishable;
-            _rod = _rodManager.equippedRod;
+            _rod = _rodManager.EquippedRod;
 
-            _rodReeledInDistance = _rod.GetReeledInDistance();
-            _currentDistance = Vector2.Distance(_fishable.transform.position, _rod.GetHook().GetHookAnchorPoint().position) - _rodReeledInDistance;
+            _rodReeledInDistance = _rod.ReeledInDistance;
+            _currentDistance = Vector2.Distance(_fishable.transform.position, _rod.Hook.LinePivotPoint.position) - _rodReeledInDistance;
             _furthestDistance = _currentDistance;
 
             _hookIconTargetX = _distanceBarMaxX;

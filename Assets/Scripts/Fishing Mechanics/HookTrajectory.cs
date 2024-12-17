@@ -1,147 +1,137 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Fishing.PlayerCamera;
 using Fishing.Util;
+using System.Collections.Generic;
+using UnityEngine;
 
-namespace Fishing.FishingMechanics
-{
-    public class HookTrajectory : MonoBehaviour
-    {
+namespace Fishing.FishingMechanics {
+    public class HookTrajectory : MonoBehaviour {
         private PowerAndAngle powerAngle;
 
-        [SerializeField] private float trajectoryStep = 0.1f;
-        [SerializeField] private int trajectoryMaxSteps = 20;
+        [SerializeField, Min(0), Tooltip("Time length in seconds for each trajectory simulation step.")] private float _trajectoryStep = 0.1f;
+        [SerializeField, Min(0), Tooltip("How many steps the trajectory simulation should generate.")] private int _trajectoryMaxSteps = 20;
 
-        [SerializeField] private LineRenderer trajectoryLineRenderer;
-        [SerializeField] private LineRenderer minTrajectoryLineRenderer;
-        [SerializeField] private LineRenderer maxTrajectoryLineRenderer;
+        [SerializeField, Tooltip("Line renderer for the main trajectory projection (what the hook will actually follow)")] private LineRenderer _trajectoryLineRenderer;
+        [SerializeField, Tooltip("Line renderer for the minimum trajectory projection (if you choose the lowest power)")] private LineRenderer _minTrajectoryLineRenderer;
+        [SerializeField, Tooltip("Line renderer for the maximum trajectory projection (if you choose the highest power)")] private LineRenderer _maxTrajectoryLineRenderer;
 
-        [SerializeField] private Material trajectoryMat;
-        [SerializeField] private Material minTrajectoryMat;
-        [SerializeField] private Material maxTrajectoryMat;
+        [SerializeField, Tooltip("Material to display the main trajectory projection with.")] private Material _trajectoryMat;
+        [SerializeField, Tooltip("Material to display the minimum trajectory projection with.")] private Material _minTrajectoryMat;
+        [SerializeField, Tooltip("Material to display the maximum trajectory projection with.")] private Material _maxTrajectoryMat;
 
-        [Range(1.0f, 2.0f)]
-        [SerializeField] private float trajectoryCameraZoomMagnitude = 1.25f;
-        [Range(0f, 1.0f)]
-        [SerializeField] private float trajectoryLineWidthZoomModifier = 0.04f;
+        [SerializeField, Range(1f, 2f), Tooltip("How much to zoom the camera out compared to the length of the furthest reaching trajectory. 1 captures the full trajectory, higher values zoom out to give extra space.")] private float _trajectoryCameraZoomMagnitude = 1.25f;
+        [SerializeField, Range(0f, 1f), Tooltip("Size of the trajectory dots in relation to the camera zoom.")] private float _trajectoryLineWidthZoomModifier = 0.04f;
 
-        private List<Vector2> trajectoryPoints;
-        private List<Vector2> minimumTrajectoryPoints;
-        private List<Vector2> maximumTrajectoryPoints;
+        private List<Vector2> _trajectoryPoints;
+        private List<Vector2> _minimumTrajectoryPoints;
+        private List<Vector2> _maximumTrajectoryPoints;
 
-        private RodBehaviour equippedRod;
-        private CameraBehaviour cam;
+        private RodBehaviour _equippedRod;
+        private CameraBehaviour _camera;
 
-        public static HookTrajectory instance;
-
-        private HookTrajectory() => instance = this;
-
-        private void Awake()
-        {
-            powerAngle = PowerAndAngle.instance;
-            cam = CameraBehaviour.Instance;
-
-            trajectoryLineRenderer.material = trajectoryMat;
-            minTrajectoryLineRenderer.material = minTrajectoryMat;
-            maxTrajectoryLineRenderer.material = maxTrajectoryMat;
+        private void Awake() {
+            _trajectoryLineRenderer.material = _trajectoryMat;
+            _minTrajectoryLineRenderer.material = _minTrajectoryMat;
+            _maxTrajectoryLineRenderer.material = _maxTrajectoryMat;
         }
 
-        private void Update()
-        {
-            equippedRod = RodManager.instance.equippedRod;
+        private void Start() {
+            powerAngle = PowerAndAngle.Instance;
+            _camera = CameraBehaviour.Instance;
+        }
 
-            if (equippedRod.casted || !equippedRod.GetHook().IsInStartCastPosition())
-            {
+        private void Update() {
+            _equippedRod = RodManager.Instance.EquippedRod;
+
+            if (_equippedRod.Casted || !_equippedRod.Hook.IsInStartCastPosition()) {
                 HideLineRenderers();
                 return;
             }
 
-            if (powerAngle.IsAngling()) GenerateAnglingTrajectories();
-            else GeneratePowerTrajectories();
+            if (powerAngle.IsAngling) {
+                GenerateAnglingTrajectories();
+            }
+            else {
+                GeneratePowerTrajectories();
+            }
         }
 
-        private void HideLineRenderers()
-        {
-            trajectoryLineRenderer.enabled = false;
-            minTrajectoryLineRenderer.enabled = false;
-            maxTrajectoryLineRenderer.enabled = false;
+        private void HideLineRenderers() {
+            _trajectoryLineRenderer.enabled = false;
+            _minTrajectoryLineRenderer.enabled = false;
+            _maxTrajectoryLineRenderer.enabled = false;
         }
 
-        private void GenerateAnglingTrajectories()
-        {
-            minimumTrajectoryPoints = GetTrajectoryPoints(equippedRod.scriptable.minCastStrength, powerAngle.GetAngle());
-            maximumTrajectoryPoints = GetTrajectoryPoints(equippedRod.scriptable.maxCastStrength, powerAngle.GetAngle());
+        private void GenerateAnglingTrajectories() {
+            _minimumTrajectoryPoints = GetTrajectoryPoints(_equippedRod.Scriptable.minCastStrength, powerAngle.CurrentAngle);
+            _maximumTrajectoryPoints = GetTrajectoryPoints(_equippedRod.Scriptable.maxCastStrength, powerAngle.CurrentAngle);
 
-            PlotTrajectory(minimumTrajectoryPoints, minTrajectoryLineRenderer);
-            PlotTrajectory(maximumTrajectoryPoints, maxTrajectoryLineRenderer);
+            PlotTrajectory(_minimumTrajectoryPoints, _minTrajectoryLineRenderer);
+            PlotTrajectory(_maximumTrajectoryPoints, _maxTrajectoryLineRenderer);
 
-            HandleCamera(equippedRod.scriptable.maxCastAngle);
+            HandleCamera(_equippedRod.Scriptable.maxCastAngle);
         }
 
-        private void GeneratePowerTrajectories()
-        {
-            trajectoryPoints = GetTrajectoryPoints(powerAngle.GetCharge(), powerAngle.GetAngle());
-            PlotTrajectory(trajectoryPoints, trajectoryLineRenderer);
+        private void GeneratePowerTrajectories() {
+            _trajectoryPoints = GetTrajectoryPoints(powerAngle.Power, powerAngle.CurrentAngle);
+            PlotTrajectory(_trajectoryPoints, _trajectoryLineRenderer);
 
-            HandleCamera(powerAngle.GetAngle());
+            HandleCamera(powerAngle.CurrentAngle);
         }
 
-        private void PlotTrajectory(List<Vector2> _points, LineRenderer _lineRenderer)
-        {
-            _lineRenderer.enabled = true;
-            _lineRenderer.positionCount = _points.Count;
-            for (int i = 0; i < _points.Count; i++) _lineRenderer.SetPosition(i, _points[i]);
-            _lineRenderer.material.mainTextureScale = new Vector2(1f / _lineRenderer.startWidth, 1.0f);
+        private void PlotTrajectory(List<Vector2> points, LineRenderer lineRenderer) {
+            lineRenderer.enabled = true;
+            lineRenderer.positionCount = points.Count;
+            for (int i = 0; i < points.Count; i++) {
+                lineRenderer.SetPosition(i, points[i]);
+            }
+            lineRenderer.material.mainTextureScale = new Vector2(1f / lineRenderer.startWidth, 1.0f);
         }
 
-        private List<Vector2> GetTrajectoryPoints(float _force, float _castAngle)
-        {
-            trajectoryPoints = new List<Vector2>();
+        private List<Vector2> GetTrajectoryPoints(float force, float castAngle) {
+            _trajectoryPoints = new List<Vector2>();
 
-            Vector2 _launchPos = transform.parent.position;
-            float _angle = 90f - _castAngle;
-            Vector2 _directionVector = Utilities.AngleToVector(_angle);
+            Vector2 launchPos = transform.parent.position;
+            float angle = 90f - castAngle;
+            Vector2 directionVector = Utilities.AngleToVector(angle);
 
-            float _mass = equippedRod.GetHook().GetComponent<Rigidbody2D>().mass;
-            float _vel = _force / _mass * Time.fixedDeltaTime;
+            float mass = _equippedRod.Hook.GetComponent<Rigidbody2D>().mass;
+            float velocity = force / mass * Time.fixedDeltaTime;
 
-            for (int i = 0; i < trajectoryMaxSteps; i++)
-            {
-                Vector2 _calculatedPosition = _launchPos + _directionVector * _vel * i * trajectoryStep;
-                _calculatedPosition.y += Physics2D.gravity.y / 2 * Mathf.Pow(i * trajectoryStep, 2);
+            for (int i = 0; i < _trajectoryMaxSteps; i++) {
+                Vector2 calculatedPosition = launchPos + directionVector * velocity * i * _trajectoryStep;
+                calculatedPosition.y += Physics2D.gravity.y * 0.5f * Mathf.Pow(i * _trajectoryStep, 2);
 
-                trajectoryPoints.Add(_calculatedPosition);
+                _trajectoryPoints.Add(calculatedPosition);
 
-                if (_calculatedPosition.y <= 0) break;
+                if (calculatedPosition.y <= 0) {
+                    break;
+                }
             }
 
-            return trajectoryPoints;
+            return _trajectoryPoints;
         }
 
-        public void HandleCamera(float _angle)
-        {
-            List<Vector2> _trajectoryPoints = GetTrajectoryPoints(equippedRod.scriptable.maxCastStrength, _angle);
+        public void HandleCamera(float angle) {
+            List<Vector2> trajectoryPoints = GetTrajectoryPoints(_equippedRod.Scriptable.maxCastStrength, angle);
 
-            Vector2 _closestPoint = _trajectoryPoints[0];
-            Vector2 _furthestPoint = _trajectoryPoints[_trajectoryPoints.Count - 1];
+            Vector2 closestPoint = trajectoryPoints[0];
+            Vector2 furthestPoint = trajectoryPoints[trajectoryPoints.Count - 1];
 
-            Vector2 _newPos = (_closestPoint + _furthestPoint) * 0.5f;
-            cam.DesiredPosition = _newPos;
+            Vector2 newPos = (closestPoint + furthestPoint) * 0.5f;
+            _camera.DesiredPosition = newPos;
 
-            float _distance = _furthestPoint.x - _closestPoint.x;
-            float _zoom = cam.ViewDistanceToCameraZoom(_distance) * trajectoryCameraZoomMagnitude;
+            float distance = furthestPoint.x - closestPoint.x;
+            float zoom = _camera.ViewDistanceToCameraZoom(distance) * _trajectoryCameraZoomMagnitude;
 
-            cam.LockPlayerControls = true;
-            cam.TempZoom = _zoom;
-            AdjustWidthToCameraZoom(_zoom);
+            _camera.LockPlayerControls = true;
+            _camera.TempZoom = zoom;
+            AdjustWidthToCameraZoom(zoom);
         }
 
-        private void AdjustWidthToCameraZoom(float _zoom)
-        {
-            trajectoryLineRenderer.widthMultiplier = _zoom * trajectoryLineWidthZoomModifier;
-            minTrajectoryLineRenderer.widthMultiplier = _zoom * trajectoryLineWidthZoomModifier;
-            maxTrajectoryLineRenderer.widthMultiplier = _zoom * trajectoryLineWidthZoomModifier;
+        private void AdjustWidthToCameraZoom(float zoom) {
+            _trajectoryLineRenderer.widthMultiplier = zoom * _trajectoryLineWidthZoomModifier;
+            _minTrajectoryLineRenderer.widthMultiplier = zoom * _trajectoryLineWidthZoomModifier;
+            _maxTrajectoryLineRenderer.widthMultiplier = zoom * _trajectoryLineWidthZoomModifier;
         }
     }
 }

@@ -33,7 +33,7 @@ namespace Fishing.IO
             return null;
         }
 
-        public BaitScriptable StringToBait(string _baitName)
+        public BaitScriptable StringToBait(string _baitName) // TODO: Shift this over to a new BaitManager class that holds the scriptables and handles spawning
         {
             foreach (BaitScriptable _baitScriptable in baitScriptables)
             {

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Fishing.IO;
+using Fishing.FishingMechanics;
 
 namespace Fishing.UI
 {
@@ -20,7 +21,7 @@ namespace Fishing.UI
 
         private void Awake()
         {
-            rodManager = RodManager.instance;
+            rodManager = RodManager.Instance;
             playerData = PlayerData.instance;
         }
 
@@ -48,12 +49,12 @@ namespace Fishing.UI
 
                 _newSlot.Title.text = playerData.fishingRodSaveData[i].rodName;
 
-                for (int j = 0; j < rodManager.rodPrefabs.Count; j++)
+                for (int j = 0; j < rodManager.RodPrefabs.Count; j++)
                 {
-                    if (rodManager.rodPrefabs[i].name != playerData.fishingRodSaveData[i].rodName) continue;
+                    rodManager.RodPrefabs[j].TryGetComponent(out RodBehaviour _rodBehaviour);
+                    if (_rodBehaviour.Scriptable.name != playerData.fishingRodSaveData[i].rodName) continue;
 
-                    _newSlot.itemReference = rodManager.rodPrefabs[i];
-                    _newSlot.Sprite.sprite = rodManager.rodSprites[i];
+                    _newSlot.Sprite.sprite = _rodBehaviour.Scriptable.inventorySprite;
                     break;
                 }
 
@@ -72,7 +73,7 @@ namespace Fishing.UI
             foreach (Transform _slot in content.transform)
             {
                 RodInventorySlot _invSlot = _slot.GetComponent<RodInventorySlot>();
-                if (_invSlot.itemReference.name == playerData.equippedRod.rodName)
+                if (_invSlot.Title.text == playerData.equippedRod.rodName)
                 {
                     _invSlot.EquippedCheck.SetActive(true);
                 }

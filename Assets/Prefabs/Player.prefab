@@ -120,14 +120,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ea39c0d9b3638d4fa900cd61cbbc0a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  equippedRod: {fileID: 0}
-  rodsMenu: {fileID: 0}
-  rodPrefabs:
+  _rodPrefabs:
   - {fileID: 1958218463193938487, guid: eb73e4b47a483ae478173c4a1ebfbe60, type: 3}
-  - {fileID: 1977302170616725967, guid: 1041f6290f48d154a89f49b621661756, type: 3}
-  rodSprites:
-  - {fileID: 21300000, guid: b808e883e291c6e4a96d2675ec234a0b, type: 3}
-  - {fileID: 21300000, guid: b808e883e291c6e4a96d2675ec234a0b, type: 3}
+  - {fileID: 1958218463193938487, guid: ecd365a38d20f2541b469b0b2d27a2f8, type: 3}
 --- !u!114 &455619793825409606
 MonoBehaviour:
   m_ObjectHideFlags: 0

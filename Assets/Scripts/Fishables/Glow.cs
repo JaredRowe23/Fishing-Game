@@ -17,13 +17,13 @@ namespace Fishing.Fishables {
         }
 
         private void Start() {
-            rodManager = RodManager.instance;
+            rodManager = RodManager.Instance;
         }
 
         void FixedUpdate() {
             _glowSprite.flipY = _diffuseSprite.flipY;
 
-            float _distance = Vector2.Distance(rodManager.equippedRod.GetHook().transform.position, transform.position);
+            float _distance = Vector2.Distance(rodManager.EquippedRod.Hook.transform.position, transform.position);
             if (_distance >= _minGlowDistance) { 
                 _glowSprite.color = Utilities.SetTransparency(_glowSprite.color, 0);
             }

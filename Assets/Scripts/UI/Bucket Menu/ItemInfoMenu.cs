@@ -37,7 +37,7 @@ namespace Fishing.UI
             manager = UIManager.instance;
             bucketMenu = BucketMenu.instance;
             tooltipSystem = TooltipSystem.instance;
-            rodManager = RodManager.instance;
+            rodManager = RodManager.Instance;
             bucket = BucketBehaviour.instance;
         }
 
@@ -99,9 +99,9 @@ namespace Fishing.UI
 
         public void HandleOverflowItem()
         {
-            if (menuListingReference != manager.overflowItem) bucket.AddToBucket(rodManager.equippedRod.GetHook().hookedObject.GetComponent<Fishable>());
+            if (menuListingReference != manager.overflowItem) bucket.AddToBucket(rodManager.EquippedRod.Hook.HookedObject.GetComponent<Fishable>());
 
-            rodManager.equippedRod.GetHook().DestroyHookedObject();
+            rodManager.EquippedRod.Hook.DestroyHookedObject();
             manager.overflowItem.SetActive(false);
             bucketMenu.ToggleBucketMenu();
         }

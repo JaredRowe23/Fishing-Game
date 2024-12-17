@@ -32,7 +32,7 @@ namespace Fishing.FishingMechanics.Minigame {
         private void Start() {
             _minigame = ReelingMinigame.Instance;
             _minigameFish = MinigameFish.Instance;
-            _rodManager = RodManager.instance;
+            _rodManager = RodManager.Instance;
         }
 
         private void FixedUpdate() {
@@ -79,11 +79,11 @@ namespace Fishing.FishingMechanics.Minigame {
         private void HandleReelZone() {
             if (IsFishInReelZone()) {
                 _image.color = Utilities.SetTransparency(_image.color, _reelingAlpha);
-                _rodManager.equippedRod.StartReeling();
+                _rodManager.EquippedRod.StartReeling();
             }
             else {
                 _image.color = Utilities.SetTransparency(_image.color, _notReelingAlpha);
-                _rodManager.equippedRod.StopReeling();
+                _rodManager.EquippedRod.StopReeling();
             }
         }
 
@@ -99,12 +99,12 @@ namespace Fishing.FishingMechanics.Minigame {
         }
 
         public void InitializeMinigame() {
-            RodBehaviour rod = _rodManager.equippedRod;
+            RodBehaviour rod = _rodManager.EquippedRod;
 
-            _reelZoneWidth = rod.scriptable.reelZoneWidth;
-            _reelZoneForce = rod.scriptable.reelZoneForce;
-            _reelZoneMaxVelocity = rod.scriptable.reelZoneMaxVelocity;
-            _reelZoneGravity = rod.scriptable.reelZoneGravity;
+            _reelZoneWidth = rod.Scriptable.reelZoneWidth;
+            _reelZoneForce = rod.Scriptable.reelZoneForce;
+            _reelZoneMaxVelocity = rod.Scriptable.reelZoneMaxVelocity;
+            _reelZoneGravity = rod.Scriptable.reelZoneGravity;
 
             _image.rectTransform.sizeDelta = new Vector2(_reelZoneImageWidth + _reelZoneWidth, 0f);
             _image.rectTransform.anchoredPosition = Vector2.zero;

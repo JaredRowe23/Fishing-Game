@@ -21,7 +21,7 @@ namespace Fishing.Inventory
         private void Awake()
         {
             instance = this;
-            rodManager = RodManager.instance;
+            rodManager = RodManager.Instance;
 
             playerData = PlayerData.instance;
             bucketList = playerData.bucketItemSaveData;
@@ -48,8 +48,8 @@ namespace Fishing.Inventory
             if (playerData.hasSeenTutorialData.bucketTutorial) ShowBucketTutorial();
             playerData.UpdateFishRecordData(_bucketItemData);
 
-            rodManager.equippedRod.GetHook().DestroyHookedObject();
-            rodManager.equippedRod.ReEquipBait();
+            rodManager.EquippedRod.Hook.DestroyHookedObject();
+            rodManager.EquippedRod.ReEquipBait();
         }
 
         private void ShowBucketTutorial()

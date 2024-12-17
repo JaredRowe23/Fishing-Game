@@ -78,16 +78,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23f42673dc954b449a93a9becf036cd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trajectoryStep: 0.1
-  trajectoryMaxSteps: 100
-  trajectoryLineRenderer: {fileID: 2300908101525576739}
-  minTrajectoryLineRenderer: {fileID: 4029714208588624498}
-  maxTrajectoryLineRenderer: {fileID: 4180221946078938252}
-  trajectoryMat: {fileID: 2100000, guid: 502f61ef44d40854d9e795e2c9658fa7, type: 2}
-  minTrajectoryMat: {fileID: 2100000, guid: e8715ef17509b154fa94435a5257f174, type: 2}
-  maxTrajectoryMat: {fileID: 2100000, guid: ce65f4c7de82e854e91e937ea79fb2b5, type: 2}
-  trajectoryCameraZoomMagnitude: 1.25
-  trajectoryLineWidthZoomModifier: 0.04
+  _trajectoryStep: 0.1
+  _trajectoryMaxSteps: 100
+  _trajectoryLineRenderer: {fileID: 2300908101525576739}
+  _minTrajectoryLineRenderer: {fileID: 4180221946078938252}
+  _maxTrajectoryLineRenderer: {fileID: 4029714208588624498}
+  _trajectoryMat: {fileID: 2100000, guid: 502f61ef44d40854d9e795e2c9658fa7, type: 2}
+  _minTrajectoryMat: {fileID: 2100000, guid: ce65f4c7de82e854e91e937ea79fb2b5, type: 2}
+  _maxTrajectoryMat: {fileID: 2100000, guid: e8715ef17509b154fa94435a5257f174, type: 2}
+  _trajectoryCameraZoomMagnitude: 1.25
+  _trajectoryLineWidthZoomModifier: 0.04
 --- !u!1 &1188361792926034405
 GameObject:
   m_ObjectHideFlags: 0
@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 7578188526574381509}
   - component: {fileID: 2874879027062079839}
   - component: {fileID: 1516301341}
+  - component: {fileID: 1912710059745597960}
   m_Layer: 0
   m_Name: Bamboo Fishing Rod
   m_TagString: Untagged
@@ -241,29 +242,37 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 705f45848a2406040a23388154b8639a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventorySprite: {fileID: 21300000, guid: e087e6c73489fb944b06d8ede48148d6, type: 3}
-  scriptable: {fileID: 11400000, guid: 9be0a5cbde443c24c94b040697b56a51, type: 2}
-  equippedBait: {fileID: 0}
-  linePivotPoint: {fileID: 1958218463701778770}
-  casted: 0
-  reeledInDistance: 10
-  hook: {fileID: 1958218464476562891}
-  playerAnim: {fileID: 0}
-  idleAnimationPositions:
+  _inventorySprite: {fileID: 21300000, guid: e087e6c73489fb944b06d8ede48148d6, type: 3}
+  _scriptable: {fileID: 11400000, guid: 9be0a5cbde443c24c94b040697b56a51, type: 2}
+  _linePivotPoint: {fileID: 1958218463701778770}
+  _reeledInDistance: 10
+  _hook: {fileID: 1958218464476562891}
+  _idleAnimationPositions:
   - {fileID: 930341343285167019}
   - {fileID: 247732642807969968}
-  startCastAnimationPositions:
+  _startCastAnimationPositions:
   - {fileID: 1889253695230817992}
   - {fileID: 5693090926610938455}
   - {fileID: 8530813704544658206}
   - {fileID: 8000852430366680035}
-  castAnimationPositions:
+  _castAnimationPositions:
   - {fileID: 7938512254902278508}
   - {fileID: 6633109686567269851}
   - {fileID: 3202165967041764365}
-  reelingAnimationPositions:
+  _reelingAnimationPositions:
   - {fileID: 4802489576046893720}
-  isResettingHook: 0
+--- !u!114 &1912710059745597960
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1958218463193938487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c650fda990e27774ba79ce98ec83bdcc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1958218463701778771
 GameObject:
   m_ObjectHideFlags: 0
@@ -410,13 +419,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ae879175a096f6499bb898094bd65e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hookedObject: {fileID: 0}
-  linePivotPoint: {fileID: 1958218463701778770}
-  hookPivotPoint: {fileID: 2138213653}
-  resetSpeed: 20
-  hookHangHeight: 2.5
-  drag: 0
-  waterDrag: 5
+  _linePivotPoint: {fileID: 1958218463701778770}
+  _hookPivotPoint: {fileID: 2138213653}
+  _resetTime: 1
+  _hookHangHeight: 2.5
+  _airDrag: 0
+  _waterDrag: 5
 --- !u!212 &5497299263962119491
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -607,7 +615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfbfa8f2e5ffa0142934b6fe0917ebc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 20
+  _moveForce: 20
 --- !u!1 &2453322157797498138
 GameObject:
   m_ObjectHideFlags: 0

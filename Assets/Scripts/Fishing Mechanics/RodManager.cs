@@ -1,77 +1,91 @@
-﻿using System.Collections;
+﻿using Fishing.FishingMechanics;
+using Fishing.IO;
+using Fishing.UI;
 using System.Collections.Generic;
 using UnityEngine;
-using Fishing.FishingMechanics;
-using Fishing.UI;
-using Fishing.IO;
-using Fishing.Fishables;
 
-namespace Fishing
-{
-    public class RodManager : MonoBehaviour
-    {
-        public RodBehaviour equippedRod;
-        public RodsMenu rodsMenu;
+namespace Fishing {
+    public class RodManager : MonoBehaviour {
+        [SerializeField, Tooltip("Prefabs of the fishing rods to spawn in the world when equipped.")] private List<GameObject> _rodPrefabs;
+        public List<GameObject> RodPrefabs { get => _rodPrefabs; private set => _rodPrefabs = value; }
 
-        public List<GameObject> rodPrefabs;
-        public List<Sprite> rodSprites;
+        private RodBehaviour _equippedRod;
+        public RodBehaviour EquippedRod { get => _equippedRod; private set => _equippedRod = value; }
 
-        private PlayerData playerData;
+        private PlayerData _playerData;
+        private RodsMenu _rodsMenu;
+        private TooltipSystem _tooltipSystem;
+        private AudioManager _audioManager;
+        private ItemLookupTable _itemLookupTable;
 
-        public static RodManager instance;
+        private static RodManager _instance;
+        public static RodManager Instance { get => _instance; private set => _instance = value; }
 
-        private RodManager() => instance = this;
-
-        private void Awake()
-        {
-            playerData = PlayerData.instance;
+        private void Awake() {
+            Instance = this;
         }
 
-        private void Start()
-        {
+        private void Start() {
+            _rodsMenu = RodsMenu.instance;
+            _playerData = PlayerData.instance;
+            _tooltipSystem = TooltipSystem.instance;
+            _audioManager = AudioManager.instance;
+            _itemLookupTable = ItemLookupTable.instance;
             EquipRod(PlayerData.instance.equippedRod.rodName, false);
         }
 
-        public void EquipRod(string _rodName, bool _playSound)
-        {
-            if (_rodName != "")
-            {
-                if (equippedRod != null) DestroyImmediate(equippedRod.gameObject);
-            }
-            else
-            {
-                _rodName = "Wooden Fishing Rod";
+        public void EquipRod(string rodName, bool playSound) {
+            Debug.Assert(RodPrefabs.Count > 0, "Rod prefabs in rod manager not assigned!", this);
+
+            if (rodName == "") {
+                rodName = RodPrefabs[0].name;
             }
 
-            foreach (GameObject _prefab in rodPrefabs)
-            {
-                if (_prefab.name != _rodName) continue;
-
-                equippedRod = Instantiate(_prefab).GetComponent<RodBehaviour>();
+            if (EquippedRod != null) {
+                DestroyImmediate(EquippedRod.gameObject);
+                EquippedRod = null;
             }
 
-            for (int i = 0; i < playerData.fishingRodSaveData.Count; i++)
-            {
-                if (playerData.fishingRodSaveData[i].rodName != _rodName) continue;
-                playerData.equippedRod = playerData.fishingRodSaveData[i];
+            foreach (GameObject _prefab in RodPrefabs) {
+                if (_prefab.name != rodName) {
+                    continue;
+                }
+
+                EquippedRod = Instantiate(_prefab).GetComponent<RodBehaviour>();
             }
 
-            TooltipSystem.instance.NewTooltip(5f, "Equipped the " + _rodName);
-            rodsMenu.UpdateEquippedCheckmark();
-            if (_playSound) AudioManager.instance.PlaySound("Equip Rod");
+            if (EquippedRod == null) {
+                EquippedRod = Instantiate(RodPrefabs[0].GetComponent<RodBehaviour>());
+            }
+
+            for (int i = 0; i < _playerData.fishingRodSaveData.Count; i++) {
+                if (_playerData.fishingRodSaveData[i].rodName != rodName) {
+                    continue;
+                }
+
+                _playerData.equippedRod = _playerData.fishingRodSaveData[i];
+            }
+
+            _tooltipSystem.NewTooltip(5f, "Equipped the " + rodName);
+            _rodsMenu.UpdateEquippedCheckmark();
+            if (playSound) {
+                _audioManager.PlaySound("Equip Rod");
+            }
 
             SpawnBait();
         }
 
-        public void SpawnBait()
-        {
-            if (playerData.equippedRod.equippedBait == null) return;
-            if (playerData.equippedRod.equippedBait.baitName == null) return;
-            if (playerData.equippedRod.equippedBait.baitName == "") return;
+        public void SpawnBait() {
+            if (_playerData.equippedRod.equippedBait == null) {
+                return;
+            }
+            if (string.IsNullOrEmpty(_playerData.equippedRod.equippedBait.baitName)) {
+                return;
+            }
 
-            BaitBehaviour _newBait = Instantiate(ItemLookupTable.instance.StringToBait(playerData.equippedRod.equippedBait.baitName).prefab, equippedRod.GetHook().transform).GetComponent<BaitBehaviour>();
-            equippedRod.equippedBait = _newBait;
-            equippedRod.GetHook().hookedObject = _newBait.gameObject;
+            BaitBehaviour _newBait = Instantiate(_itemLookupTable.StringToBait(_playerData.equippedRod.equippedBait.baitName).prefab, EquippedRod.Hook.transform).GetComponent<BaitBehaviour>();
+            EquippedRod.EquippedBait = _newBait;
+            EquippedRod.Hook.HookedObject = _newBait.gameObject;
             _newBait.transform.localPosition = _newBait.AnchorPoint;
             _newBait.transform.localRotation = Quaternion.Euler(0f, 0f, _newBait.AnchorRotation);
         }

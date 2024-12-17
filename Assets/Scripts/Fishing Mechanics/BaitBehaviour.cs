@@ -36,7 +36,7 @@ namespace Fishing.FishingMechanics {
 
         private void Start() {
             GetComponent<CircleCollider2D>().radius = Scriptable.areaOfEffect;
-            _rodManager = RodManager.instance;
+            _rodManager = RodManager.Instance;
             _fishableGrid = FishableGrid.instance;
         }
 
@@ -76,8 +76,8 @@ namespace Fishing.FishingMechanics {
         }
 
         private void OnDestroy() {
-            if (_rodManager.equippedRod.GetHook().hookedObject == gameObject) {
-                _rodManager.equippedRod.GetHook().hookedObject = null;
+            if (_rodManager.EquippedRod.Hook.HookedObject == gameObject) {
+                _rodManager.EquippedRod.Hook.HookedObject = null;
             }
         }
 
