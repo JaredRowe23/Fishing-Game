@@ -110,10 +110,6 @@ namespace Fishing.Fishables {
             Length = Mathf.Round(UnityEngine.Random.Range(LengthMin, LengthMax) * 100f) / 100f;
         }
 
-        public void DisableMinimapIndicator() {
-            MinimapIndicator.gameObject.SetActive(false);
-        }
-
         public void OnHooked() {
             IsHooked = true;
             _spawner.RemoveFromSpawner(gameObject);

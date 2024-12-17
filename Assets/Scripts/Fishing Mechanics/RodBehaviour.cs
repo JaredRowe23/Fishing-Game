@@ -57,7 +57,7 @@ namespace Fishing.FishingMechanics {
         void Start() {
             _rodManager = RodManager.Instance;
             _camera = CameraBehaviour.Instance;
-            _bucket = BucketBehaviour.instance;
+            _bucket = BucketBehaviour.Instance;
             _reelingMinigame = ReelingMinigame.Instance;
             _audioManager = AudioManager.instance;
             _UIManager = UIManager.instance;

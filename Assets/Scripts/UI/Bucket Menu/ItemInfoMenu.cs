@@ -38,7 +38,7 @@ namespace Fishing.UI
             bucketMenu = BucketMenu.instance;
             tooltipSystem = TooltipSystem.instance;
             rodManager = RodManager.Instance;
-            bucket = BucketBehaviour.instance;
+            bucket = BucketBehaviour.Instance;
         }
 
         public void UpdateMenu(BucketItemSaveData _reference, GameObject _menuListing)
@@ -92,7 +92,7 @@ namespace Fishing.UI
 
         private void RemoveAllObjects()
         {
-            bucket.bucketList.Remove(itemReference);
+            bucket.BucketList.Remove(itemReference);
             if (menuListingReference != manager.overflowItem) Destroy(menuListingReference);
             if (currentModel != null) Destroy(currentModel);
         }

@@ -60,10 +60,10 @@ namespace Fishing.UI
 
         public void InitializeMenu()
         {
-            for (int i = 0; i < bucket.bucketList.Count; i++)
+            for (int i = 0; i < bucket.BucketList.Count; i++)
             {
                 BucketMenuItem _menu = Instantiate(bucketItemPrefab, content.transform).GetComponent<BucketMenuItem>();
-                _menu.UpdateInfo(bucket.bucketList[i]);
+                _menu.UpdateInfo(bucket.BucketList[i]);
             }
 
             UpdateCapacity();
@@ -71,9 +71,9 @@ namespace Fishing.UI
 
         private void UpdateCapacity()
         {
-            capacityBar.maxValue = bucket.maxItems;
-            capacityBar.value = bucket.bucketList.Count;
-            capacityText.text = bucket.bucketList.Count.ToString() + "/" + bucket.maxItems.ToString();
+            capacityBar.maxValue = bucket.MaxItems;
+            capacityBar.value = bucket.BucketList.Count;
+            capacityText.text = bucket.BucketList.Count.ToString() + "/" + bucket.MaxItems.ToString();
         }
 
         public void DestroyMenu()

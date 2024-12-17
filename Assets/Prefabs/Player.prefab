@@ -135,5 +135,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f884a4e26635dfb478715beb9876b378, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bucketList: []
-  maxItems: 2
+  _maxItems: 10

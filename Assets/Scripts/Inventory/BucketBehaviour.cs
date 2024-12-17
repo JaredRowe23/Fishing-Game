@@ -1,71 +1,77 @@
-﻿using System.Collections;
+﻿using Fishing.Fishables;
+using Fishing.IO;
+using Fishing.UI;
 using System.Collections.Generic;
 using UnityEngine;
-using Fishing.Fishables;
-using Fishing.UI;
-using Fishing.IO;
-using Fishing.Fishables.Fish;
 
-namespace Fishing.Inventory
-{
-    public class BucketBehaviour : MonoBehaviour
-    {
-        public List<BucketItemSaveData> bucketList;
-        public int maxItems;
+namespace Fishing.Inventory {
+    public class BucketBehaviour : MonoBehaviour {
+        [SerializeField, Min(0), Tooltip("Maximum amount of items this bucket can hold at once.")] private int _maxItems;
+        public int MaxItems { get => _maxItems; private set => _maxItems = value; }
 
-        private PlayerData playerData;
-        private RodManager rodManager;
+        private List<BucketItemSaveData> _bucketList;
+        public List<BucketItemSaveData> BucketList { get => _bucketList; private set => _bucketList = value; }
 
-        public static BucketBehaviour instance;
+        private PlayerData _playerData;
+        private RodManager _rodManager;
+        private AudioManager _audioManager;
+        private TooltipSystem _tooltipSystem;
+        private TutorialSystem _tutorialSystem;
+        private BucketMenuItem _overflowItem;
+        private BucketMenu _bucketMenu;
 
-        private void Awake()
-        {
-            instance = this;
-            rodManager = RodManager.Instance;
+        private static BucketBehaviour _instance;
+        public static BucketBehaviour Instance { get => _instance; private set => _instance = value; }
 
-            playerData = PlayerData.instance;
-            bucketList = playerData.bucketItemSaveData;
+        private void Awake() {
+            Instance = this;
         }
 
-        public void AddToBucket(Fishable _item)
-        {
-            AudioManager.instance.PlaySound("Catch Fish");
+        private void Start() {
+            _rodManager = RodManager.Instance;
+            _playerData = PlayerData.instance;
+            _audioManager = AudioManager.instance;
+            _tooltipSystem = TooltipSystem.instance;
+            _tutorialSystem = TutorialSystem.instance;
+            _overflowItem = UIManager.instance.overflowItem.GetComponent<BucketMenuItem>();
+            _bucketMenu = BucketMenu.instance;
+            BucketList = _playerData.bucketItemSaveData;
+        }
 
-            BucketItemSaveData _bucketItemData = new BucketItemSaveData(_item.ItemName, _item.ItemDescription, _item.Weight, _item.Length, _item.Value);
+        public void AddToBucket(Fishable fishable) {
+            _audioManager.PlaySound("Catch Fish");
 
-            if (bucketList.Count >= maxItems)
-            {
-                OnBucketOverflow(_bucketItemData);
+            BucketItemSaveData bucketItemData = new BucketItemSaveData(fishable.ItemName, fishable.ItemDescription, fishable.Weight, fishable.Length, fishable.Value);
+
+            if (BucketList.Count >= MaxItems) {
+                OnBucketOverflow(bucketItemData);
                 return;
             }
 
-            AudioManager.instance.PlaySound("Add To Bucket");
-            TooltipSystem.instance.NewTooltip(5f, "You caught a " + _bucketItemData.itemName + " worth $" + _bucketItemData.value.ToString("F2"));
+            _audioManager.PlaySound("Add To Bucket");
+            _tooltipSystem.NewTooltip(5f, $"You caught a {bucketItemData.itemName} worth {bucketItemData.value.ToString("C")}");
 
-            _item.DisableMinimapIndicator();
-            bucketList.Add(_bucketItemData);
+            BucketList.Add(bucketItemData);
+            _rodManager.EquippedRod.Hook.DestroyHookedObject();
+            _rodManager.EquippedRod.ReEquipBait();
 
-            if (playerData.hasSeenTutorialData.bucketTutorial) ShowBucketTutorial();
-            playerData.UpdateFishRecordData(_bucketItemData);
+            _playerData.UpdateFishRecordData(bucketItemData);
 
-            rodManager.EquippedRod.Hook.DestroyHookedObject();
-            rodManager.EquippedRod.ReEquipBait();
+            if (!_playerData.hasSeenTutorialData.bucketTutorial) {
+                ShowBucketTutorial();
+            }
         }
 
-        private void ShowBucketTutorial()
-        {
-            TutorialSystem.instance.QueueTutorial("Press B or click the bucket icon in the top-left corner to access your bucket");
-            playerData.hasSeenTutorialData.bucketTutorial = true;
+        private void OnBucketOverflow(BucketItemSaveData itemData) {
+            _tooltipSystem.NewTooltip(5f, "You've filled your bucket! Pick something to throw away to make room!");
+            _bucketMenu.ToggleBucketMenu();
+            _overflowItem.gameObject.SetActive(true);
+            _overflowItem.UpdateInfo(itemData);
         }
 
-        private void OnBucketOverflow(BucketItemSaveData _itemData)
-        {
-            TooltipSystem.instance.NewTooltip(5f, "You've filled your bucket! Pick something to throw away to make room!");
-            BucketMenu.instance.ToggleBucketMenu();
-            UIManager.instance.overflowItem.SetActive(true);
-            BucketMenuItem _overflowMenu = UIManager.instance.overflowItem.GetComponent<BucketMenuItem>();
-
-            _overflowMenu.UpdateInfo(_itemData);
+        private void ShowBucketTutorial() {
+            _tutorialSystem.QueueTutorial("Press B or click the bucket icon in the top-left corner to access your bucket");
+            _playerData.hasSeenTutorialData.bucketTutorial = true;
         }
     }
 

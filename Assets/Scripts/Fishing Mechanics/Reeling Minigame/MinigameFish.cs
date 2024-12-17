@@ -82,16 +82,16 @@ namespace Fishing.FishingMechanics.Minigame {
         }
 
         private IEnumerator Co_Swim() {
-            StopCoroutine(Co_Rest());
+            StopCoroutine("Co_Rest");
 
             IsSwimming = true;
             _swimmingIcon.gameObject.SetActive(true);
 
-            StartCoroutine(Co_Move());
+            StartCoroutine("Co_Move");
             yield return new WaitForSeconds(_swimTime + Random.Range(-_swimTimeVariance, _swimTimeVariance));
 
-            StopCoroutine(Co_Move());
-            StartCoroutine(Co_Rest());
+            StopCoroutine("Co_Move");
+            StartCoroutine("Co_Rest");
         }
 
         private IEnumerator Co_Move() {
@@ -102,16 +102,17 @@ namespace Fishing.FishingMechanics.Minigame {
         }
 
         private IEnumerator Co_Rest() {
-            StopCoroutine(Co_Swim());
+            StopCoroutine("Co_Move");
+            StopCoroutine("Co_Swim");
 
             _swimmingIcon.gameObject.SetActive(false);
 
             yield return new WaitForSeconds(_restTime + Random.Range(-_restTimeVariance, _restTimeVariance));
-            StartCoroutine(Co_Swim());
+            StartCoroutine("Co_Swim");
         }
 
         private void SetNewFishPosition() {
-            float moveDistance = Random.Range(_moveDistance - _moveDistanceVariance, _moveDistance + _moveDistanceVariance);
+            float moveDistance = Random.Range(-_moveDistance - _moveDistanceVariance, _moveDistance + _moveDistanceVariance);
             float newFishPosX = FishIcon.rectTransform.anchoredPosition.x + moveDistance;
             _movePosition = Mathf.Clamp(newFishPosX, _fishIconOffsetX, _minigame.ReelBarMaxX - _fishIconOffsetX);
         }
@@ -123,7 +124,7 @@ namespace Fishing.FishingMechanics.Minigame {
             _fishIconOffsetX = FishIcon.rectTransform.rect.width * 0.5f;
             _movePosition = Random.Range(_fishIconOffsetX, _minigame.ReelBarMaxX - _fishIconOffsetX);
 
-            StartCoroutine(Co_Swim());
+            StartCoroutine("Co_Swim");
         }
 
         private void SetFishStats(Fishable fishable) {
