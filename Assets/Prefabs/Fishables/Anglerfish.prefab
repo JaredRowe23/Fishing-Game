@@ -181,8 +181,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 426add82db23744459d1e4ccad60bdcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scannedScale: 25
-  lifeTime: 5
+  _scannedScale: 25
+  _lifeTime: 5
 --- !u!1 &4381490584001114443
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,6 +409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10928d4e47012d4cb92bf3ed5f54ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fishableType: 1
   _itemName: Anglerfish
   _itemDescription: These fish evolved bioluminescence to survive in deep dark waters
   _baseValue: 100
@@ -445,7 +446,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseFoodAmount: 20
-  _foodType: 1
 --- !u!114 &7006070457836360306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,7 +461,7 @@ MonoBehaviour:
   _sightAngle: 30
   _sightDistance: 10
   _smellRadius: 2.5
-  _desiredFoodTypes: 4608
+  _desiredFoodTypes: 168
   _drawSearchingGizmos: 0
   _smellRadiusColor: {r: 0, g: 1, b: 0, a: 1}
   _sightConeColor: {r: 0, g: 1, b: 0, a: 1}
@@ -695,7 +695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f87ee3d6f47b9b1498d55c4c46fc4a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  optimizationDistance: 75
+  _optimizationDistance: 0
 --- !u!114 &2749402187859673463
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -97,8 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 426add82db23744459d1e4ccad60bdcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scannedScale: 25
-  lifeTime: 5
+  _scannedScale: 25
+  _lifeTime: 5
 --- !u!1 &4381490584001114443
 GameObject:
   m_ObjectHideFlags: 0
@@ -324,6 +324,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10928d4e47012d4cb92bf3ed5f54ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fishableType: 512
   _itemName: Sea Serpent
   _itemDescription: "N\u0337\u0346\u0309\u033E\u0301\u0306\u0315\u0348\u0359\u0322\u032D\u033C\u0332o\u0337\u031A\u0344\u0312\u0357\u0346\u0329\u0356t\u0338\u0308\u033E\u031A\u0341\u0302\u030E\u0301\u032F\u0347h\u0337\u0343\u030E\u0300\u035D\u0347\u035A\u0320\u0322\u032D\u0326\u032F\u032A\u031F\u032B\u0331\u033B\u0356\u032A\u032Ai\u0334\u0358\u0304\u0344\u0339\u0321\u0327\u033B\u0331n\u0335\u030A\u033D\u0346\u033F\u0312\u0346\u030A\u0346\u035D\u0315\u033D\u030F\u0347\u0354\u0333\u0331\u034E\u0333\u0355g\u0337\u034A\u0352\u0332\u0322\u032E\u0345\u033C\u0347\u0322
     \u0335\u031B\u0352\u0309\u0327\u0320\u0359\u033B\u0327\u033Bi\u0335\u0300\u030A\u0301\u0312\u0350\u0304\u035B\u0351\u0342\u031A\u0310\u0313\u0305\u0313\u0313\u0354\u032C\u032F\u0321\u0325\u032B\u0324\u0349\u0324\u0319s\u0338\u0344\u0300\u0360\u035B\u030D\u030E\u0311\u0355\u031E\u032D\u0320\u0349
@@ -352,7 +353,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseFoodAmount: 150
-  _foodType: 512
 --- !u!114 &7006070457836360306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,7 +368,7 @@ MonoBehaviour:
   _sightAngle: 30
   _sightDistance: 50
   _smellRadius: 10
-  _desiredFoodTypes: 353
+  _desiredFoodTypes: 257
   _drawSearchingGizmos: 0
   _smellRadiusColor: {r: 0, g: 1, b: 0, a: 1}
   _sightConeColor: {r: 0, g: 1, b: 0, a: 1}
@@ -620,7 +620,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f87ee3d6f47b9b1498d55c4c46fc4a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  optimizationDistance: 500
+  _optimizationDistance: 0
 --- !u!114 &-239720266683379179
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -103,6 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10928d4e47012d4cb92bf3ed5f54ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fishableType: 2048
   _itemName: Tin Can
   _itemDescription: Scraps from someone's meal.
   _baseValue: 1
@@ -143,7 +144,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseFoodAmount: 0.5
-  _foodType: 2048
 --- !u!61 &9130719967873972276
 BoxCollider2D:
   m_ObjectHideFlags: 0

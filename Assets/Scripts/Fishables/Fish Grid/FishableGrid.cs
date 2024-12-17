@@ -77,13 +77,8 @@ namespace Fishing.Fishables.FishGrid {
                     continue;
                 }
 
-                gridSquare.GridFishables.Remove(fishable);
-                if (fishable.TryGetComponent(out Edible edible)) {
-                    gridSquare.GridEdibles.Remove(edible);
-                }
-                if (fishable.TryGetComponent(out FoodSearch foodSearch)) {
-                    gridSquare.GridFoodSearches.Remove(foodSearch);
-                }
+                RemoveFromGridSquares(fishable, gridSquare.GridX, gridSquare.GridY);
+
                 SortFishableIntoGridSquare(fishable);
             }
         }
@@ -130,8 +125,31 @@ namespace Fishing.Fishables.FishGrid {
             return grid;
         }
 
+        public List<Fishable> GetNearbyFishables(int originSquareX, int originSquareY, float range) {
+            Debug.Assert(originSquareX >= 0 && originSquareY >= 0, $"Attempting to get fishables from outside of grid ({originSquareX},{originSquareY})");
+
+            int gridSquareRange = Mathf.CeilToInt(range / GridSquareSize);
+            List<Fishable> fishables = new List<Fishable>();
+            for (int x = originSquareX - gridSquareRange; x <= originSquareX + range; x++) {
+                if (x >= _gridSquares.Length || x < 0) {
+                    continue;
+                }
+
+                for (int y = originSquareY - gridSquareRange; y <= originSquareY + range; y++) {
+                    if (y >= _gridSquares[x].Length || y < 0) {
+                        continue;
+                    }
+
+                    for (int i = 0; i < _gridSquares[x][y].GridFishables.Count; i++) {
+                        fishables.Add(_gridSquares[x][y].GridFishables[i]);
+                    }
+                }
+            }
+            return fishables;
+        }
+
         public List<Edible> GetNearbyEdibles(int originSquareX, int originSquareY, float range) {
-            Debug.Assert(originSquareX >= 0 && originSquareY >= 0, $"Attempting to get fishables form outside of grid ({originSquareX},{originSquareY})");
+            Debug.Assert(originSquareX >= 0 && originSquareY >= 0, $"Attempting to get edibles from outside of grid ({originSquareX},{originSquareY})");
 
             int gridSquareRange = Mathf.CeilToInt(range / GridSquareSize);
             List<Edible> edibles = new List<Edible>();
@@ -154,7 +172,7 @@ namespace Fishing.Fishables.FishGrid {
         }
 
         public List<FoodSearch> GetNearbyFoodSearches(int originSquareX, int originSquareY, float range) {
-            Debug.Assert(originSquareX >= 0 && originSquareY >= 0, $"Attempting to get fishables form outside of grid ({originSquareX},{originSquareY})");
+            Debug.Assert(originSquareX >= 0 && originSquareY >= 0, $"Attempting to get food searches from outside of grid ({originSquareX},{originSquareY})");
 
             int gridSquareRange = Mathf.CeilToInt(range / GridSquareSize);
             List<FoodSearch> foodSearches = new List<FoodSearch>();

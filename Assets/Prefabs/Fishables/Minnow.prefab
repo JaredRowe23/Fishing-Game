@@ -140,6 +140,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10928d4e47012d4cb92bf3ed5f54ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fishableType: 128
   _itemName: Minnow
   _itemDescription: Just a lil guy.
   _baseValue: 15
@@ -160,7 +161,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseFoodAmount: 2.5
-  _foodType: 128
 --- !u!114 &2675576245423916417
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -6,7 +6,6 @@ using Fishing.Fishables.FishGrid;
 using System.Collections;
 
 namespace Fishing.Fishables {
-    [RequireComponent(typeof(Edible))]
     public class SinkingObject : MonoBehaviour {
         [SerializeField, Min(0), Tooltip("Base speed in m/s the object sinks (or floats) at.")] private float _baseSinkSpeed = 0.5f;
         [SerializeField, Min(0), Tooltip("Amount of variance in sink speed.")] private float _speedVariance = 0.1f;

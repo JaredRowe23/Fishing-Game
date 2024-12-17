@@ -97,8 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 426add82db23744459d1e4ccad60bdcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scannedScale: 25
-  lifeTime: 5
+  _scannedScale: 25
+  _lifeTime: 5
 --- !u!1 &6925337474644135373
 GameObject:
   m_ObjectHideFlags: 0
@@ -239,6 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10928d4e47012d4cb92bf3ed5f54ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fishableType: 256
   _itemName: Salmon
   _itemDescription: Many cultures love the meat coming off of these guys.
   _baseValue: 75
@@ -259,7 +260,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseFoodAmount: 25
-  _foodType: 256
 --- !u!114 &7006070457836360306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -509,7 +509,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f87ee3d6f47b9b1498d55c4c46fc4a4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  optimizationDistance: 75
+  _optimizationDistance: 0
 --- !u!114 &-1577039516795739324
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -3,10 +3,28 @@ using Fishing.Util;
 using UnityEngine;
 using Fishing.Fishables.FishGrid;
 using Fishing.FishingMechanics.Minigame;
+using System;
 
 namespace Fishing.Fishables {
-    public class Fishable : MonoBehaviour
-    {
+    public class Fishable : MonoBehaviour {
+        [Flags] public enum ItemTypes {
+            Anglerfish = 1,
+            Boot = 2,
+            Carp = 4,
+            Crab = 8,
+            Driftwood = 16,
+            EarthWorm = 32,
+            Hook = 64,
+            Minnow = 128,
+            Salmon = 256,
+            SeaSerpent = 512,
+            Seaweed = 1024,
+            TinCan = 2048,
+            WaterLilyFruit = 4096
+        };
+        [SerializeField, Tooltip("The type of fishable this is.")] private ItemTypes _fishableType;
+        public ItemTypes FishableType { get => _fishableType; private set { } }
+
         [Header("Descriptors")]
         [SerializeField, Tooltip("Name of this item.")] private string _itemName;
         public string ItemName { get => _itemName; private set { } }
@@ -88,8 +106,8 @@ namespace Fishing.Fishables {
         }
 
         private void SetWeightAndLength() {
-            Weight = Mathf.Round(Random.Range(WeightMin, WeightMax) * 100f) / 100f;
-            Length = Mathf.Round(Random.Range(LengthMin, LengthMax) * 100f) / 100f;
+            Weight = Mathf.Round(UnityEngine.Random.Range(WeightMin, WeightMax) * 100f) / 100f;
+            Length = Mathf.Round(UnityEngine.Random.Range(LengthMin, LengthMax) * 100f) / 100f;
         }
 
         public void DisableMinimapIndicator() {

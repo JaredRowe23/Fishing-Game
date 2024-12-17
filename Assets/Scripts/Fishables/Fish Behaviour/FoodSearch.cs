@@ -6,7 +6,6 @@ using Fishing.Fishables.FishGrid;
 using Fishing.FishingMechanics.Minigame;
 
 namespace Fishing.Fishables.Fish {
-    [RequireComponent(typeof(Fishable), typeof(Hunger), typeof(Edible))]
     public class FoodSearch : MonoBehaviour {
         [SerializeField, Range(0, 360), Tooltip("Angle in degrees in front this fish can see within.")] private float _sightAngle;
         public float SightAngle { get => _sightAngle; private set { } }
@@ -17,8 +16,8 @@ namespace Fishing.Fishables.Fish {
         [SerializeField, Min(0), Tooltip("Distance this fish can smell food items within.")] private float _smellRadius;
         public float SmellRadius { get => _smellRadius; private set { } }
 
-        [SerializeField, Tooltip("Types of fish this fish is able to eat.")] private Edible.FoodTypes _desiredFoodTypes;
-        public Edible.FoodTypes DesiredFoodTypes { get => _desiredFoodTypes; private set { } }
+        [SerializeField, Tooltip("Types of fish this fish is able to eat.")] private Fishable.ItemTypes _desiredFoodTypes;
+        public Fishable.ItemTypes DesiredFoodTypes { get => _desiredFoodTypes; private set { } }
 
         private GameObject _desiredFood;
         public GameObject DesiredFood { get => _desiredFood; set { _desiredFood = value; } }
@@ -36,7 +35,6 @@ namespace Fishing.Fishables.Fish {
 
         private Fishable _fishable;
         private Hunger _hunger;
-        private Edible _edible;
         private RodManager _rodManager;
 
         private void OnValidate() {
@@ -48,7 +46,6 @@ namespace Fishing.Fishables.Fish {
         private void Awake() {
             _hunger = GetComponent<Hunger>();
             _fishable = GetComponent<Fishable>();
-            _edible = GetComponent<Edible>();
             _rodManager = RodManager.Instance;
         }
 
@@ -106,22 +103,22 @@ namespace Fishing.Fishables.Fish {
 
         private void DetermineDesiredFood() {
             GameObject newDesiredFood = null;
-            List<Edible> ediblesWithinRange = FishableGrid.instance.GetNearbyEdibles(_fishable.GridSquare[0], _fishable.GridSquare[1], SightDistance);
+            List<Fishable> fishablesWithinRange = FishableGrid.instance.GetNearbyFishables(_fishable.GridSquare[0], _fishable.GridSquare[1], SightDistance);
             Vector2 thisPosition = transform.position;
             Vector2 thisForward = transform.forward;
-            foreach(Edible edible in ediblesWithinRange) {
-                if (edible == _edible) {
+            foreach(Fishable fishable in fishablesWithinRange) {
+                if (fishable == _fishable) {
                     continue;
                 }
-                if (edible.GetComponent<Fishable>().IsHooked) {
+                if (fishable.IsHooked) {
                     continue;
                 }
-                Vector2 ediblePosition = edible.transform.position;
-                if (ediblePosition.y >= 0) {
+                Vector2 fishablePosition = fishable.transform.position;
+                if (fishablePosition.y >= 0) {
                     continue;
                 }
 
-                float distance = Vector2.Distance(ediblePosition, thisPosition);
+                float distance = Vector2.Distance(fishablePosition, thisPosition);
                 if (distance > SightDistance) {
                     continue;
                 }
@@ -131,16 +128,16 @@ namespace Fishing.Fishables.Fish {
                     }
                 }
 
-                if (!DesiredFoodTypes.HasFlag(edible.FoodType)) {
+                if (!DesiredFoodTypes.HasFlag(fishable.FishableType)) {
                     continue;
                 }
 
                 if (distance <= SmellRadius) {
-                    newDesiredFood = edible.gameObject;
+                    newDesiredFood = fishable.gameObject;
                     continue;
                 }
-                if (Utilities.IsWithinAngleOfDirection(thisPosition, ediblePosition, thisForward, SightAngle)) {
-                    newDesiredFood = edible.gameObject;
+                if (Utilities.IsWithinAngleOfDirection(thisPosition, fishablePosition, thisForward, SightAngle)) {
+                    newDesiredFood = fishable.gameObject;
                     continue;
                 }
             }

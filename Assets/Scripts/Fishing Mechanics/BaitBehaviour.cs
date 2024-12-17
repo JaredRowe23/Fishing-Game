@@ -2,6 +2,7 @@ using Fishing.Fishables.Fish;
 using Fishing.Fishables.FishGrid;
 using System.Collections.Generic;
 using UnityEngine;
+using Fishing.Fishables;
 
 namespace Fishing.FishingMechanics {
     public class BaitBehaviour : MonoBehaviour {
@@ -17,7 +18,6 @@ namespace Fishing.FishingMechanics {
         [SerializeField] private bool _drawBaitRangeGizmo = false;
         [SerializeField] private Color _baitRangeGizmoColor = Color.blue;
 
-        private Edible _edible;
         private RodManager _rodManager;
         private FishableGrid _fishableGrid;
 
@@ -30,12 +30,7 @@ namespace Fishing.FishingMechanics {
             }
         }
 
-        private void Awake() {
-            _edible = GetComponent<Edible>();
-        }
-
         private void Start() {
-            GetComponent<CircleCollider2D>().radius = Scriptable.areaOfEffect;
             _rodManager = RodManager.Instance;
             _fishableGrid = FishableGrid.instance;
         }
@@ -53,26 +48,12 @@ namespace Fishing.FishingMechanics {
                     continue;
                 }
 
-                if (!Scriptable.BaitableFishTypes.HasFlag(foodSearches[foodSearchIndex].GetComponent<Edible>().FoodType)) {
+                if (!Scriptable.BaitableFishTypes.HasFlag(foodSearches[foodSearchIndex].GetComponent<Fishable>().FishableType)) {
                     continue;
                 }
 
                 foodSearches[foodSearchIndex].DesiredFood = gameObject;
             }
-        }
-
-        private void OnTriggerStay2D(Collider2D collision) {
-            if (collision.GetComponent<FoodSearch>() == null) {
-                return;
-            }
-
-            FoodSearch colSearch = collision.GetComponent<FoodSearch>();
-
-            if (!colSearch.DesiredFoodTypes.HasFlag(_edible.FoodType)) {
-                return;
-            }
-
-            colSearch.DesiredFood = gameObject;
         }
 
         private void OnDestroy() {

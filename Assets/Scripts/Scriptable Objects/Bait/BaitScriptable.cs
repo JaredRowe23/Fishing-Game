@@ -1,10 +1,8 @@
-using System.Collections;
+using Fishing.Fishables;
 using System.Collections.Generic;
 using UnityEngine;
-using Fishing.Fishables.Fish;
 
-namespace Fishing.FishingMechanics
-{
+namespace Fishing.FishingMechanics {
     [CreateAssetMenu(fileName = "New Bait Type", menuName = "Bait")]
     public class BaitScriptable : ScriptableObject
     {
@@ -14,8 +12,8 @@ namespace Fishing.FishingMechanics
         public GameObject prefab;
         public float cost;
         public float areaOfEffect;
-        [SerializeField] private Edible.FoodTypes baitableFishTypes;
-        public Edible.FoodTypes BaitableFishTypes { get => baitableFishTypes; private set { } }
+        [SerializeField] private Fishable.ItemTypes baitableFishTypes;
+        public Fishable.ItemTypes BaitableFishTypes { get => baitableFishTypes; private set { } }
         public List<string> effects;
         public List<Sprite> effectsSprites;
 

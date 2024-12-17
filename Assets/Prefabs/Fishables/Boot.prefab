@@ -103,6 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10928d4e47012d4cb92bf3ed5f54ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fishableType: 2
   _itemName: Boot
   _itemDescription: Someone must've lost this while taking a dip.
   _baseValue: 2.5
@@ -143,7 +144,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseFoodAmount: 1
-  _foodType: 2
 --- !u!61 &2294510265361410913
 BoxCollider2D:
   m_ObjectHideFlags: 0

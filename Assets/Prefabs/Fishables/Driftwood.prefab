@@ -103,6 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10928d4e47012d4cb92bf3ed5f54ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fishableType: 16
   _itemName: Driftwood
   _itemDescription: Thrown to the side, but could be useful to someone out there.
   _baseValue: 5
@@ -143,7 +144,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseFoodAmount: 0.25
-  _foodType: 16
 --- !u!61 &4266904595221770158
 BoxCollider2D:
   m_ObjectHideFlags: 0

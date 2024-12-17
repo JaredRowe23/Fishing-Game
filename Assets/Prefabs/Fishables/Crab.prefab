@@ -206,6 +206,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10928d4e47012d4cb92bf3ed5f54ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fishableType: 8
   _itemName: Crab
   _itemDescription: CrabRave.mp4
   _baseValue: 30
@@ -226,7 +227,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseFoodAmount: 5
-  _foodType: 8
 --- !u!114 &2841550005915398361
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,7 +265,7 @@ MonoBehaviour:
   _sightAngle: 30
   _sightDistance: 10
   _smellRadius: 2.5
-  _desiredFoodTypes: 0
+  _desiredFoodTypes: 7200
   _drawSearchingGizmos: 0
   _smellRadiusColor: {r: 0, g: 1, b: 0, a: 1}
   _sightConeColor: {r: 0, g: 1, b: 0, a: 1}

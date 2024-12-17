@@ -97,8 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 426add82db23744459d1e4ccad60bdcf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  scannedScale: 25
-  lifeTime: 5
+  _scannedScale: 25
+  _lifeTime: 5
 --- !u!1 &8689487642219765853
 GameObject:
   m_ObjectHideFlags: 0
@@ -237,7 +237,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseFoodAmount: 5
-  _foodType: 4096
 --- !u!114 &1952756216818593957
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,6 +249,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10928d4e47012d4cb92bf3ed5f54ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fishableType: 4096
   _itemName: Water Lily
   _itemDescription: These dot the surface of many areas of water.
   _baseValue: 7.5
