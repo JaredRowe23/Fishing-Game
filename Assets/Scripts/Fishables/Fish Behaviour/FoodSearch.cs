@@ -16,8 +16,8 @@ namespace Fishing.Fishables.Fish {
         [SerializeField, Min(0), Tooltip("Distance this fish can smell food items within.")] private float _smellRadius;
         public float SmellRadius { get => _smellRadius; private set { } }
 
-        [SerializeField, Tooltip("Types of fish this fish is able to eat.")] private Fishable.ItemTypes _desiredFoodTypes;
-        public Fishable.ItemTypes DesiredFoodTypes { get => _desiredFoodTypes; private set { } }
+        [SerializeField, Tooltip("Types of fish this fish is able to eat.")] private List<FishableScriptable> _desiredFoodTypes;
+        public List<FishableScriptable> DesiredFoodTypes { get => _desiredFoodTypes; private set { } }
 
         private GameObject _desiredFood;
         public GameObject DesiredFood { get => _desiredFood; set { _desiredFood = value; } }
@@ -128,7 +128,7 @@ namespace Fishing.Fishables.Fish {
                     }
                 }
 
-                if (!DesiredFoodTypes.HasFlag(fishable.FishableType)) {
+                if (!DesiredFoodTypes.Contains(fishable.FishableScriptable)) {
                     continue;
                 }
 

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 696da5274a1fb3b418d3464790168c2d, type: 3}
+  m_Name: Driftwood
+  m_EditorClassIdentifier: 
+  _itemName: Driftwood
+  _itemDescription: Thrown to the side, but could be useful to someone out there.
+  _baseValue: 5
+  _weightMax: 2
+  _weightMin: 1
+  _lengthMax: 0.25
+  _lengthMin: 0.75
+  _strength: 5
+  _baseMoveDistance: 250
+  _moveDistanceVariance: 75
+  _baseMoveTime: 3
+  _moveTimeVariance: 1
+  _swimSpeed: 0
+  _baseSwimTime: 10
+  _swimTimeVariance: 1
+  _baseRestTime: 5
+  _restTimeVariance: 1

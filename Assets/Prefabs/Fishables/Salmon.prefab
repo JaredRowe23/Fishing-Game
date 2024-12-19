@@ -202,7 +202,6 @@ GameObject:
   - component: {fileID: 7587219364055408247}
   - component: {fileID: -6890081191903633112}
   - component: {fileID: -4131283791763283466}
-  - component: {fileID: -1577039516795739324}
   m_Layer: 0
   m_Name: Salmon
   m_TagString: Hookable Object
@@ -239,14 +238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10928d4e47012d4cb92bf3ed5f54ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fishableType: 256
-  _itemName: Salmon
-  _itemDescription: Many cultures love the meat coming off of these guys.
-  _baseValue: 75
-  _weightMax: 15
-  _weightMin: 10
-  _lengthMax: 1.5
-  _lengthMin: 1
+  _fishableScriptable: {fileID: 11400000, guid: b653fdcbe6f214c40a65a265d27e169d, type: 2}
 --- !u!114 &-5582888590848471281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,7 +267,9 @@ MonoBehaviour:
   _sightAngle: 30
   _sightDistance: 10
   _smellRadius: 2.5
-  _desiredFoodTypes: 232
+  _desiredFoodTypes:
+  - {fileID: 11400000, guid: d389f0369f753dd44aeda181bc70f415, type: 2}
+  - {fileID: 11400000, guid: 075791cca5086d94ab86fbc3d950a7ec, type: 2}
   _drawSearchingGizmos: 0
   _smellRadiusColor: {r: 0, g: 1, b: 0, a: 1}
   _sightConeColor: {r: 0, g: 1, b: 0, a: 1}
@@ -510,25 +504,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _optimizationDistance: 0
---- !u!114 &-1577039516795739324
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8313649653780738666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 556b0a1ee4938b34f91f3aae4a66dfb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _minigameStrength: 40
-  _minigameMoveDistance: 800
-  _minigameMoveDistanceVariance: 400
-  _minigameMoveTime: 2.5
-  _minigameMoveTimeVariance: 1.5
-  _minigameSwimSpeed: 3
-  _minigameSwimTime: 15
-  _minigameSwimTimeVariance: 2.5
-  _minigameRestTime: 10
-  _minigameRestTimeVariance: 1

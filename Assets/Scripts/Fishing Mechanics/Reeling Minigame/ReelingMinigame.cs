@@ -1,4 +1,5 @@
 using Fishing.Fishables;
+using Fishing.Fishables.Fish;
 using Fishing.IO;
 using Fishing.PlayerInput;
 using Fishing.UI;
@@ -26,8 +27,18 @@ namespace Fishing.FishingMechanics.Minigame {
         private bool _isInMinigame = false;
         public bool IsInMinigame { get => _isInMinigame; private set => _isInMinigame = value; }
 
-        private RodBehaviour _equippedRod;
-        private Fishable _fishable;
+        private RodBehaviour _minigameRod;
+        public RodBehaviour MinigameRod { get => _minigameRod; private set { _minigameRod = value; } }
+
+        private RodScriptable _minigameRodScriptable;
+        public RodScriptable MinigameRodScriptable { get => _minigameRodScriptable;  private set { _minigameRodScriptable = value; } }
+
+        private Fishable _hookedFishable;
+        public Fishable HookedFishable { get => _hookedFishable; private set { _hookedFishable = value; } }
+
+        private FishableScriptable _hookedFishableSO;
+        public FishableScriptable HookedFishableSO { get => _hookedFishableSO; private set { _hookedFishableSO = value; } }
+
         private RodManager _rodManager;
 
         private static ReelingMinigame _instance;
@@ -50,8 +61,10 @@ namespace Fishing.FishingMechanics.Minigame {
         }
 
         public void InitiateMinigame(Fishable fishable) {
-            _equippedRod = _rodManager.EquippedRod;
-            _fishable = fishable;
+            MinigameRod = _rodManager.EquippedRod;
+            MinigameRodScriptable = MinigameRod.RodScriptable;
+            HookedFishable = fishable;
+            HookedFishableSO = HookedFishable.FishableScriptable;
 
             ShowMinigame(true);
             InitializeMinigameScripts();
@@ -65,23 +78,23 @@ namespace Fishing.FishingMechanics.Minigame {
         }
 
         private void InitializeMinigameScripts() {
-            _fishIcon.InitializeMinigame(_fishable);
+            _fishIcon.InitializeMinigame();
             _reelZone.InitializeMinigame();
             _stressBar.InitializeMinigame();
-            _distanceBar.InitializeMinigame(_fishable);
+            _distanceBar.InitializeMinigame();
         }
 
         private void PopulateUIText() {
-            _lineStrengthText.text = $"Line STR - {_equippedRod.Scriptable.lineStrength.ToString()}";
-            _fishNameText.text = _fishable.ItemName;
-            _fishStrengthText.text = $"Diff - x{_fishable.GetComponent<MinigameStats>().MinigameDifficulty.ToString("F2")}";
+            _lineStrengthText.text = $"Line STR - {MinigameRod.RodScriptable.LineStrength.ToString()}";
+            _fishNameText.text = HookedFishable.FishableScriptable.ItemName;
+            _fishStrengthText.text = $"Diff - x{HookedFishable.Difficulty.ToString("F2")}";
         }
 
         private void SetInputs() {
             IsReeling = false;
-            _equippedRod.ClearReelInputs();
-            InputManager.onCastReel += StartReeling;
-            InputManager.releaseCastReel += EndReeling;
+            MinigameRod.ClearReelInputs();
+            InputManager.OnCastReel += StartReeling;
+            InputManager.ReleaseCastReel += EndReeling;
         }
 
         private void HandleTutorial() {
@@ -102,13 +115,13 @@ namespace Fishing.FishingMechanics.Minigame {
         }
 
         public void OnLineSnap() {
-            _equippedRod.Hook.DestroyHookedObject(); // TODO: Remove this Destroy call after checking to see if fishables are functional when released from the hook
-            _equippedRod.Hook.HookedObject = null;
-            _equippedRod.StopReeling();
+            MinigameRod.Hook.DestroyHookedObject(); // TODO: Remove this Destroy call after checking to see if fishables are functional when released from the hook
+            MinigameRod.Hook.HookedObject = null;
+            MinigameRod.StopReeling();
 
-            InputManager.onCastReel -= StartReeling;
-            InputManager.releaseCastReel -= EndReeling;
-            _equippedRod.OnReeledIn();
+            InputManager.OnCastReel -= StartReeling;
+            InputManager.ReleaseCastReel -= EndReeling;
+            MinigameRod.OnReeledIn();
 
             EndMinigame();
         }

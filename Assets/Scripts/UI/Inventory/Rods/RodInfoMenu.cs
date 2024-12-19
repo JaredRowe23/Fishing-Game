@@ -39,12 +39,12 @@ namespace Fishing.UI
         public void UpdateRodInfo(RodBehaviour _rod)
         {
             reference = _rod;
-            rodSprite.sprite = _rod.InventorySprite;
-            rodName.text = _rod.Scriptable.rodName;
-            rodDescription.text = _rod.Scriptable.description;
+            rodSprite.sprite = _rod.RodScriptable.InventorySprite;
+            rodName.text = _rod.RodScriptable.RodName;
+            rodDescription.text = _rod.RodScriptable.Description;
 
             if (_rod.EquippedBait != null) {
-                baitButton.UpdateButton(_rod.EquippedBait.Scriptable.baitName, _rod.EquippedBait.Scriptable.inventorySprite);
+                baitButton.UpdateButton(_rod.EquippedBait.Scriptable.BaitName, _rod.EquippedBait.Scriptable.InventorySprite);
             }
             else {
                 baitButton.UpdateButton("No Bait", null);

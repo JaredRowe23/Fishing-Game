@@ -26,7 +26,7 @@ namespace Fishing.UI
 
         public void GenerateListings()
         {
-            foreach (RodScriptable _rod in ItemLookupTable.instance.rodScriptables)
+            foreach (RodScriptable _rod in ItemLookupTable.Instance.RodScriptables)
             {
                 RodStoreListing _listing = Instantiate(rodListingPrefab, rodListings.content.transform).GetComponent<RodStoreListing>();
                 _listing.UpdateInfo(_rod);
@@ -35,7 +35,7 @@ namespace Fishing.UI
 
                 for (int i = 0; i < SaveManager.Instance.LoadedPlayerData.FishingRodSaveData.Count; i++)
                 {
-                    if (_rod.rodName == SaveManager.Instance.LoadedPlayerData.FishingRodSaveData[i].RodName)
+                    if (_rod.RodName == SaveManager.Instance.LoadedPlayerData.FishingRodSaveData[i].RodName)
                     {
                         _listing.UpdateColor(RodStoreListing.ItemStatus.Purchased);
                         break;

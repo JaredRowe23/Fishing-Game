@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 9090202394078601320}
   - component: {fileID: 4266904595221770158}
   - component: {fileID: 4002074861144793379}
-  - component: {fileID: -1481619242551611243}
   m_Layer: 0
   m_Name: Driftwood
   m_TagString: Hookable Object
@@ -103,14 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10928d4e47012d4cb92bf3ed5f54ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fishableType: 16
-  _itemName: Driftwood
-  _itemDescription: Thrown to the side, but could be useful to someone out there.
-  _baseValue: 5
-  _weightMax: 2
-  _weightMin: 1
-  _lengthMax: 0.25
-  _lengthMin: 0.75
+  _fishableScriptable: {fileID: 11400000, guid: ed8fd4d28ba2c1748b2991da5b4d8c98, type: 2}
 --- !u!114 &211761124399546874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,28 +194,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _optimizationDistance: 0
---- !u!114 &-1481619242551611243
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 211761124399546875}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 556b0a1ee4938b34f91f3aae4a66dfb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _minigameStrength: 5
-  _minigameMoveDistance: 250
-  _minigameMoveDistanceVariance: 75
-  _minigameMoveTime: 3
-  _minigameMoveTimeVariance: 1
-  _minigameSwimSpeed: 0
-  _minigameSwimTime: 10
-  _minigameSwimTimeVariance: 1
-  _minigameRestTime: 5
-  _minigameRestTimeVariance: 1
 --- !u!1 &5875787623742116828
 GameObject:
   m_ObjectHideFlags: 0

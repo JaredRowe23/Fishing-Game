@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 696da5274a1fb3b418d3464790168c2d, type: 3}
+  m_Name: Seaweed
+  m_EditorClassIdentifier: 
+  _itemName: Seaweed
+  _itemDescription: It might be essentially trash in the wild, but some delicacies
+    are made using this.
+  _baseValue: 10
+  _weightMax: 0.5
+  _weightMin: 0.5
+  _lengthMax: 0.5
+  _lengthMin: 0.25
+  _strength: 5
+  _baseMoveDistance: 400
+  _moveDistanceVariance: 100
+  _baseMoveTime: 2.5
+  _moveTimeVariance: 1
+  _swimSpeed: 0
+  _baseSwimTime: 10
+  _swimTimeVariance: 1
+  _baseRestTime: 5
+  _restTimeVariance: 1

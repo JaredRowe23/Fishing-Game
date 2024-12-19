@@ -52,9 +52,9 @@ namespace Fishing.UI
                 for (int j = 0; j < rodManager.RodPrefabs.Count; j++)
                 {
                     rodManager.RodPrefabs[j].TryGetComponent(out RodBehaviour _rodBehaviour);
-                    if (_rodBehaviour.Scriptable.name != playerData.FishingRodSaveData[i].RodName) continue;
+                    if (_rodBehaviour.RodScriptable.name != playerData.FishingRodSaveData[i].RodName) continue;
 
-                    _newSlot.Sprite.sprite = _rodBehaviour.Scriptable.inventorySprite;
+                    _newSlot.Sprite.sprite = _rodBehaviour.RodScriptable.InventorySprite;
                     break;
                 }
 

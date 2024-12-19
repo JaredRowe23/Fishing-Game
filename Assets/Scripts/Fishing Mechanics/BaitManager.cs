@@ -28,7 +28,7 @@ namespace Fishing.FishingMechanics {
                 return;
             }
 
-            BaitBehaviour _newBait = Instantiate(ItemLookupTable.instance.StringToBaitScriptable(_playerData.EquippedRod.EquippedBait.BaitName).prefab, _rodManager.EquippedRod.Hook.transform).GetComponent<BaitBehaviour>();
+            BaitBehaviour _newBait = Instantiate(ItemLookupTable.Instance.StringToBaitScriptable(_playerData.EquippedRod.EquippedBait.BaitName).Prefab, _rodManager.EquippedRod.Hook.transform).GetComponent<BaitBehaviour>();
             _rodManager.EquippedRod.EquippedBait = _newBait;
             _rodManager.EquippedRod.Hook.HookedObject = _newBait.gameObject;
             _newBait.transform.localPosition = _newBait.AnchorPoint;

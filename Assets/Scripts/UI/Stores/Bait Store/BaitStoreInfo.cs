@@ -25,9 +25,9 @@ namespace Fishing.UI
         {
             currentBait = _bait;
 
-            nameText.text = currentBait.baitName;
-            descriptionText.text = currentBait.description;
-            costText.text = currentBait.cost.ToString("C");
+            nameText.text = currentBait.BaitName;
+            descriptionText.text = currentBait.Description;
+            costText.text = currentBait.Cost.ToString("C");
 
             attractsText.text = "";
             List<string> _foodTypes = currentBait.GetFoodTypesAsString();
@@ -44,19 +44,19 @@ namespace Fishing.UI
             for (int i = 0; i < effects.Count; i++) {
                 effects[i].DisableListing();
             }
-            for (int i = 0; i < currentBait.effects.Count; i++) {
-                effects[i].UpdateEffect(currentBait.effects[i], currentBait.effectsSprites[i]);
+            for (int i = 0; i < currentBait.Effects.Count; i++) {
+                effects[i].UpdateEffect(currentBait.Effects[i], currentBait.EffectsSprites[i]);
             }
         }
 
         public void BuyBait() {
-            if (SaveManager.Instance.LoadedPlayerData.SaveFileData.Money < currentBait.cost) {
+            if (SaveManager.Instance.LoadedPlayerData.SaveFileData.Money < currentBait.Cost) {
                 TooltipSystem.instance.NewTooltip(5f, "You don't have enough money to buy this bait");
                 return;
             }
 
-            TooltipSystem.instance.NewTooltip(5f, $"You bought the {nameText.text} for {currentBait.cost.ToString("C")}");
-            SaveManager.Instance.LoadedPlayerData.SaveFileData.Money -= currentBait.cost;
+            TooltipSystem.instance.NewTooltip(5f, $"You bought the {nameText.text} for {currentBait.Cost.ToString("C")}");
+            SaveManager.Instance.LoadedPlayerData.SaveFileData.Money -= currentBait.Cost;
             SaveManager.Instance.LoadedPlayerData.AddBait(nameText.text, 1);
             BaitStoreMenu.instance.RefreshStore();
             gameObject.SetActive(false);

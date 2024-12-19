@@ -56,8 +56,8 @@ namespace Fishing.PlayerCamera {
 
         private void Awake() {
             Camera = GetComponent<Camera>();
-            InputManager.onZoomIn += CameraZoomIn;
-            InputManager.onZoomOut += CameraZoomOut;
+            InputManager.OnZoomIn += CameraZoomIn;
+            InputManager.OnZoomOut += CameraZoomOut;
         }
 
         private void Start() {

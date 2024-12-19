@@ -11,10 +11,10 @@ namespace Fishing.FishingMechanics {
         private void Awake() {
             _rigidbody = GetComponent<Rigidbody2D>();
 
-            InputManager.onMoveLeft += MoveLeft;
-            InputManager.onMoveRight += MoveRight;
-            InputManager.releaseMoveLeft += StopLeft;
-            InputManager.releaseMoveRight += StopRight;
+            InputManager.OnMoveLeft += MoveLeft;
+            InputManager.OnMoveRight += MoveRight;
+            InputManager.ReleaseMoveLeft += StopLeft;
+            InputManager.ReleaseMoveRight += StopRight;
         }
 
         private void Update() {

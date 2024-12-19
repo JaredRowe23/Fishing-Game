@@ -1,3 +1,3 @@
 - Destroyed Animator reference when changing bait for the first time after casting at least once
 - Selecting bait doesn't despawn previous bait in the world if it exists
-- 
+- Catching a water lily fruit produces an index out of range error in (line 91 of Fishable)

@@ -10,13 +10,11 @@ namespace Fishing.FishingMechanics.Minigame {
 
         private Image _reelingBarFill;
 
-        private float _lineStrength;
         private float _lineStress;
 
         private ReelingMinigame _minigame;
         private ReelZone _reelZone;
         private MinigameFish _minigameFish;
-        private RodManager _rodManager;
 
         private static LineStress _instance;
         public static LineStress Instance { get => _instance; private set => _instance = value; }
@@ -30,7 +28,6 @@ namespace Fishing.FishingMechanics.Minigame {
             _minigame = ReelingMinigame.Instance;
             _minigameFish = MinigameFish.Instance;
             _reelZone = ReelZone.Instance;
-            _rodManager = RodManager.Instance;
         }
 
         private void FixedUpdate() {
@@ -59,14 +56,14 @@ namespace Fishing.FishingMechanics.Minigame {
                 AddLineStress();
             }
 
-            if (_lineStress >= _lineStrength) {
+            if (_lineStress >= _minigame.MinigameRodScriptable.LineStrength) {
                 _minigame.OnLineSnap();
                 return;
             }
         }
 
         private void AddLineStress() {
-            float stress = _minigameFish.Strength * _minigameFish.Difficulty - _lineStrength;
+            float stress = _minigame.HookedFishableSO.Strength * _minigame.HookedFishable.Difficulty - _minigame.MinigameRodScriptable.LineStrength;
             if (stress > 0f) {
                 _lineStress += stress * Time.deltaTime;
             }
@@ -83,7 +80,7 @@ namespace Fishing.FishingMechanics.Minigame {
         }
 
         private Color GetStressColor() {
-            if (_lineStress >= _lineStrength) {
+            if (_lineStress >= _minigame.MinigameRodScriptable.LineStrength) {
                 return _reelingBarFillColors[_reelingBarFillColors.Count - 1];
             }
 
@@ -91,7 +88,7 @@ namespace Fishing.FishingMechanics.Minigame {
                 return _reelingBarFillColors[0];
             }
 
-            float normalizedStress = Mathf.InverseLerp(0f, _lineStrength, _lineStress);
+            float normalizedStress = Mathf.InverseLerp(0f, _minigame.MinigameRodScriptable.LineStrength, _lineStress);
 
             float singularColorRange = 1.0f / (_reelingBarFillColors.Count - 1);
 
@@ -105,7 +102,6 @@ namespace Fishing.FishingMechanics.Minigame {
 
         public void InitializeMinigame() {
             _lineStress = 0f;
-            _lineStrength = _rodManager.EquippedRod.Scriptable.lineStrength;
             _reelingBarFill.color = GetStressColor();
         }
     }

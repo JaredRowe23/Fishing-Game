@@ -10,11 +10,8 @@ using UnityEngine;
 
 namespace Fishing.FishingMechanics {
     public class RodBehaviour : MonoBehaviour {
-        [SerializeField, Tooltip("Sprite that will be used for this fishing rod in inventory menus.")] private Sprite _inventorySprite;
-        public Sprite InventorySprite { get => _inventorySprite; private set => _inventorySprite = value; }
-
-        [SerializeField, Tooltip("Scriptable object that contains the stats for this type of fishing rod.")] private RodScriptable _scriptable;
-        public RodScriptable Scriptable { get => _scriptable; private set => _scriptable = value; }
+        [SerializeField, Tooltip("Scriptable object that contains the stats for this type of fishing rod.")] private RodScriptable _rodScriptable;
+        public RodScriptable RodScriptable { get => _rodScriptable; private set => _rodScriptable = value; }
 
         private BaitBehaviour _equippedBait;
         public BaitBehaviour EquippedBait { get => _equippedBait; set => _equippedBait = value; }
@@ -25,8 +22,6 @@ namespace Fishing.FishingMechanics {
         private bool _casted = false;
         public bool Casted { get => _casted; private set => _casted = value; }
 
-        [SerializeField, Min(0), Tooltip("Distance in meters that the hook must be within the water's surface beneath the hook's hanging point in order for the hook to be considered reeled in.")] private float _reeledInDistance = 10f;
-        public float ReeledInDistance { get => _reeledInDistance; private set => _reeledInDistance = value; }
         [SerializeField, Tooltip("Game object for the fishing rod's hook.")] private HookBehaviour _hook;
         public HookBehaviour Hook { get => _hook; private set => _hook = value; }
 
@@ -52,7 +47,7 @@ namespace Fishing.FishingMechanics {
 
         private void Awake() {
             _animator = GetComponent<Animator>();
-            InputManager.onCastReel += StartCast;
+            InputManager.OnCastReel += StartCast;
         }
 
         void Start() {
@@ -86,10 +81,10 @@ namespace Fishing.FishingMechanics {
 
         private void Reel() {
             _audioManager.PlaySound("Reel", true);
-            Hook.Reel(Scriptable.reelSpeed);
+            Hook.Reel(RodScriptable.ReelForce);
 
             Vector2 _waterSurfaceUnderRodPosition = new Vector2(Hook.LinePivotPoint.position.x, 0f);
-            if (Vector2.Distance(Hook.transform.position, _waterSurfaceUnderRodPosition) <= ReeledInDistance) {
+            if (Vector2.Distance(Hook.transform.position, _waterSurfaceUnderRodPosition) <= RodScriptable.ReeledInDistance) {
                 OnReeledIn();
             }
         }
@@ -168,7 +163,7 @@ namespace Fishing.FishingMechanics {
 
             _UIManager.HideHUDButtons();
 
-            InputManager.onCastReel -= StartCast;
+            InputManager.OnCastReel -= StartCast;
 
             _powerAndAngle.StartAngling();
         }
@@ -224,23 +219,23 @@ namespace Fishing.FishingMechanics {
         }
 
         public void ClearReelInputs() {
-            InputManager.onCastReel -= StartReeling;
-            InputManager.releaseCastReel -= StopReeling;
+            InputManager.OnCastReel -= StartReeling;
+            InputManager.ReleaseCastReel -= StopReeling;
         }
 
         public void AddReelInputs() {
-            InputManager.onCastReel += StartReeling;
-            InputManager.releaseCastReel += StopReeling;
+            InputManager.OnCastReel += StartReeling;
+            InputManager.ReleaseCastReel += StopReeling;
         }
 
         public void AddCastInput() {
-            InputManager.onCastReel += StartCast;
+            InputManager.OnCastReel += StartCast;
         }
 
         private void OnDestroy()
         {
             //Destroy(hook); // TODO: See if this call is necessary, as the rod behaviour may call the hook's OnDestroy anyway
-            InputManager.onCastReel -= StartCast;
+            InputManager.OnCastReel -= StartCast;
         } 
     }
 

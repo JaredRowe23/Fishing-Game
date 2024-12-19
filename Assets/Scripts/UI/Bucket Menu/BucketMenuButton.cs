@@ -16,7 +16,7 @@ namespace Fishing.UI
         private void Awake()
         {
 
-            InputManager.onBucketMenu += BucketMenu.instance.ToggleBucketMenu;
+            InputManager.OnBucketMenu += BucketMenu.instance.ToggleBucketMenu;
         }
     }
 

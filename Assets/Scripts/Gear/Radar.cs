@@ -1,7 +1,8 @@
 using Fishing.Fishables;
 using Fishing.Fishables.FishGrid;
-using System;
+using Fishing.IO;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -65,7 +66,7 @@ namespace Fishing.Gear {
             _previousScanDirection = Vector2.up;
 
             _fishDropdown.ClearOptions();
-            List<string> fishableTypeStrings = new List<string> (Enum.GetNames(typeof(Fishable.ItemTypes)));
+            List<string> fishableTypeStrings = new List<string> (from scriptable in ItemLookupTable.Instance.FishScriptables select scriptable.ItemName);
             _fishDropdown.AddOptions(fishableTypeStrings);
             _fishDropdown.value = 0;
 
@@ -88,13 +89,13 @@ namespace Fishing.Gear {
         }
 
         private void CheckForScannableObjects() {
-            Enum.TryParse(_fishDropdown.options[_fishDropdown.value].text, true, out Fishable.ItemTypes scanType);
+            string scanType = _fishDropdown.options[_fishDropdown.value].text;
 
             int[] currentGridSquare = _fishableGrid.Vector2ToGrid(_radarCamera.transform.position);
             List<Fishable> fishables = _fishableGrid.GetNearbyFishables(currentGridSquare[0], currentGridSquare[1], _scanRange);
 
             for (int i = 0; i < fishables.Count; i++) {
-                if (scanType != fishables[i].FishableType) {
+                if (scanType != fishables[i].FishableScriptable.ItemName) {
                     continue;
                 }
 

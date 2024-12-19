@@ -45,6 +45,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f152b609568b7904499e25c4dc38dc9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _loadedPlayerData:
+    _saveFileData:
+      _playerName: 
+      _currentSceneName: 
+      _money: 0
+      _dateTime: 
+      _playtime: 
+    _bucketItemSaveData: []
+    _fishingRodSaveData: []
+    _equippedRod:
+      _rodName: 
+      _equippedLine: 
+      _equippedHook: 
+      _equippedBait:
+        _baitName: 
+        _amount: 0
+    _baitSaveData: []
+    _hasSeenTutorialData:
+      _castTutorial: 0
+      _reelingTutorial: 0
+      _reelingMinigameTutorial: 0
+      _bucketTutorial: 0
+      _bucketMenuTutorial: 0
+      _baitTutorial: 0
+      _inventoryTutorial: 0
+      _fishTutorial: 0
+      _npcTutorial: 0
+    _recordSaveData: []
 --- !u!114 &6404902397406429036
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57,19 +85,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cf127488e91d09448a08c9b60f9a3c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rodScriptables:
+  _fishScriptables:
+  - {fileID: 11400000, guid: 617db5d4eb3b13b4bba2224ab07469e5, type: 2}
+  - {fileID: 11400000, guid: e619a47baa8acca4090de2f476903796, type: 2}
+  - {fileID: 11400000, guid: 68c6d9636cce21f42811aaeaa8dc9171, type: 2}
+  - {fileID: 11400000, guid: d389f0369f753dd44aeda181bc70f415, type: 2}
+  - {fileID: 11400000, guid: ed8fd4d28ba2c1748b2991da5b4d8c98, type: 2}
+  - {fileID: 11400000, guid: 075791cca5086d94ab86fbc3d950a7ec, type: 2}
+  - {fileID: 11400000, guid: b653fdcbe6f214c40a65a265d27e169d, type: 2}
+  - {fileID: 11400000, guid: 9f337d604bb6d8540af43cd22a424cf7, type: 2}
+  - {fileID: 11400000, guid: 580b77ce91d84f241b8ee59ca3a5a360, type: 2}
+  - {fileID: 11400000, guid: 027500cde98196f44b328a2c967a9335, type: 2}
+  - {fileID: 11400000, guid: 002c3bfc141eeda49a0c2b032d7ab396, type: 2}
+  _rodScriptables:
   - {fileID: 11400000, guid: 8bbefb858cec305448271c5527e207e6, type: 2}
   - {fileID: 11400000, guid: 9be0a5cbde443c24c94b040697b56a51, type: 2}
-  baitScriptables:
-  - {fileID: 11400000, guid: f7c756b623c98f3489420c0b865ea269, type: 2}
-  - {fileID: 11400000, guid: 71c449390337a4742a15cd510a2c51ee, type: 2}
-  - {fileID: 11400000, guid: 7962d0e233c440743bd304a692f42f44, type: 2}
+  _baitScriptables:
+  - {fileID: 11400000, guid: 270025bb5d449c941b70f04f2fc52125, type: 2}
   - {fileID: 11400000, guid: eb308beeec5adad4fa5803944072bf18, type: 2}
   - {fileID: 11400000, guid: c10b3a6018ffedc4a80d661b999f9427, type: 2}
-  - {fileID: 11400000, guid: 13f145a2a6536db4cb6226dc18c4a5a5, type: 2}
-  - {fileID: 11400000, guid: 67988d550581d16478774e3b59be493d, type: 2}
-  - {fileID: 11400000, guid: 54c6f6fe382225140bbd70211a7fcd26, type: 2}
-  - {fileID: 11400000, guid: 424337410f19c9344b281158d80ef09a, type: 2}
-  - {fileID: 11400000, guid: 270025bb5d449c941b70f04f2fc52125, type: 2}
-  - {fileID: 11400000, guid: 9d86f0afcb7d3a54c9a585caf63a805c, type: 2}
   - {fileID: 11400000, guid: 5b2eda1a1afc77a4d84b205459f3d456, type: 2}
+  - {fileID: 11400000, guid: 13f145a2a6536db4cb6226dc18c4a5a5, type: 2}
+  - {fileID: 11400000, guid: f7c756b623c98f3489420c0b865ea269, type: 2}
+  - {fileID: 11400000, guid: 67988d550581d16478774e3b59be493d, type: 2}
+  - {fileID: 11400000, guid: 71c449390337a4742a15cd510a2c51ee, type: 2}
+  - {fileID: 11400000, guid: 9d86f0afcb7d3a54c9a585caf63a805c, type: 2}
+  - {fileID: 11400000, guid: 54c6f6fe382225140bbd70211a7fcd26, type: 2}
+  - {fileID: 11400000, guid: 7962d0e233c440743bd304a692f42f44, type: 2}
+  - {fileID: 11400000, guid: 424337410f19c9344b281158d80ef09a, type: 2}

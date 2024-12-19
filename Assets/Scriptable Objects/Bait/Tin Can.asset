@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b77d52887577a564691aeedf49baa842, type: 3}
+  m_Name: Tin Can
+  m_EditorClassIdentifier: 
+  _baitName: Tin Can Bait
+  _description: Bait made from a tin can.
+  _inventorySprite: {fileID: 0}
+  _prefab: {fileID: 7061067434651880759, guid: 2b49f259fab14824eabbd3e7dfde2556, type: 3}
+  _cost: 0
+  _range: 1
+  _baitableFishTypes:
+  - {fileID: 11400000, guid: 68c6d9636cce21f42811aaeaa8dc9171, type: 2}
+  _effects: []
+  _effectsSprites: []

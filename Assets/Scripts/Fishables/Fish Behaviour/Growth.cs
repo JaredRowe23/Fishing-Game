@@ -35,8 +35,8 @@ namespace Fishing.Fishables.Fish {
         }
 
         private void Grow() {
-            _fishable.Length = Mathf.Lerp(_fishable.Length, _fishable.LengthMax, 0.5f + Random.Range(-_growthVariance, _growthVariance));
-            _fishable.Weight = Mathf.Lerp(_fishable.Weight, _fishable.WeightMax, 0.5f + Random.Range(-_growthVariance, _growthVariance));
+            _fishable.Length = Mathf.Lerp(_fishable.Length, _fishable.FishableScriptable.LengthMax, 0.5f + Random.Range(-_growthVariance, _growthVariance));
+            _fishable.Weight = Mathf.Lerp(_fishable.Weight, _fishable.FishableScriptable.WeightMax, 0.5f + Random.Range(-_growthVariance, _growthVariance));
             _hunger.CurrentFood -= _growthFoodCost;
         }
     }

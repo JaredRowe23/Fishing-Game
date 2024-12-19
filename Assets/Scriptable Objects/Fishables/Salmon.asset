@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 696da5274a1fb3b418d3464790168c2d, type: 3}
+  m_Name: Salmon
+  m_EditorClassIdentifier: 
+  _itemName: Salmon
+  _itemDescription: Many cultures love the meat coming off of these guys.
+  _baseValue: 75
+  _weightMax: 15
+  _weightMin: 10
+  _lengthMax: 1.5
+  _lengthMin: 1
+  _strength: 40
+  _baseMoveDistance: 800
+  _moveDistanceVariance: 400
+  _baseMoveTime: 2.5
+  _moveTimeVariance: 1.5
+  _swimSpeed: 3
+  _baseSwimTime: 15
+  _swimTimeVariance: 2.5
+  _baseRestTime: 10
+  _restTimeVariance: 1

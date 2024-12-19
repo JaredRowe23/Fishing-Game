@@ -59,7 +59,7 @@ namespace Fishing.IO {
 
             _sessionStartTime = System.DateTime.Now;
 
-            FishingRodSaveData _defaultRod = new FishingRodSaveData(ItemLookupTable.instance.rodScriptables[0].rodName, "", "", null);
+            FishingRodSaveData _defaultRod = new FishingRodSaveData(ItemLookupTable.Instance.RodScriptables[0].RodName, "", "", null);
             FishingRodSaveData.Add(_defaultRod);
             EquippedRod = _defaultRod;
         }

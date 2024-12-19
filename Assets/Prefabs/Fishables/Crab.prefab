@@ -118,7 +118,6 @@ GameObject:
   - component: {fileID: 4457348879507938280}
   - component: {fileID: 5968497960950684293}
   - component: {fileID: -6204042499594808435}
-  - component: {fileID: -5406659443381391635}
   m_Layer: 0
   m_Name: Crab
   m_TagString: Hookable Object
@@ -206,14 +205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b10928d4e47012d4cb92bf3ed5f54ca9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fishableType: 8
-  _itemName: Crab
-  _itemDescription: CrabRave.mp4
-  _baseValue: 30
-  _weightMax: 2
-  _weightMin: 1
-  _lengthMax: 1
-  _lengthMin: 0.7
+  _fishableScriptable: {fileID: 11400000, guid: d389f0369f753dd44aeda181bc70f415, type: 2}
 --- !u!114 &7790340061797397940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,7 +257,10 @@ MonoBehaviour:
   _sightAngle: 30
   _sightDistance: 10
   _smellRadius: 2.5
-  _desiredFoodTypes: 7200
+  _desiredFoodTypes:
+  - {fileID: 11400000, guid: 075791cca5086d94ab86fbc3d950a7ec, type: 2}
+  - {fileID: 11400000, guid: 580b77ce91d84f241b8ee59ca3a5a360, type: 2}
+  - {fileID: 11400000, guid: 002c3bfc141eeda49a0c2b032d7ab396, type: 2}
   _drawSearchingGizmos: 0
   _smellRadiusColor: {r: 0, g: 1, b: 0, a: 1}
   _sightConeColor: {r: 0, g: 1, b: 0, a: 1}
@@ -457,25 +452,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _optimizationDistance: 0
---- !u!114 &-5406659443381391635
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2855300750751475942}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 556b0a1ee4938b34f91f3aae4a66dfb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _minigameStrength: 10
-  _minigameMoveDistance: 250
-  _minigameMoveDistanceVariance: 50
-  _minigameMoveTime: 2
-  _minigameMoveTimeVariance: 0.5
-  _minigameSwimSpeed: 1
-  _minigameSwimTime: 2.5
-  _minigameSwimTimeVariance: 0.5
-  _minigameRestTime: 2.5
-  _minigameRestTimeVariance: 0.5

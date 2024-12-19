@@ -56,15 +56,15 @@ namespace Fishing.FishingMechanics {
         }
 
         public void StartCharging() {
-            _minStrength = _equippedRod.Scriptable.minCastStrength;
-            _maxStrength = _equippedRod.Scriptable.maxCastStrength;
-            _chargeFrequency = _equippedRod.Scriptable.chargeFrequency;
+            _minStrength = _equippedRod.RodScriptable.MinCastStrength;
+            _maxStrength = _equippedRod.RodScriptable.MaxCastStrength;
+            _chargeFrequency = _equippedRod.RodScriptable.ChargeFrequency;
 
             Power = _minStrength;
             _targetCharge = _maxStrength;
 
-            InputManager.onCastReel -= StartCharging;
-            InputManager.onCastReel += Cast;
+            InputManager.OnCastReel -= StartCharging;
+            InputManager.OnCastReel += Cast;
 
             IsCharging = true;
             IsAngling = false;
@@ -86,13 +86,13 @@ namespace Fishing.FishingMechanics {
 
         public void StartAngling() {
             _equippedRod = _rodManager.EquippedRod;
-            _maxAngle = _equippedRod.Scriptable.maxCastAngle;
-            _angleFrequency = _equippedRod.Scriptable.angleFrequency;
+            _maxAngle = _equippedRod.RodScriptable.MaxCastAngle;
+            _angleFrequency = _equippedRod.RodScriptable.AngleFrequency;
 
             CurrentAngle = 0f;
             _targetAngle = _maxAngle;
 
-            InputManager.onCastReel += StartCharging;
+            InputManager.OnCastReel += StartCharging;
             AudioManager.instance.PlaySound("Power Audio");
 
             IsAngling = true;
@@ -123,7 +123,7 @@ namespace Fishing.FishingMechanics {
             AudioManager.instance.StopPlaying("Power Audio");
             IsAngling = IsCharging = false;
             _rodManager.EquippedRod.Cast(CurrentAngle, Power);
-            InputManager.onCastReel -= Cast;
+            InputManager.OnCastReel -= Cast;
         }
     }
 

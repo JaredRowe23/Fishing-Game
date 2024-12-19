@@ -62,13 +62,13 @@ namespace Fishing.FishingMechanics {
         }
 
         private void GenerateAnglingTrajectories() {
-            _minimumTrajectoryPoints = GetTrajectoryPoints(_equippedRod.Scriptable.minCastStrength, powerAngle.CurrentAngle);
-            _maximumTrajectoryPoints = GetTrajectoryPoints(_equippedRod.Scriptable.maxCastStrength, powerAngle.CurrentAngle);
+            _minimumTrajectoryPoints = GetTrajectoryPoints(_equippedRod.RodScriptable.MinCastStrength, powerAngle.CurrentAngle);
+            _maximumTrajectoryPoints = GetTrajectoryPoints(_equippedRod.RodScriptable.MaxCastStrength, powerAngle.CurrentAngle);
 
             PlotTrajectory(_minimumTrajectoryPoints, _minTrajectoryLineRenderer);
             PlotTrajectory(_maximumTrajectoryPoints, _maxTrajectoryLineRenderer);
 
-            HandleCamera(_equippedRod.Scriptable.maxCastAngle);
+            HandleCamera(_equippedRod.RodScriptable.MaxCastAngle);
         }
 
         private void GeneratePowerTrajectories() {
@@ -112,7 +112,7 @@ namespace Fishing.FishingMechanics {
         }
 
         public void HandleCamera(float angle) {
-            List<Vector2> trajectoryPoints = GetTrajectoryPoints(_equippedRod.Scriptable.maxCastStrength, angle);
+            List<Vector2> trajectoryPoints = GetTrajectoryPoints(_equippedRod.RodScriptable.MaxCastStrength, angle);
 
             Vector2 closestPoint = trajectoryPoints[0];
             Vector2 furthestPoint = trajectoryPoints[trajectoryPoints.Count - 1];

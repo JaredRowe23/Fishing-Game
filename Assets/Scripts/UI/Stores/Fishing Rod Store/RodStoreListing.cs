@@ -32,9 +32,9 @@ namespace Fishing.UI
         public void UpdateInfo (RodScriptable _rod)
         {
             referenceScriptable = _rod;
-            nameText.text = _rod.rodName;
-            costText.text = _rod.cost.ToString("C");
-            rodSprite.sprite = _rod.inventorySprite;
+            nameText.text = _rod.RodName;
+            costText.text = _rod.Cost.ToString("C");
+            rodSprite.sprite = _rod.InventorySprite;
         }
 
         public void UpdateColor(ItemStatus status)

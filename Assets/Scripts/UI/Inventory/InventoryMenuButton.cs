@@ -14,7 +14,7 @@ namespace Fishing.UI
 
         private void Awake()
         {
-            InputManager.onInventoryMenu += InventoryMenu.instance.ToggleInventoryMenu;
+            InputManager.OnInventoryMenu += InventoryMenu.instance.ToggleInventoryMenu;
         }
     }
 

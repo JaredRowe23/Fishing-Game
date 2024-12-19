@@ -109,8 +109,8 @@ namespace Fishing.FishingMechanics {
 
         private void HandlePhysics() {
             float _distanceFromPivot = Vector2.Distance(transform.position, LinePivotPoint.position);
-            if (_distanceFromPivot >= _rod.Scriptable.lineLength) {
-                transform.position += (LinePivotPoint.position - transform.position).normalized * (_distanceFromPivot - _rod.Scriptable.lineLength);
+            if (_distanceFromPivot >= _rod.RodScriptable.LineLength) {
+                transform.position += (LinePivotPoint.position - transform.position).normalized * (_distanceFromPivot - _rod.RodScriptable.LineLength);
             }
             //else {
                 // _rigidbody.gravityScale = 1; May be pointless, as nothing changes this?

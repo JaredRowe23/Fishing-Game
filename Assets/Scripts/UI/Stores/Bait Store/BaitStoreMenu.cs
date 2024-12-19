@@ -24,7 +24,7 @@ namespace Fishing.UI
         }
 
         public void GenerateListings() {
-            foreach (BaitScriptable _bait in ItemLookupTable.instance.baitScriptables) {
+            foreach (BaitScriptable _bait in ItemLookupTable.Instance.BaitScriptables) {
                 BaitStoreListing _listing = Instantiate(baitListingPrefab, baitListings.content.transform).GetComponent<BaitStoreListing>();
                 _listing.UpdateInfo(_bait);
 

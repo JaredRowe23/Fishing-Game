@@ -41,7 +41,7 @@ namespace Fishing.Inventory {
         public void AddToBucket(Fishable fishable) {
             _audioManager.PlaySound("Catch Fish");
 
-            BucketItemSaveData bucketItemData = new BucketItemSaveData(fishable.ItemName, fishable.ItemDescription, fishable.Weight, fishable.Length, fishable.Value);
+            BucketItemSaveData bucketItemData = new BucketItemSaveData(fishable.FishableScriptable.ItemName, fishable.FishableScriptable.ItemDescription, fishable.Weight, fishable.Length, fishable.Value);
 
             if (BucketList.Count >= MaxItems) {
                 OnBucketOverflow(bucketItemData);

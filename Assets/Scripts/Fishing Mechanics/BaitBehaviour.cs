@@ -41,14 +41,14 @@ namespace Fishing.FishingMechanics {
 
         private void ApplyBaitToNearbyFoodSearches() {
             int[] gridSquare = _fishableGrid.Vector2ToGrid(transform.position);
-            List<FoodSearch> foodSearches = _fishableGrid.GetNearbyFoodSearches(gridSquare[0], gridSquare[1], Scriptable.areaOfEffect);
+            List<FoodSearch> foodSearches = _fishableGrid.GetNearbyFoodSearches(gridSquare[0], gridSquare[1], Scriptable.Range);
             for (int foodSearchIndex = 0; foodSearchIndex < foodSearches.Count; foodSearchIndex++) {
                 float distance = Vector2.Distance(foodSearches[foodSearchIndex].transform.position, transform.position);
-                if (distance > Scriptable.areaOfEffect) {
+                if (distance > Scriptable.Range) {
                     continue;
                 }
 
-                if (!Scriptable.BaitableFishTypes.HasFlag(foodSearches[foodSearchIndex].GetComponent<Fishable>().FishableType)) {
+                if (!Scriptable.BaitableFishTypes.Contains(foodSearches[foodSearchIndex].GetComponent<Fishable>().FishableScriptable)) {
                     continue;
                 }
 
@@ -70,7 +70,7 @@ namespace Fishing.FishingMechanics {
 
         private void DrawBaitRangeGizmo() {
             Gizmos.color = _baitRangeGizmoColor;
-            Gizmos.DrawWireSphere(transform.position, Scriptable.areaOfEffect);
+            Gizmos.DrawWireSphere(transform.position, Scriptable.Range);
         }
     }
 }

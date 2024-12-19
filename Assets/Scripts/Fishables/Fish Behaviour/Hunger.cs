@@ -55,8 +55,8 @@ namespace Fishing.Fishables.Fish {
 
         public void AddFood(Edible food) {
             Fishable foodFishable = food.GetComponent<Fishable>();
-            float lengthScalar = Mathf.InverseLerp(foodFishable.LengthMin, foodFishable.LengthMax, foodFishable.Length) + 0.5f;
-            float weightScalar = Mathf.InverseLerp(foodFishable.WeightMin, foodFishable.WeightMax, foodFishable.Weight) + 0.5f;
+            float lengthScalar = Mathf.InverseLerp(foodFishable.FishableScriptable.LengthMin, foodFishable.FishableScriptable.LengthMax, foodFishable.Length) + 0.5f;
+            float weightScalar = Mathf.InverseLerp(foodFishable.FishableScriptable.WeightMin, foodFishable.FishableScriptable.WeightMax, foodFishable.Weight) + 0.5f;
             float scalarAverage = (lengthScalar + weightScalar) * 0.5f;
             CurrentFood += food.BaseFoodAmount * scalarAverage;
         }

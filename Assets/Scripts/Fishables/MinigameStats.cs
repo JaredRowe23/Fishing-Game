@@ -31,27 +31,9 @@ namespace Fishing.Fishables {
 
         [SerializeField, Min(0), Tooltip("Amount of variance in MinigameRestTime.")] private float _minigameRestTimeVariance = 1f;
         public float MinigameRestTimeVariance { get => _minigameRestTimeVariance; private set { } }
-        public float MinigameDifficulty => _fishable.Value / _fishable.BaseValue;
+        public float MinigameDifficulty => _fishable.Value / _fishable.FishableScriptable.BaseValue;
 
         private Fishable _fishable;
-
-        private void OnValidate() {
-            if (MinigameMoveDistanceVariance > MinigameMoveDistance) {
-                MinigameMoveDistanceVariance = MinigameMoveDistance;
-            }
-            if (MinigameMoveTimeVariance > MinigameMoveTime) {
-                MinigameMoveTimeVariance = MinigameMoveTime;
-            }
-            if (MinigameMoveDistanceVariance > MinigameMoveDistance) {
-                MinigameMoveDistanceVariance = MinigameMoveDistance;
-            }
-            if (MinigameSwimTimeVariance > MinigameSwimTime) {
-                MinigameSwimTimeVariance = MinigameSwimTime;
-            }
-            if (MinigameRestTimeVariance > MinigameRestTime) {
-                MinigameRestTimeVariance = MinigameRestTime;
-            }
-        }
 
         private void Awake() {
             _fishable = GetComponent<Fishable>();

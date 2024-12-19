@@ -185,10 +185,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 705f45848a2406040a23388154b8639a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _inventorySprite: {fileID: 21300000, guid: e087e6c73489fb944b06d8ede48148d6, type: 3}
-  _scriptable: {fileID: 11400000, guid: 8bbefb858cec305448271c5527e207e6, type: 2}
+  _rodScriptable: {fileID: 11400000, guid: 8bbefb858cec305448271c5527e207e6, type: 2}
   _linePivotPoint: {fileID: 1958218463701778770}
-  _reeledInDistance: 10
   _hook: {fileID: 1958218464476562891}
   _idleAnimationPositions:
   - {fileID: 930341343285167019}
@@ -441,7 +439,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _baseFoodAmount: 10
-  _foodType: 64
 --- !u!120 &1408322187
 LineRenderer:
   serializedVersion: 2

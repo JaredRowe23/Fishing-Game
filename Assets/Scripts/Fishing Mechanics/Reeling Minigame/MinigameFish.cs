@@ -1,4 +1,5 @@
 using Fishing.Fishables;
+using Fishing.Fishables.Fish;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,29 +13,10 @@ namespace Fishing.FishingMechanics.Minigame {
         public Image FishIcon { get => _fishIcon; private set => _fishIcon = value; }
         private float _fishIconOffsetX;
 
-        private Fishable _fishable;
-
-        private float _strength;
-        public float Strength { get => _strength; private set => _strength = value; }
-        private float _difficulty;
-        public float Difficulty { get => _difficulty; private set => _difficulty = value; }
-        private float _moveTime;
-        private float _moveTimeVariance;
-        private float _moveDistance;
-        private float _moveDistanceVariance;
-
         private bool _canSwim;
         private bool _isSwimming;
         public bool IsSwimming { get => _isSwimming; private set => _isSwimming = value; }
-        private float _swimSpeed;
-        private float _swimTime;
-        private float _swimTimeVariance;
-        private float _restTime;
-        private float _restTimeVariance;
-        private float _swimCount;
-        private float _restCount;
-        private float _moveCount;
-        private float _movePosition;
+        private float _targetPosition;
 
         private ReelingMinigame _minigame;
         private RodManager _rodManager;
@@ -69,16 +51,16 @@ namespace Fishing.FishingMechanics.Minigame {
         }
 
         private void MoveFishIcon() {
-            float newX = Mathf.Lerp(FishIcon.rectTransform.anchoredPosition.x, _movePosition, _fishMoveSmoothing);
+            float newX = Mathf.Lerp(FishIcon.rectTransform.anchoredPosition.x, _targetPosition, _fishMoveSmoothing);
             FishIcon.rectTransform.anchoredPosition = new Vector2(newX, 0f);
         }
 
         private void MoveHookAwayFromPlayer() {
-            Vector3 direction = Vector3.Normalize(_fishable.transform.position - _rodManager.EquippedRod.LinePivotPoint.position);
-            _rodManager.EquippedRod.Hook.transform.position += _swimSpeed * Time.fixedDeltaTime * direction;
+            Vector3 direction = Vector3.Normalize(_minigame.HookedFishable.transform.position - _rodManager.EquippedRod.LinePivotPoint.position);
+            _rodManager.EquippedRod.Hook.transform.position += _minigame.HookedFishableSO.SwimSpeed * Time.fixedDeltaTime * direction;
 
             float rotationAngle = Vector2.Angle(Vector2.up, direction);
-            _fishable.transform.rotation = Quaternion.Euler(0, 0, rotationAngle);
+            _minigame.HookedFishable.transform.rotation = Quaternion.Euler(0, 0, rotationAngle);
         }
 
         private IEnumerator Co_Swim() {
@@ -88,7 +70,7 @@ namespace Fishing.FishingMechanics.Minigame {
             _swimmingIcon.gameObject.SetActive(true);
 
             StartCoroutine("Co_Move");
-            yield return new WaitForSeconds(_swimTime + Random.Range(-_swimTimeVariance, _swimTimeVariance));
+            yield return new WaitForSeconds(_minigame.HookedFishableSO.GetRandomSwimTime());
 
             StopCoroutine("Co_Move");
             StartCoroutine("Co_Rest");
@@ -97,7 +79,7 @@ namespace Fishing.FishingMechanics.Minigame {
         private IEnumerator Co_Move() {
             while (true) {
                 SetNewFishPosition();
-                yield return new WaitForSeconds(_moveTime + Random.Range(-_moveTimeVariance, _moveTimeVariance));
+                yield return new WaitForSeconds(_minigame.HookedFishableSO.GetRandomMoveTime());
             }
         }
 
@@ -107,42 +89,24 @@ namespace Fishing.FishingMechanics.Minigame {
 
             _swimmingIcon.gameObject.SetActive(false);
 
-            yield return new WaitForSeconds(_restTime + Random.Range(-_restTimeVariance, _restTimeVariance));
+            yield return new WaitForSeconds(_minigame.HookedFishableSO.GetRandomRestTime());
             StartCoroutine("Co_Swim");
         }
 
         private void SetNewFishPosition() {
-            float moveDistance = Random.Range(-_moveDistance - _moveDistanceVariance, _moveDistance + _moveDistanceVariance);
+            float moveDistance = _minigame.HookedFishableSO.GetRandomMoveDistance();
             float newFishPosX = FishIcon.rectTransform.anchoredPosition.x + moveDistance;
-            _movePosition = Mathf.Clamp(newFishPosX, _fishIconOffsetX, _minigame.ReelBarMaxX - _fishIconOffsetX);
+            _targetPosition = Mathf.Clamp(newFishPosX, _fishIconOffsetX, _minigame.ReelBarMaxX - _fishIconOffsetX);
         }
 
-        public void InitializeMinigame(Fishable fishable) {
-            SetFishStats(fishable);
+        public void InitializeMinigame() {
+            _canSwim = _minigame.HookedFishable.TryGetComponent(out IMovement _);
 
             FishIcon.rectTransform.anchoredPosition = Vector2.zero;
             _fishIconOffsetX = FishIcon.rectTransform.rect.width * 0.5f;
-            _movePosition = Random.Range(_fishIconOffsetX, _minigame.ReelBarMaxX - _fishIconOffsetX);
+            _targetPosition = Random.Range(_fishIconOffsetX, _minigame.ReelBarMaxX - _fishIconOffsetX);
 
             StartCoroutine("Co_Swim");
-        }
-
-        private void SetFishStats(Fishable fishable) {
-            _fishable = fishable;
-            MinigameStats stats = _fishable.GetComponent<MinigameStats>();
-
-            _canSwim = _fishable.GetComponent<IMovement>() != null;
-            Strength = stats.MinigameStrength;
-            Difficulty = stats.MinigameDifficulty;
-            _moveTime = stats.MinigameMoveTime;
-            _moveTimeVariance = stats.MinigameMoveTimeVariance;
-            _moveDistance = stats.MinigameMoveDistance;
-            _moveDistanceVariance = stats.MinigameMoveDistanceVariance;
-            _swimSpeed = stats.MinigameSwimSpeed;
-            _swimTime = stats.MinigameSwimTime;
-            _swimTimeVariance = stats.MinigameSwimTimeVariance;
-            _restTime = stats.MinigameRestTime;
-            _restTimeVariance = stats.MinigameRestTimeVariance;
         }
     }
 }

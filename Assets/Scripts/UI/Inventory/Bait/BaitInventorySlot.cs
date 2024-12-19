@@ -16,9 +16,9 @@ namespace Fishing.UI
         public BaitSaveData baitSaveData;
 
         public void UpdateSlot() {
-            baitScriptable = ItemLookupTable.instance.StringToBaitScriptable(baitSaveData.BaitName);
+            baitScriptable = ItemLookupTable.Instance.StringToBaitScriptable(baitSaveData.BaitName);
             title.text = baitSaveData.BaitName;
-            sprite.sprite = baitScriptable.inventorySprite;
+            sprite.sprite = baitScriptable.InventorySprite;
             countText.text = $"x{baitSaveData.Amount}";
         }
 

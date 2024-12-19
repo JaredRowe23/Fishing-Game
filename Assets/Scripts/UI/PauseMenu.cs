@@ -28,7 +28,7 @@ namespace Fishing.UI
 
             playerData = SaveManager.Instance.LoadedPlayerData;
 
-            InputManager.onPauseMenu += ToggleMenu;
+            InputManager.OnPauseMenu += ToggleMenu;
         }
 
         public void ToggleMenu()

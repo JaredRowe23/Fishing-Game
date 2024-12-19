@@ -32,7 +32,7 @@ namespace Fishing {
             _playerData = SaveManager.Instance.LoadedPlayerData;
             _tooltipSystem = TooltipSystem.instance;
             _audioManager = AudioManager.instance;
-            _itemLookupTable = ItemLookupTable.instance;
+            _itemLookupTable = ItemLookupTable.Instance;
             EquipRod(_playerData.EquippedRod.RodName, false);
         }
 

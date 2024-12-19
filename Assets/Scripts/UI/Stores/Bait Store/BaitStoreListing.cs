@@ -34,11 +34,11 @@ namespace Fishing.UI
         {
             referenceScriptable = _bait;
 
-            nameText.text = referenceScriptable.baitName;
-            costText.text = referenceScriptable.cost.ToString("C");
+            nameText.text = referenceScriptable.BaitName;
+            costText.text = referenceScriptable.Cost.ToString("C");
             if (referenceScriptable.GetFoodTypesAsString() != null) attractsText.text = $"Attracts: x{_bait.GetFoodTypesAsString().Count}";
-            effectsText.text = $"Effects: x{referenceScriptable.effects.Count}";
-            baitSprite.sprite = referenceScriptable.inventorySprite;
+            effectsText.text = $"Effects: x{referenceScriptable.Effects.Count}";
+            baitSprite.sprite = referenceScriptable.InventorySprite;
         }
 
         public void UpdateColor(ItemStatus status) {

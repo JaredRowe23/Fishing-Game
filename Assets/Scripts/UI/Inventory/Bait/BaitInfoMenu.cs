@@ -23,9 +23,9 @@ namespace Fishing.UI
         public void UpdateBaitInfoMenu(BaitScriptable _bait)
         {
             currentBait = _bait;
-            baitName.text = currentBait.baitName;
-            baitSprite.sprite = currentBait.inventorySprite;
-            baitDescription.text = currentBait.description;
+            baitName.text = currentBait.BaitName;
+            baitSprite.sprite = currentBait.InventorySprite;
+            baitDescription.text = currentBait.Description;
             baitAttractionList.text = GetAttractionListText();
             UpdateEffectsListings();
         }
@@ -49,8 +49,8 @@ namespace Fishing.UI
             for (int i = 0; i < baitEffectsListings.Count; i++) {
                 baitEffectsListings[i].DisableListing();
             }
-            for (int i = 0; i < currentBait.effects.Count; i++) {
-                baitEffectsListings[i].UpdateEffect(currentBait.effects[i], currentBait.effectsSprites[i]);
+            for (int i = 0; i < currentBait.Effects.Count; i++) {
+                baitEffectsListings[i].UpdateEffect(currentBait.Effects[i], currentBait.EffectsSprites[i]);
             }
         }
     }
