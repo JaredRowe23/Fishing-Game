@@ -50,8 +50,8 @@ namespace Fishing.UI
             UIManager.instance.mouseOverUI = null;
             gameObject.SetActive(true);
 
-            if (BucketMenu.instance.gameObject.activeSelf) {
-                BucketMenu.instance.ToggleBucketMenu();
+            if (BucketMenu.Instance.gameObject.activeSelf) {
+                BucketMenu.Instance.ToggleBucketMenu();
             }
 
             if (SaveManager.Instance.LoadedPlayerData.HasSeenTutorialData.InventoryTutorial) return;

@@ -1,36 +1,34 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Fishing.IO;
 using UnityEngine;
 using UnityEngine.UI;
-using Fishing.Inventory;
-using Fishing.IO;
 
-namespace Fishing.UI
-{
-    public class BucketMenuItem : MonoBehaviour
-    {
-        [SerializeField] private Text itemName;
-        [SerializeField] private Text itemWeight;
-        [SerializeField] private Text itemLength;
-        [SerializeField] private Text itemValue;
-        [HideInInspector] public BucketItemSaveData itemReference;
+namespace Fishing.UI {
+    public class BucketMenuItem : MonoBehaviour {
+        [SerializeField, Tooltip("Text UI that displays the name of the bucket item.")] private Text _nameText;
+        [SerializeField, Tooltip("Text UI that displays the weight of the bucket item.")] private Text _weightText;
+        [SerializeField, Tooltip("Text UI that displays the length of the bucket item.")] private Text _lengthText;
+        [SerializeField, Tooltip("Text UI that displays the value of the bucket item.")] private Text _valueText;
+        private BucketItemSaveData _data;
 
-        public void UpdateInfo(BucketItemSaveData _item)
-        {
-            itemReference = _item;
-            itemName.text = _item.ItemName;
-            itemWeight.text = _item.Weight.ToString("F2") + " kg";
-            itemLength.text = _item.Length.ToString("F2") + " cm";
-            itemValue.text = "$" + _item.Value.ToString("F2");
+        private UIManager _UIManager;
+
+        private void Start() {
+            _UIManager = UIManager.instance;
         }
 
-        public void OpenInfoMenu()
-        {
-            if (!UIManager.instance.itemInfoMenu.activeSelf)
-            {
-                UIManager.instance.itemInfoMenu.SetActive(true);
+        public void UpdateInfo(BucketItemSaveData item) {
+            _data = item;
+            _nameText.text = item.ItemName;
+            _weightText.text = $"{item.Weight.ToString("F2")} kg";
+            _lengthText.text = $"{item.Length.ToString("F2")} cm";
+            _valueText.text = item.Value.ToString("C");
+        }
+
+        public void OpenInfoMenu() {
+            if (!_UIManager.itemInfoMenu.activeSelf) {
+                _UIManager.itemInfoMenu.SetActive(true);
             }
-            UIManager.instance.itemInfoMenu.GetComponent<ItemInfoMenu>().UpdateMenu(itemReference, gameObject);
+            _UIManager.itemInfoMenu.GetComponent<ItemInfoMenu>().UpdateMenu(_data, this);
         }
     }
 

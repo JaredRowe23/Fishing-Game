@@ -10,6 +10,9 @@ namespace Fishing.Fishables.Fish {
         [SerializeField, Tooltip("Description of this item.")] private string _itemDescription;
         public string ItemDescription { get => _itemDescription; private set { } }
 
+        [SerializeField, Tooltip("Sprite of this item.")] private Sprite _inventorySprite;
+        public Sprite InventorySprite { get => _inventorySprite; set { _inventorySprite = value; } }
+
         [SerializeField, Min(0), Tooltip("Base value for a \"normal\" sized item of this type.")] private float _baseValue;
         public float BaseValue { get => _baseValue; private set { } }
 

@@ -1,17 +1,15 @@
-﻿using System.Collections;
+﻿using Fishing.UI;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Fishing.UI;
 
-namespace Fishing
-{
-    public class UIManager : MonoBehaviour
-    {
+namespace Fishing {
+    public class UIManager : MonoBehaviour {
+        [SerializeField, Tooltip("List of singleton objects that are inactive at the start of the scene but need to have their references set at the beginning.")] private List<IInactiveSingleton> _inactiveSingletons;
         [SerializeField] private Button bucketMenuButton;
         public GameObject mouseOverUI;
         public GameObject itemInfoMenu;
-        public GameObject overflowItem;
+        public BucketMenuItem overflowItem;
         public GameObject itemViewer;
         public Canvas rodCanvas;
         [SerializeField] private GameObject inventoryMenuButton;
@@ -26,6 +24,19 @@ namespace Fishing
         public static UIManager instance;
 
         private UIManager() => instance = this;
+
+        private void Awake() {
+            instance = this;
+            for (int i = 0; i < _inactiveSingletons.Count; i++) {
+                _inactiveSingletons[i].SetInstanceReference();
+            }
+        }
+
+        private void Start() {
+            for (int i = 0; i < _inactiveSingletons.Count; i++) {
+                _inactiveSingletons[i].SetDepenencyReferences();
+            }
+        }
 
         public bool IsActiveUI() {
             foreach (GameObject _ui in interuptableUI) {

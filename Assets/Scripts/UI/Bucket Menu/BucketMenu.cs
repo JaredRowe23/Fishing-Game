@@ -1,95 +1,103 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using Fishing.Inventory;
 using Fishing.IO;
+using UnityEngine;
+using UnityEngine.UI;
 
-namespace Fishing.UI
-{
-    public class BucketMenu : MonoBehaviour
-    {
-        [SerializeField] private BucketBehaviour bucket;
-        [SerializeField] private GameObject content;
-        [SerializeField] private Slider capacityBar;
-        [SerializeField] private Text capacityText;
-        [SerializeField] private GameObject bucketItemPrefab;
+namespace Fishing.UI {
+    public class BucketMenu : IInactiveSingleton {
+        [SerializeField, Tooltip("Slider UI that displays how full the bucket is.")] private Slider _capacityBar;
+        [SerializeField, Tooltip("Text UI that displays the current and maximum capacity of the bucket.")] private Text _capacityText;
+        [SerializeField, Tooltip("Prefab of UI items to generate for each item in the bucket.")] private GameObject _bucketItemPrefab;
 
-        private PlayerData playerData;
+        private BucketBehaviour _bucket;
+        [SerializeField, Tooltip("ScrollRect UI that displays the list of bucket items.")] private ScrollRect _scrollRect;
 
-        public static BucketMenu instance;
+        private PlayerData _playerData;
+        private UIManager _UIManager;
+        private TutorialSystem _tutorialSystem;
+        private AudioManager _audioManager;
 
-        private BucketMenu() => instance = this;
+        private static BucketMenu _instance;
+        public static BucketMenu Instance { get => _instance; private set => _instance = value; }
 
-        private void Awake()
-        {
-            playerData = SaveManager.Instance.LoadedPlayerData;
-        }
-
-        public void ToggleBucketMenu()
-        {
-            if (UIManager.instance.overflowItem.activeSelf) return;
+        public void ToggleBucketMenu() {
+            if (_UIManager.overflowItem.gameObject.activeSelf) {
+                return;
+            }
 
             gameObject.SetActive(!gameObject.activeSelf);
 
-            if (gameObject.activeSelf) ShowBucketMenu();
-            else HideBucketMenu();
+            if (gameObject.activeSelf) {
+                ShowBucketMenu();
+            }
+            else {
+                HideBucketMenu();
+            }
         }
 
-        public void ShowBucketMenu()
-        {
-            if (InventoryMenu.instance.gameObject.activeSelf) InventoryMenu.instance.HideInventoryMenu();
-            AudioManager.instance.PlaySound("Open Bucket");
+        public void ShowBucketMenu() {
+            if (InventoryMenu.instance.gameObject.activeSelf) {
+                InventoryMenu.instance.HideInventoryMenu();
+            }
+            _audioManager.PlaySound("Open Bucket");
             InitializeMenu();
 
-            if (!playerData.HasSeenTutorialData.BucketMenuTutorial) ShowBucketMenuTutorial();
+            if (!_playerData.HasSeenTutorialData.BucketMenuTutorial) {
+                ShowBucketMenuTutorial();
+            }
         }
 
-        public void HideBucketMenu()
-        {
-            AudioManager.instance.PlaySound("Close Bucket");
+        public void HideBucketMenu() {
+            _audioManager.PlaySound("Close Bucket");
             DestroyMenu();
-            UIManager.instance.itemInfoMenu.SetActive(false);
+            _UIManager.itemInfoMenu.SetActive(false);
         }
 
-        private void ShowBucketMenuTutorial()
-        {
-            TutorialSystem.instance.QueueTutorial("Here you can view each fish or item you've caught. Click on each one to view more details, throw it away, or turn it into bait!");
-            playerData.HasSeenTutorialData.BucketMenuTutorial = true;
+        private void ShowBucketMenuTutorial() {
+            _tutorialSystem.QueueTutorial("Here you can view each fish or item you've caught. Click on each one to view more details, throw it away, or turn it into bait!");
+            _playerData.HasSeenTutorialData.BucketMenuTutorial = true;
         }
 
-        public void InitializeMenu()
-        {
-            for (int i = 0; i < bucket.BucketList.Count; i++)
-            {
-                BucketMenuItem _menu = Instantiate(bucketItemPrefab, content.transform).GetComponent<BucketMenuItem>();
-                _menu.UpdateInfo(bucket.BucketList[i]);
+        public void InitializeMenu() {
+            for (int i = 0; i < _bucket.BucketList.Count; i++) {
+                BucketMenuItem _menu = Instantiate(_bucketItemPrefab, _scrollRect.content.transform).GetComponent<BucketMenuItem>();
+                _menu.UpdateInfo(_bucket.BucketList[i]);
             }
 
             UpdateCapacity();
         }
 
-        private void UpdateCapacity()
-        {
-            capacityBar.maxValue = bucket.MaxItems;
-            capacityBar.value = bucket.BucketList.Count;
-            capacityText.text = bucket.BucketList.Count.ToString() + "/" + bucket.MaxItems.ToString();
+        private void UpdateCapacity() {
+            _capacityBar.maxValue = _bucket.MaxItems;
+            _capacityBar.value = _bucket.BucketList.Count;
+            _capacityText.text = _bucket.BucketList.Count.ToString() + "/" + _bucket.MaxItems.ToString();
         }
 
-        public void DestroyMenu()
-        {
-            foreach (Transform _child in content.transform)
-            {
-                if (!_child.GetComponent<BucketMenuItem>()) continue;
+        public void DestroyMenu() {
+            foreach (Transform _child in _scrollRect.content.transform) {
+                if (!_child.TryGetComponent(out BucketMenuItem _)) {
+                    continue;
+                }
 
                 Destroy(_child.gameObject);
             }
         }
 
-        public void RefreshMenu()
-        {
+        public void RefreshMenu() {
             DestroyMenu();
             InitializeMenu();
+        }
+
+        public override void SetInstanceReference() {
+            Instance = this;
+        }
+
+        public override void SetDepenencyReferences() {
+            _playerData = SaveManager.Instance.LoadedPlayerData;
+            _bucket = BucketBehaviour.Instance;
+            _UIManager = UIManager.instance;
+            _tutorialSystem = TutorialSystem.instance;
+            _audioManager = AudioManager.instance;
         }
     }
 }

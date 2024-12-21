@@ -151,7 +151,7 @@ namespace Fishing.FishingMechanics {
             if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
                 return;
             }
-            if (_UIManager.mouseOverUI || _UIManager.IsActiveUI() || _tutorialSystem.TutorialListings.content.gameObject.activeSelf) {
+            if (_UIManager.mouseOverUI || DisableCastOnHover.IsHoveringUI || _UIManager.IsActiveUI() || _tutorialSystem.TutorialListings.content.gameObject.activeSelf) {
                 return;
             }
             if (Casted) {

@@ -19,12 +19,12 @@ MonoBehaviour:
   _inventorySprite: {fileID: 21300000, guid: e087e6c73489fb944b06d8ede48148d6, type: 3}
   _lineLength: 250
   _lineStrength: 10
-  _minCastStrength: 100
-  _maxCastStrength: 150
+  _minCastStrength: 1000
+  _maxCastStrength: 1500
   _maxCastAngle: 45
   _chargeFrequency: 1
   _angleFrequency: 1
-  _reelForce: 1
+  _reelForce: 1000
   _reeledInDistance: 10
   _reelZoneWidth: 10
   _reelZoneForce: 2
