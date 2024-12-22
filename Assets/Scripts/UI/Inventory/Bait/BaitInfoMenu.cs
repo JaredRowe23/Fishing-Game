@@ -1,57 +1,51 @@
-using System.Collections;
+using Fishing.FishingMechanics;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Fishing.FishingMechanics;
 
-namespace Fishing.UI
-{
-    public class BaitInfoMenu : MonoBehaviour
-    {
-        [SerializeField] private Text baitName;
-        [SerializeField] private Image baitSprite;
-        [SerializeField] private Text baitDescription;
-        [SerializeField] private Text baitAttractionList;
-        [SerializeField] public List<BaitEffectsListing> baitEffectsListings;
+namespace Fishing.UI {
+    public class BaitInfoMenu : InactiveSingleton {
+        [SerializeField, Tooltip("Text UI displaying the name of the selected bait.")] private Text _baitName;
+        [SerializeField, Tooltip("Image UI displaying the sprite of the selected bait.")] private Image _baitSprite;
+        [SerializeField, Tooltip("Text UI displaying the description of the selected bait.")] private Text _baitDescription;
+        [SerializeField, Tooltip("Text UI dispalying each fish type the selected bait attracts.")] private Text _baitAttractionList;
+        [SerializeField, Tooltip("List of BaitEffectListing prefabs that display info on each effect of the selected bait.")] private List<BaitEffectsListing> _baitEffectsListings;
 
-        private BaitScriptable currentBait;
+        private BaitScriptable _currentBait;
 
-        public static BaitInfoMenu instance;
+        private static BaitInfoMenu _instance;
+        public static BaitInfoMenu Instance { get => _instance; private set => _instance = value; }
 
-        private BaitInfoMenu() => instance = this;
-
-        public void UpdateBaitInfoMenu(BaitScriptable _bait)
-        {
-            currentBait = _bait;
-            baitName.text = currentBait.BaitName;
-            baitSprite.sprite = currentBait.InventorySprite;
-            baitDescription.text = currentBait.Description;
-            baitAttractionList.text = GetAttractionListText();
+        public void UpdateBaitInfoMenu(BaitScriptable bait) {
+            _currentBait = bait;
+            _baitName.text = _currentBait.BaitName;
+            _baitSprite.sprite = _currentBait.InventorySprite;
+            _baitDescription.text = _currentBait.Description;
+            _baitAttractionList.text = $"{string.Join(", ", _currentBait.GetFoodTypesAsString())}.";
             UpdateEffectsListings();
         }
 
-        private string GetAttractionListText() {
-            string _attractionListText = "";
-            List<string> _foodTypes = currentBait.GetFoodTypesAsString();
-            for (int i = 0; i < _foodTypes.Count; i++) {
-                _attractionListText += _foodTypes[i];
-                if (i == _foodTypes.Count - 1) {
-                    _attractionListText += ".";
+        private void UpdateEffectsListings() {
+            for (int i = 0; i < _baitEffectsListings.Count; i++) {
+                if (i < _currentBait.Effects.Count) {
+                    _baitEffectsListings[i].UpdateEffect(_currentBait.Effects[i], _currentBait.EffectsSprites[i]);
                 }
                 else {
-                    _attractionListText += ", ";
+                    _baitEffectsListings[i].DisableListing();
                 }
             }
-            return _attractionListText;
         }
 
-        private void UpdateEffectsListings() {
-            for (int i = 0; i < baitEffectsListings.Count; i++) {
-                baitEffectsListings[i].DisableListing();
-            }
-            for (int i = 0; i < currentBait.Effects.Count; i++) {
-                baitEffectsListings[i].UpdateEffect(currentBait.Effects[i], currentBait.EffectsSprites[i]);
-            }
+        public override void SetInstanceReference() {
+            Instance = this;
+        }
+
+        public override void SetDepenencyReferences() {
+            // No required dependencies
+        }
+
+        private void OnDisable() {
+            gameObject.SetActive(false);
         }
     }
 }

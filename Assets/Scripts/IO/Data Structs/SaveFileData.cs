@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Fishing.IO {
     [System.Serializable]
@@ -13,7 +14,7 @@ namespace Fishing.IO {
         public float Money {
             get => _money;
             set {
-                onMoneyUpdated?.Invoke();
+                OnMoneyUpdated?.Invoke();
                 _money = value;
             }
         }
@@ -24,8 +25,7 @@ namespace Fishing.IO {
         [SerializeField] private string _playtime;
         public string Playtime { get => _playtime; set => _playtime = value; }
 
-        public delegate void OnMoneyUpdated();
-        public static event OnMoneyUpdated onMoneyUpdated;
+        public static UnityAction OnMoneyUpdated;
 
         public SaveFileData(string playerName, string currentSceneName, float money, string dateTime, string playtime) {
             PlayerName = playerName;

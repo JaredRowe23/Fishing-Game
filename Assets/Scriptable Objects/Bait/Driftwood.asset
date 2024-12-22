@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b77d52887577a564691aeedf49baa842, type: 3}
   m_Name: Driftwood
   m_EditorClassIdentifier: 
-  _baitName: Driftwood Bait
+  _baitName: Driftwood
   _description: Bait made from a piece of driftwood.
-  _inventorySprite: {fileID: 0}
+  _inventorySprite: {fileID: 21300000, guid: 596214a613bcf0b4583ad79b09c0e9e1, type: 3}
   _prefab: {fileID: 7061067434651880759, guid: 8c201e4565e075844b5ec31eed0b8366, type: 3}
   _cost: 0
   _range: 1

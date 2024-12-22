@@ -10,10 +10,10 @@ namespace Fishing.UI {
         [SerializeField, Tooltip("Text UI that displays the value of the bucket item.")] private Text _valueText;
         private BucketItemSaveData _data;
 
-        private UIManager _UIManager;
+        private ItemInfoMenu _itemInfoMenu;
 
         private void Start() {
-            _UIManager = UIManager.instance;
+            _itemInfoMenu = ItemInfoMenu.Instance;
         }
 
         public void UpdateInfo(BucketItemSaveData item) {
@@ -25,11 +25,10 @@ namespace Fishing.UI {
         }
 
         public void OpenInfoMenu() {
-            if (!_UIManager.itemInfoMenu.activeSelf) {
-                _UIManager.itemInfoMenu.SetActive(true);
+            if (!_itemInfoMenu.gameObject.activeSelf) {
+                _itemInfoMenu.gameObject.SetActive(true);
             }
-            _UIManager.itemInfoMenu.GetComponent<ItemInfoMenu>().UpdateMenu(_data, this);
+            _itemInfoMenu.UpdateMenu(_data, this);
         }
     }
-
 }

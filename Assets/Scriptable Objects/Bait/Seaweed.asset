@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b77d52887577a564691aeedf49baa842, type: 3}
   m_Name: Seaweed
   m_EditorClassIdentifier: 
-  _baitName: Seaweed Bait
+  _baitName: Seaweed
   _description: Bait made from a piece of seaweed.
-  _inventorySprite: {fileID: 0}
+  _inventorySprite: {fileID: 21300000, guid: c0719312299492948a70785865b399bc, type: 3}
   _prefab: {fileID: 7061067434651880759, guid: b94978a89042f26469ea5f72a86ac73c, type: 3}
   _cost: 0
   _range: 1

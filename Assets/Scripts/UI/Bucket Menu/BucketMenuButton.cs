@@ -1,11 +1,14 @@
 ﻿using Fishing.PlayerInput;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Fishing.UI {
     public class BucketMenuButton : MonoBehaviour {
-        private void Start() {
+        private void OnEnable() {
             InputManager.OnBucketMenu += BucketMenu.Instance.ToggleBucketMenu;
+        }
+
+        private void OnDisable() {
+            InputManager.OnBucketMenu -= BucketMenu.Instance.ToggleBucketMenu;
         }
     }
 

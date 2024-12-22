@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b77d52887577a564691aeedf49baa842, type: 3}
   m_Name: Sea Serpent
   m_EditorClassIdentifier: 
-  _baitName: Sea Serpent Bait
+  _baitName: Sea Serpent
   _description: Bait made from a sea serpent.
-  _inventorySprite: {fileID: 0}
+  _inventorySprite: {fileID: 21300000, guid: 81877fa698005bb47b5830df40ed9552, type: 3}
   _prefab: {fileID: 7061067434651880759, guid: 812ba723e7f1bd44db15f07e32f13483, type: 3}
   _cost: 0
   _range: 1

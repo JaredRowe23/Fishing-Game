@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemName: Driftwood
   _itemDescription: Thrown to the side, but could be useful to someone out there.
+  _inventorySprite: {fileID: 21300000, guid: 596214a613bcf0b4583ad79b09c0e9e1, type: 3}
   _baseValue: 5
   _weightMax: 2
   _weightMin: 1

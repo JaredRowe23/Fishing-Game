@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 namespace Fishing.UI {
-    public class BucketMenu : IInactiveSingleton {
+    public class BucketMenu : InactiveSingleton {
         [SerializeField, Tooltip("Slider UI that displays how full the bucket is.")] private Slider _capacityBar;
         [SerializeField, Tooltip("Text UI that displays the current and maximum capacity of the bucket.")] private Text _capacityText;
         [SerializeField, Tooltip("Prefab of UI items to generate for each item in the bucket.")] private GameObject _bucketItemPrefab;
@@ -26,36 +26,11 @@ namespace Fishing.UI {
             }
 
             gameObject.SetActive(!gameObject.activeSelf);
-
-            if (gameObject.activeSelf) {
-                ShowBucketMenu();
-            }
-            else {
-                HideBucketMenu();
-            }
         }
 
-        public void ShowBucketMenu() {
-            if (InventoryMenu.instance.gameObject.activeSelf) {
-                InventoryMenu.instance.HideInventoryMenu();
-            }
-            _audioManager.PlaySound("Open Bucket");
+        public void RefreshMenu() {
+            DestroyMenuItems();
             InitializeMenu();
-
-            if (!_playerData.HasSeenTutorialData.BucketMenuTutorial) {
-                ShowBucketMenuTutorial();
-            }
-        }
-
-        public void HideBucketMenu() {
-            _audioManager.PlaySound("Close Bucket");
-            DestroyMenu();
-            _UIManager.itemInfoMenu.SetActive(false);
-        }
-
-        private void ShowBucketMenuTutorial() {
-            _tutorialSystem.QueueTutorial("Here you can view each fish or item you've caught. Click on each one to view more details, throw it away, or turn it into bait!");
-            _playerData.HasSeenTutorialData.BucketMenuTutorial = true;
         }
 
         public void InitializeMenu() {
@@ -70,22 +45,18 @@ namespace Fishing.UI {
         private void UpdateCapacity() {
             _capacityBar.maxValue = _bucket.MaxItems;
             _capacityBar.value = _bucket.BucketList.Count;
-            _capacityText.text = _bucket.BucketList.Count.ToString() + "/" + _bucket.MaxItems.ToString();
+            _capacityText.text = $"{_bucket.BucketList.Count}/{_bucket.MaxItems}";
         }
 
-        public void DestroyMenu() {
+        public void DestroyMenuItems() {
             foreach (Transform _child in _scrollRect.content.transform) {
-                if (!_child.TryGetComponent(out BucketMenuItem _)) {
-                    continue;
-                }
-
                 Destroy(_child.gameObject);
             }
         }
 
-        public void RefreshMenu() {
-            DestroyMenu();
-            InitializeMenu();
+        private void ShowBucketMenuTutorial() {
+            _tutorialSystem.QueueTutorial("Here you can view each fish or item you've caught. Click on each one to view more details, throw it away, or turn it into bait!");
+            _playerData.HasSeenTutorialData.BucketMenuTutorial = true;
         }
 
         public override void SetInstanceReference() {
@@ -98,6 +69,24 @@ namespace Fishing.UI {
             _UIManager = UIManager.instance;
             _tutorialSystem = TutorialSystem.instance;
             _audioManager = AudioManager.instance;
+        }
+
+        private void OnEnable() {
+            if (InventoryMenu.Instance.gameObject.activeSelf) {
+                InventoryMenu.Instance.gameObject.SetActive(false);
+            }
+
+            InitializeMenu();
+            _audioManager.PlaySound("Open Bucket");
+
+            if (!_playerData.HasSeenTutorialData.BucketMenuTutorial) {
+                ShowBucketMenuTutorial();
+            }
+        }
+
+        private void OnDisable() {
+            DestroyMenuItems();
+            _audioManager.PlaySound("Close Bucket");
         }
     }
 }

@@ -6,18 +6,17 @@ using UnityEngine;
 namespace Fishing.IO {
     public class ItemLookupTable : MonoBehaviour {
         [SerializeField] private List<FishableScriptable> _fishScriptables;
-        public List<FishableScriptable> FishScriptables { get => _fishScriptables; private set { } }
+        public List<FishableScriptable> FishScriptables { get => _fishScriptables;}
         [SerializeField] private List<RodScriptable> _rodScriptables;
-        public List<RodScriptable> RodScriptables { get => _rodScriptables; private set { } }
+        public List<RodScriptable> RodScriptables { get => _rodScriptables;}
         [SerializeField] private List<BaitScriptable> _baitScriptables;
-        public List<BaitScriptable> BaitScriptables { get => _baitScriptables; private set { } }
+        public List<BaitScriptable> BaitScriptables { get => _baitScriptables;}
 
         private static ItemLookupTable _instance;
-        public static ItemLookupTable Instance { get => _instance; set => _instance = value; }
+        public static ItemLookupTable Instance;
 
         private void Awake() {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
 
         public FishableScriptable StringToFishScriptable(string fishableName) {

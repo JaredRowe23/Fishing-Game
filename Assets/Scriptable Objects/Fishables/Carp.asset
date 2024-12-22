@@ -15,6 +15,7 @@ MonoBehaviour:
   _itemName: Carp
   _itemDescription: Oddly enough, these fish love trash. Truely the dumpsters of
     the ocean.
+  _inventorySprite: {fileID: 21300000, guid: 85352e05db890494fa0578e595bf6195, type: 3}
   _baseValue: 50
   _weightMax: 2
   _weightMin: 1.5

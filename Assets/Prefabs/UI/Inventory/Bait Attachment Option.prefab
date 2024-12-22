@@ -93,7 +93,7 @@ GameObject:
   - component: {fileID: 5855185149423107813}
   - component: {fileID: 8451239210458994767}
   m_Layer: 5
-  m_Name: Bait Option
+  m_Name: Bait Attachment Option
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -227,13 +227,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3dd49994b86e3bd4a9e8066d5d395a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: {fileID: 5796667450180812247}
-  sprite: {fileID: 4005334948602375976}
-  countText: {fileID: 6731774308685378622}
-  baitScriptable: {fileID: 0}
-  baitSaveData:
-    baitName: 
-    amount: 0
+  _title: {fileID: 5796667450180812247}
+  _sprite: {fileID: 4005334948602375976}
+  _countText: {fileID: 6731774308685378622}
+  _isNoBaitOption: 0
 --- !u!1 &4258948105330284234
 GameObject:
   m_ObjectHideFlags: 0

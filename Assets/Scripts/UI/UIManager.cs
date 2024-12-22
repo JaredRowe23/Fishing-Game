@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace Fishing {
     public class UIManager : MonoBehaviour {
-        [SerializeField, Tooltip("List of singleton objects that are inactive at the start of the scene but need to have their references set at the beginning.")] private List<IInactiveSingleton> _inactiveSingletons;
+        private List<InactiveSingleton> _inactiveSingletons;
         [SerializeField] private Button bucketMenuButton;
         public GameObject mouseOverUI;
         public GameObject itemInfoMenu;
@@ -27,11 +27,14 @@ namespace Fishing {
 
         private void Awake() {
             instance = this;
+        }
+
+        private void OnEnable() { // Using OnOnEnable for this instead of Awake as this shouldn't be set to inactive at any point, and this allows the scene to instantiate everything in Awake first, before their depenencies are required in Start
+            _inactiveSingletons = new List<InactiveSingleton>(FindObjectsOfType<InactiveSingleton>(true));
             for (int i = 0; i < _inactiveSingletons.Count; i++) {
                 _inactiveSingletons[i].SetInstanceReference();
             }
         }
-
         private void Start() {
             for (int i = 0; i < _inactiveSingletons.Count; i++) {
                 _inactiveSingletons[i].SetDepenencyReferences();

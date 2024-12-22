@@ -6619,14 +6619,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2434506532854602172, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
-      propertyPath: scanRange
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 2434506532854602172, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
-      propertyPath: scanFrequency
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 2497515049005119807, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -6777,10 +6769,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3921452245530399816, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4056669215928865574, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
-      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4111863511066734413, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
@@ -7147,10 +7135,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7607593466891940000, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Fishing.UI.InventoryMenu, Assembly-CSharp
-      objectReference: {fileID: 0}
     - target: {fileID: 7607593466984937486, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -7190,10 +7174,6 @@ PrefabInstance:
     - target: {fileID: 7607593467311132472, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7607593467332315094, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
-      propertyPath: rodCanvas
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7607593467332315095, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -7463,10 +7443,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8730486207342758656, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
-      propertyPath: bucket
-      value: 
-      objectReference: {fileID: 6914334847326442417}
     - target: {fileID: 8837648517880798089, guid: e5284055cdbf5894d9912d29e7d6cfb7, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -7675,17 +7651,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18f0ddb02befd0b4980b30dce550ecc6, type: 3}
---- !u!114 &6914334847326442417 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 455619793825409606, guid: 18f0ddb02befd0b4980b30dce550ecc6, type: 3}
-  m_PrefabInstance: {fileID: 6914334847326442416}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f884a4e26635dfb478715beb9876b378, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

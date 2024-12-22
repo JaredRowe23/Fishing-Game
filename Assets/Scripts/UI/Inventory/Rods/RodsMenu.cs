@@ -1,87 +1,52 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Fishing.IO;
 using UnityEngine;
-using Fishing.IO;
-using Fishing.FishingMechanics;
+using UnityEngine.UI;
 
-namespace Fishing.UI
-{
-    public class RodsMenu : MonoBehaviour, IInventoryTab
+namespace Fishing.UI {
+    public class RodsMenu : InactiveSingleton
     {
-        [SerializeField] private GameObject slotPrefab;
-        [SerializeField] private GameObject content;
-        [SerializeField] private RodInfoMenu rodInfoMenu;
+        [SerializeField, Tooltip("Prefab UI to display each player owned fishing rod.")] private GameObject _slotPrefab;
+        [SerializeField, Tooltip("ScrollRect UI that displays each player owned fishing rod.")] private ScrollRect _scrollRect;
+        [SerializeField, Tooltip("Menu that displays extra info about the selected (equipped) fishing rod.")] private RodInfoMenu _rodInfoMenu;
 
-        private PlayerData playerData;
-        private RodManager rodManager;
+        private PlayerData _playerData;
+        private InventoryMenu _inventoryMenu;
 
-        public static RodsMenu instance;
-
-        private RodsMenu() => instance = this;
-
-        private void Awake()
-        {
-            rodManager = RodManager.Instance;
-            playerData = SaveManager.Instance.LoadedPlayerData;
-        }
-
-
-        private void Start() => GenerateSlots();
+        private static RodsMenu _instance;
+        public static RodsMenu Instance { get => _instance; private set => _instance = value; }
 
         public void ShowRodMenu() {
-            InventoryMenu.instance.UpdateActiveMenu(gameObject);
+            _inventoryMenu.UpdateActiveMenu(gameObject);
         }
 
-        public void ShowTab() {
-            DestroySlots();
-            GenerateSlots();
-        }
-
-        public void HideTab() {
-            rodInfoMenu.HideAttachmentScrollRects();
-        }
-
-        public void GenerateSlots()
-        {
-            for (int i = 0; i < playerData.FishingRodSaveData.Count; i++)
-            {
-                RodInventorySlot _newSlot = Instantiate(slotPrefab, content.transform).GetComponent<RodInventorySlot>();
-
-                _newSlot.Title.text = playerData.FishingRodSaveData[i].RodName;
-
-                for (int j = 0; j < rodManager.RodPrefabs.Count; j++)
-                {
-                    rodManager.RodPrefabs[j].TryGetComponent(out RodBehaviour _rodBehaviour);
-                    if (_rodBehaviour.RodScriptable.name != playerData.FishingRodSaveData[i].RodName) continue;
-
-                    _newSlot.Sprite.sprite = _rodBehaviour.RodScriptable.InventorySprite;
-                    break;
-                }
-
-                UpdateEquippedCheckmark();
+        public void GenerateSlots() {
+            for (int i = 0; i < _playerData.FishingRodSaveData.Count; i++) {
+                RodInventorySlot newSlot = Instantiate(_slotPrefab, _scrollRect.content.transform).GetComponent<RodInventorySlot>();
+                newSlot.UpdateSlot(_playerData.FishingRodSaveData[i]);
             }
         }
 
         private void DestroySlots() {
-            foreach (Transform _child in content.transform) {
+            foreach (Transform _child in _scrollRect.content.transform) {
                 Destroy(_child.gameObject);
             }
         }
 
-        public void UpdateEquippedCheckmark()
-        {
-            foreach (Transform _slot in content.transform)
-            {
-                RodInventorySlot _invSlot = _slot.GetComponent<RodInventorySlot>();
-                if (_invSlot.Title.text == playerData.EquippedRod.RodName)
-                {
-                    _invSlot.EquippedCheck.SetActive(true);
-                }
-                else
-                {
-                    _invSlot.EquippedCheck.SetActive(false);
-                }
-            }
+        private void OnEnable() {
+            GenerateSlots();
+        }
+
+        private void OnDisable() {
+            DestroySlots();
+        }
+
+        public override void SetInstanceReference() {
+            Instance = this;
+        }
+
+        public override void SetDepenencyReferences() {
+            _playerData = SaveManager.Instance.LoadedPlayerData;
+            _inventoryMenu = InventoryMenu.Instance;
         }
     }
 }

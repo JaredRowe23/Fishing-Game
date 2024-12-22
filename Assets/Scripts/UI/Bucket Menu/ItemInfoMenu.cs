@@ -1,12 +1,11 @@
 ﻿using Fishing.Fishables;
 using Fishing.Inventory;
 using Fishing.IO;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Fishing.UI {
-    public class ItemInfoMenu : MonoBehaviour {
+    public class ItemInfoMenu : InactiveSingleton {
         [SerializeField, Tooltip("Image UI to use for displaying the bucket item.")] private Image _itemImage;
         [SerializeField, Tooltip("Text UI to use for displaying the bucket item name.")] private Text _itemNameText;
         [SerializeField, Tooltip("Text UI to use for displaying the bucket item description.")] private Text _itemDescriptionText;
@@ -26,15 +25,8 @@ namespace Fishing.UI {
         private AudioManager _audioManager;
         private TutorialSystem _tutorialSystem;
 
-        private void Awake() {
-            _playerData = SaveManager.Instance.LoadedPlayerData;
-            _manager = UIManager.instance;
-            _bucketMenu = BucketMenu.Instance;
-            _tooltipSystem = TooltipSystem.instance;
-            _rodManager = RodManager.Instance;
-            _bucket = BucketBehaviour.Instance;
-            _tutorialSystem = TutorialSystem.instance;
-        }
+        private static ItemInfoMenu _instance;
+        public static ItemInfoMenu Instance { get => _instance; private set { _instance = value; } }
 
         public void UpdateMenu(BucketItemSaveData reference, BucketMenuItem menuListing) {
             _menuListingReference = menuListing;
@@ -49,7 +41,7 @@ namespace Fishing.UI {
         }
 
         public void ThrowAwayItem() {
-            _tooltipSystem.NewTooltip(5f, $"Threw away the {_dataReference.ItemName} worth {_dataReference.Value.ToString("C")}");
+            _tooltipSystem.NewTooltip(5f, $"Threw away the {_dataReference.ItemName}");
             if (_manager.overflowItem.gameObject.activeSelf) {
                 HandleOverflowItem();
             }
@@ -74,23 +66,6 @@ namespace Fishing.UI {
             RemoveItem();
         }
 
-        private void RemoveItem() {
-            RemoveAllObjects();
-
-            _audioManager.PlaySound("Throwaway Fish");
-
-            _manager.itemInfoMenu.SetActive(false);
-            _bucketMenu.RefreshMenu();
-            gameObject.SetActive(false);
-        }
-
-        private void RemoveAllObjects() {
-            _bucket.BucketList.Remove(_dataReference);
-            if (_menuListingReference != _manager.overflowItem) {
-                Destroy(_menuListingReference);
-            }
-        }
-
         public void HandleOverflowItem() {
             if (_menuListingReference != _manager.overflowItem) {
                 _bucket.AddToBucket(_rodManager.EquippedRod.Hook.HookedObject.GetComponent<Fishable>());
@@ -101,10 +76,41 @@ namespace Fishing.UI {
             _bucketMenu.ToggleBucketMenu();
         }
 
+        private void RemoveItem() {
+            _bucket.BucketList.Remove(_dataReference);
+            if (_menuListingReference != _manager.overflowItem) {
+                Destroy(_menuListingReference);
+            }
+
+            _audioManager.PlaySound("Throwaway Fish");
+
+            _manager.itemInfoMenu.SetActive(false);
+            _bucketMenu.RefreshMenu();
+            gameObject.SetActive(false);
+        }
+
         private void ShowBaitTutorial() {
             _tutorialSystem.QueueTutorial("Bait can help you catch fish that aren't interested in just your hook as is. Close the bucket menu and open the inventory menu (I) to equip it!");
             _playerData.HasSeenTutorialData.BaitTutorial = true;
         }
-    }
 
+        public override void SetInstanceReference() {
+            Instance = this;
+        }
+
+        public override void SetDepenencyReferences() {
+            _playerData = SaveManager.Instance.LoadedPlayerData;
+            _manager = UIManager.instance;
+            _bucketMenu = BucketMenu.Instance;
+            _tooltipSystem = TooltipSystem.instance;
+            _rodManager = RodManager.Instance;
+            _bucket = BucketBehaviour.Instance;
+            _audioManager = AudioManager.instance;
+            _tutorialSystem = TutorialSystem.instance;
+        }
+
+        private void OnDisable() {
+            gameObject.SetActive(false);
+        }
+    }
 }

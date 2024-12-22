@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b77d52887577a564691aeedf49baa842, type: 3}
   m_Name: Boot
   m_EditorClassIdentifier: 
-  _baitName: Boot Bait
+  _baitName: Boot
   _description: Bait made from a boot.
-  _inventorySprite: {fileID: 0}
+  _inventorySprite: {fileID: 21300000, guid: 43937ef1f673c7f448237d65a3cd05fb, type: 3}
   _prefab: {fileID: 7061067434651880759, guid: 47a2de0f966719d4f9409ac1519bf41f, type: 3}
   _cost: 0
   _range: 1

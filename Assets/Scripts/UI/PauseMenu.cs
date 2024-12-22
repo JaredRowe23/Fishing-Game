@@ -36,7 +36,7 @@ namespace Fishing.UI
             if (SceneManager.GetActiveScene().handle == 2)
             {
                 if (BucketMenu.Instance.gameObject.activeSelf) return;
-                if (InventoryMenu.instance.gameObject.activeSelf) return;
+                if (InventoryMenu.Instance.gameObject.activeSelf) return;
             }
 
             if (pauseMenu.activeSelf) {

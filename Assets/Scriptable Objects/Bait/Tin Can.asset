@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b77d52887577a564691aeedf49baa842, type: 3}
   m_Name: Tin Can
   m_EditorClassIdentifier: 
-  _baitName: Tin Can Bait
+  _baitName: Tin Can
   _description: Bait made from a tin can.
-  _inventorySprite: {fileID: 0}
+  _inventorySprite: {fileID: 21300000, guid: c8389a713f32c3846b846908bc9c23ed, type: 3}
   _prefab: {fileID: 7061067434651880759, guid: 2b49f259fab14824eabbd3e7dfde2556, type: 3}
   _cost: 0
   _range: 1

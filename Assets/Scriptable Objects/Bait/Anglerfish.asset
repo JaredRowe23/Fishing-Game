@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b77d52887577a564691aeedf49baa842, type: 3}
   m_Name: Anglerfish
   m_EditorClassIdentifier: 
-  _baitName: Anglerfish Bait
+  _baitName: Anglerfish
   _description: Bait made from an anglerfish.
-  _inventorySprite: {fileID: 0}
+  _inventorySprite: {fileID: 21300000, guid: b9f665fbb2874a0498fa6104f46ed93a, type: 3}
   _prefab: {fileID: 7061067434651880759, guid: 2a7c5d55762867e4abd2e822c59fcc51, type: 3}
   _cost: 0
   _range: 10

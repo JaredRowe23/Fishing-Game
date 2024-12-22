@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b77d52887577a564691aeedf49baa842, type: 3}
   m_Name: Crab
   m_EditorClassIdentifier: 
-  _baitName: Crab Bait
+  _baitName: Crab
   _description: Bait made from a crab.
-  _inventorySprite: {fileID: 0}
+  _inventorySprite: {fileID: 21300000, guid: bd048ddd227a10649b661be93355d303, type: 3}
   _prefab: {fileID: 7061067434651880759, guid: 88f986cd6036aba49864a1f09c0b1105, type: 3}
   _cost: 0
   _range: 1

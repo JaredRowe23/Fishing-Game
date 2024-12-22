@@ -572,9 +572,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: -0.0014999979, y: 0.0014999979, z: 0.000002249999, w: 0.9999978}
   m_Size:
-    m_Target: 700.60913
+    m_Target: 561.8541
     speed: 2
-    m_Value: 700.60913
+    m_Value: 561.8541
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -618,8 +618,8 @@ MonoBehaviour:
     y: 472
     width: 960
     height: 515
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 2}
   m_Panes:
   - {fileID: 2}
@@ -649,7 +649,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 52
+  controlID: 5616
   draggingID: 0
 --- !u!114 &8
 MonoBehaviour:
@@ -714,9 +714,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
-      m_LastClickedID: 0
-      m_ExpandedIDs: 22fbffff
+      m_SelectedIDs: a80b0700
+      m_LastClickedID: 461736
+      m_ExpandedIDs: ea62f2ff2a63f2ff0065f2ff0665f2ff0865f2ff967df4ff9c7df4ffbe7ef4ff7ab9f4ff80b9f4ffaebef4ffa8dcf4ff04e9f4ff0ae9f4ff38eef4fffaeef4ff4000f5ff22fbfffff4ffffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -750,7 +750,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: ConsoleWindow
+  m_Name: ProjectBrowser
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -759,14 +759,14 @@ MonoBehaviour:
     y: 427
     width: 514
     height: 560
-  m_MinSize: {x: 102, y: 121}
-  m_MaxSize: {x: 4002, y: 4021}
-  m_ActualView: {fileID: 12}
+  m_MinSize: {x: 232, y: 271}
+  m_MaxSize: {x: 10002, y: 10021}
+  m_ActualView: {fileID: 11}
   m_Panes:
   - {fileID: 11}
   - {fileID: 12}
-  m_Selected: 1
-  m_LastSelected: 0
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -812,7 +812,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scriptable Objects/Fishables
+    - Assets/Scriptable Objects/Bait
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -820,16 +820,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 61
   m_LastFolders:
-  - Assets/Scriptable Objects/Fishables
+  - Assets/Scriptable Objects/Bait
   m_LastFoldersGridSize: 61
   m_LastProjectPath: E:\Unity Things\My Projects\Fishing
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 180}
-    m_SelectedIDs: fabc0100
-    m_LastClickedID: 113914
-    m_ExpandedIDs: 0000000006750000087500000a7500000c7500000e75000010750000127500001475000016750000187500001a7500001c75000072770000
+    scrollPos: {x: 0, y: 143}
+    m_SelectedIDs: f8bc0100
+    m_LastClickedID: 113912
+    m_ExpandedIDs: 0000000006750000087500000a7500000c7500000e75000010750000127500001475000016750000187500001a7500001c7500007277000088770000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -857,7 +857,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000006750000087500000a7500000c7500000e75000010750000127500001475000016750000187500001a7500001c750000
+    m_ExpandedIDs: 0000000006750000087500000a7500000c7500000e75000010750000127500001475000016750000187500001a7500001c75000072770000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -882,8 +882,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
+    m_SelectedInstanceIDs: a80b0700
+    m_LastClickedInstanceID: 461736
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: 7a560000aad10000806a0000ca6200006c820100ac65000060670000da5f0000886900005287000068cd000000000000
     m_RenameOverlay:
@@ -971,7 +971,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 116
+  controlID: 5674
   draggingID: 0
 --- !u!114 &14
 MonoBehaviour:
@@ -992,8 +992,8 @@ MonoBehaviour:
     y: 0
     width: 446
     height: 841
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
@@ -1135,8 +1135,8 @@ MonoBehaviour:
     y: 841
     width: 446
     height: 146
-  m_MinSize: {x: 100, y: 100}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 101, y: 121}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 19}
   m_Panes:
   - {fileID: 19}
@@ -1177,7 +1177,7 @@ MonoBehaviour:
     m_SaveData: []
     m_OverlaysVisible: 1
   m_Spl:
-    ID: 149
+    ID: 5713
     splitterInitialOffset: 305
     currentActiveSplitter: -1
     realSizes:

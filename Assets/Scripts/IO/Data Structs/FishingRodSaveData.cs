@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Fishing.IO {
     [System.Serializable]
@@ -12,8 +13,17 @@ namespace Fishing.IO {
         [SerializeField] private string _equippedHook;
         public string EquippedHook { get => _equippedHook; set => _equippedHook = value; }
 
+        public UnityAction ChangedEquippedBait;
         [SerializeField] private BaitSaveData _equippedBait;
-        public BaitSaveData EquippedBait { get => _equippedBait; set => _equippedBait = value; }
+        public BaitSaveData EquippedBait {
+            get => _equippedBait;
+            set {
+                if (_equippedBait != value) {
+                    ChangedEquippedBait?.Invoke();
+                }
+                _equippedBait = value;
+            }
+        }
 
         public FishingRodSaveData(string rodName, string equippedLine, string equippedHook, BaitSaveData equippedBait) {
             RodName = rodName;

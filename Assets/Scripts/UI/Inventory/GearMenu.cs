@@ -1,20 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace Fishing.UI
-{
-    public class GearMenu : MonoBehaviour, IInventoryTab
-    {
+namespace Fishing.UI {
+    public class GearMenu : MonoBehaviour {
         public void ShowGearMenu() {
-            InventoryMenu.instance.UpdateActiveMenu(gameObject);
-        }
-
-        public void ShowTab() {
-        }
-
-        public void HideTab() {
+            InventoryMenu.Instance.UpdateActiveMenu(gameObject);
         }
     }
-
 }

@@ -19,6 +19,12 @@ namespace Fishing.UI {
         public void OnPointerExit(PointerEventData eventData) {
             _hoveredUI = null;
         }
+
+        private void OnDisable() {
+            if (_hoveredUI == this) {
+                _hoveredUI = null;
+            }
+        }
     }
 
 }

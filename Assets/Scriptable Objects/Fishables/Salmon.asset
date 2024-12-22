@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _itemName: Salmon
   _itemDescription: Many cultures love the meat coming off of these guys.
+  _inventorySprite: {fileID: 21300000, guid: eae191fe956c3d645b0d1ae780ff0597, type: 3}
   _baseValue: 75
   _weightMax: 15
   _weightMin: 10

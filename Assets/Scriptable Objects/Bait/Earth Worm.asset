@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b77d52887577a564691aeedf49baa842, type: 3}
   m_Name: Earth Worm
   m_EditorClassIdentifier: 
-  _baitName: Earth Worm Bait
+  _baitName: Earth Worm
   _description: Dug out from the ground.
-  _inventorySprite: {fileID: 0}
+  _inventorySprite: {fileID: 21300000, guid: ab6b5d88002af884eb0adf9c6866fe63, type: 3}
   _prefab: {fileID: 7061067434651880759, guid: 4024686567b544849a3adb8df5b04eab, type: 3}
   _cost: 0.25
   _range: 1

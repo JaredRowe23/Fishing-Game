@@ -1,109 +1,94 @@
-﻿using System.Collections;
+﻿using Fishing.IO;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using Fishing.IO;
-using System;
 
-namespace Fishing.UI
-{
-    public class InventoryMenu : MonoBehaviour
-    {
-        [SerializeField] private List<InventoryTab> inventoryTabs;
-        [SerializeField] private List<GameObject> setDisabledOnClose;
+namespace Fishing.UI {
+    public class InventoryMenu : InactiveSingleton {
+        [SerializeField, Tooltip("List of InventoryTab objects that contain information related to each inventory tab.")] private List<InventoryTab> _inventoryTabs;
+        [SerializeField, Tooltip("Color for active inventory tabs.")] private Color _activeTabColor;
+        [SerializeField, Tooltip("Color for inactive inventory tabs.")] private Color _inactiveTabColor;
 
-        public Color activeTabColor;
-        public Color inactiveTabColor;
+        private BucketMenu _bucketMenu;
+        private PlayerData _playerData;
+        private TutorialSystem _tutorialSystem;
+        private UIManager _UIManager;
+        private AudioManager _audioManager;
 
-        public static InventoryMenu instance;
-
-        private InventoryMenu() => instance = this;
+        private static InventoryMenu _instance;
+        public static InventoryMenu Instance { get => _instance; private set => _instance = value; }
 
         private void Start() {
-            UpdateActiveMenu(inventoryTabs[0].menuObject);
+            UpdateActiveMenu(_inventoryTabs[0].menuObject);
         }
 
-        public void ResetActiveMenu() {
-            for (int i = 0; i < inventoryTabs.Count; i++) {
-                if (i == 0) {
-                    SetActiveMenu(inventoryTabs[i]);
+        public void UpdateActiveMenu(GameObject menu) { // TODO: Separate tab changing into its own class?
+            for (int i = 0; i < _inventoryTabs.Count; i++) {
+                InventoryTab tab = _inventoryTabs[i];
+                if (menu == tab.menuObject) {
+                    SetActiveMenu(tab);
                 }
                 else {
-                    SetInactiveMenu(inventoryTabs[i]);
+                    SetInactiveMenu(tab);
                 }
             }
         }
 
-        public void ToggleInventoryMenu()
-        {
-            UIManager.instance.mouseOverUI = null;
+        private void SetActiveMenu(InventoryTab tab) {
+            if (!tab.isActiveMenu) {
+                _audioManager.PlaySound("Inventory Tab");
+            }
 
-            if (!gameObject.activeSelf) {
-                ShowInventoryMenu();
-            }
-            else {
-                HideInventoryMenu();
-            }
+            tab.tabButton.transform.SetAsLastSibling();
+            tab.isActiveMenu = true;
+            tab.tabButton.image.color = _activeTabColor;
+            tab.menuObject.SetActive(true);
         }
 
-        public void ShowInventoryMenu() {
-            UIManager.instance.mouseOverUI = null;
-            gameObject.SetActive(true);
-
-            if (BucketMenu.Instance.gameObject.activeSelf) {
-                BucketMenu.Instance.ToggleBucketMenu();
-            }
-
-            if (SaveManager.Instance.LoadedPlayerData.HasSeenTutorialData.InventoryTutorial) return;
-            TutorialSystem.instance.QueueTutorial("Here, you can view attachment slots for your fishing rod (line, bait, and hook). You can also take inventory of bait you have and equip bits of gear (TBD)");
-            SaveManager.Instance.LoadedPlayerData.HasSeenTutorialData.InventoryTutorial = true;
-
-            UIManager.instance.HideHUDButtons();
+        private void SetInactiveMenu(InventoryTab tab) {
+            tab.isActiveMenu = false;
+            tab.menuObject.SetActive(false);
+            tab.tabButton.image.color = _inactiveTabColor;
         }
 
-        public void HideInventoryMenu() {
-            UIManager.instance.mouseOverUI = null;
-            gameObject.SetActive(false);
-
-            foreach (GameObject _obj in setDisabledOnClose) {
-                _obj.SetActive(false);
-            }
-
-            UIManager.instance.ShowHUDButtons();
+        public void ToggleInventoryMenu() {
+            gameObject.SetActive(!gameObject.activeSelf);
         }
 
-        public void UpdateActiveMenu(GameObject _menu)
-        {
-            for (int i = 0; i < inventoryTabs.Count; i++) {
-                InventoryTab _tab = inventoryTabs[i];
-                if (_menu == _tab.menuObject) {
-                    SetActiveMenu(_tab);
-                }
-                else {
-                    SetInactiveMenu(_tab);
-                }
+        private void ShowInventoryMenu() {
+            if (_bucketMenu.gameObject.activeSelf) {
+                _bucketMenu.ToggleBucketMenu();
             }
+            _UIManager.HideHUDButtons();
+
+            if (_playerData.HasSeenTutorialData.InventoryTutorial) {
+                return;
+            }
+            _tutorialSystem.QueueTutorial("Here, you can view attachment slots for your fishing rod (line, bait, and hook). You can also take inventory of bait you have and equip bits of gear (TBD)");
+            _playerData.HasSeenTutorialData.InventoryTutorial = true;
         }
 
-        private void SetActiveMenu(InventoryTab _tab) {
-            if (!_tab.isActiveMenu) {
-                AudioManager.instance.PlaySound("Inventory Tab");
-            }
-
-            _tab.tabButton.transform.SetAsLastSibling();
-            _tab.isActiveMenu = true;
-            _tab.menuObject.SetActive(true);
-            _tab.tabButton.image.color = activeTabColor;
-
-            _tab.menuObject.GetComponent<IInventoryTab>().ShowTab();
+        private void HideInventoryMenu() {
+            _UIManager.ShowHUDButtons();
         }
 
-        private void SetInactiveMenu(InventoryTab _tab) {
-            _tab.tabButton.transform.SetAsFirstSibling();
-            _tab.isActiveMenu = false;
-            _tab.menuObject.SetActive(false);
-            _tab.tabButton.image.color = inactiveTabColor;
-            _tab.menuObject.GetComponent<IInventoryTab>().HideTab();
+        private void OnEnable() {
+            ShowInventoryMenu();
+        }
+
+        private void OnDisable() {
+            HideInventoryMenu();
+        }
+
+        public override void SetInstanceReference() {
+            Instance = this;
+        }
+
+        public override void SetDepenencyReferences() {
+            _bucketMenu = BucketMenu.Instance;
+            _playerData = SaveManager.Instance.LoadedPlayerData;
+            _tutorialSystem = TutorialSystem.instance;
+            _UIManager = UIManager.instance;
+            _audioManager = AudioManager.instance;
         }
     }
 }

@@ -180,26 +180,6 @@ namespace Fishing.FishingMechanics {
             Casted = true;
         }
 
-        public void ReEquipBait() {
-            if (_playerData.EquippedRod.EquippedBait == null) {
-                return;
-            }
-
-            if (_playerData.EquippedRod.EquippedBait.BaitName == null) {
-                return;
-            }
-
-            if (_playerData.EquippedRod.EquippedBait.Amount <= 0) {
-                _tooltipSystem.NewTooltip(3, "Out of bait: " + _playerData.EquippedRod.EquippedBait.BaitName);
-                _playerData.BaitSaveData.Remove(_playerData.EquippedRod.EquippedBait);
-                _playerData.EquippedRod.EquippedBait = null;
-            }
-            else {
-                _playerData.EquippedRod.EquippedBait.Amount--;
-                _baitManager.SpawnBait();
-            }
-        }
-
         // Used in animation events to update the line's pivot point throughout keyframes
         public void IdleLineAnchorPosition(int _index) {
             LinePivotPoint.position = _idleAnimationPositions[_index].position;

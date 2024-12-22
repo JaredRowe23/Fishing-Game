@@ -1,4 +1,5 @@
 ﻿using Fishing.Fishables;
+using Fishing.FishingMechanics;
 using Fishing.IO;
 using Fishing.UI;
 using System.Collections.Generic;
@@ -19,6 +20,7 @@ namespace Fishing.Inventory {
         private TutorialSystem _tutorialSystem;
         private BucketMenuItem _overflowItem;
         private BucketMenu _bucketMenu;
+        private BaitManager _baitManager;
 
         private static BucketBehaviour _instance;
         public static BucketBehaviour Instance { get => _instance; private set => _instance = value; }
@@ -35,6 +37,8 @@ namespace Fishing.Inventory {
             _tutorialSystem = TutorialSystem.instance;
             _overflowItem = UIManager.instance.overflowItem;
             _bucketMenu = BucketMenu.Instance;
+            _baitManager = BaitManager.Instance;
+
             BucketList = _playerData.BucketItemSaveData;
         }
 
@@ -53,7 +57,7 @@ namespace Fishing.Inventory {
 
             BucketList.Add(bucketItemData);
             _rodManager.EquippedRod.Hook.DestroyHookedObject();
-            _rodManager.EquippedRod.ReEquipBait();
+            _baitManager.SpawnBait();
 
             _playerData.UpdateFishRecordData(bucketItemData);
 

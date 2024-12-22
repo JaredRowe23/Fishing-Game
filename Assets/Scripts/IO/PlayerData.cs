@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
 namespace Fishing.IO {
@@ -21,8 +22,17 @@ namespace Fishing.IO {
         [SerializeField] private List<FishingRodSaveData> _fishingRodSaveData;
         public List<FishingRodSaveData> FishingRodSaveData { get => _fishingRodSaveData; private set => _fishingRodSaveData = value; }
 
+        public UnityAction ChangedEquippedRod;
         [SerializeField] private FishingRodSaveData _equippedRod;
-        public FishingRodSaveData EquippedRod { get => _equippedRod; set => _equippedRod = value; }
+        public FishingRodSaveData EquippedRod {
+            get => _equippedRod;
+            set {
+                if (_equippedRod != value) {
+                    _equippedRod = value;
+                    ChangedEquippedRod?.Invoke();
+                }
+            }
+        }
 
         [Header("Bait")]
         [SerializeField] private List<BaitSaveData> _baitSaveData;

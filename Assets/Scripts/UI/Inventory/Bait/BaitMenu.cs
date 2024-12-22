@@ -1,43 +1,52 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Fishing.IO;
 using UnityEngine;
-using Fishing.IO;
 using UnityEngine.UI;
 
-namespace Fishing.UI
-{
-    public class BaitMenu : MonoBehaviour, IInventoryTab
-    {
-        [SerializeField] private GameObject slotPrefab;
-        [SerializeField] private ScrollRect listingsScrollRect;
+namespace Fishing.UI {
+    public class BaitMenu : InactiveSingleton {
+        [SerializeField, Tooltip("Prefabs that will spawn for each bait type the player has.")] private GameObject _slotPrefab;
+        [SerializeField, Tooltip("ScrollRect UI that will hold each bait type listing.")] private ScrollRect _listingsScrollRect;
+
+        private InventoryMenu _inventoryMenu;
+        private BaitInfoMenu _baitInfoMenu;
+        private PlayerData _playerData;
+
+        private BaitMenu _instance;
+        public BaitMenu Instance { get => _instance; private set { _instance = value; } }
 
         public void ShowBaitMenu() {
-            InventoryMenu.instance.UpdateActiveMenu(gameObject);
+            _inventoryMenu.UpdateActiveMenu(gameObject);
         }
 
-        public void ShowTab() {
-            DestroySlots();
-            GenerateSlots();
-        }
-
-        public void HideTab() {
-            BaitInfoMenu.instance.gameObject.SetActive(false);
-        }
-
-        public void GenerateSlots()
-        {
-            for (int i = 0; i < SaveManager.Instance.LoadedPlayerData.BaitSaveData.Count; i++)
-            {
-                BaitInventorySlot _newSlot = Instantiate(slotPrefab, listingsScrollRect.content.transform).GetComponent<BaitInventorySlot>();
-                _newSlot.baitSaveData = SaveManager.Instance.LoadedPlayerData.BaitSaveData[i];
-                _newSlot.UpdateSlot();
+        public void GenerateSlots() {
+            for (int i = 0; i < _playerData.BaitSaveData.Count; i++) {
+                BaitInventorySlot newSlot = Instantiate(_slotPrefab, _listingsScrollRect.content.transform).GetComponent<BaitInventorySlot>();
+                newSlot.UpdateSlot(_playerData.BaitSaveData[i]);
             }
         }
 
         private void DestroySlots() {
-            foreach (Transform _child in listingsScrollRect.content.transform) {
-                Destroy(_child.gameObject);
+            foreach (Transform child in _listingsScrollRect.content.transform) {
+                Destroy(child.gameObject);
             }
+        }
+
+        private void OnEnable() {
+            GenerateSlots();
+        }
+        private void OnDisable() {
+            DestroySlots();
+            _baitInfoMenu.gameObject.SetActive(false);
+        }
+
+        public override void SetInstanceReference() {
+            Instance = this;
+        }
+
+        public override void SetDepenencyReferences() {
+            _inventoryMenu = InventoryMenu.Instance;
+            _baitInfoMenu = BaitInfoMenu.Instance;
+            _playerData = SaveManager.Instance.LoadedPlayerData;
         }
     }
 

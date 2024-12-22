@@ -91,10 +91,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 179f67dfad1620445b24c85348036cdb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  title: {fileID: 6151195081960992601}
-  sprite: {fileID: 3655031640596708774}
-  equippedCheck: {fileID: 7151260854249451740}
-  itemReference: {fileID: 0}
+  _fishingRodNameText: {fileID: 6151195081960992601}
+  _fishingRodSprite: {fileID: 3655031640596708774}
+  _equippedCheckmark: {fileID: 6932546929973806218}
 --- !u!114 &-3139779851054797717
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -140,7 +139,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: -2284867883404877475}
-        m_TargetAssemblyTypeName: InventorySlot, Assembly-CSharp
+        m_TargetAssemblyTypeName: Fishing.UI.RodInventorySlot, Scripts
         m_MethodName: EquipRod
         m_Mode: 1
         m_Arguments:
@@ -152,7 +151,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: -2284867883404877475}
-        m_TargetAssemblyTypeName: Fishing.UI.RodInventorySlot, Assembly-CSharp
+        m_TargetAssemblyTypeName: Fishing.UI.RodInventorySlot, Scripts
         m_MethodName: UpdateInfoMenu
         m_Mode: 1
         m_Arguments:

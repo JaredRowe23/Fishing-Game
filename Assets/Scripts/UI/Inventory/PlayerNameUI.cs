@@ -1,16 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
+using Fishing.IO;
 using UnityEngine;
 using UnityEngine.UI;
-using Fishing.IO;
 
-namespace Fishing
-{
+namespace Fishing {
     public class PlayerNameUI : MonoBehaviour {
-        [SerializeField] private Text playerNameText;
+        [SerializeField, Tooltip("Text UI that displays the player's name (which is also the save file name)")] private Text _playerNameText;
 
-        void Update() {
-            playerNameText.text = SaveManager.Instance.LoadedPlayerData.SaveFileData.PlayerName;
+        private void Awake() {
+            _playerNameText.text = SaveManager.Instance.LoadedPlayerData.SaveFileData.PlayerName;
         }
     }
 }

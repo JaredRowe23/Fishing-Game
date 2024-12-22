@@ -1,25 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
+using Fishing.IO;
 using UnityEngine;
 using UnityEngine.UI;
-using Fishing.IO;
 
-namespace Fishing
-{
+namespace Fishing {
     public class MoneyUI : MonoBehaviour {
-        [SerializeField] private Text moneyText;
+        [SerializeField, Tooltip("Text UI that displays the player's current money.")] private Text _moneyText;
+        private PlayerData _playerData;
 
-        private void Awake(){
-            UpdateMoneyText();
-            SaveFileData.onMoneyUpdated += UpdateMoneyText;
-        }
-
-        private void OnDestroy() {
-            SaveFileData.onMoneyUpdated -= UpdateMoneyText;
+        private void Awake() {
+            _playerData = SaveManager.Instance.LoadedPlayerData;
         }
 
         public void UpdateMoneyText() {
-            moneyText.text = SaveManager.Instance.LoadedPlayerData.SaveFileData.Money.ToString("C");
+            _moneyText.text = _playerData.SaveFileData.Money.ToString("C");
+        }
+
+        private void OnEnable() {
+            SaveFileData.OnMoneyUpdated += UpdateMoneyText;
+        }
+
+        private void OnDisable() {
+            SaveFileData.OnMoneyUpdated -= UpdateMoneyText;
         }
     }
 }

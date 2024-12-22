@@ -1,31 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-using Fishing.FishingMechanics;
-using Fishing.IO;
+﻿namespace Fishing.UI {
+    public class BaitInventorySlot : BaitUI {
+        private BaitInfoMenu _baitInfoMenu;
 
-namespace Fishing.UI
-{
-    public class BaitInventorySlot : MonoBehaviour
-    {
-        [SerializeField] private Text title;
-        [SerializeField] private Image sprite;
-        [SerializeField] private Text countText;
-        public BaitScriptable baitScriptable;
-        public BaitSaveData baitSaveData;
-
-        public void UpdateSlot() {
-            baitScriptable = ItemLookupTable.Instance.StringToBaitScriptable(baitSaveData.BaitName);
-            title.text = baitSaveData.BaitName;
-            sprite.sprite = baitScriptable.InventorySprite;
-            countText.text = $"x{baitSaveData.Amount}";
+        private void Awake() {
+            _baitInfoMenu = BaitInfoMenu.Instance;
         }
 
-        public void UpdateInfoMenu()
-        {
-            BaitInfoMenu.instance.gameObject.SetActive(true);
-            BaitInfoMenu.instance.UpdateBaitInfoMenu(baitScriptable);
+        public void UpdateInfoMenu() {
+            _baitInfoMenu.gameObject.SetActive(true);
+            _baitInfoMenu.UpdateBaitInfoMenu(_baitScriptable);
         }
     }
 }
