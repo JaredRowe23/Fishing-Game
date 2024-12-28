@@ -66,7 +66,7 @@ namespace Fishing.Gear {
             _previousScanDirection = Vector2.up;
 
             _fishDropdown.ClearOptions();
-            List<string> fishableTypeStrings = new List<string> (from scriptable in ItemLookupTable.Instance.FishScriptables select scriptable.ItemName);
+            List<string> fishableTypeStrings = new List<string> (from scriptable in ItemLookupTable.Instance.FishableScriptables select scriptable.ItemName);
             _fishDropdown.AddOptions(fishableTypeStrings);
             _fishDropdown.value = 0;
 

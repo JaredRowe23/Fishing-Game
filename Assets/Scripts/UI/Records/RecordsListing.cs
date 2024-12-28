@@ -1,49 +1,21 @@
 using Fishing.IO;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Fishing.UI
-{
-    public class RecordsListing : MonoBehaviour
-    {
-        [SerializeField] private string fishableName;
-        public string FishableName { get { return fishableName; } private set { } }
-        public string showName;
-        public int catchAmount;
-        public float length;
-        public float weight;
+namespace Fishing.UI {
+    public class RecordsListing : MonoBehaviour {
+        private RecordSaveData _recordData;
+        public RecordSaveData RecordData { get => _recordData; private set { _recordData = value; } }
 
-        private RecordSaveData recordData;
+        [SerializeField] private Image _listingImage;
+        public Image ListingImage { get => _listingImage; private set { } }
 
-        [SerializeField] private Image listingImage;
+        public void UpdateListing(RecordSaveData data) {
+            Debug.Assert(data != null, "Record data reference set to null when generating RecordListing", this);
 
-        public void ResetListing() {
-            recordData = null;
-            showName = "";
-            catchAmount = 0;
-            length = 0;
-            weight = 0;
-            listingImage.color = Color.black;
-        }
-
-        public void UpdateListing(RecordSaveData _recordData) {
-            if (_recordData == null) {
-                ResetListing();
-                return;
-            }
-
-            recordData = _recordData;
-            showName = recordData.ItemName;
-            catchAmount = recordData.AmountCaught;
-            length = recordData.LengthRecord;
-            weight = recordData.WeightRecord;
-            listingImage.color = Color.white;
-        }
-
-        public void ShowListingInfo() {
-            RecordsMenu.instance.ShowRecordInfoPanel(recordData, listingImage.sprite);
+            _recordData = data;
+            _listingImage.sprite = ItemLookupTable.Instance.StringToFishScriptable(data.ItemName).InventorySprite;
+            _listingImage.color = data.AmountCaught == 0 ? Color.black : Color.white;
         }
     }
 }

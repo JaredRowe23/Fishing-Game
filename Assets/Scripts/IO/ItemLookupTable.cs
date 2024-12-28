@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace Fishing.IO {
     public class ItemLookupTable : MonoBehaviour {
-        [SerializeField] private List<FishableScriptable> _fishScriptables;
-        public List<FishableScriptable> FishScriptables { get => _fishScriptables;}
+        [SerializeField] private List<FishableScriptable> _fishableScriptables;
+        public List<FishableScriptable> FishableScriptables { get => _fishableScriptables;}
         [SerializeField] private List<RodScriptable> _rodScriptables;
         public List<RodScriptable> RodScriptables { get => _rodScriptables;}
         [SerializeField] private List<BaitScriptable> _baitScriptables;
@@ -20,11 +20,11 @@ namespace Fishing.IO {
         }
 
         public FishableScriptable StringToFishScriptable(string fishableName) {
-            for (int i = 0; i < FishScriptables.Count; i++) {
-                if (FishScriptables[i].ItemName != fishableName) {
+            for (int i = 0; i < FishableScriptables.Count; i++) {
+                if (FishableScriptables[i].ItemName != fishableName) {
                     continue;
                 }
-                return FishScriptables[i];
+                return FishableScriptables[i];
             }
 
             Debug.Log("No fishable exists with provided string");

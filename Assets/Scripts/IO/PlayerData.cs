@@ -66,6 +66,9 @@ namespace Fishing.IO {
             FishingRodSaveData = new List<FishingRodSaveData>();
             BaitSaveData = new List<BaitSaveData>();
             RecordSaveData = new List<RecordSaveData>();
+            for (int i = 0; i < ItemLookupTable.Instance.FishableScriptables.Count; i++) {
+                RecordSaveData.Add(new RecordSaveData(ItemLookupTable.Instance.FishableScriptables[i].ItemName));
+            }
 
             _sessionStartTime = System.DateTime.Now;
 
@@ -85,26 +88,37 @@ namespace Fishing.IO {
             BaitSaveData.Add(new BaitSaveData(baitName, amount));
         }
 
-        public void UpdateFishRecordData(BucketItemSaveData _data) {
+        public void UpdateFishRecordData(BucketItemSaveData data) {
             for (int i = 0; i < RecordSaveData.Count; i++) {
-                if (_data.ItemName != RecordSaveData[i].ItemName) {
+                if (data.ItemName != RecordSaveData[i].ItemName) {
                     continue;
                 }
 
                 RecordSaveData[i].AmountCaught++;
 
-                if (RecordSaveData[i].LengthRecord < _data.Length) {
-                    RecordSaveData[i].LengthRecord = _data.Length;
+                if (RecordSaveData[i].LengthRecord < data.Length) {
+                    RecordSaveData[i].LengthRecord = data.Length;
                 }
 
-                if (RecordSaveData[i].WeightRecord < _data.Weight) {
-                    RecordSaveData[i].WeightRecord = _data.Weight;
+                if (RecordSaveData[i].WeightRecord < data.Weight) {
+                    RecordSaveData[i].WeightRecord = data.Weight;
                 }
 
                 return;
             }
+        }
 
-            RecordSaveData.Add(new RecordSaveData(_data.ItemName, 1, _data.Length, _data.Weight));
+        public RecordSaveData StringToFishRecordData(string dataName) {
+            for (int i = 0; i < RecordSaveData.Count; i++) {
+                if (dataName != RecordSaveData[i].ItemName) {
+                    continue;
+                }
+
+                return RecordSaveData[i];
+            }
+
+            Debug.LogError($"Could not find fish record data from the string \"{dataName}\"");
+            return null;
         }
     }
 }

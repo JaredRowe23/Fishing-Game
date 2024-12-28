@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6404902397406429039}
   - component: {fileID: 6404902397406429038}
   - component: {fileID: 6404902397406429036}
+  - component: {fileID: 5650412936478605893}
   m_Layer: 0
   m_Name: SaveManager
   m_TagString: Untagged
@@ -85,7 +86,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cf127488e91d09448a08c9b60f9a3c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fishScriptables:
+  _fishableScriptables:
   - {fileID: 11400000, guid: 617db5d4eb3b13b4bba2224ab07469e5, type: 2}
   - {fileID: 11400000, guid: e619a47baa8acca4090de2f476903796, type: 2}
   - {fileID: 11400000, guid: 68c6d9636cce21f42811aaeaa8dc9171, type: 2}
@@ -113,3 +114,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 54c6f6fe382225140bbd70211a7fcd26, type: 2}
   - {fileID: 11400000, guid: 7962d0e233c440743bd304a692f42f44, type: 2}
   - {fileID: 11400000, guid: 424337410f19c9344b281158d80ef09a, type: 2}
+--- !u!114 &5650412936478605893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6404902397406429032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e4ce28115d489c4aa701b3ed1733334, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

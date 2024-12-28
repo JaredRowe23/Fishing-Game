@@ -15,7 +15,7 @@ namespace Fishing.IO {
         [SerializeField] private float _weightRecord;
         public float WeightRecord { get => _weightRecord; set => _weightRecord = value; }
 
-        public RecordSaveData(string itemName, int amountCaught, float lengthRecord, float weightRecord) {
+        public RecordSaveData(string itemName, int amountCaught = 0, float lengthRecord = 0, float weightRecord = 0) {
             ItemName = itemName;
             AmountCaught = amountCaught;
             LengthRecord = lengthRecord;
