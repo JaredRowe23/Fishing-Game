@@ -1,27 +1,26 @@
 using Fishing.IO;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Fishing.UI
-{
-    public class SaveSlotDetails : MonoBehaviour
-    {
-        [SerializeField] private Text saveNameText;
-        [SerializeField] private Text saveTimeDateText;
-        [SerializeField] private Text moneyText;
-        [SerializeField] private Text percentageText;
-        [SerializeField] private Text fishCaughtText;
-        [SerializeField] private Text playTimeText;
+namespace Fishing.UI {
+    public class SaveSlotDetails : MonoBehaviour {
+        [SerializeField, Tooltip("Text UI that displays this slot's name.")] private Text _saveNameText;
+        [SerializeField, Tooltip("Text UI that displays this slot's save time and date.")] private Text _saveTimeDateText;
+        [SerializeField, Tooltip("Text UI that displays this slot's current money.")] private Text _moneyText;
+        [SerializeField, Tooltip("Text UI that displays this slot's completion percentage.")] private Text _percentageText;
+        [SerializeField, Tooltip("Text UI that displays this slot's fish types caught.")] private Text _fishCaughtText;
+        [SerializeField, Tooltip("Text UI that displays this slot's total playtime.")] private Text _playTimeText;
 
-        public void UpdateInfo(SaveFile _saveFile)
-        {
-            saveNameText.text = _saveFile.Name;
-            moneyText.text = _saveFile.Money.ToString("C");
-            saveTimeDateText.text = _saveFile.DateTime;
-            playTimeText.text = _saveFile.Playtime;
-            fishCaughtText.text = $"{_saveFile.FishTypesCaught} / 11";
+        public void UpdateInfo(SaveFile saveFile) {
+            _saveNameText.text = saveFile.Name;
+            _moneyText.text = saveFile.Money.ToString("C");
+            _saveTimeDateText.text = saveFile.DateTime;
+            _playTimeText.text = saveFile.Playtime;
+            _fishCaughtText.text = $"{saveFile.FishTypesCaught} / 11";
+        }
+
+        private void OnDisable() {
+            gameObject.transform.parent.gameObject.SetActive(false);
         }
     }
 }

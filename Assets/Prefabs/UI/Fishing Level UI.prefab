@@ -8105,6 +8105,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7607593467332315095}
   - component: {fileID: 7607593467332315094}
+  - component: {fileID: 2774720405302542014}
   m_Layer: 0
   m_Name: Fishing Level UI
   m_TagString: Untagged
@@ -8156,6 +8157,18 @@ MonoBehaviour:
   - {fileID: 7607593467941254136}
   - {fileID: 4056669215928865574}
   - {fileID: 3258370448657290665}
+--- !u!114 &2774720405302542014
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7607593467332315112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1edca2757a0acca4b906bb4164c10927, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7607593467339787101
 GameObject:
   m_ObjectHideFlags: 0

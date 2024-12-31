@@ -2,6 +2,11 @@ using UnityEngine;
 
 namespace Fishing.Util {
     public static class Utilities {
+        public static void SwapActive(GameObject activeGO, GameObject inactiveGO) {
+            activeGO.SetActive(true);
+            inactiveGO.SetActive(false);
+        }
+
         /// <summary>
         /// Oscillates a value between two other values and returns an OscillateInfo object that contains the new value and what the new target direction should be.
         /// </summary>

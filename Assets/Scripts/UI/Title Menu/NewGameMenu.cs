@@ -1,26 +1,37 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using Fishing.IO;
+using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.IO;
+using UnityEngine.UI;
+using Fishing.Util;
 
-namespace Fishing.UI
-{
-    public class NewGameMenu : MonoBehaviour
-    {
-        [SerializeField] private InputField nameInput;
+namespace Fishing.UI {
+    public class NewGameMenu : InactiveSingleton {
+        [SerializeField, Tooltip("InputField UI that receive's the player's name for the save file.")] private InputField _nameInput;
+        [SerializeField, Tooltip("Button UI for starting the new game.")] private Button _startNewGameButton;
+        [SerializeField, Tooltip("Button UI for cancelling starting a new game")] private Button _cancelButton;
 
-        public static NewGameMenu instance;
+        private static NewGameMenu _instance;
+        public static NewGameMenu Instance { get => _instance; set => _instance = value; }
 
-        private NewGameMenu() => instance = this;
+        private void Start() {
+            _startNewGameButton.onClick.AddListener(delegate { StartNewGame(); });
+            _cancelButton.onClick.AddListener(delegate { Utilities.SwapActive(MainMenu.Instance.gameObject, gameObject); });
+        }
 
-        public void StartNewGame() {
-            SaveManager.Instance.LoadedPlayerData = new PlayerData();
-            SaveManager.Instance.LoadedPlayerData.NewGame();
-            SaveManager.Instance.LoadedPlayerData.SaveFileData.PlayerName = nameInput.text;
-            SceneManager.LoadScene(SaveManager.Instance.LoadedPlayerData.SaveFileData.CurrentSceneName);
+        private void StartNewGame() {
+            PlayerData _newPlayerData = new PlayerData();
+            _newPlayerData.NewGame();
+            _newPlayerData.SaveFileData.PlayerName = _nameInput.text;
+            SaveManager.Instance.LoadedPlayerData = _newPlayerData;
+            SceneManager.LoadScene(_newPlayerData.SaveFileData.CurrentSceneName);
+        }
+
+        public override void SetInstanceReference() {
+            Instance = this;
+        }
+
+        public override void SetDepenencyReferences() {
+            // No required dependencies
         }
     }
 }

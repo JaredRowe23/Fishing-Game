@@ -31,7 +31,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 393120557549966831}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.025, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -111,7 +110,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 393120557549966831}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.975, y: 1}
@@ -195,7 +193,6 @@ RectTransform:
   - {fileID: 393120555934665306}
   - {fileID: 393120556121520528}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -283,19 +280,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 393120557549966829}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 128017958}
-        m_TargetAssemblyTypeName: Fishing.UI.SaveSlotListing, Assembly-CSharp
-        m_MethodName: ShowData
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &128017958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,5 +293,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04a367fc35d4df64e8bfc9670085438e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  saveNameText: {fileID: 393120555934665305}
-  saveTimeDateText: {fileID: 393120556121520495}
+  _saveNameText: {fileID: 393120555934665305}
+  _saveTimeDateText: {fileID: 393120556121520495}
