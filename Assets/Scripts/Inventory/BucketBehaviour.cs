@@ -33,7 +33,7 @@ namespace Fishing.Inventory {
             _rodManager = RodManager.Instance;
             _playerData = SaveManager.Instance.LoadedPlayerData;
             _audioManager = AudioManager.instance;
-            _tooltipSystem = TooltipSystem.instance;
+            _tooltipSystem = TooltipSystem.Instance;
             _tutorialSystem = TutorialSystem.instance;
             _overflowItem = UIManager.instance.overflowItem;
             _bucketMenu = BucketMenu.Instance;
@@ -53,7 +53,7 @@ namespace Fishing.Inventory {
             }
 
             _audioManager.PlaySound("Add To Bucket");
-            _tooltipSystem.NewTooltip(5f, $"You caught a {bucketItemData.ItemName} worth {bucketItemData.Value.ToString("C")}");
+            _tooltipSystem.NewTooltip($"You caught a {bucketItemData.ItemName} worth {bucketItemData.Value.ToString("C")}");
 
             BucketList.Add(bucketItemData);
             _rodManager.EquippedRod.Hook.DestroyHookedObject();
@@ -67,7 +67,7 @@ namespace Fishing.Inventory {
         }
 
         private void OnBucketOverflow(BucketItemSaveData itemData) {
-            _tooltipSystem.NewTooltip(5f, "You've filled your bucket! Pick something to throw away to make room!");
+            _tooltipSystem.NewTooltip("You've filled your bucket! Pick something to throw away to make room!");
             _bucketMenu.ToggleBucketMenu();
             _overflowItem.gameObject.SetActive(true);
             _overflowItem.UpdateInfo(itemData);

@@ -14,7 +14,7 @@ namespace Fishing.UI {
         private PlayerData _playerData;
 
         private void Start() {
-            _tooltipSystem = TooltipSystem.instance;
+            _tooltipSystem = TooltipSystem.Instance;
             _playerData = SaveManager.Instance.LoadedPlayerData;
         }
 
@@ -33,7 +33,7 @@ namespace Fishing.UI {
         }
 
         public override void PurchaseItem() { // TODO:  rename this to something like "make deal", since purchase doesn't apply when the player is selling the item.
-            _tooltipSystem.NewTooltip(5f, $"You bought the {_selectedItem.ItemName} for {_selectedItem.Value.ToString("C")}");
+            _tooltipSystem.NewTooltip($"You bought the {_selectedItem.ItemName} for {_selectedItem.Value.ToString("C")}");
 
             _playerData.SaveFileData.Money += _selectedItem.Value;
             _playerData.BucketItemSaveData.Remove(_selectedItem);

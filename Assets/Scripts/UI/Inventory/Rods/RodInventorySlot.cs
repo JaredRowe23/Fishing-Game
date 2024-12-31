@@ -23,7 +23,7 @@ namespace Fishing.UI {
             _rodManager = RodManager.Instance;
             _rodInfoMenu = RodInfoMenu.Instance;
             _playerData = SaveManager.Instance.LoadedPlayerData;
-            _tooltipSystem = TooltipSystem.instance;
+            _tooltipSystem = TooltipSystem.Instance;
         }
 
         public void UpdateSlot(FishingRodSaveData data) {
@@ -50,7 +50,7 @@ namespace Fishing.UI {
         public void EquipRod() {
             _playerData.EquippedRod = FishingRodData;
             _rodManager.EquipRod(FishingRodData.RodName, true);
-            _tooltipSystem.NewTooltip(5f, $"Equipped the {FishingRodData.RodName}");
+            _tooltipSystem.NewTooltip($"Equipped the {FishingRodData.RodName}");
         }
 
         private void OnEnable() {

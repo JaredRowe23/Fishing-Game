@@ -47,7 +47,7 @@ namespace Fishing.IO {
         public List<RecordSaveData> RecordSaveData { get => _recordSaveData; private set => _recordSaveData = value; }
 
         public void SavePlayer() {
-            TooltipSystem.instance.NewTooltip(5f, "Game Saved!");
+            TooltipSystem.Instance.NewTooltip("Game Saved!");
 
             System.TimeSpan currentSessionTime = System.DateTime.Now.Subtract(_sessionStartTime);
             System.TimeSpan previousPlaytime = System.TimeSpan.Parse(SaveFileData.Playtime);

@@ -60,7 +60,7 @@ namespace Fishing.FishingMechanics {
             _UIManager = UIManager.instance;
             _powerAndAngle = PowerAndAngle.Instance;
             _playerData = SaveManager.Instance.LoadedPlayerData;
-            _tooltipSystem = TooltipSystem.instance;
+            _tooltipSystem = TooltipSystem.Instance;
             _tutorialSystem = TutorialSystem.instance;
 
             Casted = false;

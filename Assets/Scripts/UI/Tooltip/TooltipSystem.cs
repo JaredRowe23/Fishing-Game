@@ -1,32 +1,30 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Fishing.UI
-{
-    public class TooltipSystem : MonoBehaviour
-    {
-        [SerializeField] private GameObject tooltipPrefab;
+namespace Fishing.UI {
+    public class TooltipSystem : MonoBehaviour {
+        [SerializeField, Tooltip("Prefab of the tooltip UI that will appear.")] private GameObject _tooltipPrefab;
+        [SerializeField, Tooltip("ScrolLRect UI that holds active tooltips.")] private ScrollRect _tooltipListings;
 
-        public ScrollRect tooltipListings;
+        private const float DEFAULT_LIFETIME = 3f;
 
-        public static TooltipSystem instance;
+        private static TooltipSystem _instance;
+        public static TooltipSystem Instance { get => _instance; set => _instance = value; }
 
         private void Awake() {
-            if (instance != null) {
+            if (Instance != null) {
                 Destroy(gameObject);
                 return;
             }
 
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
         }
 
-        public void NewTooltip(float _lifetime, string _tooltipText) {
-            ToolTip _newToolTip = Instantiate(tooltipPrefab, tooltipListings.content.transform).GetComponent<ToolTip>();
+        public void NewTooltip(string tooltipText, float lifetime = DEFAULT_LIFETIME) {
+            ToolTip newToolTip = Instantiate(_tooltipPrefab, _tooltipListings.content.transform).GetComponent<ToolTip>();
 
-            _newToolTip.InitializeToolTip(_lifetime, _tooltipText);
+            newToolTip.InitializeToolTip(lifetime, tooltipText);
         }
     }
 }

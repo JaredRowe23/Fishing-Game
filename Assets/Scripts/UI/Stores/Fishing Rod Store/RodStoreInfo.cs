@@ -19,7 +19,7 @@ namespace Fishing.UI {
 
         private void Awake() {
             _playerData = SaveManager.Instance.LoadedPlayerData;
-            _tooltipSystem = TooltipSystem.instance;
+            _tooltipSystem = TooltipSystem.Instance;
         }
 
         public void UpdateInfo(RodScriptable rod) {
@@ -41,11 +41,11 @@ namespace Fishing.UI {
 
         public override void PurchaseItem() {
             if (_playerData.SaveFileData.Money < _currentRodScriptable.Cost) {
-                _tooltipSystem.NewTooltip(5f, "You don't have enough money to buy this fishing rod");
+                _tooltipSystem.NewTooltip("You don't have enough money to buy this fishing rod");
                 return;
             }
 
-            _tooltipSystem.NewTooltip(5f, $"You bought the {_currentRodScriptable.RodName} for {_currentRodScriptable.Cost.ToString("C")}");
+            _tooltipSystem.NewTooltip($"You bought the {_currentRodScriptable.RodName} for {_currentRodScriptable.Cost.ToString("C")}");
             _playerData.SaveFileData.Money -= _currentRodScriptable.Cost;
             _playerData.FishingRodSaveData.Add(new FishingRodSaveData(_currentRodScriptable.RodName));
             RodStoreMenu.Instance.RefreshStore();

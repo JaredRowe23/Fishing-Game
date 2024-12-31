@@ -20,7 +20,7 @@ namespace Fishing.FishingMechanics {
         private void Start() {
             _playerData = SaveManager.Instance.LoadedPlayerData;
             _rodManager = RodManager.Instance;
-            _tooltipSystem = TooltipSystem.instance;
+            _tooltipSystem = TooltipSystem.Instance;
         }
 
         public void SpawnBait() {
@@ -32,7 +32,7 @@ namespace Fishing.FishingMechanics {
             }
 
             if (_playerData.EquippedRod.EquippedBait.Amount <= 0) {
-                _tooltipSystem.NewTooltip(3, "Out of bait: " + _playerData.EquippedRod.EquippedBait.BaitName);
+                _tooltipSystem.NewTooltip("Out of bait: " + _playerData.EquippedRod.EquippedBait.BaitName);
                 _playerData.BaitSaveData.Remove(_playerData.EquippedRod.EquippedBait);
                 _playerData.EquippedRod.EquippedBait = null;
                 return;

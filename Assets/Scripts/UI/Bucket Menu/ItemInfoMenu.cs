@@ -41,7 +41,7 @@ namespace Fishing.UI {
         }
 
         public void ThrowAwayItem() {
-            _tooltipSystem.NewTooltip(5f, $"Threw away the {_dataReference.ItemName}");
+            _tooltipSystem.NewTooltip($"Threw away the {_dataReference.ItemName}");
             if (_manager.overflowItem.gameObject.activeSelf) {
                 HandleOverflowItem();
             }
@@ -50,7 +50,7 @@ namespace Fishing.UI {
 
         public void SellItem() {
             _playerData.SaveFileData.Money += _dataReference.Value;
-            _tooltipSystem.NewTooltip(5f, $"Sold the {_dataReference.ItemName} for {_dataReference.Value.ToString("C")}");
+            _tooltipSystem.NewTooltip($"Sold the {_dataReference.ItemName} for {_dataReference.Value.ToString("C")}");
             RemoveItem();
         }
 
@@ -59,7 +59,7 @@ namespace Fishing.UI {
             if (_manager.overflowItem.gameObject.activeSelf) {
                 HandleOverflowItem();
             }
-            _tooltipSystem.NewTooltip(5f, $"Converted the {_dataReference.ItemName} into bait");
+            _tooltipSystem.NewTooltip($"Converted the {_dataReference.ItemName} into bait");
             if (!_playerData.HasSeenTutorialData.BaitTutorial) {
                 ShowBaitTutorial();
             }
@@ -102,7 +102,7 @@ namespace Fishing.UI {
             _playerData = SaveManager.Instance.LoadedPlayerData;
             _manager = UIManager.instance;
             _bucketMenu = BucketMenu.Instance;
-            _tooltipSystem = TooltipSystem.instance;
+            _tooltipSystem = TooltipSystem.Instance;
             _rodManager = RodManager.Instance;
             _bucket = BucketBehaviour.Instance;
             _audioManager = AudioManager.instance;

@@ -16,7 +16,7 @@ namespace Fishing.UI {
 
         private void Awake() {
             _playerData = SaveManager.Instance.LoadedPlayerData;
-            _tooltipSystem = TooltipSystem.instance;
+            _tooltipSystem = TooltipSystem.Instance;
         }
 
         public void UpdateInfo(BaitScriptable _bait) {
@@ -43,11 +43,11 @@ namespace Fishing.UI {
 
         public override void PurchaseItem() {
             if (_playerData.SaveFileData.Money < _currentBait.Cost) {
-                _tooltipSystem.NewTooltip(5f, "You don't have enough money to buy this bait");
+                _tooltipSystem.NewTooltip("You don't have enough money to buy this bait");
                 return;
             } 
 
-            _tooltipSystem.NewTooltip(5f, $"You bought the {_currentBait.BaitName} for {_currentBait.Cost.ToString("C")}");
+            _tooltipSystem.NewTooltip($"You bought the {_currentBait.BaitName} for {_currentBait.Cost.ToString("C")}");
             _playerData.SaveFileData.Money -= _currentBait.Cost;
             _playerData.AddBait(_currentBait.BaitName, 1);
             BaitStoreMenu.Instance.RefreshStore();
