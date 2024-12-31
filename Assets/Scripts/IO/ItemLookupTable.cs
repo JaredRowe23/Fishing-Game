@@ -13,7 +13,7 @@ namespace Fishing.IO {
         public List<BaitScriptable> BaitScriptables { get => _baitScriptables;}
 
         private static ItemLookupTable _instance;
-        public static ItemLookupTable Instance;
+        public static ItemLookupTable Instance { get => _instance; private set { _instance = value; } }
 
         private void Awake() {
             Instance = this;

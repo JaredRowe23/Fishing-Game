@@ -31,7 +31,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4893782356115273216}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.875, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -107,7 +106,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4893782356115273216}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.75, y: 1}
@@ -188,7 +186,6 @@ RectTransform:
   - {fileID: 4893782355066926746}
   - {fileID: 8585979347247603475}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.8}
   m_AnchorMax: {x: 0.49, y: 1}
@@ -207,5 +204,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e33df16c65f31da4580c26f3b324c139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectName: {fileID: 4893782355066926757}
-  effectSprite: {fileID: 8585979347247603484}
+  _effectName: {fileID: 4893782355066926757}
+  _effectSprite: {fileID: 8585979347247603484}

@@ -25,7 +25,7 @@ namespace Fishing.IO {
             }
         }
 
-        public FishingRodSaveData(string rodName, string equippedLine, string equippedHook, BaitSaveData equippedBait) {
+        public FishingRodSaveData(string rodName, string equippedLine = "", string equippedHook = "", BaitSaveData equippedBait = null) {
             RodName = rodName;
             EquippedLine = equippedLine;
             EquippedHook = equippedHook;

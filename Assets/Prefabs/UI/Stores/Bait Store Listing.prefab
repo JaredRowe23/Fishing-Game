@@ -34,7 +34,6 @@ RectTransform:
   - {fileID: 685525179896913118}
   - {fileID: 685525180376612822}
   m_Father: {fileID: 5649681962964704926}
-  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -110,7 +109,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5649681962964704926}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.05, y: 0.1}
   m_AnchorMax: {x: 0.45, y: 0.5}
@@ -190,7 +188,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 685525178295829369}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0.4, y: 1}
@@ -272,7 +269,6 @@ RectTransform:
   m_Children:
   - {fileID: 685525180067101060}
   m_Father: {fileID: 685525178295829369}
-  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.4, y: 0.1}
   m_AnchorMax: {x: 0.65, y: 0.9}
@@ -404,7 +400,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 685525180376612822}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -484,7 +479,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 685525179896913118}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -566,7 +560,6 @@ RectTransform:
   m_Children:
   - {fileID: 685525179995778683}
   m_Father: {fileID: 685525178295829369}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.7, y: 0.1}
   m_AnchorMax: {x: 0.95, y: 0.9}
@@ -698,7 +691,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5649681962964704926}
-  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -774,7 +766,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5649681962964704926}
-  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.45, y: 0.5}
   m_AnchorMax: {x: 0.75, y: 0.9}
@@ -854,7 +845,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5649681962964704926}
-  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.45, y: 0.1}
   m_AnchorMax: {x: 0.75, y: 0.5}
@@ -934,7 +924,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 9218122133483263211}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.05, y: 0.05}
   m_AnchorMax: {x: 0.95, y: 0.95}
@@ -1010,7 +999,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5649681962964704926}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.05, y: 0.5}
   m_AnchorMax: {x: 0.45, y: 0.9}
@@ -1099,7 +1087,6 @@ RectTransform:
   - {fileID: 9218122133483263211}
   - {fileID: 2008482011444798113}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1179,19 +1166,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5649681962964704897}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7602994913712054506}
-        m_TargetAssemblyTypeName: Fishing.UI.BaitStoreListing, Assembly-CSharp
-        m_MethodName: UpdateInfoPanel
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!222 &5649681962964704927
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1212,16 +1187,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa67240f134a31646ba57204a19886f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  status: 0
-  availableColor: {r: 1, g: 1, b: 1, a: 0}
-  restrictedColor: {r: 0.5019608, g: 0, b: 0, a: 0.5019608}
-  referenceScriptable: {fileID: 0}
-  overlayColor: {fileID: 8221524137184794435}
-  nameText: {fileID: 5649681962130707867}
-  costText: {fileID: 685525178461772582}
-  attractsText: {fileID: 4830951641937352380}
-  effectsText: {fileID: 107267659926784707}
-  baitSprite: {fileID: 875838485985182173}
+  _nameText: {fileID: 5649681962130707867}
+  _itemImage: {fileID: 875838485985182173}
+  _costText: {fileID: 685525178461772582}
+  _overlayImage: {fileID: 8221524137184794435}
+  _availableColor: {r: 1, g: 1, b: 1, a: 0}
+  _restrictedColor: {r: 0.2509804, g: 0, b: 0, a: 0.49019608}
+  _purchasedColor: {r: 1, g: 1, b: 1, a: 0.5019608}
+  _attractsText: {fileID: 4830951641937352380}
+  _effectsText: {fileID: 107267659926784707}
 --- !u!1 &8767899735938007479
 GameObject:
   m_ObjectHideFlags: 0
@@ -1254,7 +1228,6 @@ RectTransform:
   m_Children:
   - {fileID: 101439007015891120}
   m_Father: {fileID: 5649681962964704926}
-  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.7725, y: 0.1}
   m_AnchorMax: {x: 0.95, y: 0.9}

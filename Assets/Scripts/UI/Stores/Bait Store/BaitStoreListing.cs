@@ -1,60 +1,25 @@
-using System.Collections;
-using System.Collections.Generic;
+using Fishing.FishingMechanics;
 using UnityEngine;
 using UnityEngine.UI;
-using Fishing.FishingMechanics;
 
-namespace Fishing.UI
-{
-    public class BaitStoreListing : MonoBehaviour
-    {
-        public enum ItemStatus { Available, Restricted };
-        public ItemStatus status;
+namespace Fishing.UI {
+    public class BaitStoreListing : StoreItem {
+        private BaitScriptable _referenceScriptable;
+        public BaitScriptable ReferenceScriptable { get => _referenceScriptable; private set { _referenceScriptable = value; } }
 
-        public Color availableColor;
-        public Color restrictedColor;
+        [SerializeField, Tooltip("Text UI that displays the list of fish types this bait attracts.")] private Text _attractsText;
+        [SerializeField, Tooltip("Text UI that displays the effects this bait has.")] private Text _effectsText;
 
-        public BaitScriptable referenceScriptable;
+        public void UpdateInfo(BaitScriptable bait) {
+            ReferenceScriptable = bait;
 
-        [SerializeField] private Image overlayColor;
-        [SerializeField] private Text nameText;
-        [SerializeField] private Text costText;
-        [SerializeField] private Text attractsText;
-        [SerializeField] private Text effectsText;
-        [SerializeField] private Image baitSprite;
+            _nameText.text = ReferenceScriptable.BaitName;
+            _costText.text = ReferenceScriptable.Cost.ToString("C");
+            if (ReferenceScriptable.GetFoodTypesAsString() != null) _attractsText.text = $"Attracts: x{bait.GetFoodTypesAsString().Count}";
+            _effectsText.text = $"Effects: x{ReferenceScriptable.Effects.Count}";
+            _itemImage.sprite = ReferenceScriptable.InventorySprite;
 
-        private BaitStoreInfo infoPanel;
-
-        private void Awake()
-        {
-            infoPanel = BaitStoreInfo.instance;
-        }
-
-        public void UpdateInfo(BaitScriptable _bait)
-        {
-            referenceScriptable = _bait;
-
-            nameText.text = referenceScriptable.BaitName;
-            costText.text = referenceScriptable.Cost.ToString("C");
-            if (referenceScriptable.GetFoodTypesAsString() != null) attractsText.text = $"Attracts: x{_bait.GetFoodTypesAsString().Count}";
-            effectsText.text = $"Effects: x{referenceScriptable.Effects.Count}";
-            baitSprite.sprite = referenceScriptable.InventorySprite;
-        }
-
-        public void UpdateColor(ItemStatus status) {
-            switch (status) {
-                case ItemStatus.Available:
-                    overlayColor.color = availableColor;
-                    break;
-                case ItemStatus.Restricted:
-                    overlayColor.color = restrictedColor;
-                    break;
-            }
-        }
-        public void UpdateInfoPanel()
-        {
-            infoPanel.gameObject.SetActive(true);
-            infoPanel.UpdateInfo(referenceScriptable);
+            Availability = ItemAvailablility.Available;
         }
     }
 }

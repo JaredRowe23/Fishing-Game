@@ -1,64 +1,60 @@
-using System.Collections;
+using Fishing.FishingMechanics;
+using Fishing.IO;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using Fishing.FishingMechanics;
-using Fishing.IO;
 
-namespace Fishing.UI
-{
-    public class BaitStoreInfo : MonoBehaviour
-    {
-        [SerializeField] private Text nameText;
-        [SerializeField] private Text descriptionText;
-        [SerializeField] private Text costText;
-        [SerializeField] private Text attractsText;
-        [SerializeField] private List<BaitEffectsListing> effects;
+namespace Fishing.UI {
+    public class BaitStoreInfo : StoreInfoPanel {
+        [SerializeField] private Text _attractsText;
+        [SerializeField] private List<BaitEffectsListing> _effects;
 
-        private BaitScriptable currentBait;
+        private BaitScriptable _currentBait;
 
-        public static BaitStoreInfo instance;
+        private PlayerData _playerData;
+        private TooltipSystem _tooltipSystem;
 
-        private BaitStoreInfo() => instance = this;
+        private void Awake() {
+            _playerData = SaveManager.Instance.LoadedPlayerData;
+            _tooltipSystem = TooltipSystem.instance;
+        }
 
-        public void UpdateInfo(BaitScriptable _bait)
-        {
-            currentBait = _bait;
+        public void UpdateInfo(BaitScriptable _bait) {
+            gameObject.SetActive(true);
 
-            nameText.text = currentBait.BaitName;
-            descriptionText.text = currentBait.Description;
-            costText.text = currentBait.Cost.ToString("C");
+            _currentBait = _bait;
 
-            attractsText.text = "";
-            List<string> _foodTypes = currentBait.GetFoodTypesAsString();
-            for (int i = 0; i < _foodTypes.Count; i++) {
-                attractsText.text += _foodTypes[i];
-                if (i == _foodTypes.Count - 1) {
-                    attractsText.text += ".";
-                }
-                else {
-                    attractsText.text += ", ";
-                }
+            _nameText.text = _currentBait.BaitName;
+            _itemImage.sprite = _currentBait.InventorySprite;
+            _descriptionText.text = _currentBait.Description;
+            _costText.text = _currentBait.Cost.ToString("C");
+
+            _attractsText.text = "";
+            List<string> _foodTypes = _currentBait.GetFoodTypesAsString();
+            _attractsText.text = $"{string.Join(", ", _foodTypes)}.";
+
+            for (int i = 0; i < _effects.Count; i++) {
+                _effects[i].DisableListing();
             }
-
-            for (int i = 0; i < effects.Count; i++) {
-                effects[i].DisableListing();
-            }
-            for (int i = 0; i < currentBait.Effects.Count; i++) {
-                effects[i].UpdateEffect(currentBait.Effects[i], currentBait.EffectsSprites[i]);
+            for (int i = 0; i < _currentBait.Effects.Count; i++) {
+                _effects[i].UpdateEffect(_currentBait.Effects[i], _currentBait.EffectsSprites[i]);
             }
         }
 
-        public void BuyBait() {
-            if (SaveManager.Instance.LoadedPlayerData.SaveFileData.Money < currentBait.Cost) {
-                TooltipSystem.instance.NewTooltip(5f, "You don't have enough money to buy this bait");
+        public override void PurchaseItem() {
+            if (_playerData.SaveFileData.Money < _currentBait.Cost) {
+                _tooltipSystem.NewTooltip(5f, "You don't have enough money to buy this bait");
                 return;
-            }
+            } 
 
-            TooltipSystem.instance.NewTooltip(5f, $"You bought the {nameText.text} for {currentBait.Cost.ToString("C")}");
-            SaveManager.Instance.LoadedPlayerData.SaveFileData.Money -= currentBait.Cost;
-            SaveManager.Instance.LoadedPlayerData.AddBait(nameText.text, 1);
-            BaitStoreMenu.instance.RefreshStore();
+            _tooltipSystem.NewTooltip(5f, $"You bought the {_currentBait.BaitName} for {_currentBait.Cost.ToString("C")}");
+            _playerData.SaveFileData.Money -= _currentBait.Cost;
+            _playerData.AddBait(_currentBait.BaitName, 1);
+            BaitStoreMenu.Instance.RefreshStore();
+            gameObject.SetActive(false);
+        }
+
+        private void OnDisable() {
             gameObject.SetActive(false);
         }
     }

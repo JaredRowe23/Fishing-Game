@@ -987,6 +987,26 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1046695109243509643, guid: 6b51cf764edbe704abb7f372e3e19c1b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1046695109243509643, guid: 6b51cf764edbe704abb7f372e3e19c1b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1046695109243509643, guid: 6b51cf764edbe704abb7f372e3e19c1b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 102900000, guid: 39aa367bc99ff014dac065e4c453c18a, type: 3}
+    - target: {fileID: 1046695109243509643, guid: 6b51cf764edbe704abb7f372e3e19c1b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1046695109243509643, guid: 6b51cf764edbe704abb7f372e3e19c1b, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 3407843721451731456, guid: 6b51cf764edbe704abb7f372e3e19c1b, type: 3}
       propertyPath: m_Name
       value: Default NPC Menu
@@ -1572,7 +1592,7 @@ GameObject:
   m_Component:
   - component: {fileID: 387257194979709690}
   - component: {fileID: 2779760646542861578}
-  - component: {fileID: 5847270903163828349}
+  - component: {fileID: 2779760646542861579}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -2227,11 +2247,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f8f90f1ffe5c2f41b912194499f54da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transitionDirection: 1
-  upOffset: 1080
-  downOffset: 0
-  transitionSeconds: 1
-  transitionThreshold: 5
+  _upOffset: 1080
+  _downOffset: 0
+  _transitionSeconds: 1
+  _transitionThreshold: 5
 --- !u!224 &2444290808429254035
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2284,8 +2303,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39d7465494a95fc43b28d0aa4fb359b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rodListingPrefab: {fileID: 1670311295472357829, guid: 660bbc7587d329d438168631fdb9cd8d, type: 3}
-  rodListings: {fileID: 2444290807993136480}
+  _itemListingPrefab: {fileID: 1670311295472357829, guid: 660bbc7587d329d438168631fdb9cd8d, type: 3}
+  _itemListings: {fileID: 2444290807993136480}
+  _rodStoreInfo: {fileID: 7174702830963168309}
 --- !u!114 &2444290808449188864
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2944,6 +2964,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 588817860658028658}
   m_CullTransparentMesh: 0
+--- !u!114 &2779760646542861579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 588817860658028658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &2784985602890432216
 GameObject:
   m_ObjectHideFlags: 0
@@ -3219,33 +3269,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &5847270903163828349
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 588817860658028658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1344c3c82d62a2a41a3576d8abb8e3ea, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
-  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
-  m_Maskable: 1
-  m_OnCullStateChanged:
-    m_PersistentCalls:
-      m_Calls: []
-  m_Texture: {fileID: 8400000, guid: 0403ca09036594c43b9fabf9a338e5c4, type: 2}
-  m_UVRect:
-    serializedVersion: 2
-    x: 0
-    y: 0
-    width: 1
-    height: 1
 --- !u!222 &6190405151381849652
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3367,8 +3390,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7174702830963168309}
-        m_TargetAssemblyTypeName: Fishing.UI.RodStoreInfo, Assembly-CSharp
-        m_MethodName: BuyRod
+        m_TargetAssemblyTypeName: Fishing.UI.RodStoreInfo, Scripts
+        m_MethodName: PurchaseItem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3420,15 +3443,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 222412f09723f2b46ad4ea5decd02569, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nameText: {fileID: 3079018307868232573}
-  descriptionText: {fileID: 3670426938828470958}
-  costText: {fileID: 8677071082193020845}
-  reelSpeedText: {fileID: 68825016582534040}
-  castStrengthText: {fileID: 1091570330}
-  castAngleText: {fileID: 418428700}
-  lineLengthText: {fileID: 1652532950}
-  strengthFrequencyText: {fileID: 75997153}
-  angleFrequencyText: {fileID: 1372729883}
+  _nameText: {fileID: 3079018307868232573}
+  _itemImage: {fileID: 2779760646542861579}
+  _descriptionText: {fileID: 3670426938828470958}
+  _costText: {fileID: 8677071082193020845}
+  _reelSpeedText: {fileID: 1984232288}
+  _castStrengthText: {fileID: 1556426185}
+  _castAngleText: {fileID: 128383960}
+  _lineLengthText: {fileID: 1514054693}
+  _strengthFrequencyText: {fileID: 1141188526}
+  _angleFrequencyText: {fileID: 1113063499}
 --- !u!1 &7218061467509034722
 GameObject:
   m_ObjectHideFlags: 0

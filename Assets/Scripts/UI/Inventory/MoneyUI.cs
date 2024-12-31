@@ -9,6 +9,8 @@ namespace Fishing {
 
         private void Awake() {
             _playerData = SaveManager.Instance.LoadedPlayerData;
+
+            UpdateMoneyText();
         }
 
         public void UpdateMoneyText() {

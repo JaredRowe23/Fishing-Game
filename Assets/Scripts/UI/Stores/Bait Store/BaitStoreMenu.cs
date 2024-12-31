@@ -1,41 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Fishing.FishingMechanics;
 using Fishing.IO;
 using UnityEngine.UI;
+using UnityEngine;
 
-namespace Fishing.UI
-{
-    public class BaitStoreMenu : MonoBehaviour
-    {
-        [SerializeField] private GameObject baitListingPrefab;
-        [SerializeField] private ScrollRect baitListings;
+namespace Fishing.UI {
+    public class BaitStoreMenu : StoreMenu {
+        [SerializeField, Tooltip("Reference to the bait store info panel.")] private BaitStoreInfo _baitStoreInfo;
 
-        public static BaitStoreMenu instance;
+        private ItemLookupTable _itemLookupTable;
 
-        private BaitStoreMenu() => instance = this;
-
-        public void DestroyListings() {
-            BaitStoreListing[] _listings = baitListings.content.transform.GetComponentsInChildren<BaitStoreListing>();
-            for (int i = 0; i < _listings.Length; i++) {
-                Destroy(_listings[i].gameObject);
-            }
+        private void Awake() {
+            Instance = this;
         }
 
-        public void GenerateListings() {
-            foreach (BaitScriptable _bait in ItemLookupTable.Instance.BaitScriptables) {
-                BaitStoreListing _listing = Instantiate(baitListingPrefab, baitListings.content.transform).GetComponent<BaitStoreListing>();
-                _listing.UpdateInfo(_bait);
-
-                _listing.UpdateColor(BaitStoreListing.ItemStatus.Available);
-            }
-        }
-
-        public void RefreshStore()
-        {
-            DestroyListings();
+        private void Start() {
+            _itemLookupTable = ItemLookupTable.Instance;
             GenerateListings();
+        }
+
+        public override void GenerateListings() {
+            foreach (BaitScriptable bait in _itemLookupTable.BaitScriptables) {
+                BaitStoreListing listing = Instantiate(_itemListingPrefab, _itemListings.content.transform).GetComponent<BaitStoreListing>();
+                listing.UpdateInfo(bait);
+
+                listing.UpdateColor();
+
+                listing.GetComponent<Button>().onClick.AddListener(delegate { _baitStoreInfo.UpdateInfo(listing.ReferenceScriptable); } );
+            }
         }
     }
 }

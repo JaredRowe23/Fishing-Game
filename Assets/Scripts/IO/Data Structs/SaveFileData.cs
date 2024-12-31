@@ -14,8 +14,8 @@ namespace Fishing.IO {
         public float Money {
             get => _money;
             set {
-                OnMoneyUpdated?.Invoke();
                 _money = value;
+                OnMoneyUpdated?.Invoke();
             }
         }
 
