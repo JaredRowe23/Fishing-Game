@@ -5,50 +5,45 @@ using UnityEngine.UI;
 
 namespace Fishing {
     public class UIManager : MonoBehaviour {
-        [SerializeField] private Button bucketMenuButton;
-        public GameObject mouseOverUI;
-        public GameObject itemInfoMenu;
-        public BucketMenuItem overflowItem;
-        public GameObject itemViewer;
-        public Canvas rodCanvas;
-        [SerializeField] private GameObject inventoryMenuButton;
-        public GameObject rodMenuButton;
-        public GameObject baitMenuButton;
-        public GameObject gearMenuButton;
-        public GameObject rodsMenu;
-        [SerializeField] private Button recordMenuButton;
+        [SerializeField, Tooltip("Button UI that shows the bucket menu when pressed.")] private Button _bucketMenuButton;
+        [SerializeField, Tooltip("Button UI that shows the inventory menu when pressed.")] private Button _inventoryMenuButton;
+        [SerializeField, Tooltip("Button UI that shows the record menu when pressed.")] private Button _recordMenuButton;
 
-        [SerializeField] public List<GameObject> interuptableUI;
+        [SerializeField, Tooltip("Bucket Menu Item that displays when catching a fishable item while your bucket is already full.")] private BucketMenuItem _overflowItem;
+        public BucketMenuItem OverflowItem { get => _overflowItem; set => _overflowItem = value; }
 
-        public static UIManager instance;
+        [SerializeField] private List<GameObject> _interuptableUI;
 
-        private UIManager() => instance = this;
+        private static UIManager _instance;
+        public static UIManager Instance { get => _instance; set => _instance = value; }
 
         private void Awake() {
-            instance = this;
+            Instance = this;
         }
 
         public bool IsActiveUI() {
-            foreach (GameObject _ui in interuptableUI) {
-                if (_ui.activeSelf) {
+            foreach (GameObject ui in _interuptableUI) {
+                if (ui.activeSelf) {
                     return true;
                 }
             }
 
-            if (PauseMenu.instance.pauseMenu.gameObject.activeSelf) return true;
+            if (PauseMenu.Instance.PauseUI.activeSelf) {
+                return true;
+            }
 
             return false;
         }
 
         public void ShowHUDButtons() {
-            bucketMenuButton.gameObject.SetActive(true);
-            inventoryMenuButton.SetActive(true);
-            recordMenuButton.gameObject.SetActive(true);
+            _bucketMenuButton.gameObject.SetActive(true);
+            _inventoryMenuButton.gameObject.SetActive(true);
+            _recordMenuButton.gameObject.SetActive(true);
         }
         public void HideHUDButtons() {
-            bucketMenuButton.gameObject.SetActive(false);
-            inventoryMenuButton.SetActive(false);
-            recordMenuButton.gameObject.SetActive(false);
+            _bucketMenuButton.gameObject.SetActive(false);
+            _inventoryMenuButton.gameObject.SetActive(false);
+            _recordMenuButton.gameObject.SetActive(false);
         }
     }
 

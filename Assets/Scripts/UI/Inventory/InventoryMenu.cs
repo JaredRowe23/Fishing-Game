@@ -1,6 +1,7 @@
 ﻿using Fishing.IO;
 using System.Collections.Generic;
 using UnityEngine;
+using Fishing.PlayerInput;
 
 namespace Fishing.UI {
     public class InventoryMenu : InactiveSingleton {
@@ -73,10 +74,14 @@ namespace Fishing.UI {
 
         private void OnEnable() {
             ShowInventoryMenu();
+
+            InputManager.OnPauseMenu += ToggleInventoryMenu;
         }
 
         private void OnDisable() {
             HideInventoryMenu();
+
+            InputManager.OnPauseMenu -= ToggleInventoryMenu;
         }
 
         public override void SetInstanceReference() {
@@ -87,7 +92,7 @@ namespace Fishing.UI {
             _bucketMenu = BucketMenu.Instance;
             _playerData = SaveManager.Instance.LoadedPlayerData;
             _tutorialSystem = TutorialSystem.Instance;
-            _UIManager = UIManager.instance;
+            _UIManager = UIManager.Instance;
             _audioManager = AudioManager.instance;
         }
     }

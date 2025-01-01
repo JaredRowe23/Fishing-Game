@@ -1,45 +1,48 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using Fishing.IO;
-using UnityEngine.SceneManagement;
+﻿using Fishing.IO;
 using Fishing.PlayerInput;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-namespace Fishing.UI
-{
-    public class PauseMenu : MonoBehaviour
-    {
-        public GameObject pauseMenu;
+namespace Fishing.UI {
+    public class PauseMenu : MonoBehaviour {
+        [SerializeField, Tooltip("Reference to the gameobject that actually holds the pause UI.")] private GameObject _pauseUI;
+        public GameObject PauseUI { get => _pauseUI; private set { _pauseUI = value; } }
 
-        private PlayerData playerData;
+        [SerializeField, Tooltip("Button UI for unpausing the game.")] private Button _unpauseButton;
+        [SerializeField, Tooltip("Button UI for unpausing the game.")] private Button _saveButton;
+        [SerializeField, Tooltip("Button UI for unpausing the game.")] private Button _mapButton;
+        [SerializeField, Tooltip("Button UI for unpausing the game.")] private Button _titleScreenButton;
+        [SerializeField, Tooltip("Button UI for unpausing the game.")] private Button _quitGameButton;
 
-        public static PauseMenu instance;
+        private PlayerData _playerData;
 
-        private void Awake()
-        {
-            if (instance != null)
-            {
+        private static PauseMenu _instance;
+        public static PauseMenu Instance { get => _instance; private set { _instance = value; } }
+
+        private void Awake() {
+            if (Instance != null) {
                 Destroy(gameObject);
                 return;
             }
 
-            instance = this;
+            Instance = this;
             DontDestroyOnLoad(gameObject);
-
-            playerData = SaveManager.Instance.LoadedPlayerData;
-
-            InputManager.OnPauseMenu += ToggleMenu;
         }
 
-        public void ToggleMenu()
-        {
-            if (SceneManager.GetActiveScene().handle == 2)
-            {
-                if (BucketMenu.Instance.gameObject.activeSelf) return;
-                if (InventoryMenu.Instance.gameObject.activeSelf) return;
-            }
+        private void Start() {
+            InputManager.OnPauseMenu += ToggleMenu;
+            _playerData = SaveManager.Instance.LoadedPlayerData;
 
-            if (pauseMenu.activeSelf) {
+            _unpauseButton.onClick.AddListener(delegate { UnpauseGame(); });
+            _saveButton.onClick.AddListener(delegate { SaveGame(); });
+            _mapButton.onClick.AddListener(delegate { OpenMap(); });
+            _titleScreenButton.onClick.AddListener(delegate { ExitToTitle(); });
+            _quitGameButton.onClick.AddListener(delegate { QuitGame(); });
+        }
+
+        public void ToggleMenu() {
+            if (_pauseUI.gameObject.activeSelf) {
                 UnpauseGame();
             }
             else {
@@ -48,25 +51,27 @@ namespace Fishing.UI
         }
 
         private void PauseGame() {
-            pauseMenu.SetActive(true);
+            _pauseUI.gameObject.SetActive(true);
             if (SceneManager.GetActiveScene().handle == 2) {
-                UIManager.instance.HideHUDButtons();
+                UIManager.Instance.HideHUDButtons();
             }
+
             AudioManager.instance.PlaySound("Pause");
             Time.timeScale = 0f;
         }
 
         private void UnpauseGame() {
-            pauseMenu.SetActive(false);
+            _pauseUI.gameObject.SetActive(false);
             if (SceneManager.GetActiveScene().handle == 2) {
-                UIManager.instance.ShowHUDButtons();
+                UIManager.Instance.ShowHUDButtons();
             }
+
             AudioManager.instance.PlaySound("Unpause");
             Time.timeScale = 1f;
         }
 
         public void SaveGame() {
-            playerData.SavePlayer();
+            _playerData.SavePlayer();
             ToggleMenu();
         }
 
@@ -82,7 +87,12 @@ namespace Fishing.UI
             Destroy(gameObject);
         }
 
-        public void QuitGame() => Application.Quit();
-    }
+        public void QuitGame() {
+            Application.Quit();
+        }
 
+        private void OnDestroy() {
+            InputManager.OnPauseMenu -= ToggleMenu;
+        }
+    }
 }

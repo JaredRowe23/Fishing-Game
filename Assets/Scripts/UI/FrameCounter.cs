@@ -1,33 +1,29 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Fishing.UI
-{
-    public class FrameCounter : MonoBehaviour
-    {
-        [SerializeField] private int framesPerUpdate = 15;
-        private int frameCount;
-        private float frameUpdateDeltaTime;
-        private Text text;
+namespace Fishing.UI {
+    public class FrameCounter : MonoBehaviour {
+        [SerializeField, Min(0), Tooltip("Amount of seconds to wait before updating the frame counter. Higher values trade recency for readability.")] private float _secondsPerUpdate = 15;
+        private Text _frameText;
 
-        private void Awake() => text = GetComponent<Text>();
-        private void Start() {
-            frameUpdateDeltaTime = 0;
-            frameCount = framesPerUpdate;
+        private void Awake() {
+            _frameText = GetComponent<Text>();
         }
 
-        private void Update() {
-            frameCount--;
-            frameUpdateDeltaTime += Time.deltaTime;
-            if (frameCount <= 0)
-            {
-                text.text = $"FPS: {(Mathf.Round(1 / (frameUpdateDeltaTime / framesPerUpdate) * 100) / 100).ToString("0.00")}";
-                frameCount = framesPerUpdate;
-                frameUpdateDeltaTime = 0;
+        private void Start() {
+            StartCoroutine(Co_UpdateFrameCounter());
+        }
+
+        private IEnumerator Co_UpdateFrameCounter() {
+            while (true) {
+                double seconds = Time.timeAsDouble;
+                int frames = Time.frameCount;
+                yield return new WaitForSecondsRealtime(_secondsPerUpdate);
+                double updateTime = Time.timeAsDouble - seconds;
+                int updateFrames = Time.frameCount - frames;
+                _frameText.text = $"FPS: {(updateFrames / updateTime).ToString("F2")}";
             }
         }
     }
-
 }

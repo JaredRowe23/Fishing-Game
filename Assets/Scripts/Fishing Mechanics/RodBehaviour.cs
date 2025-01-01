@@ -57,7 +57,7 @@ namespace Fishing.FishingMechanics {
             _bucket = BucketBehaviour.Instance;
             _reelingMinigame = ReelingMinigame.Instance;
             _audioManager = AudioManager.instance;
-            _UIManager = UIManager.instance;
+            _UIManager = UIManager.Instance;
             _powerAndAngle = PowerAndAngle.Instance;
             _playerData = SaveManager.Instance.LoadedPlayerData;
             _tooltipSystem = TooltipSystem.Instance;
@@ -151,7 +151,7 @@ namespace Fishing.FishingMechanics {
             if (!_animator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
                 return;
             }
-            if (_UIManager.mouseOverUI || DisableCastOnHover.IsHoveringUI || _UIManager.IsActiveUI() || _tutorialSystem.TutorialListings.content.gameObject.activeSelf) {
+            if (DisableCastOnHover.IsHoveringUI || _UIManager.IsActiveUI() || _tutorialSystem.TutorialListings.content.gameObject.activeSelf) {
                 return;
             }
             if (Casted) {

@@ -84,7 +84,7 @@ namespace Fishing.UI {
         public override void SetDepenencyReferences() {
             _playerData = SaveManager.Instance.LoadedPlayerData;
             _itemLookupTable = ItemLookupTable.Instance;
-            _UIManager = UIManager.instance;
+            _UIManager = UIManager.Instance;
         }
 
         private void OnDisable() {

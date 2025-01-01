@@ -274,7 +274,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
-  m_Interactable: 1
+  m_Interactable: 0
   m_TargetGraphic: {fileID: 6066845617577380129}
   m_OnClick:
     m_PersistentCalls:
@@ -399,19 +399,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6066845617795593279}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6066845618297487197}
-        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: SaveGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &6066845617807213582
 GameObject:
   m_ObjectHideFlags: 0
@@ -532,19 +520,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6066845617807213619}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6066845618297487197}
-        m_TargetAssemblyTypeName: Fishing.UI.PauseMenu, Assembly-CSharp
-        m_MethodName: OpenMap
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &6066845618272830355
 GameObject:
   m_ObjectHideFlags: 0
@@ -739,7 +715,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 649436abe8eba1149a00a821281136a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pauseMenu: {fileID: 6066845618871236265}
+  _pauseUI: {fileID: 6066845618871236265}
+  _unpauseButton: {fileID: 6066845618413128282}
+  _saveButton: {fileID: 6066845617795593276}
+  _mapButton: {fileID: 6066845617807213616}
+  _titleScreenButton: {fileID: 6066845619245529839}
+  _quitGameButton: {fileID: 153435058352226954}
 --- !u!1 &6066845618413128280
 GameObject:
   m_ObjectHideFlags: 0
@@ -860,19 +841,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6066845618413128285}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6066845618297487197}
-        m_TargetAssemblyTypeName: PauseMenu, Assembly-CSharp
-        m_MethodName: ToggleMenu
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &6066845618506635816
 GameObject:
   m_ObjectHideFlags: 0
@@ -1311,19 +1280,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6066845619245529838}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6066845618297487197}
-        m_TargetAssemblyTypeName: Fishing.UI.PauseMenu, Assembly-CSharp
-        m_MethodName: ExitToTitle
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!1 &7143478415835975588
 GameObject:
   m_ObjectHideFlags: 0
@@ -1444,16 +1401,4 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2823099053192459032}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6066845618297487197}
-        m_TargetAssemblyTypeName: Fishing.UI.PauseMenu, Assembly-CSharp
-        m_MethodName: QuitGame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []

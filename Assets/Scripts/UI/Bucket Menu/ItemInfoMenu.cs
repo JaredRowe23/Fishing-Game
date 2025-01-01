@@ -34,15 +34,15 @@ namespace Fishing.UI {
             _dataReference = reference;
             _itemImage.sprite = ItemLookupTable.Instance.StringToFishScriptable(_dataReference.ItemName).InventorySprite;
             _itemNameText.text = _dataReference.ItemName;
-            _itemValueText.text = _dataReference.Value.ToString();
-            _itemWeightText.text = _dataReference.Weight.ToString();
-            _itemLengthText.text = _dataReference.Length.ToString();
+            _itemValueText.text = _dataReference.Value.ToString("C");
+            _itemWeightText.text = _dataReference.Weight.ToString("F2");
+            _itemLengthText.text = _dataReference.Length.ToString("F2");
             _itemDescriptionText.text = _dataReference.Description;
         }
 
         public void ThrowAwayItem() {
             _tooltipSystem.NewTooltip($"Threw away the {_dataReference.ItemName}");
-            if (_manager.overflowItem.gameObject.activeSelf) {
+            if (_manager.OverflowItem.gameObject.activeSelf) {
                 HandleOverflowItem();
             }
             RemoveItem();
@@ -56,7 +56,7 @@ namespace Fishing.UI {
 
         public void ConvertToBait() {
             _playerData.AddBait(_dataReference.ItemName, 1);
-            if (_manager.overflowItem.gameObject.activeSelf) {
+            if (_manager.OverflowItem.gameObject.activeSelf) {
                 HandleOverflowItem();
             }
             _tooltipSystem.NewTooltip($"Converted the {_dataReference.ItemName} into bait");
@@ -67,24 +67,24 @@ namespace Fishing.UI {
         }
 
         public void HandleOverflowItem() {
-            if (_menuListingReference != _manager.overflowItem) {
+            if (_menuListingReference != _manager.OverflowItem) {
                 _bucket.AddToBucket(_rodManager.EquippedRod.Hook.HookedObject.GetComponent<Fishable>());
             }
 
             _rodManager.EquippedRod.Hook.DestroyHookedObject();
-            _manager.overflowItem.gameObject.SetActive(false);
+            _manager.OverflowItem.gameObject.SetActive(false);
             _bucketMenu.ToggleBucketMenu();
         }
 
         private void RemoveItem() {
             _bucket.BucketList.Remove(_dataReference);
-            if (_menuListingReference != _manager.overflowItem) {
+            if (_menuListingReference != _manager.OverflowItem) {
                 Destroy(_menuListingReference);
             }
 
             _audioManager.PlaySound("Throwaway Fish");
 
-            _manager.itemInfoMenu.SetActive(false);
+            gameObject.SetActive(false);
             _bucketMenu.RefreshMenu();
             gameObject.SetActive(false);
         }
@@ -100,7 +100,7 @@ namespace Fishing.UI {
 
         public override void SetDepenencyReferences() {
             _playerData = SaveManager.Instance.LoadedPlayerData;
-            _manager = UIManager.instance;
+            _manager = UIManager.Instance;
             _bucketMenu = BucketMenu.Instance;
             _tooltipSystem = TooltipSystem.Instance;
             _rodManager = RodManager.Instance;

@@ -35,7 +35,7 @@ namespace Fishing.Inventory {
             _audioManager = AudioManager.instance;
             _tooltipSystem = TooltipSystem.Instance;
             _tutorialSystem = TutorialSystem.Instance;
-            _overflowItem = UIManager.instance.overflowItem;
+            _overflowItem = UIManager.Instance.OverflowItem;
             _bucketMenu = BucketMenu.Instance;
             _baitManager = BaitManager.Instance;
 

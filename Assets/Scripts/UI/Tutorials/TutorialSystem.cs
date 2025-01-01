@@ -24,9 +24,6 @@ namespace Fishing.UI {
 
         private GraphicRaycaster _graphicsRaycaster; // TODO: Find out why this was needed.
 
-        private IEnumerator _showTutorialsCoroutine;
-        private IEnumerator _hideTutorialsCoroutine;
-
         private static TutorialSystem _instance;
         public static TutorialSystem Instance { get => _instance; private set => _instance = value; }
 
@@ -41,9 +38,6 @@ namespace Fishing.UI {
 
             _graphicsRaycaster = GetComponent<GraphicRaycaster>();
             TutorialQueue = new Queue<Tutorial>();
-
-            _showTutorialsCoroutine = Co_ShowTutorials();
-            _hideTutorialsCoroutine = Co_HideTutorials();
         }
 
         private IEnumerator Co_ShowTutorials() {
@@ -53,7 +47,7 @@ namespace Fishing.UI {
             float transitionProgress = 0f; // Increases towards 1 as transition completes
 
             while (true) {
-                if (PauseMenu.instance.pauseMenu.activeSelf) {
+                if (PauseMenu.Instance.PauseUI.activeSelf) {
                     yield return null;
                 }
 
@@ -77,7 +71,7 @@ namespace Fishing.UI {
             float transitionProgress = 0f; // Increases towards 1 as transition completes
 
             while (true) {
-                if (PauseMenu.instance.pauseMenu.activeSelf) {
+                if (PauseMenu.Instance.PauseUI.activeSelf) {
                     yield return null;
                 }
 

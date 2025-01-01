@@ -1,5 +1,6 @@
 using Fishing.Inventory;
 using Fishing.IO;
+using Fishing.PlayerInput;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,7 +22,7 @@ namespace Fishing.UI {
         public static BucketMenu Instance { get => _instance; private set => _instance = value; }
 
         public void ToggleBucketMenu() {
-            if (_UIManager.overflowItem.gameObject.activeSelf) {
+            if (_UIManager.OverflowItem.gameObject.activeSelf) {
                 return;
             }
 
@@ -66,7 +67,7 @@ namespace Fishing.UI {
         public override void SetDepenencyReferences() {
             _playerData = SaveManager.Instance.LoadedPlayerData;
             _bucket = BucketBehaviour.Instance;
-            _UIManager = UIManager.instance;
+            _UIManager = UIManager.Instance;
             _tutorialSystem = TutorialSystem.Instance;
             _audioManager = AudioManager.instance;
         }
@@ -82,11 +83,15 @@ namespace Fishing.UI {
             if (!_playerData.HasSeenTutorialData.BucketMenuTutorial) {
                 ShowBucketMenuTutorial();
             }
+
+            InputManager.OnPauseMenu += ToggleBucketMenu; // TODO: The check at the beginning of ToggleBucketMenu might cause some unexpected behaviour, look into if a specific 
         }
 
         private void OnDisable() {
             DestroyMenuItems();
             _audioManager.PlaySound("Close Bucket");
+
+            InputManager.OnPauseMenu -= ToggleBucketMenu;
         }
     }
 }
