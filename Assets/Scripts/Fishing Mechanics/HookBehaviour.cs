@@ -88,8 +88,8 @@ namespace Fishing.FishingMechanics {
         }
 
         private void ShowReelingTutorial() {
-            TutorialSystem.instance.QueueTutorial("Hold the left mouse button to begin reeling.");
-            TutorialSystem.instance.QueueTutorial("Use A and D or the arrow keys to move the hook left and right slightly");
+            TutorialSystem.Instance.QueueTutorial("Hold the left mouse button to begin reeling.");
+            TutorialSystem.Instance.QueueTutorial("Use A and D or the arrow keys to move the hook left and right slightly");
             SaveManager.Instance.LoadedPlayerData.HasSeenTutorialData.ReelingTutorial = true;
         }
 

@@ -67,7 +67,7 @@ namespace Fishing.UI {
             _playerData = SaveManager.Instance.LoadedPlayerData;
             _bucket = BucketBehaviour.Instance;
             _UIManager = UIManager.instance;
-            _tutorialSystem = TutorialSystem.instance;
+            _tutorialSystem = TutorialSystem.Instance;
             _audioManager = AudioManager.instance;
         }
 

@@ -73,7 +73,7 @@ namespace Fishing.FishingMechanics {
                 return;
             }
 
-            TutorialSystem.instance.QueueTutorial("Release the left mouse button to set your power", true, 3f);
+            TutorialSystem.Instance.QueueTutorial("Release the left mouse button to set your power", 3f);
         }
 
         private void Charge() {
@@ -102,7 +102,7 @@ namespace Fishing.FishingMechanics {
                 return;
             }
 
-            TutorialSystem.instance.QueueTutorial("Click the left mouse button once more to set your angle and cast.", true, 3f);
+            TutorialSystem.Instance.QueueTutorial("Click the left mouse button once more to set your angle and cast.", 3f);
             SaveManager.Instance.LoadedPlayerData.HasSeenTutorialData.CastTutorial = true;
         }
 

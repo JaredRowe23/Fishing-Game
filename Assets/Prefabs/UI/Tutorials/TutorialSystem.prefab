@@ -465,9 +465,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a653a1b322168534991e9726b530770e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tutorialPrefab: {fileID: 9001733635542594512, guid: 9b73d5359539703458eed1ab67387b50, type: 3}
-  filter: {fileID: 5160021499455366498}
-  fadedAlpha: 0.75
-  slowMotionSpeed: 0.01
-  transitionSpeed: 5
-  tutorialListings: {fileID: 4008680027681663584}
+  _tutorialPrefab: {fileID: 9001733635542594512, guid: 9b73d5359539703458eed1ab67387b50, type: 3}
+  _tutorialListings: {fileID: 4008680027681663584}
+  _filter: {fileID: 5160021499455366498}
+  _fadedAlpha: 0.5
+  _slowMotionSpeed: 0.1
+  _transitionTime: 5

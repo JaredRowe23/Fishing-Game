@@ -1,32 +1,40 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Fishing.UI
-{
-    public class Tutorial : MonoBehaviour
-    {
-        [SerializeField] private Text tutorialText;
-        private bool hasLifetime;
-        private float lifetime;
+namespace Fishing.UI {
+    public class Tutorial : MonoBehaviour {
+        [SerializeField, Tooltip("Text UI that displays the tutorial's message.")] private Text _tutorialText;
+        [SerializeField, Tooltip("Button UI that closes the tutorial.")] private Button _closeButton;
+        private float _lifetime;
+        public float Lifetime { get => _lifetime; private set { _lifetime = value; } }
 
-        private void Update() {
-            if (!hasLifetime) return;
-            lifetime -= Time.deltaTime * (1 / Time.timeScale);
-            if (lifetime > 0f) return;
-            DestroyTutorial();
+        public void InitializeTutorial(string tutorialText) {
+            _tutorialText.text = tutorialText;
+            Lifetime = 0f;
+            _closeButton.gameObject.SetActive(true);
+            _closeButton.onClick.AddListener(delegate { DestroyTutorial(); });
         }
 
-        public void InitializeTutorial(string _tutorialText, bool _hasLifetime, float _lifetime) {
-            tutorialText.text = _tutorialText;
-            hasLifetime = _hasLifetime;
-            lifetime = _lifetime;
+        public void InitializeTutorial(string tutorialText, float lifetime) {
+            _tutorialText.text = tutorialText;
+            Lifetime = lifetime;
+            _closeButton.gameObject.SetActive(false);
         }
 
         public void DestroyTutorial() {
-            TutorialSystem.instance.tutorialQueue.Dequeue();
+            TutorialSystem.Instance.TutorialQueue.Dequeue();
+            transform.SetParent(null);
+            TutorialSystem.Instance.ShowNextTutorial();
             Destroy(gameObject);
+        }
+
+        public IEnumerator Co_DestroyTutorial() {
+            while (true) {
+                yield return new WaitForSecondsRealtime(_lifetime);
+                DestroyTutorial();
+                break;
+            }
         }
     }
 }

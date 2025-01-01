@@ -98,11 +98,11 @@ namespace Fishing.FishingMechanics.Minigame {
         }
 
         private void HandleTutorial() {
-            TutorialSystem.instance.QueueTutorial("When you hook something, the reeling minigame starts. Move the green \"reeling zone\" with the Left Mouse Button to cover the fish icon to start reeling it in.");
-            TutorialSystem.instance.QueueTutorial("Your line can snap under too much stress, so pay attention to the bar's color!");
-            TutorialSystem.instance.QueueTutorial("Reeling will cause some stress, but not as much when the fish is in the reeling zone. Stronger lines can handle stronger fish.");
-            TutorialSystem.instance.QueueTutorial("The fish will try and swim away (splash icon) before entering a rest period. Reeling while it's swimming will induce more stress.");
-            TutorialSystem.instance.QueueTutorial("If you find a fish too difficult, upgrade your line, fishing rod, or try going after a smaller sized fish. Reel while the fish is resting, and good luck!");
+            TutorialSystem.Instance.QueueTutorial("When you hook something, the reeling minigame starts. Move the green \"reeling zone\" with the Left Mouse Button to cover the fish icon to start reeling it in.");
+            TutorialSystem.Instance.QueueTutorial("Your line can snap under too much stress, so pay attention to the bar's color!");
+            TutorialSystem.Instance.QueueTutorial("Reeling will cause some stress, but not as much when the fish is in the reeling zone. Stronger lines can handle stronger fish.");
+            TutorialSystem.Instance.QueueTutorial("The fish will try and swim away (splash icon) before entering a rest period. Reeling while it's swimming will induce more stress.");
+            TutorialSystem.Instance.QueueTutorial("If you find a fish too difficult, upgrade your line, fishing rod, or try going after a smaller sized fish. Reel while the fish is resting, and good luck!");
             SaveManager.Instance.LoadedPlayerData.HasSeenTutorialData.ReelingMinigameTutorial = true;
         }
 

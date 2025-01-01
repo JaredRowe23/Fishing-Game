@@ -86,7 +86,7 @@ namespace Fishing.UI {
         public override void SetDepenencyReferences() {
             _bucketMenu = BucketMenu.Instance;
             _playerData = SaveManager.Instance.LoadedPlayerData;
-            _tutorialSystem = TutorialSystem.instance;
+            _tutorialSystem = TutorialSystem.Instance;
             _UIManager = UIManager.instance;
             _audioManager = AudioManager.instance;
         }

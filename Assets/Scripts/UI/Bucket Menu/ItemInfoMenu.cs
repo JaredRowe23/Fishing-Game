@@ -106,7 +106,7 @@ namespace Fishing.UI {
             _rodManager = RodManager.Instance;
             _bucket = BucketBehaviour.Instance;
             _audioManager = AudioManager.instance;
-            _tutorialSystem = TutorialSystem.instance;
+            _tutorialSystem = TutorialSystem.Instance;
         }
 
         private void OnDisable() {

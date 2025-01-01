@@ -9,7 +9,7 @@ namespace Fishing.UI {
         private const float DEFAULT_LIFETIME = 3f;
 
         private static TooltipSystem _instance;
-        public static TooltipSystem Instance { get => _instance; set => _instance = value; }
+        public static TooltipSystem Instance { get => _instance; private set => _instance = value; }
 
         private void Awake() {
             if (Instance != null) {

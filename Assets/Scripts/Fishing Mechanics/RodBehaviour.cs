@@ -61,7 +61,7 @@ namespace Fishing.FishingMechanics {
             _powerAndAngle = PowerAndAngle.Instance;
             _playerData = SaveManager.Instance.LoadedPlayerData;
             _tooltipSystem = TooltipSystem.Instance;
-            _tutorialSystem = TutorialSystem.instance;
+            _tutorialSystem = TutorialSystem.Instance;
 
             Casted = false;
             _playerAnimator = _rodManager.GetComponent<Animator>();
