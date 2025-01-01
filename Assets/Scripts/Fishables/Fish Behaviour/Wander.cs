@@ -43,8 +43,8 @@ namespace Fishing.Fishables.Fish {
                 _movement.TargetPos = (Vector2)transform.position + rand;
 
                 SurfacePositionInfo surfacePositionInfo = new SurfacePositionInfo(_movement.TargetPos, _floorColliders);
-                if (surfacePositionInfo.positionInsideTerrain) {
-                    _movement.TargetPos = surfacePositionInfo.surfacePosition;
+                if (surfacePositionInfo.PositionInsideTerrain) {
+                    _movement.TargetPos = surfacePositionInfo.SurfacePosition;
                 }
 
                 yield return new WaitForSeconds(_wanderPositionTimeout);

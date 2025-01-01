@@ -89,11 +89,11 @@ namespace Fishing.Fishables {
             }
 
             SurfacePositionInfo surfacePositionInfo = new SurfacePositionInfo(transform.position, _floorColliders);
-            if (!surfacePositionInfo.positionInsideTerrain) { 
+            if (!surfacePositionInfo.PositionInsideTerrain) { 
                 return; 
             }
 
-            transform.position = surfacePositionInfo.surfacePosition;
+            transform.position = surfacePositionInfo.SurfacePosition;
             _isGrounded = true;
         }
 

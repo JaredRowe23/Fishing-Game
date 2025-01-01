@@ -1,23 +1,25 @@
 using System.Collections.Generic;
 using UnityEngine;
-using System.Diagnostics;
 
 namespace Fishing.Util.Collision {
     public struct SurfacePositionInfo {
-        public Vector2 surfacePosition;
-        public Vector3 rotationFromFloor;
-        public bool positionInsideTerrain;
+        private Vector2 _surfacePosition;
+        public Vector2 SurfacePosition { get => _surfacePosition; set => _surfacePosition = value; }
+        private Vector3 _rotationFromFloor;
+        public Vector3 RotationFromFloor { get => _rotationFromFloor; private set => _rotationFromFloor = value; }
+        private bool _positionInsideTerrain;
+        public bool PositionInsideTerrain { get => _positionInsideTerrain; private set => _positionInsideTerrain = value; }
 
         public SurfacePositionInfo(Vector2 position, PolygonCollider2D[] colliders) {
-            positionInsideTerrain = false;
+            _positionInsideTerrain = false;
             for (int i = 0; i < colliders.Length; i++) {
                 if (colliders[i].OverlapPoint(position)) {
-                    positionInsideTerrain = true;
+                    _positionInsideTerrain = true;
                     break;
                 }
             }
 
-            if (positionInsideTerrain) {
+            if (_positionInsideTerrain) {
                 List<Vector2> colliderCLosestPoints = new List<Vector2>();
                 for (int i = 0; i < colliders.Length; i++) {
                     Vector2 closestPointOnCollider = CollisionDetection.ClosestPointFromInsideCollider2D(position, colliders[i]);
@@ -37,13 +39,13 @@ namespace Fishing.Util.Collision {
                     closestPointDistance = distance;
                 }
 
-                surfacePosition = closestPoint;
-                rotationFromFloor = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, (position - surfacePosition) * -1));
+                _surfacePosition = closestPoint;
+                _rotationFromFloor = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, (position - _surfacePosition) * -1));
             }
             else {
                 ClosestPointInfo closestPointInfo = CollisionDetection.ClosestPointFromOutside(position, colliders);
-                surfacePosition = closestPointInfo.position;
-                rotationFromFloor = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, position - surfacePosition));
+                _surfacePosition = closestPointInfo.Position;
+                _rotationFromFloor = new Vector3(0, 0, Vector2.SignedAngle(Vector2.up, position - _surfacePosition));
             }
         }
     }

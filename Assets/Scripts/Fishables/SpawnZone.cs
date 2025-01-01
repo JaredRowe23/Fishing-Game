@@ -77,15 +77,15 @@ namespace Fishing {
             }
 
             SurfacePositionInfo spawnInfo = new SurfacePositionInfo(randomWorldPosition, _floorColliders);
-            if (spawnInfo.surfacePosition == randomWorldPosition) {
+            if (spawnInfo.SurfacePosition == randomWorldPosition) {
                 Debug.Log($"Could not find surface point at {randomWorldPosition}", this);
-                spawnInfo.surfacePosition = transform.position;
+                spawnInfo.SurfacePosition = transform.position;
             }
-            if (!spawnInfo.positionInsideTerrain) {
+            if (!spawnInfo.PositionInsideTerrain) {
                 return randomWorldPosition;
             }
             else {
-                return spawnInfo.surfacePosition;
+                return spawnInfo.SurfacePosition;
             }
         }
 

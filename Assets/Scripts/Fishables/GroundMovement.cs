@@ -31,7 +31,7 @@ namespace Fishing.Fishables.Fish {
             directionChangeCount = directionChangeTime;
 
             SurfacePositionInfo surfacePositionInfo = new SurfacePositionInfo(transform.parent.position, floorColliders);
-            spawnerNearestFloorPosition = surfacePositionInfo.surfacePosition;
+            spawnerNearestFloorPosition = surfacePositionInfo.SurfacePosition;
         }
 
         void FixedUpdate() {
@@ -58,16 +58,16 @@ namespace Fishing.Fishables.Fish {
             transform.Translate(transform.right * moveSpeed * moveDirection * Time.fixedDeltaTime);
 
             SurfacePositionInfo surfacePositionInfo = new SurfacePositionInfo(transform.position, floorColliders);
-            closestFloorPoint = surfacePositionInfo.surfacePosition;
+            closestFloorPoint = surfacePositionInfo.SurfacePosition;
             Vector2 directionToFloorPoint = (closestFloorPoint - (Vector2)transform.position).normalized;
-            if (surfacePositionInfo.positionInsideTerrain) {
+            if (surfacePositionInfo.PositionInsideTerrain) {
                 transform.position = closestFloorPoint + directionToFloorPoint * groundOffset * transform.localScale.y;
             }
             else {
                 transform.position = closestFloorPoint + directionToFloorPoint * -groundOffset * transform.localScale.y;
             }
 
-            transform.rotation = Quaternion.Euler(surfacePositionInfo.rotationFromFloor);
+            transform.rotation = Quaternion.Euler(surfacePositionInfo.RotationFromFloor);
         }
 
         private void OnDrawGizmosSelected() {

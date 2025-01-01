@@ -65,7 +65,7 @@ namespace Fishing.Fishables {
 
         private void Spawn() {
             SurfacePositionInfo spawnInfo = GenerateSpawnPositionInfo();
-            GameObject newObject = Instantiate(_prefab, spawnInfo.surfacePosition, Quaternion.Euler(spawnInfo.rotationFromFloor), transform);
+            GameObject newObject = Instantiate(_prefab, spawnInfo.SurfacePosition, Quaternion.Euler(spawnInfo.RotationFromFloor), transform);
 
             if (_randomizeScale) {
                 float randomScale = _scale + Random.Range(-_scaleVariance, _scaleVariance);
@@ -87,9 +87,9 @@ namespace Fishing.Fishables {
             }
 
             SurfacePositionInfo spawnInfo = new SurfacePositionInfo(spawnPosition, _floorColliders);
-            if (spawnInfo.surfacePosition == spawnPosition) {
+            if (spawnInfo.SurfacePosition == spawnPosition) {
                 Debug.Log($"Could not find surface point at {spawnPosition}", this);
-                spawnInfo.surfacePosition = transform.position;
+                spawnInfo.SurfacePosition = transform.position;
             }
             return spawnInfo;
         }
@@ -105,16 +105,16 @@ namespace Fishing.Fishables {
 
             if (_debugging) {
                 SurfacePositionInfo spawnFloorInfo = new SurfacePositionInfo(transform.position, _floorColliders);
-                if (spawnFloorInfo.surfacePosition == (Vector2)transform.position) {
+                if (spawnFloorInfo.SurfacePosition == (Vector2)transform.position) {
                     Gizmos.color = Color.yellow;
                     Gizmos.DrawWireSphere(transform.position, 5f);
                     return;
                 }
                 Gizmos.color = Color.blue;
-                Gizmos.DrawLine(transform.position, spawnFloorInfo.surfacePosition);
-                Gizmos.DrawWireSphere(spawnFloorInfo.surfacePosition, 1f);
+                Gizmos.DrawLine(transform.position, spawnFloorInfo.SurfacePosition);
+                Gizmos.DrawWireSphere(spawnFloorInfo.SurfacePosition, 1f);
 
-                Debug.Log(spawnFloorInfo.positionInsideTerrain);
+                Debug.Log(spawnFloorInfo.PositionInsideTerrain);
             }
         }
 

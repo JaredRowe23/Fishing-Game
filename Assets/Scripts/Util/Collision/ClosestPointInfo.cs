@@ -2,14 +2,17 @@ using UnityEngine;
 
 namespace Fishing.Util.Collision {
     public struct ClosestPointInfo {
-        public float distance;
-        public Vector2 position;
-        public Collider2D collider;
+        private float _distance;
+        public float Distance { get => _distance; private set => _distance = value; }
+        private Vector2 _position;
+        public Vector2 Position { get => _position; private set => _position = value; }
+        private Collider2D _collider;
+        public Collider2D Collider { get => _collider; private set => _collider = value; }
 
-        public ClosestPointInfo(Vector2 _position, float _distance, Collider2D _collider) {
-            position = _position;
-            distance = _distance;
-            collider = _collider;
+        public ClosestPointInfo(Vector2 position, float distance, Collider2D collider) {
+            _position = position;
+            _distance = distance;
+            _collider = collider;
         }
     }
 }

@@ -105,15 +105,15 @@ namespace Fishing.Fishables.Fish {
             if (FishableGrid.instance.IsNearbyTerrainGrid(_fishable.GridSquare[0], _fishable.GridSquare[1], _obstacleAvoidanceDistance)) {
 
                 SurfacePositionInfo surfacePositionInfo = new SurfacePositionInfo(transform.position, _floorColliders);
-                if (surfacePositionInfo.positionInsideTerrain) {
-                    CalculateTurnDirection(surfacePositionInfo.surfacePosition);
+                if (surfacePositionInfo.PositionInsideTerrain) {
+                    CalculateTurnDirection(surfacePositionInfo.SurfacePosition);
                     return;
                 }
                 else {
-                    float distToFloor = Vector2.Distance(transform.position, surfacePositionInfo.surfacePosition);
+                    float distToFloor = Vector2.Distance(transform.position, surfacePositionInfo.SurfacePosition);
 
                     if (distToFloor < _obstacleAvoidanceDistance) {
-                        AvoidFloor(surfacePositionInfo.surfacePosition);
+                        AvoidFloor(surfacePositionInfo.SurfacePosition);
                         return;
                     }
                 }

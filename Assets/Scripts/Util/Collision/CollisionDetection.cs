@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace Fishing.Util.Collision {
     public static class CollisionDetection {
-
         public static Vector2 ClosestPointFromInsideCollider2D(Vector2 point, Collider2D collider) {
             List<VertexData> vertexData = GetVertexDatasFromCollider(collider, point);
 
@@ -19,7 +18,7 @@ namespace Fishing.Util.Collision {
 
             List<Vector2> closestPoints = GetClosestValidPointsFromPlaneInfos(planeInfos, point);
 
-            closestPoints.Add(closestVertex.position);
+            closestPoints.Add(closestVertex.Position);
 
             Vector2 closestPoint = GetClosestPointFromList(closestPoints, point);
 
@@ -53,7 +52,7 @@ namespace Fishing.Util.Collision {
 
         private static int TryFindVertexIndexInVertexDataList(List<VertexData> vertexData, Vector2 vectorPosition) {
             for (int i = 0; i < vertexData.Count; i++) {
-                if (vertexData[i].position != vectorPosition) {
+                if (vertexData[i].Position != vectorPosition) {
                     continue;
                 }
                 return i;
@@ -83,7 +82,7 @@ namespace Fishing.Util.Collision {
                     continue;
                 }
 
-                if (closestVertex.distanceToPoint < vertexData[i].distanceToPoint) {
+                if (closestVertex.DistanceToPoint < vertexData[i].DistanceToPoint) {
                     continue;
                 }
 
@@ -100,19 +99,19 @@ namespace Fishing.Util.Collision {
                 bool planeBAlreadyIn = false;
 
                 for (int j = 0; j < planeInfos.Count; j++) {
-                    if (planeInfos[j].vertexB == vertex.neighborPositions[vertex.ValidNormalsIndices[i][0]]) {
+                    if (planeInfos[j].VertexB == vertex.NeighborPositions[vertex.ValidNormalsIndices[i][0]]) {
                         planeAAlreadyIn = true;
                     }
-                    if (planeInfos[j].vertexB == vertex.neighborPositions[vertex.ValidNormalsIndices[i][1]]) {
+                    if (planeInfos[j].VertexB == vertex.NeighborPositions[vertex.ValidNormalsIndices[i][1]]) {
                         planeBAlreadyIn = true;
                     }
                 }
 
                 if (planeAAlreadyIn == false) {
-                    planeInfos.Add(new EdgePlaneInfo(collider, vertex.position, vertex.neighborPositions[vertex.ValidNormalsIndices[i][0]]));
+                    planeInfos.Add(new EdgePlaneInfo(collider, vertex.Position, vertex.NeighborPositions[vertex.ValidNormalsIndices[i][0]]));
                 }
                 if (planeBAlreadyIn == false) {
-                    planeInfos.Add(new EdgePlaneInfo(collider, vertex.position, vertex.neighborPositions[vertex.ValidNormalsIndices[i][1]]));
+                    planeInfos.Add(new EdgePlaneInfo(collider, vertex.Position, vertex.NeighborPositions[vertex.ValidNormalsIndices[i][1]]));
                 }
             }
             return planeInfos;
@@ -122,12 +121,12 @@ namespace Fishing.Util.Collision {
             List<Vector2> closestPlanePoints = new List<Vector2>();
             int layerMask = ~LayerMask.NameToLayer("Terrain");
             for (int i = 0; i < planeInfos.Count; i++) {
-                Vector2 closestPlanePoint = planeInfos[i].plane.ClosestPointOnPlane(point);
+                Vector2 closestPlanePoint = planeInfos[i].Plane.ClosestPointOnPlane(point);
 
-                float closestPlanePointDistanceA = Vector2.Distance(closestPlanePoint, planeInfos[i].vertexA);
-                float closestPlanePointDistanceB = Vector2.Distance(closestPlanePoint, planeInfos[i].vertexB);
+                float closestPlanePointDistanceA = Vector2.Distance(closestPlanePoint, planeInfos[i].VertexA);
+                float closestPlanePointDistanceB = Vector2.Distance(closestPlanePoint, planeInfos[i].VertexB);
 
-                if (closestPlanePointDistanceA <= planeInfos[i].edgeLength && closestPlanePointDistanceB <= planeInfos[i].edgeLength) {
+                if (closestPlanePointDistanceA <= planeInfos[i].EdgeLength && closestPlanePointDistanceB <= planeInfos[i].EdgeLength) {
                     Vector2 edgeNormal = (closestPlanePoint - point).normalized;
 
                     if (!Physics2D.OverlapPoint(closestPlanePoint + edgeNormal * 0.01f, layerMask)) {
@@ -183,7 +182,7 @@ namespace Fishing.Util.Collision {
                 Vector2 pointToEvaluate = colliders[i].ClosestPoint(position);
                 float distanceToEvaluate = Vector2.Distance(position, pointToEvaluate);
 
-                if (distanceToEvaluate >= _closestPoint.distance) continue;
+                if (distanceToEvaluate >= _closestPoint.Distance) continue;
 
                 _closestPoint = new ClosestPointInfo(pointToEvaluate, distanceToEvaluate, colliders[i]);
             }
