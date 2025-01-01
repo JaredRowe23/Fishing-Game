@@ -1,5 +1,5 @@
 using Fishing.PlayerCamera;
-using Fishing.Util;
+using Fishing.Util.Math;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -92,7 +92,7 @@ namespace Fishing.FishingMechanics {
 
             Vector2 launchPos = transform.parent.position;
             float angle = 90f - castAngle;
-            Vector2 directionVector = Utilities.AngleToVector(angle);
+            Vector2 directionVector = MathHelpers.AngleToVector(angle);
 
             float mass = _equippedRod.Hook.GetComponent<Rigidbody2D>().mass;
             float velocity = force / mass * Time.fixedDeltaTime;

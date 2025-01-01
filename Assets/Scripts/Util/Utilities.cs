@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 namespace Fishing.Util {
@@ -9,45 +8,14 @@ namespace Fishing.Util {
         }
 
         /// <summary>
-        /// Oscillates a value between two other values and returns an OscillateInfo object that contains the new value and what the new target direction should be.
-        /// </summary>
-        /// <param name="minValue">Minimum value to lerp</param>
-        /// <param name="maxValue">Maximum value to lerp</param>
-        /// <param name="currentValue">Current value to lerp</param>
-        /// <param name="oscillationSpeed">Speed to lerp, in leu of having Time.deltaTime or frequency set in the inspector</param>
-        /// <param name="target">Current target value to oscillate towards</param>
-        /// <returns>OscillateInfo</returns>
-        public static OscillateInfo OscillateFloat(float minValue, float maxValue, float currentValue, float oscillationSpeed, float target) {
-            float _valueDelta = Mathf.Lerp(minValue, maxValue, oscillationSpeed) - minValue;
-            currentValue = target == maxValue ? currentValue + _valueDelta : currentValue - _valueDelta;
-
-            if (target == maxValue && currentValue >= maxValue) {
-                currentValue = maxValue;
-                target = minValue;
-            }
-            else if (target == minValue && currentValue <= minValue) {
-                currentValue = minValue;
-                target = maxValue;
-            }
-
-            OscillateInfo _info = new OscillateInfo(currentValue, target);
-            return _info;
-        }
-        /// <summary>
         /// Returns given color with it's transparency set to a given value.
         /// </summary>
         /// <param name="color"></param>
         /// <param name="transparency"></param>
         /// <returns>Color</returns>
-        public static Color SetTransparency(Color color, float transparency) => new Color(color.r, color.g, color.b, transparency);
-
-        /// <summary>
-        /// Converts angle to a directional vector.
-        /// </summary>
-        /// <param name="angle"></param>
-        /// <returns>Vector2 direction</returns>
-        public static Vector2 AngleToVector(float angle) => new Vector2(Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
-
+        public static Color SetTransparency(Color color, float transparency) {
+            return new Color(color.r, color.g, color.b, transparency);
+        }
 
         /// <summary>
         /// Gives the direction a transform would have to rotate to face towards a target, in the form of an int. Meant to be multiplied with rotation needs.
@@ -74,17 +42,6 @@ namespace Fishing.Util {
             transform.SetParent(parent);
             return transform.localScale;
         }
-        /// <summary>
-        /// Returns a signed angle from an unsigned angle (ex. 270 returns -90)
-        /// </summary>
-        /// <param name="angle"></param>
-        /// <returns>float from -180 to 180</returns>
-        public static float UnsignedToSignedAngle(float angle) { // TODO: DOES NOT WORK, FIX THIS! Check to see if an if statement to get this working is less intensive than a Vector2.UnsignedAngle.
-            return angle - ((int)(angle / 360) * 360f);
-            //angle = angle % 360;
-            //if (angle > 180) angle = -180 + angle % 180;
-            //return angle;
-        }
 
         /// <summary>
         /// Takes a turn direction value of -1 or 1 and weighs it based on how close a transform is pointed towards the given angle
@@ -101,24 +58,6 @@ namespace Fishing.Util {
             float angleDot = Vector2.Dot(Vector2.up, angleVector); // Get Dot product and clamp values 0 to 1. Using Vector2.up since the angleVector should be relative to facing direction.
             float directionWeight = 1f - Mathf.Clamp(angleDot, 0, 1);
             return direction * directionWeight; // direction value of -1 or 1 is now weighed
-        }
-
-        public const float AngleToRadians90 = Mathf.PI * 0.25f;
-        public static bool IsWithinAngleOfDirection(Vector2 sourcePosition, Vector2 targetPosition, Vector2 direction, float angle) {
-            float dot = Vector2.Dot(direction, Vector3.Normalize(targetPosition - sourcePosition));
-            float dotAngle = Mathf.Acos(dot) * 180 * 0.3183098861928886f;
-            if (dotAngle < angle) return true;
-            return false;
-        }
-    }
-
-    public struct OscillateInfo {
-        public float value;
-        public float newTarget;
-
-        public OscillateInfo(float _value, float _newTarget) {
-            value = _value;
-            newTarget = _newTarget;
         }
     }
 }

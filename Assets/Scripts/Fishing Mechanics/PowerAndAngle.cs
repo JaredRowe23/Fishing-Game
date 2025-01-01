@@ -1,9 +1,8 @@
 ﻿using Fishing.IO;
 using Fishing.PlayerInput;
 using Fishing.UI;
-using Fishing.Util;
+using Fishing.Util.Math;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace Fishing.FishingMechanics {
     public class PowerAndAngle : MonoBehaviour {
@@ -77,9 +76,9 @@ namespace Fishing.FishingMechanics {
         }
 
         private void Charge() {
-            OscillateInfo _oscillateInfo = Utilities.OscillateFloat(_minStrength, _maxStrength, Power, _chargeFrequency * Time.deltaTime / 1, _targetCharge);
-            Power = _oscillateInfo.value;
-            _targetCharge = _oscillateInfo.newTarget;
+            OscillateInfo _oscillateInfo = MathHelpers.OscillateFloat(_minStrength, _maxStrength, Power, _chargeFrequency * Time.deltaTime / 1, _targetCharge);
+            Power = _oscillateInfo.Value;
+            _targetCharge = _oscillateInfo.NewTarget;
 
             AudioManager.instance.GetSource("Power Audio").pitch = Mathf.InverseLerp(_minStrength, _maxStrength, Power);
         }
@@ -107,9 +106,9 @@ namespace Fishing.FishingMechanics {
         }
 
         private void Angle() {
-            OscillateInfo _oscillateInfo = Utilities.OscillateFloat(_minAngle, _maxAngle, CurrentAngle, _angleFrequency * Time.deltaTime / 1, _targetAngle);
-            CurrentAngle = _oscillateInfo.value;
-            _targetAngle = _oscillateInfo.newTarget;
+            OscillateInfo _oscillateInfo = MathHelpers.OscillateFloat(_minAngle, _maxAngle, CurrentAngle, _angleFrequency * Time.deltaTime / 1, _targetAngle);
+            CurrentAngle = _oscillateInfo.Value;
+            _targetAngle = _oscillateInfo.NewTarget;
 
             AudioManager.instance.GetSource("Power Audio").pitch = Mathf.InverseLerp(_minAngle, _maxAngle, CurrentAngle) + AudioManager.instance.GetSound("Power Audio").pitch;
         }

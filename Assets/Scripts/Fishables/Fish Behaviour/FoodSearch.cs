@@ -1,9 +1,9 @@
-﻿using Fishing.FishingMechanics;
-using Fishing.Util;
+﻿using Fishing.Fishables.FishGrid;
+using Fishing.FishingMechanics;
+using Fishing.FishingMechanics.Minigame;
+using Fishing.Util.Math;
 using System.Collections.Generic;
 using UnityEngine;
-using Fishing.Fishables.FishGrid;
-using Fishing.FishingMechanics.Minigame;
 
 namespace Fishing.Fishables.Fish {
     public class FoodSearch : MonoBehaviour {
@@ -136,7 +136,7 @@ namespace Fishing.Fishables.Fish {
                     newDesiredFood = fishable.gameObject;
                     continue;
                 }
-                if (Utilities.IsWithinAngleOfDirection(thisPosition, fishablePosition, thisForward, SightAngle)) {
+                if (MathHelpers.IsWithinAngleOfDirection(thisPosition, fishablePosition, thisForward, SightAngle)) {
                     newDesiredFood = fishable.gameObject;
                     continue;
                 }
