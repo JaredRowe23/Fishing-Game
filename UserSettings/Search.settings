@@ -60,6 +60,8 @@ providers = {
 objectSelectors = {
 }
 recentSearches = [
+	"h: ref=\"Assets/Art/Sprites/Project Files/Bait/Basic Bait.xcf\""
+	""
 ]
 searchItemFavorites = [
 ]
@@ -68,7 +70,7 @@ showSavedSearchPanel = false
 hideTabs = false
 expandedQueries = [
 ]
-queryBuilder = true
+queryBuilder = false
 ignoredProperties = "id;name;classname;imagecontentshash"
 helperWidgetCurrentArea = "all"
 disabledIndexers = ""
