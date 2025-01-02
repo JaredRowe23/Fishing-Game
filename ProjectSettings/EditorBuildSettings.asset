@@ -6,21 +6,21 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Title Screen.unity
+    path: Assets/Project/Scenes/Title Screen.unity
     guid: fad53c3d2dbf7224b92343b60652196b
   - enabled: 1
-    path: Assets/Scenes/World Map.unity
+    path: Assets/Project/Scenes/World Map.unity
     guid: f9a660bb9ea370b4f89866165786a05c
   - enabled: 1
-    path: Assets/Scenes/Levels/The Lake.unity
+    path: Assets/Project/Scenes/Levels/The Lake.unity
     guid: b085ace9e62d4484395a040debf124c2
   - enabled: 1
-    path: Assets/Scenes/Stores/Fish Store.unity
+    path: Assets/Project/Scenes/Stores/Fish Store.unity
     guid: ef3716ab3c29f4042a4622dc5e51b842
   - enabled: 1
-    path: Assets/Scenes/Stores/Fishing Rod Store.unity
+    path: Assets/Project/Scenes/Stores/Fishing Rod Store.unity
     guid: 7bd56325ba6a6d44d9cadf084663ff25
   - enabled: 1
-    path: Assets/Scenes/Stores/Bait Store.unity
+    path: Assets/Project/Scenes/Stores/Bait Store.unity
     guid: 3ef1252baa0b82d41a1944ebded3e170
   m_configObjects: {}
