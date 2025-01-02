@@ -7,6 +7,7 @@ using Fishing.PlayerInput;
 using Fishing.UI;
 using System.Collections.Generic;
 using UnityEngine;
+using Fishing.Audio;
 
 namespace Fishing.FishingMechanics {
     public class RodBehaviour : MonoBehaviour {
@@ -56,7 +57,7 @@ namespace Fishing.FishingMechanics {
             _camera = CameraBehaviour.Instance;
             _bucket = BucketBehaviour.Instance;
             _reelingMinigame = ReelingMinigame.Instance;
-            _audioManager = AudioManager.instance;
+            _audioManager = AudioManager.Instance;
             _UIManager = UIManager.Instance;
             _powerAndAngle = PowerAndAngle.Instance;
             _playerData = SaveManager.Instance.LoadedPlayerData;

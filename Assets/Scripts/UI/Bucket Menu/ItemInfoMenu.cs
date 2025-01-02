@@ -3,6 +3,7 @@ using Fishing.Inventory;
 using Fishing.IO;
 using UnityEngine;
 using UnityEngine.UI;
+using Fishing.Audio;
 
 namespace Fishing.UI {
     public class ItemInfoMenu : InactiveSingleton {
@@ -105,7 +106,7 @@ namespace Fishing.UI {
             _tooltipSystem = TooltipSystem.Instance;
             _rodManager = RodManager.Instance;
             _bucket = BucketBehaviour.Instance;
-            _audioManager = AudioManager.instance;
+            _audioManager = AudioManager.Instance;
             _tutorialSystem = TutorialSystem.Instance;
         }
 

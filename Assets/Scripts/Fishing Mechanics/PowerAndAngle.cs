@@ -3,6 +3,7 @@ using Fishing.PlayerInput;
 using Fishing.UI;
 using Fishing.Util.Math;
 using UnityEngine;
+using Fishing.Audio;
 
 namespace Fishing.FishingMechanics {
     public class PowerAndAngle : MonoBehaviour {
@@ -80,7 +81,7 @@ namespace Fishing.FishingMechanics {
             Power = _oscillateInfo.Value;
             _targetCharge = _oscillateInfo.NewTarget;
 
-            AudioManager.instance.GetSource("Power Audio").pitch = Mathf.InverseLerp(_minStrength, _maxStrength, Power);
+            AudioManager.Instance.GetSource("Power Audio").pitch = Mathf.InverseLerp(_minStrength, _maxStrength, Power);
         }
 
         public void StartAngling() {
@@ -92,7 +93,7 @@ namespace Fishing.FishingMechanics {
             _targetAngle = _maxAngle;
 
             InputManager.OnCastReel += StartCharging;
-            AudioManager.instance.PlaySound("Power Audio");
+            AudioManager.Instance.PlaySound("Power Audio");
 
             IsAngling = true;
             IsCharging = false;
@@ -110,7 +111,7 @@ namespace Fishing.FishingMechanics {
             CurrentAngle = _oscillateInfo.Value;
             _targetAngle = _oscillateInfo.NewTarget;
 
-            AudioManager.instance.GetSource("Power Audio").pitch = Mathf.InverseLerp(_minAngle, _maxAngle, CurrentAngle) + AudioManager.instance.GetSound("Power Audio").pitch;
+            AudioManager.Instance.GetSource("Power Audio").pitch = Mathf.InverseLerp(_minAngle, _maxAngle, CurrentAngle) + AudioManager.Instance.GetSound("Power Audio").Pitch;
         }
 
 
@@ -119,7 +120,7 @@ namespace Fishing.FishingMechanics {
                 return;
             }
 
-            AudioManager.instance.StopPlaying("Power Audio");
+            AudioManager.Instance.StopPlaying("Power Audio");
             IsAngling = IsCharging = false;
             _rodManager.EquippedRod.Cast(CurrentAngle, Power);
             InputManager.OnCastReel -= Cast;

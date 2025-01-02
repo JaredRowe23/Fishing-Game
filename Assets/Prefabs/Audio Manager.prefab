@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2577893268382081175}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2577893268382081171
 MonoBehaviour:
@@ -44,97 +44,101 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 402cb54d3d13d46448944cedc42eeb9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameplay:
-  - name: Catch Fish
-    clip: {fileID: 8300000, guid: f11ec4c929f36e440aae094d88a40b49, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 1.5
-    randomVolume: 0
-    randomPitch: 0
-  - name: Hook Splash
-    clip: {fileID: 8300000, guid: e4286638587203c44a0624bb4cd53d0f, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 1.5
-    randomVolume: 0.2
-    randomPitch: 0.2
-  - name: Reel
-    clip: {fileID: 8300000, guid: 6410672d8d799454c9b02c5b18541a65, type: 3}
-    loop: 1
-    volume: 1
-    pitch: 1.5
-    randomVolume: 0
-    randomPitch: 0
-  - name: Add To Bucket
-    clip: {fileID: 8300000, guid: 28af537a1ac82e84d852e4015f77e1a6, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 1
-    randomVolume: 0
-    randomPitch: 0
-  - name: Power Audio
-    clip: {fileID: 8300000, guid: ac97c886a5d889c41a495a8b74814b2f, type: 3}
-    loop: 1
-    volume: 0.25
-    pitch: 0.5
-    randomVolume: 0
-    randomPitch: 0
-  UI:
-  - name: Pause
-    clip: {fileID: 8300000, guid: 2aa1f3195bd543340a6b533913752108, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 1.5
-    randomVolume: 0
-    randomPitch: 0
-  - name: Unpause
-    clip: {fileID: 8300000, guid: 2aa1f3195bd543340a6b533913752108, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 0.5
-    randomVolume: 0
-    randomPitch: 0
-  - name: Open Bucket
-    clip: {fileID: 8300000, guid: ec49ef7da7a08534a95b7cef6995043a, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 1.5
-    randomVolume: 0
-    randomPitch: 0
-  - name: Close Bucket
-    clip: {fileID: 8300000, guid: ec49ef7da7a08534a95b7cef6995043a, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 0.5
-    randomVolume: 0
-    randomPitch: 0
-  - name: Throwaway Fish
-    clip: {fileID: 8300000, guid: ec3bc3d048f60b948a7cbe8babbd831c, type: 3}
-    loop: 0
-    volume: 1
-    pitch: 1
-    randomVolume: 0
-    randomPitch: 0
-  - name: Inventory Tab
-    clip: {fileID: 8300000, guid: ec49ef7da7a08534a95b7cef6995043a, type: 3}
-    loop: 0
-    volume: 0.25
-    pitch: 1.5
-    randomVolume: 0
-    randomPitch: 0
-  - name: Equip Rod
-    clip: {fileID: 8300000, guid: ec49ef7da7a08534a95b7cef6995043a, type: 3}
-    loop: 0
-    volume: 0.25
-    pitch: 0.5
-    randomVolume: 0
-    randomPitch: 0
-  music:
-  - name: Background Music
-    clip: {fileID: 8300000, guid: e068c959a86e15f4eb726171b165fc92, type: 3}
-    loop: 1
-    volume: 0.2
-    pitch: 1
-    randomVolume: 0
-    randomPitch: 0
+  _soundLibrary:
+  - _categoryName: Gameplay
+    _sounds:
+    - _soundName: Catch Fish
+      _soundClip: {fileID: 8300000, guid: 28af537a1ac82e84d852e4015f77e1a6, type: 3}
+      _loopPlayback: 0
+      _volume: 1
+      _pitch: 1.5
+      _randomVolumeRange: 0
+      _randomPitchRange: 0
+    - _soundName: Hook Splash
+      _soundClip: {fileID: 8300000, guid: e4286638587203c44a0624bb4cd53d0f, type: 3}
+      _loopPlayback: 0
+      _volume: 1
+      _pitch: 1.5
+      _randomVolumeRange: 0.2
+      _randomPitchRange: 0.2
+    - _soundName: Reel
+      _soundClip: {fileID: 8300000, guid: 6410672d8d799454c9b02c5b18541a65, type: 3}
+      _loopPlayback: 1
+      _volume: 1
+      _pitch: 1.5
+      _randomVolumeRange: 0
+      _randomPitchRange: 0
+    - _soundName: Add To Bucket
+      _soundClip: {fileID: 8300000, guid: c46889b3b798447428185c174c023a98, type: 3}
+      _loopPlayback: 0
+      _volume: 1
+      _pitch: 1
+      _randomVolumeRange: 0
+      _randomPitchRange: 0
+    - _soundName: Power Audio
+      _soundClip: {fileID: 8300000, guid: ac97c886a5d889c41a495a8b74814b2f, type: 3}
+      _loopPlayback: 1
+      _volume: 0.25
+      _pitch: 0
+      _randomVolumeRange: 0
+      _randomPitchRange: 0
+  - _categoryName: UI
+    _sounds:
+    - _soundName: Pause
+      _soundClip: {fileID: 8300000, guid: 2aa1f3195bd543340a6b533913752108, type: 3}
+      _loopPlayback: 0
+      _volume: 1
+      _pitch: 1.5
+      _randomVolumeRange: 0
+      _randomPitchRange: 0
+    - _soundName: Unpause
+      _soundClip: {fileID: 8300000, guid: 2aa1f3195bd543340a6b533913752108, type: 3}
+      _loopPlayback: 0
+      _volume: 1
+      _pitch: 0
+      _randomVolumeRange: 0
+      _randomPitchRange: 0
+    - _soundName: Open Bucket
+      _soundClip: {fileID: 8300000, guid: ec49ef7da7a08534a95b7cef6995043a, type: 3}
+      _loopPlayback: 0
+      _volume: 1
+      _pitch: 1.5
+      _randomVolumeRange: 0
+      _randomPitchRange: 0
+    - _soundName: Close Bucket
+      _soundClip: {fileID: 8300000, guid: ec49ef7da7a08534a95b7cef6995043a, type: 3}
+      _loopPlayback: 0
+      _volume: 1
+      _pitch: 1.5
+      _randomVolumeRange: 0
+      _randomPitchRange: 0
+    - _soundName: Throwaway Fish
+      _soundClip: {fileID: 8300000, guid: ec3bc3d048f60b948a7cbe8babbd831c, type: 3}
+      _loopPlayback: 0
+      _volume: 1
+      _pitch: 1
+      _randomVolumeRange: 0
+      _randomPitchRange: 0
+    - _soundName: Inventory Tab
+      _soundClip: {fileID: 8300000, guid: ec49ef7da7a08534a95b7cef6995043a, type: 3}
+      _loopPlayback: 0
+      _volume: 0.25
+      _pitch: 1.5
+      _randomVolumeRange: 0
+      _randomPitchRange: 0
+    - _soundName: Equip Rod
+      _soundClip: {fileID: 8300000, guid: 0320d034ed1f2414e99bea3775765083, type: 3}
+      _loopPlayback: 0
+      _volume: 0.25
+      _pitch: 0.5
+      _randomVolumeRange: 0
+      _randomPitchRange: 0
+  - _categoryName: Music
+    _sounds:
+    - _soundName: Background Music
+      _soundClip: {fileID: 8300000, guid: e068c959a86e15f4eb726171b165fc92, type: 3}
+      _loopPlayback: 1
+      _volume: 0.2
+      _pitch: 1
+      _randomVolumeRange: 0
+      _randomPitchRange: 0

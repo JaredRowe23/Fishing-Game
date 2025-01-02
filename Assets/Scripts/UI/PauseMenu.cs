@@ -3,6 +3,7 @@ using Fishing.PlayerInput;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Fishing.Audio;
 
 namespace Fishing.UI {
     public class PauseMenu : MonoBehaviour {
@@ -56,7 +57,7 @@ namespace Fishing.UI {
                 UIManager.Instance.HideHUDButtons();
             }
 
-            AudioManager.instance.PlaySound("Pause");
+            AudioManager.Instance.PlaySound("Pause");
             Time.timeScale = 0f;
         }
 
@@ -66,7 +67,7 @@ namespace Fishing.UI {
                 UIManager.Instance.ShowHUDButtons();
             }
 
-            AudioManager.instance.PlaySound("Unpause");
+            AudioManager.Instance.PlaySound("Unpause");
             Time.timeScale = 1f;
         }
 

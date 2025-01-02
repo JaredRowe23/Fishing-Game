@@ -4,6 +4,7 @@ using Fishing.IO;
 using Fishing.UI;
 using System.Collections.Generic;
 using UnityEngine;
+using Fishing.Audio;
 
 namespace Fishing.Inventory {
     public class BucketBehaviour : MonoBehaviour {
@@ -32,7 +33,7 @@ namespace Fishing.Inventory {
         private void Start() {
             _rodManager = RodManager.Instance;
             _playerData = SaveManager.Instance.LoadedPlayerData;
-            _audioManager = AudioManager.instance;
+            _audioManager = AudioManager.Instance;
             _tooltipSystem = TooltipSystem.Instance;
             _tutorialSystem = TutorialSystem.Instance;
             _overflowItem = UIManager.Instance.OverflowItem;

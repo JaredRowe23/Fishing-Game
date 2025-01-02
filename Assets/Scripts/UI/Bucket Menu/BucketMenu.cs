@@ -3,6 +3,7 @@ using Fishing.IO;
 using Fishing.PlayerInput;
 using UnityEngine;
 using UnityEngine.UI;
+using Fishing.Audio;
 
 namespace Fishing.UI {
     public class BucketMenu : InactiveSingleton {
@@ -69,7 +70,7 @@ namespace Fishing.UI {
             _bucket = BucketBehaviour.Instance;
             _UIManager = UIManager.Instance;
             _tutorialSystem = TutorialSystem.Instance;
-            _audioManager = AudioManager.instance;
+            _audioManager = AudioManager.Instance;
         }
 
         private void OnEnable() {

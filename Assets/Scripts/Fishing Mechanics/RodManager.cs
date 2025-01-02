@@ -1,6 +1,6 @@
-﻿using Fishing.FishingMechanics;
+﻿using Fishing.Audio;
+using Fishing.FishingMechanics;
 using Fishing.IO;
-using Fishing.UI;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,7 +26,7 @@ namespace Fishing {
         private void Start() {
             _baitManager = BaitManager.Instance;
             _playerData = SaveManager.Instance.LoadedPlayerData;
-            _audioManager = AudioManager.instance;
+            _audioManager = AudioManager.Instance;
             EquipRod(_playerData.EquippedRod.RodName, false);
         }
 

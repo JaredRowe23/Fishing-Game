@@ -3,6 +3,7 @@ using Fishing.IO;
 using Fishing.PlayerCamera;
 using Fishing.UI;
 using UnityEngine;
+using Fishing.Audio;
 
 namespace Fishing.FishingMechanics {
     public class HookBehaviour : MonoBehaviour {
@@ -77,7 +78,7 @@ namespace Fishing.FishingMechanics {
 
         private void OnSubmerged() {
             if (!_hasPlayedSplashAudio) {
-                AudioManager.instance.PlaySound("Hook Splash");
+                AudioManager.Instance.PlaySound("Hook Splash");
                 _hasPlayedSplashAudio = true;
             }
             _rigidbody.drag = _waterDrag;

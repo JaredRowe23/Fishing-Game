@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Fishing.PlayerInput;
+using Fishing.Audio;
 
 namespace Fishing.UI {
     public class InventoryMenu : InactiveSingleton {
@@ -93,7 +94,7 @@ namespace Fishing.UI {
             _playerData = SaveManager.Instance.LoadedPlayerData;
             _tutorialSystem = TutorialSystem.Instance;
             _UIManager = UIManager.Instance;
-            _audioManager = AudioManager.instance;
+            _audioManager = AudioManager.Instance;
         }
     }
 }
